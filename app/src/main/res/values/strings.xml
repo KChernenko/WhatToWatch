@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">WhatToWatch</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_detail_activity">Details</string>
+    <string name="title_settings_activity">Settings</string>
+    <string name="action_share">Share</string>
+
+    <!--Strings for MainActivity-->
+    <string name="imdb_label">IMDB:</string>
+
+    <!--Strings for DetailActivity-->
+    <string name="release_year">Released:</string>
+    <string name="runtime">Runtime:</string>
+    <string name="country">Country:</string>
+    <string name="rating">Rating:</string>
+    <string name="genre">Genres:</string>
+    <string name="awards">Awards:</string>
+    <string name="director">Director:</string>
+    <string name="writer">Writer:</string>
+    <string name="actors">Actors:</string>
+
+
+
+    <!-- Account type (for sync-adapter authenticator) -->
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">whattowatch.bitfrom.me</string>
+    <string name="content_authority">me.bitfrom.whattowatch</string>
+
+
+    <!--Preferences information-->
+
+    <!--Settings for movies number-->
+    <!-- Label for the number of movies preference -->
+    <string name="pref_number_of_movies_label">Number of movies</string>
+    <!--Label for 5 movies preference-->
+    <string name="pref_number_of_movies_label_five">5</string>
+    <!--Label for 7 movies preference-->
+    <string name="pref_number_of_movies_label_seven">7</string>
+    <!--Label for 10 movies preference-->
+    <string name="pref_number_of_movies_label_ten">10</string>
+
+    <!--Value in SharedPreferences for 5 movies option-->
+    <string name="pref_number_of_movies_five">5</string>
+    <!--Value in SharedPreferences for 7 movies option-->
+    <string name="pref_number_of_movies_seven">7</string>
+    <!--Value in SharedPreferences for 10 movies option-->
+    <string name="pref_number_of_movies_ten">10</string>
+    <!-- Key name for number of movies preference in SharedPreferences -->
+    <string name="pref_number_of_movies_key" translatable="false">movies</string>
+    <!--Default value preference in SharedPreferences-->
+    <string name="pref_number_of_movies_seven_default">7</string>
+
+
+    <!--Settings for frequency of updates-->
+    <!-- Label for the frequency of updates preference -->
+    <string name="pref_frequency_of_updates_label">Update</string>
+    <!--Label for every 3 days updates preference-->
+    <string name="pref_frequency_of_updates_label_three">Every 3 days</string>
+    <!--Label for every 5 days updates preference-->
+    <string name="pref_frequency_of_updates_label_five">Every 5 days</string>
+    <!--Label for every 7 days updates preference-->
+    <string name="pref_frequency_of_updates_label_seven">Every 7 days</string>
+
+    <!--Value in SharedPreferences for every 3 days updates option-->
+    <string name="pref_frequency_of_updates_three">3</string>
+    <!--Value in SharedPreferences for every 5 days updates option-->
+    <string name="pref_frequency_of_updates_five">5</string>
+    <!--Value in SharedPreferences for every 7 days updates option-->
+    <string name="pref_frequency_of_updates_seven">7</string>
+    <!-- Key name for frequency of updates preference in SharedPreferences -->
+    <string name="pref_frequency_of_updates_key" translatable="false">updates</string>
+    <!--Default value preference in SharedPreferences-->
+    <string name="pref_frequency_of_updates_five_default">Every 5 days</string>
+
+    <!-- Strings related to Notification preference -->
+    <string name="pref_last_notification">last_notification
+    </string>
+
+    <!-- Strings related to Notification Enabled preference -->
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Updates Notifications</string>
+
+    <string name="pref_enable_notifications_true">Enabled</string>
+    <string name="pref_enable_notifications_false">Not Enabled</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+
+    <string name="notification_message">There are some WONDERFUL movies for YOU!</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CardView colors-->
+    <color name="cv_title_color">#009688</color>
+    <color name="cv_director_color">#424242</color>
+    <color name="cv_imdb_color">#FF9800</color>
+</resources>
