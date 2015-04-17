@@ -15,11 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.bitfrom.whattowatch.DetailActivity;
+import me.bitfrom.whattowatch.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.data.MoviesContract;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;

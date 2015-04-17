@@ -4,4 +4,8 @@
     <color name="cv_title_color">#009688</color>
     <color name="cv_director_color">#424242</color>
     <color name="cv_imdb_color">#FF9800</color>
+
+    <!--Splash screen colors-->
+    <color name="splash_screen_background">#FFFFFF</color>
+    <color name="splash_screen_appname_color">#FF9800</color>
 </resources>

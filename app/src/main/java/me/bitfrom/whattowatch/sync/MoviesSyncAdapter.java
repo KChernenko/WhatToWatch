@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import me.bitfrom.whattowatch.MainActivity;
+import me.bitfrom.whattowatch.activity.MainActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.rest.RestService;
 import me.bitfrom.whattowatch.rest.model.Movie;
