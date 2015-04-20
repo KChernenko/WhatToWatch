@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
@@ -16,6 +17,8 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
  * Created by Constantine with love.
  */
 public class MoviesProvider extends ContentProvider {
+
+    private static final String LOG_TAG = MoviesProvider.class.getSimpleName();
 
     // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -96,8 +99,6 @@ public class MoviesProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES: {
-                normalizeDate(values);
-
                 long _id = db.insert(MoviesEntry.TABLE_NAME, null, values);
 
                 if (_id > 0)
@@ -145,6 +146,9 @@ public class MoviesProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
+        Log.d(LOG_TAG, "Deleted rows: " + rowsDeleted);
+        Log.d(LOG_TAG, "Uri: " + uri.toString());
+
         if (rowsDeleted != 0) getContext().getContentResolver().notifyChange(uri, null);
 
         return rowsDeleted;
@@ -161,11 +165,9 @@ public class MoviesProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES:
-                normalizeDate(values);
                 rowsUpdated = db.update(MoviesEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case MOVIE_ID:
-                normalizeDate(values);
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = db.update(MoviesEntry.TABLE_NAME,
@@ -200,7 +202,6 @@ public class MoviesProvider extends ContentProvider {
                 int returnCount = 0;
                 try {
                     for (ContentValues value: values) {
-                        normalizeDate(value);
                         long _id = db.insert(MoviesEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
@@ -227,11 +228,4 @@ public class MoviesProvider extends ContentProvider {
         super.shutdown();
     }
 
-    private void normalizeDate(ContentValues values) {
-        // normalize the date value
-        if (values.containsKey(MoviesEntry.COLUMN_DATE)) {
-            long dateValue = values.getAsLong(MoviesEntry.COLUMN_DATE);
-            values.put(MoviesEntry.COLUMN_DATE, MoviesContract.normalizeDate(dateValue));
-        }
-    }
 }

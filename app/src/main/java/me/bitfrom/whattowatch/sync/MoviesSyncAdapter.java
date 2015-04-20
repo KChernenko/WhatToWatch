@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ import android.util.Log;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -178,23 +180,20 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
             if (moviesList.size() == numberOfMovies) {
                 Vector<ContentValues> cVVector = new Vector<>(numberOfMovies);
 
-                Time dayTime = new Time();
-                dayTime.setToNow();
-
-                // we start at the day returned by local time. Otherwise this is a mess.
-                int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
-
-                // now we work exclusively in UTC
-                dayTime = new Time();
+                GregorianCalendar calendar = new GregorianCalendar();
 
                 int timeCounter = 0;
+
+                long dateTime = calendar.getTimeInMillis();
 
                 for (Movie movie: moviesList) {
                     ContentValues movieValues = new ContentValues();
 
                     timeCounter++;
 
-                    long dateTime = dayTime.setJulianDay(julianStartDay + timeCounter);
+                    //long dateTime = dayTime.setJulianDay(julianStartDay + timeCounter);
+                    //Log.d(LOG_TAG, "" + dateTime);
+                    //Log.d(LOG_TAG, Long.toString(dayTime.setJulianDay(julianStartDay-1)));
 
                     movieValues.put(MoviesEntry.COLUMN_TITLE, movie.getTitle());
                     movieValues.put(MoviesEntry.COLUMN_DIRECTORS, movie.getDirectors().get(0).getName());
@@ -207,7 +206,9 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                     movieValues.put(MoviesEntry.COLUMN_RATING, movie.getRating());
                     movieValues.put(MoviesEntry.COLUMN_PLOT, movie.getPlot());
                     movieValues.put(MoviesEntry.COLUMN_URL_IMDB, movie.getUrlIMDB());
-                    movieValues.put(MoviesEntry.COLUMN_DATE, dateTime);
+                    movieValues.put(MoviesEntry.COLUMN_DATE, dateTime + timeCounter);
+
+                    Log.d(LOG_TAG, "" + dateTime);
 
                     downloadPosters(movie.getUrlPoster());
 
@@ -221,12 +222,21 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                     int inserted = getContext().getContentResolver()
                             .bulkInsert(MoviesEntry.CONTENT_URI, cvArray);
                     Log.d(LOG_TAG, "Inserted: " + inserted);
+                    Log.d(LOG_TAG, "DateTime: " + dateTime);
 
-                    // delete old data so we don't build up an endless history
-                    int deleted = getContext().getContentResolver().delete(MoviesEntry.CONTENT_URI,
-                            MoviesEntry.COLUMN_DATE + " <= ?",
-                            new String[] {Long.toString(dayTime.setJulianDay(julianStartDay-1))});
-                    Log.d(LOG_TAG, "Deleted: " + deleted);
+                    Cursor cursor = getContext().getContentResolver().query(MoviesEntry.CONTENT_URI,
+                            null, null, null, null);
+                    if (cursor.getCount() > numberOfMovies) {
+                        // delete old data so we don't build up an endless history
+                        int deleted = getContext().getContentResolver().delete(MoviesEntry.CONTENT_URI,
+                                MoviesEntry.COLUMN_DATE + "<?",
+                                new String[] {Long.toString(dateTime)});
+                        Log.d(LOG_TAG, "Deleted: " + deleted);
+
+
+                        Log.d(LOG_TAG, "DateTime#2: " + dateTime);
+                    }
+
 
                     updateNotifications();
                 }

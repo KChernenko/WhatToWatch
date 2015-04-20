@@ -46,6 +46,9 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+        if (id == R.id.action_sync_now) {
+            MoviesSyncAdapter.syncImmediately(this);
+        }
 
         return super.onOptionsItemSelected(item);
     }

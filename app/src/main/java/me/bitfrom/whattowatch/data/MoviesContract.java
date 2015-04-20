@@ -29,16 +29,6 @@ public class MoviesContract {
 
     public static final String PATH_MOVIES = "movies";
 
-    // To make it easy to query for the exact date, we normalize all dates that go into
-    // the database to the start of the the Julian day at UTC.
-    public static long normalizeDate(long startDate) {
-        // normalize the start date to the beginning of the (UTC) day
-        Time time = new Time();
-        time.setToNow();
-        int julianDay = Time.getJulianDay(startDate, time.gmtoff);
-
-        return time.setJulianDay(julianDay);
-    }
 
     /* Inner class that defines the table contents of the movies table */
     public static final class MoviesEntry implements BaseColumns {

@@ -63,7 +63,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     public void onItemClick(View view, int position) {
 
                         Log.d(LOG_TAG, "POSITION: " + position);
-                        Uri uri = MoviesEntry.buildMoviesUri((long) position+1);
+                        Uri uri = MoviesEntry.buildMoviesUri(mMoviesAdapter.getItemId(position));
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
                         intent.putExtra(Utility.ID_KEY, uri.toString());
                         startActivity(intent);

@@ -1,15 +1,18 @@
 package me.bitfrom.whattowatch.fragments;
 
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,7 +57,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     };
 
 
-    private static final String SHARE_HASHTAG = " #WhatToWatch?";
+    private static final String SHARE_HASHTAG = " #WhatToWatch";
     private ShareActionProvider mShareActionProvider;
     private String mMovieShareInfo;
 
@@ -69,6 +72,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mWritersView;
     private TextView mPlotView;
 
+    private Loader<Cursor> mLoader;
+
     public DetailFragment() {
         setHasOptionsMenu(true);
     }
@@ -77,15 +82,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
-        }
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             mUri = Uri.parse(extras.getString(Utility.ID_KEY));
         }
+
+        Log.d(LOG_TAG, mUri.toString());
 
         mPosterView = (ImageView) rootView.findViewById(R.id.poster);
         mTitleView = (TextView) rootView.findViewById(R.id.tv_title);
@@ -103,7 +106,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+       // getActivity().getContentResolver().registerContentObserver(mUri, true, new MyObserver(new Handler()));
+        getLoaderManager().initLoader(DETAIL_LOADER, null, this).onContentChanged();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -120,7 +124,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mShareActionProvider.setShareIntent(createShareMovieIntent());
         }
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -141,7 +144,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        updateData(data);
+    }
 
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(LOG_TAG, "Data reseted!");
+    }
+
+    private Intent createShareMovieIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovieShareInfo + SHARE_HASHTAG);
+
+        return shareIntent;
+    }
+
+    private void updateData(Cursor data) {
         if (data != null && data.moveToFirst()) {
             String posterUrl = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_URL_POSTER));
             String title = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_TITLE));
@@ -170,23 +190,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mWritersView.setText(writer);
             mPlotView.setText(plot);
 
+            mMovieShareInfo = "Awesome movie «" + title + "»" + "\n" +
+                    "which IMDB rating is " + rating + "\n" +
+                    "And directed by " + director + "\n" + genres + "\n";
+
             if (mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createShareMovieIntent());
             }
         }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 
-    private Intent createShareMovieIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovieShareInfo + SHARE_HASHTAG);
-
-        return shareIntent;
-    }
 }
