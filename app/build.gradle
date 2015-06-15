@@ -8,7 +8,7 @@ android {
         applicationId "me.bitfrom.whattowatch"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 12
+        versionCode 20
         versionName "0.4 alpha"
     }
     buildTypes {
@@ -21,10 +21,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.0.3'
     compile 'com.android.support:cardview-v7:22.+'
     compile 'com.android.support:recyclerview-v7:22.+'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'org.apache.commons:commons-lang3:3.4'
 }

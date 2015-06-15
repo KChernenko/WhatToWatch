@@ -13,6 +13,10 @@ public class Utility {
 
     public static final String ID_KEY = "position_id";
 
+    private static final int THREE_DAYS = 60 * 4320;
+    private static final int FIVE_DAYS = 60 * 7200;
+    private static final int SEVEN_DAYS = 60 * 10080;
+
     public static int getPreferredNumbersOfMovies(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         int numberOfMovies = Integer.parseInt(preferences
@@ -31,16 +35,16 @@ public class Utility {
 
         switch (updatePeriod) {
             case 3:
-                updateInterval = 60 * 4320;
+                updateInterval = THREE_DAYS;
                 break;
             case 5:
-                updateInterval = 60 * 7200;
+                updateInterval = FIVE_DAYS;
                 break;
             case 7:
-                updateInterval = 60 * 10080;
+                updateInterval = SEVEN_DAYS;
                 break;
             default:
-                updateInterval = 60 *  7200;
+                updateInterval = FIVE_DAYS;
         }
 
         return updateInterval;

@@ -12,6 +12,6 @@ import retrofit.http.Query;
 public interface MovieAPI {
     
     @GET("/top")
-    public List<Movie> getMovie(@Query("format") String format, @Query("start") int start, @Query("end") int end,
-                                @Query("data") String data);
+    public List<Movie> getMovies(@Query("format") String format, @Query("start") int start, @Query("end") int end,
+                                 @Query("data") String data, @Query("token") String token);
 }

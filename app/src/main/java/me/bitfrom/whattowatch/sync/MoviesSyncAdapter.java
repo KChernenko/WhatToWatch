@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
+
 import android.text.format.Time;
 import android.util.Log;
 
@@ -30,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
@@ -37,6 +39,7 @@ import me.bitfrom.whattowatch.activity.MainActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.rest.RestService;
 import me.bitfrom.whattowatch.rest.model.Movie;
+import me.bitfrom.whattowatch.utils.MovieGenerator;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
@@ -45,7 +48,6 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
  * Created by Constantine with love.
  */
 public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
-
     private static final String LOG_TAG = MoviesSyncAdapter.class.getSimpleName();
 
 
@@ -53,7 +55,12 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final int MOVIE_NOTIFICATION_ID = 3002;
 
+    private List<Movie> requestContainer = new ArrayList<>();
+
     private List<Movie> moviesList = new ArrayList<>();
+
+    private HashSet<Integer> randomNumbers = new HashSet<>();
+
     private Movie movieData;
 
 
@@ -170,30 +177,30 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
         if (moviesList.isEmpty()) {
             RestService restService = new RestService();
             Log.d(LOG_TAG, "First: " + moviesList.size());
-            while (moviesList.size() < numberOfMovies) {
+           /* while (moviesList.size() < numberOfMovies) {
                 movieData = restService.request();
                 Log.d(LOG_TAG, movieData.getTitle());
                 moviesList.add(movieData);
+            }*/
+            requestContainer = restService.request();
+            while (randomNumbers.size() < numberOfMovies) {
+                randomNumbers.add(MovieGenerator.getGenerator().getRandomMovieID());
             }
+
+            for (Integer randomItem: randomNumbers) {
+                moviesList.add(requestContainer.get(randomItem));
+            }
+
             Log.d(LOG_TAG, "Second: " + moviesList.size());
 
             if (moviesList.size() == numberOfMovies) {
                 Vector<ContentValues> cVVector = new Vector<>(numberOfMovies);
 
                 GregorianCalendar calendar = new GregorianCalendar();
-
-                int timeCounter = 0;
-
                 long dateTime = calendar.getTimeInMillis();
 
                 for (Movie movie: moviesList) {
                     ContentValues movieValues = new ContentValues();
-
-                    timeCounter++;
-
-                    //long dateTime = dayTime.setJulianDay(julianStartDay + timeCounter);
-                    //Log.d(LOG_TAG, "" + dateTime);
-                    //Log.d(LOG_TAG, Long.toString(dayTime.setJulianDay(julianStartDay-1)));
 
                     movieValues.put(MoviesEntry.COLUMN_TITLE, movie.getTitle());
                     movieValues.put(MoviesEntry.COLUMN_DIRECTORS, movie.getDirectors().get(0).getName());
@@ -206,9 +213,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                     movieValues.put(MoviesEntry.COLUMN_RATING, movie.getRating());
                     movieValues.put(MoviesEntry.COLUMN_PLOT, movie.getPlot());
                     movieValues.put(MoviesEntry.COLUMN_URL_IMDB, movie.getUrlIMDB());
-                    movieValues.put(MoviesEntry.COLUMN_DATE, dateTime + timeCounter);
-
-                    Log.d(LOG_TAG, "" + dateTime);
+                    movieValues.put(MoviesEntry.COLUMN_DATE, dateTime);
 
                     downloadPosters(movie.getUrlPoster());
 
@@ -222,21 +227,12 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                     int inserted = getContext().getContentResolver()
                             .bulkInsert(MoviesEntry.CONTENT_URI, cvArray);
                     Log.d(LOG_TAG, "Inserted: " + inserted);
-                    Log.d(LOG_TAG, "DateTime: " + dateTime);
 
-                    Cursor cursor = getContext().getContentResolver().query(MoviesEntry.CONTENT_URI,
-                            null, null, null, null);
-                    if (cursor.getCount() > numberOfMovies) {
-                        // delete old data so we don't build up an endless history
-                        int deleted = getContext().getContentResolver().delete(MoviesEntry.CONTENT_URI,
-                                MoviesEntry.COLUMN_DATE + "<?",
-                                new String[] {Long.toString(dateTime)});
-                        Log.d(LOG_TAG, "Deleted: " + deleted);
-
-
-                        Log.d(LOG_TAG, "DateTime#2: " + dateTime);
-                    }
-
+                    // delete old data so we don't build up an endless history
+                    int deleted = getContext().getContentResolver().delete(MoviesEntry.CONTENT_URI,
+                            MoviesEntry.COLUMN_DATE + " < ?",
+                            new String[] {Long.toString(dateTime)});
+                    Log.d(LOG_TAG, "Deleted: " + deleted);
 
                     updateNotifications();
                 }

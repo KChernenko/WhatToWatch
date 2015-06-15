@@ -36,7 +36,6 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-    private static final String DETAIL_URI = "URI";
     private Uri mUri;
 
     private static final int DETAIL_LOADER = 0;
@@ -72,8 +71,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mWritersView;
     private TextView mPlotView;
 
-    private Loader<Cursor> mLoader;
-
     public DetailFragment() {
         setHasOptionsMenu(true);
     }
@@ -106,7 +103,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-       // getActivity().getContentResolver().registerContentObserver(mUri, true, new MyObserver(new Handler()));
         getLoaderManager().initLoader(DETAIL_LOADER, null, this).onContentChanged();
         super.onActivityCreated(savedInstanceState);
     }
@@ -127,7 +123,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
         if (null != mUri) {
             return new CursorLoader(
                     getActivity(),

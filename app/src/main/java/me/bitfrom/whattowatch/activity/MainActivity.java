@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +12,7 @@ import me.bitfrom.whattowatch.fragments.MoviesFragment;
 import me.bitfrom.whattowatch.sync.MoviesSyncAdapter;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

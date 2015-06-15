@@ -1,368 +1,433 @@
 package me.bitfrom.whattowatch.rest.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Constantine with love.
  */
-public class Movie implements Parcelable {
-
-    @SerializedName("countries")
+public class Movie {
+    @Expose
     private List<String> countries = new ArrayList<String>();
-    @SerializedName("directors")
+    @Expose
     private List<Director> directors = new ArrayList<Director>();
-    @SerializedName("filmingLocations")
-    private List<Object> filmingLocations = new ArrayList<Object>();
-    @SerializedName("genres")
+    @Expose
+    private List<String> filmingLocations = new ArrayList<String>();
+    @Expose
     private List<String> genres = new ArrayList<String>();
-    @SerializedName("idIMDB")
+    @Expose
     private String idIMDB;
-    @SerializedName("languages")
+    @Expose
     private List<String> languages = new ArrayList<String>();
-    @SerializedName("metascore")
+    @Expose
     private String metascore;
-    @SerializedName("originalTitle")
+    @Expose
     private String originalTitle;
-    @SerializedName("plot")
+    @Expose
     private String plot;
-    @SerializedName("ranking")
+    @Expose
     private Integer ranking;
-    @SerializedName("rated")
+    @Expose
     private String rated;
-    @SerializedName("rating")
+    @Expose
     private String rating;
-    @SerializedName("releaseDate")
+    @Expose
     private String releaseDate;
-    @SerializedName("runtime")
+    @Expose
     private List<String> runtime = new ArrayList<String>();
-    @SerializedName("simplePlot")
+    @Expose
     private String simplePlot;
-    @SerializedName("title")
+    @Expose
     private String title;
-    @SerializedName("urlIMDB")
+    @Expose
     private String urlIMDB;
-    @SerializedName("urlPoster")
+    @Expose
     private String urlPoster;
-    @SerializedName("votes")
+    @Expose
     private String votes;
-    @SerializedName("writers")
+    @Expose
     private List<Writer> writers = new ArrayList<Writer>();
-    @SerializedName("year")
+    @Expose
     private String year;
 
+    /**
+     *
+     * @return
+     * The countries
+     */
     public List<String> getCountries() {
         return countries;
     }
 
+    /**
+     *
+     * @param countries
+     * The countries
+     */
     public void setCountries(List<String> countries) {
         this.countries = countries;
     }
 
+    /**
+     *
+     * @return
+     * The directors
+     */
     public List<Director> getDirectors() {
         return directors;
     }
 
+    /**
+     *
+     * @param directors
+     * The directors
+     */
     public void setDirectors(List<Director> directors) {
         this.directors = directors;
     }
 
-    public List<Object> getFilmingLocations() {
+    /**
+     *
+     * @return
+     * The filmingLocations
+     */
+    public List<String> getFilmingLocations() {
         return filmingLocations;
     }
 
-    public void setFilmingLocations(List<Object> filmingLocations) {
+    /**
+     *
+     * @param filmingLocations
+     * The filmingLocations
+     */
+    public void setFilmingLocations(List<String> filmingLocations) {
         this.filmingLocations = filmingLocations;
     }
 
+    /**
+     *
+     * @return
+     * The genres
+     */
     public List<String> getGenres() {
         return genres;
     }
 
+    /**
+     *
+     * @param genres
+     * The genres
+     */
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
+    /**
+     *
+     * @return
+     * The idIMDB
+     */
     public String getIdIMDB() {
         return idIMDB;
     }
 
+    /**
+     *
+     * @param idIMDB
+     * The idIMDB
+     */
     public void setIdIMDB(String idIMDB) {
         this.idIMDB = idIMDB;
     }
 
+    /**
+     *
+     * @return
+     * The languages
+     */
     public List<String> getLanguages() {
         return languages;
     }
 
+    /**
+     *
+     * @param languages
+     * The languages
+     */
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
 
+    /**
+     *
+     * @return
+     * The metascore
+     */
     public String getMetascore() {
         return metascore;
     }
 
+    /**
+     *
+     * @param metascore
+     * The metascore
+     */
     public void setMetascore(String metascore) {
         this.metascore = metascore;
     }
 
+    /**
+     *
+     * @return
+     * The originalTitle
+     */
     public String getOriginalTitle() {
         return originalTitle;
     }
 
+    /**
+     *
+     * @param originalTitle
+     * The originalTitle
+     */
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
     }
 
+    /**
+     *
+     * @return
+     * The plot
+     */
     public String getPlot() {
         return plot;
     }
 
+    /**
+     *
+     * @param plot
+     * The plot
+     */
     public void setPlot(String plot) {
         this.plot = plot;
     }
 
+    /**
+     *
+     * @return
+     * The ranking
+     */
     public Integer getRanking() {
         return ranking;
     }
 
+    /**
+     *
+     * @param ranking
+     * The ranking
+     */
     public void setRanking(Integer ranking) {
         this.ranking = ranking;
     }
 
+    /**
+     *
+     * @return
+     * The rated
+     */
     public String getRated() {
         return rated;
     }
 
+    /**
+     *
+     * @param rated
+     * The rated
+     */
     public void setRated(String rated) {
         this.rated = rated;
     }
 
+    /**
+     *
+     * @return
+     * The rating
+     */
     public String getRating() {
         return rating;
     }
 
+    /**
+     *
+     * @param rating
+     * The rating
+     */
     public void setRating(String rating) {
         this.rating = rating;
     }
 
+    /**
+     *
+     * @return
+     * The releaseDate
+     */
     public String getReleaseDate() {
         return releaseDate;
     }
 
+    /**
+     *
+     * @param releaseDate
+     * The releaseDate
+     */
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
+    /**
+     *
+     * @return
+     * The runtime
+     */
     public List<String> getRuntime() {
         return runtime;
     }
 
+    /**
+     *
+     * @param runtime
+     * The runtime
+     */
     public void setRuntime(List<String> runtime) {
         this.runtime = runtime;
     }
 
+    /**
+     *
+     * @return
+     * The simplePlot
+     */
     public String getSimplePlot() {
         return simplePlot;
     }
 
+    /**
+     *
+     * @param simplePlot
+     * The simplePlot
+     */
     public void setSimplePlot(String simplePlot) {
         this.simplePlot = simplePlot;
     }
 
+    /**
+     *
+     * @return
+     * The title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     *
+     * @param title
+     * The title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     *
+     * @return
+     * The urlIMDB
+     */
     public String getUrlIMDB() {
         return urlIMDB;
     }
 
+    /**
+     *
+     * @param urlIMDB
+     * The urlIMDB
+     */
     public void setUrlIMDB(String urlIMDB) {
         this.urlIMDB = urlIMDB;
     }
 
+    /**
+     *
+     * @return
+     * The urlPoster
+     */
     public String getUrlPoster() {
         return urlPoster;
     }
 
+    /**
+     *
+     * @param urlPoster
+     * The urlPoster
+     */
     public void setUrlPoster(String urlPoster) {
         this.urlPoster = urlPoster;
     }
 
+    /**
+     *
+     * @return
+     * The votes
+     */
     public String getVotes() {
         return votes;
     }
 
+    /**
+     *
+     * @param votes
+     * The votes
+     */
     public void setVotes(String votes) {
         this.votes = votes;
     }
 
+    /**
+     *
+     * @return
+     * The writers
+     */
     public List<Writer> getWriters() {
         return writers;
     }
 
+    /**
+     *
+     * @param writers
+     * The writers
+     */
     public void setWriters(List<Writer> writers) {
         this.writers = writers;
     }
 
+    /**
+     *
+     * @return
+     * The year
+     */
     public String getYear() {
         return year;
     }
 
+    /**
+     *
+     * @param year
+     * The year
+     */
     public void setYear(String year) {
         this.year = year;
     }
 
-    protected Movie(Parcel in) {
-        if (in.readByte() == 0x01) {
-            countries = new ArrayList<String>();
-            in.readList(countries, String.class.getClassLoader());
-        } else {
-            countries = null;
-        }
-        if (in.readByte() == 0x01) {
-            directors = new ArrayList<Director>();
-            in.readList(directors, Director.class.getClassLoader());
-        } else {
-            directors = null;
-        }
-        if (in.readByte() == 0x01) {
-            filmingLocations = new ArrayList<Object>();
-            in.readList(filmingLocations, Object.class.getClassLoader());
-        } else {
-            filmingLocations = null;
-        }
-        if (in.readByte() == 0x01) {
-            genres = new ArrayList<String>();
-            in.readList(genres, String.class.getClassLoader());
-        } else {
-            genres = null;
-        }
-        idIMDB = in.readString();
-        if (in.readByte() == 0x01) {
-            languages = new ArrayList<String>();
-            in.readList(languages, String.class.getClassLoader());
-        } else {
-            languages = null;
-        }
-        metascore = in.readString();
-        originalTitle = in.readString();
-        plot = in.readString();
-        ranking = in.readByte() == 0x00 ? null : in.readInt();
-        rated = in.readString();
-        rating = in.readString();
-        releaseDate = in.readString();
-        if (in.readByte() == 0x01) {
-            runtime = new ArrayList<String>();
-            in.readList(runtime, String.class.getClassLoader());
-        } else {
-            runtime = null;
-        }
-        simplePlot = in.readString();
-        title = in.readString();
-        urlIMDB = in.readString();
-        urlPoster = in.readString();
-        votes = in.readString();
-        if (in.readByte() == 0x01) {
-            writers = new ArrayList<Writer>();
-            in.readList(writers, Writer.class.getClassLoader());
-        } else {
-            writers = null;
-        }
-        year = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (countries == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(countries);
-        }
-        if (directors == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(directors);
-        }
-        if (filmingLocations == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(filmingLocations);
-        }
-        if (genres == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(genres);
-        }
-        dest.writeString(idIMDB);
-        if (languages == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(languages);
-        }
-        dest.writeString(metascore);
-        dest.writeString(originalTitle);
-        dest.writeString(plot);
-        if (ranking == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(ranking);
-        }
-        dest.writeString(rated);
-        dest.writeString(rating);
-        dest.writeString(releaseDate);
-        if (runtime == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(runtime);
-        }
-        dest.writeString(simplePlot);
-        dest.writeString(title);
-        dest.writeString(urlIMDB);
-        dest.writeString(urlPoster);
-        dest.writeString(votes);
-        if (writers == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(writers);
-        }
-        dest.writeString(year);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 }
