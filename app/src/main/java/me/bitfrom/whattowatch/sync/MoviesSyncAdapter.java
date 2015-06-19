@@ -61,8 +61,6 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private HashSet<Integer> randomNumbers = new HashSet<>();
 
-    private Movie movieData;
-
 
     public MoviesSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -175,23 +173,8 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
         int numberOfMovies = Utility.getPreferredNumbersOfMovies(getContext());
 
         if (moviesList.isEmpty()) {
-            RestService restService = new RestService();
-            Log.d(LOG_TAG, "First: " + moviesList.size());
-           /* while (moviesList.size() < numberOfMovies) {
-                movieData = restService.request();
-                Log.d(LOG_TAG, movieData.getTitle());
-                moviesList.add(movieData);
-            }*/
-            requestContainer = restService.request();
-            while (randomNumbers.size() < numberOfMovies) {
-                randomNumbers.add(MovieGenerator.getGenerator().getRandomMovieID());
-            }
 
-            for (Integer randomItem: randomNumbers) {
-                moviesList.add(requestContainer.get(randomItem));
-            }
-
-            Log.d(LOG_TAG, "Second: " + moviesList.size());
+            getMoviesContainer(numberOfMovies);
 
             if (moviesList.size() == numberOfMovies) {
                 Vector<ContentValues> cVVector = new Vector<>(numberOfMovies);
@@ -260,7 +243,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
             // Sets the small icon for the ticker
             builder.setSmallIcon(R.drawable.ic_theaters_white_24dp);
             // Sets the indicator
-            builder.setLights(Color.MAGENTA, 1, 4);
+            builder.setLights(Color.CYAN, 300, 1500);
             // Sets vibration
             builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
             // Sets default sound
@@ -286,5 +269,18 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void downloadPosters(String posterUrl) {
         Picasso.with(getContext()).load(posterUrl);
+    }
+
+    private void getMoviesContainer(int numberOfMovies) {
+        RestService restService = new RestService();
+        requestContainer = restService.request();
+
+        while (randomNumbers.size() < numberOfMovies) {
+            randomNumbers.add(MovieGenerator.getGenerator().getRandomMovieID());
+        }
+
+        for (Integer randomItem: randomNumbers) {
+            moviesList.add(requestContainer.get(randomItem));
+        }
     }
 }
