@@ -19,6 +19,7 @@ import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
+import me.bitfrom.whattowatch.utils.IpositionId;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
@@ -26,7 +27,7 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
 /**
  * Created by Constantine with love.
  */
-public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
     private MoviesAdapter mMoviesAdapter;
     private RecyclerView mRecyclerView;
@@ -61,7 +62,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                     public void onItemClick(View view, int position) {
                         Uri uri = MoviesEntry.buildMoviesUri(mMoviesAdapter.getItemId(position));
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra(Utility.ID_KEY, uri.toString());
+                        intent.putExtra(ID_KEY, uri.toString());
                         startActivity(intent);
 
                     }

@@ -11,8 +11,6 @@ import me.bitfrom.whattowatch.R;
  */
 public class Utility {
 
-    public static final String ID_KEY = "position_id";
-
     private static final int THREE_DAYS = 259200;
     private static final int FIVE_DAYS = 432000;
     private static final int SEVEN_DAYS = 604800;

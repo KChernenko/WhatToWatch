@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.utils.IpositionId;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
@@ -30,7 +31,7 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
 /**
  * Created by Constantine with love.
  */
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private Uri mUri;
@@ -79,7 +80,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
-            mUri = Uri.parse(extras.getString(Utility.ID_KEY));
+            mUri = Uri.parse(extras.getString(ID_KEY));
         }
 
         Log.d(LOG_TAG, mUri.toString());
