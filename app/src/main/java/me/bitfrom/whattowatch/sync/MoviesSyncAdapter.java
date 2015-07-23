@@ -2,32 +2,17 @@ package me.bitfrom.whattowatch.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 
-import android.text.format.Time;
 import android.util.Log;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -35,11 +20,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
-import me.bitfrom.whattowatch.activity.MainActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.rest.RestService;
 import me.bitfrom.whattowatch.rest.model.Movie;
+import me.bitfrom.whattowatch.utils.DownloadImageWeapon;
 import me.bitfrom.whattowatch.utils.MovieGenerator;
+import me.bitfrom.whattowatch.utils.NotificationWeapon;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
@@ -52,8 +38,6 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-
-    private static final int MOVIE_NOTIFICATION_ID = 3002;
 
     private List<Movie> requestContainer = new ArrayList<>();
 
@@ -174,7 +158,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (moviesList.isEmpty()) {
 
-            getMoviesContainer(numberOfMovies);
+            makeRequest(numberOfMovies);
 
             if (moviesList.size() == numberOfMovies) {
                 Vector<ContentValues> cVVector = new Vector<>(numberOfMovies);
@@ -185,6 +169,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                 for (Movie movie: moviesList) {
                     ContentValues movieValues = new ContentValues();
 
+                    Log.d(LOG_TAG, " " + movie.getTitle());
                     movieValues.put(MoviesEntry.COLUMN_TITLE, movie.getTitle());
                     movieValues.put(MoviesEntry.COLUMN_DIRECTORS, movie.getDirectors().get(0).getName());
                     movieValues.put(MoviesEntry.COLUMN_GENRES, movie.getGenres().toString());
@@ -198,7 +183,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                     movieValues.put(MoviesEntry.COLUMN_URL_IMDB, movie.getUrlIMDB());
                     movieValues.put(MoviesEntry.COLUMN_DATE, dateTime);
 
-                    downloadPosters(movie.getUrlPoster());
+                    DownloadImageWeapon.downloadPoster(getContext(), movie.getUrlPoster());
 
                     cVVector.add(movieValues);
                 }
@@ -217,61 +202,14 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                             new String[] {Long.toString(dateTime)});
                     Log.d(LOG_TAG, "Deleted: " + deleted);
 
-                    updateNotifications();
+                    NotificationWeapon.updateNotifications(getContext());
                 }
             }
         }
 
     }
 
-    private void updateNotifications() {
-        Context context = getContext();
-        //checking the last update and notify if it' the first of the day
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
-        boolean displayNotifications = prefs.getBoolean(displayNotificationsKey,
-                Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
-
-        if (displayNotifications) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
-            //Create Intent to launch this Activity again if the notification is clicked.
-            Intent i = new Intent(getContext(), MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent intent = PendingIntent.getActivity(getContext(), 0, i,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(intent);
-            // Sets the small icon for the ticker
-            builder.setSmallIcon(R.drawable.ic_theaters_white_24dp);
-            // Sets the indicator
-            builder.setLights(Color.CYAN, 300, 1500);
-            // Sets vibration
-            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
-            // Sets default sound
-            builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-            // Cancel the notification when clicked
-            builder.setAutoCancel(true);
-
-            String title = context.getString(R.string.app_name);
-            String contentText = getContext().getResources().getString(R.string.notification_message);
-            Bitmap largeIcon = BitmapFactory.decodeResource(getContext().getResources(),
-                    R.drawable.ic_theaters_white_48dp);
-            builder.setLargeIcon(largeIcon);
-            builder.setContentTitle(title);
-            builder.setContentText(contentText);
-            // Build the notification
-            Notification notification = builder.build();
-
-            // Use the NotificationManager to show the notification
-            NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(MOVIE_NOTIFICATION_ID, notification);
-        }
-    }
-
-    private void downloadPosters(String posterUrl) {
-        Picasso.with(getContext()).load(posterUrl);
-    }
-
-    private void getMoviesContainer(int numberOfMovies) {
+    private void makeRequest(int numberOfMovies) {
         RestService restService = new RestService();
         requestContainer = restService.request();
 
@@ -279,6 +217,10 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
             randomNumbers.add(MovieGenerator.getGenerator().getRandomMovieID());
         }
 
+        initMoviesContainer(randomNumbers);
+    }
+
+    private void initMoviesContainer(HashSet<Integer> randomNumbers) {
         for (Integer randomItem: randomNumbers) {
             moviesList.add(requestContainer.get(randomItem));
         }

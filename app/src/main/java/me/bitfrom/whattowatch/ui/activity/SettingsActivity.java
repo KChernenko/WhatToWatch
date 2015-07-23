@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.activity;
+package me.bitfrom.whattowatch.ui.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

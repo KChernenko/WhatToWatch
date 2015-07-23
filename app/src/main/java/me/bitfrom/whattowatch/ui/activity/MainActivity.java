@@ -1,33 +1,36 @@
-package me.bitfrom.whattowatch.activity;
+package me.bitfrom.whattowatch.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.fragments.DetailFragment;
+import me.bitfrom.whattowatch.ui.fragments.MoviesFragment;
+import me.bitfrom.whattowatch.sync.MoviesSyncAdapter;
 
-/**
- * Created by Constantine with love.
- */
-public class DetailActivity extends ActionBarActivity {
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_main);
+
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.detail_container, new DetailFragment())
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new MoviesFragment())
                     .commit();
         }
+
+        MoviesSyncAdapter.initializeSyncAdapter(this);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -38,12 +41,16 @@ public class DetailActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
+            //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             return true;
+        }
+        if (id == R.id.action_sync_now) {
+            MoviesSyncAdapter.syncImmediately(this);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 }

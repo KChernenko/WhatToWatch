@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.activity;
+package me.bitfrom.whattowatch.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import me.bitfrom.whattowatch.R;
 public class SplashScreen extends Activity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2000;
+    private static int SPLASH_TIME_OUT = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.fragments;
+package me.bitfrom.whattowatch.ui.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.bitfrom.whattowatch.activity.DetailActivity;
+import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
@@ -27,8 +27,6 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
  * Created by Constantine with love.
  */
 public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
 
     private MoviesAdapter mMoviesAdapter;
     private RecyclerView mRecyclerView;
@@ -61,8 +59,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-
-                        Log.d(LOG_TAG, "POSITION: " + position);
                         Uri uri = MoviesEntry.buildMoviesUri(mMoviesAdapter.getItemId(position));
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
                         intent.putExtra(Utility.ID_KEY, uri.toString());
@@ -81,6 +77,11 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        getLoaderManager().destroyLoader(CARDS_LOADER);
+        super.onDestroy();
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

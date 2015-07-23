@@ -1,7 +1,5 @@
 package me.bitfrom.whattowatch.rest;
 
-
-
 import java.util.List;
 
 import me.bitfrom.whattowatch.rest.model.Movie;
