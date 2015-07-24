@@ -10,7 +10,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +22,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.utils.IpositionId;
-import me.bitfrom.whattowatch.utils.Utility;
+import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
@@ -53,7 +51,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             MoviesEntry.COLUMN_URL_IMDB
     };
 
-
     private static final String SHARE_HASHTAG = " #WhatToWatch";
     private ShareActionProvider mShareActionProvider;
     private String mMovieShareInfo;
@@ -77,13 +74,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-
         Bundle extras = getActivity().getIntent().getExtras();
+
         if (extras != null) {
             mUri = Uri.parse(extras.getString(ID_KEY));
         }
-
-        Log.d(LOG_TAG, mUri.toString());
 
         mPosterView = (ImageView) rootView.findViewById(R.id.poster);
         mTitleView = (TextView) rootView.findViewById(R.id.tv_title);
@@ -148,7 +143,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.d(LOG_TAG, "Data reseted!");
     }
 
     private Intent createShareMovieIntent() {
@@ -193,11 +187,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     "which IMDB rating is " + rating + "\n" +
                     "And directed by " + director + "\n" + genres + "\n";
 
+
             if (mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createShareMovieIntent());
             }
         }
-
     }
-
 }

@@ -10,7 +10,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,7 @@ import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.utils.IpositionId;
-import me.bitfrom.whattowatch.utils.Utility;
+import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 

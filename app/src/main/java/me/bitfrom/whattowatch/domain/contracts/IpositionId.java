@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.utils;
+package me.bitfrom.whattowatch.domain.contracts;
 
 /**
  * Created by Constantine with love.

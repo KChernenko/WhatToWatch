@@ -17,11 +17,10 @@ public class Utility {
 
     public static int getPreferredNumbersOfMovies(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int numberOfMovies = Integer.parseInt(preferences
+
+        return Integer.parseInt(preferences
                 .getString(context.getString(R.string.pref_number_of_movies_key),
                         context.getString(R.string.pref_number_of_movies_seven)));
-
-        return numberOfMovies;
     }
 
     public static int getUpdateInterval(Context context) {

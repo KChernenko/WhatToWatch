@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.utils.weapons;
+package me.bitfrom.whattowatch.domain.weapons;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,21 +10,30 @@ import java.util.List;
 import java.util.Vector;
 
 import me.bitfrom.whattowatch.data.MoviesContract;
+import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
+import me.bitfrom.whattowatch.domain.contracts.SaveDataInteractor;
+import me.bitfrom.whattowatch.domain.weapons.network.ImageDownloadWeapon;
+import me.bitfrom.whattowatch.domain.weapons.network.LoadDataWeapon;
 import me.bitfrom.whattowatch.rest.model.Movie;
 import me.bitfrom.whattowatch.utils.Utility;
-import me.bitfrom.whattowatch.utils.weapons.network.LoadDataWeapon;
-import me.bitfrom.whattowatch.utils.weapons.network.ImageDownloadWeapon;
 
 /**
  * Created by Constantine with love.
  */
-public class SaveDataWeapon {
+public class SaveDataWeapon implements SaveDataInteractor {
 
     private static final String LOG_TAG = SaveDataWeapon.class.getSimpleName();
 
     private static List<Movie> moviesList = new ArrayList<>();
 
-    public static void saveData(Context context) {
+    private ImageDownloadInteractor imageWeapon;
+
+    public SaveDataWeapon() {
+        imageWeapon = new ImageDownloadWeapon();
+    }
+
+
+    public void saveData(Context context) {
         int numberOfMovies = Utility.getPreferredNumbersOfMovies(context);
 
         if (moviesList.isEmpty()) {
@@ -53,7 +62,7 @@ public class SaveDataWeapon {
                     movieValues.put(MoviesContract.MoviesEntry.COLUMN_URL_IMDB, movie.getUrlIMDB());
                     movieValues.put(MoviesContract.MoviesEntry.COLUMN_DATE, dateTime);
 
-                    ImageDownloadWeapon.downloadPoster(context, movie.getUrlPoster());
+                    imageWeapon.downloadPoster(context, movie.getUrlPoster());
 
                     cVVector.add(movieValues);
                 }

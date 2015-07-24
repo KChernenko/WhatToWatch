@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.utils.weapons;
+package me.bitfrom.whattowatch.domain.weapons;
 
 import android.app.Notification;
 import android.app.NotificationManager;

@@ -11,7 +11,8 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.utils.weapons.SaveDataWeapon;
+import me.bitfrom.whattowatch.domain.contracts.SaveDataInteractor;
+import me.bitfrom.whattowatch.domain.weapons.SaveDataWeapon;
 import me.bitfrom.whattowatch.utils.Utility;
 
 /**
@@ -23,8 +24,12 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
+    private SaveDataInteractor saveDataWeapon;
+
     public MoviesSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+
+        saveDataWeapon = new SaveDataWeapon();
     }
 
     @Override
@@ -33,7 +38,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider,
                               SyncResult syncResult) {
 
-        SaveDataWeapon.saveData(getContext());
+        saveDataWeapon.saveData(getContext());
     }
 
     public static void initializeSyncAdapter(Context context) {
@@ -122,11 +127,14 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
          */
-        ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+        //ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+        ContentResolver.addPeriodicSync(newAccount, context.getString(R.string.content_authority), Bundle.EMPTY,
+                SYNC_INTERVAL);
 
         /*
          * Finally, let's do a sync to get things started
          */
         syncImmediately(context);
     }
+
 }
