@@ -24,8 +24,6 @@
     <string name="writer">Writer:</string>
     <string name="actors">Actors:</string>
 
-
-
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
     <string name="sync_account_type">whattowatch.bitfrom.me</string>
@@ -98,4 +96,5 @@
 
     <!-- Strings for error handling -->
     <string name="empty_movie_list">No Films Information Available :(</string>
+    <string name="no_network_available">Couldn\'t load data, because network isn\'t available.</string>
 </resources>

@@ -21,6 +21,7 @@ import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
+import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
@@ -98,10 +99,24 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mMoviesAdapter.swapCursor(data);
+        updateEmptyView();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mMoviesAdapter.swapCursor(null);
+    }
+
+    private void updateEmptyView() {
+        if (mMoviesAdapter.getCount() == 0) {
+            TextView emptyView = (TextView) getView().findViewById(R.id.movielist_empty);
+            if (null != emptyView) {
+                int message = R.string.empty_movie_list;
+                if (! Utility.isNetworkAvailable(getActivity())) {
+                    message = R.string.no_network_available;
+                }
+                emptyView.setText(message);
+            }
+        }
     }
 }
