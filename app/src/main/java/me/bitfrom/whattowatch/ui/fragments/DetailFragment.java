@@ -138,7 +138,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        updateData(data);
+        loadMovieInfo(data);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         return shareIntent;
     }
 
-    private void updateData(Cursor data) {
+    private void loadMovieInfo(Cursor data) {
         if (data != null && data.moveToFirst()) {
             String posterUrl = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_URL_POSTER));
             String title = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_TITLE));
@@ -183,14 +183,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mWritersView.setText(writer);
             mPlotView.setText(plot);
 
-            mMovieShareInfo = "Awesome movie «" + title + "»" + "\n" +
-                    "which IMDB rating is " + rating + "\n" +
-                    "And directed by " + director + "\n" + genres + "\n";
+            enableShareActionProvider(title, rating, director, genres);
+        }
+    }
+
+    private void enableShareActionProvider(String title, String rating, String director, String genres) {
+        mMovieShareInfo = getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
+                getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
+                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n";
 
 
-            if (mShareActionProvider != null) {
-                mShareActionProvider.setShareIntent(createShareMovieIntent());
-            }
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareMovieIntent());
         }
     }
 }

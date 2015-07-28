@@ -13,12 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.MoviesAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
@@ -28,8 +30,9 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
 public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
     private MoviesAdapter mMoviesAdapter;
-    private RecyclerView mRecyclerView;
+    private EmptyRecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private TextView mEmptyView;
 
     private static final String[] CARDS_PROJECTION = {
             MoviesEntry._ID,
@@ -47,11 +50,14 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movies_list, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list_of_movies);
+        mRecyclerView = (EmptyRecyclerView) rootView.findViewById(R.id.list_of_movies);
+        mEmptyView = (TextView) rootView.findViewById(R.id.movielist_empty);
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mMoviesAdapter = new MoviesAdapter(getActivity(), null, 0);
+        mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mMoviesAdapter);
 
         mRecyclerView.addOnItemTouchListener(
