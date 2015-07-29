@@ -9,12 +9,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 
+import de.greenrobot.event.EventBus;
+import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.MoviesContract;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.SaveDataInteractor;
 import me.bitfrom.whattowatch.domain.weapons.network.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.domain.weapons.network.LoadDataWeapon;
 import me.bitfrom.whattowatch.rest.model.Movie;
+import me.bitfrom.whattowatch.utils.ServerMessageEvent;
 import me.bitfrom.whattowatch.utils.Utility;
 
 /**
@@ -32,7 +35,6 @@ public class SaveDataWeapon implements SaveDataInteractor {
         imageWeapon = new ImageDownloadWeapon();
     }
 
-
     public void saveData(Context context) {
         int numberOfMovies = Utility.getPreferredNumbersOfMovies(context);
 
@@ -40,7 +42,10 @@ public class SaveDataWeapon implements SaveDataInteractor {
 
             moviesList = LoadDataWeapon.loadMovies(context);
 
-            if (moviesList.size() == numberOfMovies) {
+            if (moviesList.size() == 0) {
+                String message = context.getString(R.string.server_isnt_available);
+                EventBus.getDefault().post(new ServerMessageEvent(message));
+            } else if (moviesList.size() == numberOfMovies) {
                 Vector<ContentValues> cVVector = new Vector<>(numberOfMovies);
 
                 GregorianCalendar calendar = new GregorianCalendar();

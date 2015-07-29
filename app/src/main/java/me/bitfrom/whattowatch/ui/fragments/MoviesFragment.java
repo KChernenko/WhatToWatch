@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +32,12 @@ import static me.bitfrom.whattowatch.data.MoviesContract.*;
  */
 public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
+    private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
+
     private MoviesAdapter mMoviesAdapter;
     private EmptyRecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+
     private TextView mEmptyView;
 
     private static final String[] CARDS_PROJECTION = {
@@ -69,7 +74,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
                         intent.putExtra(ID_KEY, uri.toString());
                         startActivity(intent);
-
                     }
                 })
         );
@@ -89,6 +93,18 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        EventBus.getDefault().register(this);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        EventBus.getDefault().unregister(this);
+//        super.onStop();
+//    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri baseUri = MoviesEntry.CONTENT_URI;
@@ -107,13 +123,25 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMoviesAdapter.swapCursor(null);
     }
 
+//    public void onEventMainThread(ServerMessageEvent event) {
+//        Log.d(LOG_TAG, "onEvent was triggered!");
+//        if (event != null) {
+//            serverIsDownMsg = event.getMessage();
+//            //Log.d(LOG_TAG, "MSG: " + serverIsDownMsg);
+//            //Toast.makeText(getActivity(), serverIsDownMsg, Toast.LENGTH_LONG).show();
+//            //Snackbar.make(mCoordinator, "Had a snack at Snackbar", Snackbar.LENGTH_LONG)
+//             //       .show();
+//        }
+//        serverIsAvailable = false;
+//    }
+
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {
             TextView emptyView = (TextView) getView().findViewById(R.id.movielist_empty);
             if (null != emptyView) {
-                int message = R.string.empty_movie_list;
+                String message = getString(R.string.empty_movie_list);
                 if (! Utility.isNetworkAvailable(getActivity())) {
-                    message = R.string.no_network_available;
+                    message = getString(R.string.no_network_available);
                 }
                 emptyView.setText(message);
             }

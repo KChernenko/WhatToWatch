@@ -10,6 +10,11 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.SaveDataInteractor;
 import me.bitfrom.whattowatch.domain.weapons.SaveDataWeapon;
@@ -127,7 +132,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
          */
-        //ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+        ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
         ContentResolver.addPeriodicSync(newAccount, context.getString(R.string.content_authority), Bundle.EMPTY,
                 SYNC_INTERVAL);
 
