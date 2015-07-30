@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
@@ -90,6 +91,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mDirectorsView = (TextView) rootView.findViewById(R.id.director);
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
         mPlotView = (TextView) rootView.findViewById(R.id.plot);
+
+        FloatingActionButton button = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+        button.setIcon(R.drawable.ic_star_white_24dp);
+
+        FloatingActionButton button1 = (FloatingActionButton) rootView.findViewById(R.id.action_share);
+        button1.setIcon(R.drawable.ic_share_white_24dp);
 
         return rootView;
     }

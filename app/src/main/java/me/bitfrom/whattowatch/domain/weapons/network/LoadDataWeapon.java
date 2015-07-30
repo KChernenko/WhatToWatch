@@ -34,7 +34,7 @@ public class LoadDataWeapon {
         for (Integer randomItem: randomMoviesNumbers) {
             movieList.add(moviesContainer.get(randomItem));
         }
-        
+
         return movieList;
     }
 }

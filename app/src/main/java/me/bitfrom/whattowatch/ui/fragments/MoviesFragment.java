@@ -93,18 +93,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        EventBus.getDefault().unregister(this);
-//        super.onStop();
-//    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri baseUri = MoviesEntry.CONTENT_URI;
@@ -123,17 +111,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMoviesAdapter.swapCursor(null);
     }
 
-//    public void onEventMainThread(ServerMessageEvent event) {
-//        Log.d(LOG_TAG, "onEvent was triggered!");
-//        if (event != null) {
-//            serverIsDownMsg = event.getMessage();
-//            //Log.d(LOG_TAG, "MSG: " + serverIsDownMsg);
-//            //Toast.makeText(getActivity(), serverIsDownMsg, Toast.LENGTH_LONG).show();
-//            //Snackbar.make(mCoordinator, "Had a snack at Snackbar", Snackbar.LENGTH_LONG)
-//             //       .show();
-//        }
-//        serverIsAvailable = false;
-//    }
 
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {
