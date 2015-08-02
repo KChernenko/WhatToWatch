@@ -23,6 +23,7 @@
     <string name="director">Director:</string>
     <string name="writer">Writer:</string>
     <string name="actors">Actors:</string>
+    <string name="plot_lbl">Plot</string>
 
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
@@ -89,7 +90,7 @@
     <!-- String for notification bar-->
     <string name="notification_message">There are some WONDERFUL films for YOU!</string>
 
-    <!-- Strings for ShareSheet -->
+    <!-- Strings for ShareBottomSheet -->
     <string name="share_action_awesome_intro">There is an awesome film</string>
     <string name="share_action_imdb_rating">which IMDB rating is</string>
     <string name="share_action_director">And directed by</string>

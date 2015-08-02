@@ -153,8 +153,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             Picasso.with(getActivity())
                     .load(posterUrl)
                     .placeholder(R.drawable.progress_animation)
-                    .resize(205, 310)
-                    .centerCrop()
                     .into(mPosterView);
 
             mTitleView.setText(title);

@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.getbase:floatingactionbutton:1.10.0'
     compile 'com.cocosw:bottomsheet:1.+@aar'
+    compile 'com.android.support:gridlayout-v7:22.2.1'
 }
