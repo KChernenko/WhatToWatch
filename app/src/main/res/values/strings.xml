@@ -89,10 +89,11 @@
     <!-- String for notification bar-->
     <string name="notification_message">There are some WONDERFUL films for YOU!</string>
 
-    <!-- Strings for ShareActionProvider -->
+    <!-- Strings for ShareSheet -->
     <string name="share_action_awesome_intro">There is an awesome film</string>
     <string name="share_action_imdb_rating">which IMDB rating is</string>
     <string name="share_action_director">And directed by</string>
+    <string name="share_to">Share via:</string>
 
     <!-- Strings for error handling -->
     <string name="empty_movie_list">No Films Information Available :(</string>

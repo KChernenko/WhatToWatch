@@ -1,7 +1,5 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
-
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,21 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.cocosw.bottomsheet.BottomSheet;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
-import me.bitfrom.whattowatch.utils.BottomSheetHelper;
+import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        IpositionId {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private Uri mUri;
@@ -51,9 +48,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             MoviesEntry.COLUMN_URL_IMDB
     };
 
-//    private static final String SHARE_HASHTAG = " #WhatToWatch";
-//    private ShareActionProvider mShareActionProvider;
-//    private String mMovieShareInfo;
+    private static final String SHARE_HASHTAG = " #WhatToWatchApp";
+    private String mMovieShareInfo;
 
     private CoordinatorLayout mCoordinatorLayout;
 
@@ -67,6 +63,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mDirectorsView;
     private TextView mWritersView;
     private TextView mPlotView;
+
+    private FloatingActionButton mBtnSaveToFav;
+    private FloatingActionButton mBtnShare;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,11 +89,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
         mPlotView = (TextView) rootView.findViewById(R.id.plot);
 
-        FloatingActionButton btnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
-        btnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
+        mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
 
-        FloatingActionButton btnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
-        btnShare.setIcon(R.drawable.ic_share_white_24dp);
+        mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
+        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
 
 
         return rootView;
@@ -157,6 +156,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .resize(205, 310)
                     .centerCrop()
                     .into(mPosterView);
+
             mTitleView.setText(title);
             mCountriesView.setText(country);
             mYearView.setText(year);
@@ -167,20 +167,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mWritersView.setText(writer);
             mPlotView.setText(plot);
 
-            //enableShareActionProvider(title, rating, director, genres);
+            share(title, rating, director, genres);
         }
     }
 
-//    private void enableShareActionProvider(String title, String rating, String director, String genres) {
-//        mMovieShareInfo = getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
-//                getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
-//                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n";
-//
-//
-//        if (mShareActionProvider != null) {
-//            mShareActionProvider.setShareIntent(createShareMovieIntent());
-//        }
-//    }
+    private void share(String title, String rating, String director, String genres) {
 
+        mMovieShareInfo = getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
+                getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
+                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n";
 
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.getShareActions(getActivity(), mMovieShareInfo + SHARE_HASHTAG)
+                        .title(R.string.share_to).show();
+            }
+        });
+    }
 }
