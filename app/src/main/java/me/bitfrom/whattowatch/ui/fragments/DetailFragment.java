@@ -1,8 +1,8 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,21 +10,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bluejamesbond.text.DocumentView;
-import com.bluejamesbond.text.style.TextAlignment;
-import com.cocosw.bottomsheet.*;
+import com.cocosw.bottomsheet.BottomSheet;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.utils.BottomSheetHelper;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
@@ -68,11 +66,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mGenresView;
     private TextView mDirectorsView;
     private TextView mWritersView;
-    private DocumentView mPlotView;
-
-//    public DetailFragment() {
-//        setHasOptionsMenu(true);
-//    }
+    private TextView mPlotView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,15 +88,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mGenresView = (TextView) rootView.findViewById(R.id.genre);
         mDirectorsView = (TextView) rootView.findViewById(R.id.director);
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
-        mPlotView = (DocumentView) rootView.findViewById(R.id.plot);
+        mPlotView = (TextView) rootView.findViewById(R.id.plot);
 
-        formatPlotStyle(mPlotView);
+        FloatingActionButton btnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+        btnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
 
-        FloatingActionButton button = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
-        button.setIcon(R.drawable.ic_star_white_24dp);
-
-        FloatingActionButton button1 = (FloatingActionButton) rootView.findViewById(R.id.action_share);
-        button1.setIcon(R.drawable.ic_share_white_24dp);
+        FloatingActionButton btnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
+        btnShare.setIcon(R.drawable.ic_share_white_24dp);
 
 
         return rootView;
@@ -120,19 +112,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        inflater.inflate(R.menu.detailfragment, menu);
-//        // Retrieve the share menu item
-//        MenuItem menuItem = menu.findItem(R.id.action_share);
-//        // Get the provider and hold onto it to set/change the share intent.
-//        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-//
-//        if (mMovieShareInfo == null) {
-//            mShareActionProvider.setShareIntent(createShareMovieIntent());
-//        }
-//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -158,15 +137,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
-
-//    private Intent createShareMovieIntent() {
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-//        shareIntent.setType("text/plain");
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovieShareInfo + SHARE_HASHTAG);
-//
-//        return shareIntent;
-//    }
 
     private void loadMovieInfo(Cursor data) {
         if (data != null && data.moveToFirst()) {
@@ -212,10 +182,5 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 //        }
 //    }
 
-    private void formatPlotStyle(DocumentView plot) {
-        plot.getDocumentLayoutParams().setTextTypeface(Typeface.SANS_SERIF);
-        plot.getDocumentLayoutParams().setTextAlignment(TextAlignment.JUSTIFIED);
-        plot.getDocumentLayoutParams().setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-    }
 
 }
