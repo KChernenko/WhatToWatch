@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ScrollView;
 
 import java.util.HashMap;
 
@@ -43,8 +44,8 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     public ScrollManager() {
     }
 
-    public void attach(RecyclerView recyclerView) {
-        recyclerView.addOnScrollListener(this);
+    public void attach(ScrollView scrollView) {
+
     }
 
     public void addView(View view, Direction direction) {

@@ -8,16 +8,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
@@ -64,12 +69,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mWritersView;
     private TextView mPlotView;
 
+    private ScrollView mScrollView;
+
+    private FloatingActionsMenu mBtnAction;
     private FloatingActionButton mBtnSaveToFav;
     private FloatingActionButton mBtnShare;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         Bundle extras = getActivity().getIntent().getExtras();
 
@@ -78,6 +86,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         mCoordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.detail_container);
+        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
+
         mPosterView = (ImageView) rootView.findViewById(R.id.poster);
         mTitleView = (TextView) rootView.findViewById(R.id.tv_title);
         mCountriesView = (TextView) rootView.findViewById(R.id.country);
@@ -89,12 +99,26 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
         mPlotView = (TextView) rootView.findViewById(R.id.plot);
 
+        mBtnAction = (FloatingActionsMenu) rootView.findViewById(R.id.multiple_actions);
         mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
         mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
 
         mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
         mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
 
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                Log.d(LOG_TAG, "Scroll detected");
+                int scrollY = mScrollView.getScrollY();
+                Log.d(LOG_TAG, "Y = " + scrollY);
+                if (scrollY >= 500) {
+                    mBtnAction.setVisibility(View.GONE);
+                } else {
+                    mBtnAction.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         return rootView;
     }
