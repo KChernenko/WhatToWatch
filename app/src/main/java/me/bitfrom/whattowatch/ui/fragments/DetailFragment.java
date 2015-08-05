@@ -99,26 +99,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
         mPlotView = (TextView) rootView.findViewById(R.id.plot);
 
-        mBtnAction = (FloatingActionsMenu) rootView.findViewById(R.id.multiple_actions);
-        mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
-        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
+        initFabs(rootView);
 
-        mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
-        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
-
-        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                Log.d(LOG_TAG, "Scroll detected");
-                int scrollY = mScrollView.getScrollY();
-                Log.d(LOG_TAG, "Y = " + scrollY);
-                if (scrollY >= 500) {
-                    mBtnAction.setVisibility(View.GONE);
-                } else {
-                    mBtnAction.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        ScrollManager manager = new ScrollManager();
+        manager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
         return rootView;
     }
@@ -206,5 +190,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         .title(R.string.share_to).show();
             }
         });
+    }
+
+    private void initFabs(View rootView) {
+
+        mBtnAction = (FloatingActionsMenu) rootView.findViewById(R.id.multiple_actions);
+        mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
+
+        mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
+        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
+
     }
 }

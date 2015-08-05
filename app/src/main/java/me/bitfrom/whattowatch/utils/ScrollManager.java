@@ -20,6 +20,7 @@ import android.animation.ObjectAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -44,8 +45,8 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     public ScrollManager() {
     }
 
-    public void attach(ScrollView scrollView) {
-
+    public void attach(RecyclerView recyclerView) {
+        recyclerView.addOnScrollListener(this);
     }
 
     public void addView(View view, Direction direction) {
@@ -84,6 +85,23 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
                 hideView(view, viewsToHide.get(view));
             }
         }
+    }
+
+    public void hideViewInScrollView(final ScrollView scrollView, final View view, final Direction direction) {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int height = scrollView.getHeight();
+                int scrollY = scrollView.getScrollY();
+                if (scrollY >= height/2) {
+                    //view.setVisibility(View.GONE);
+                    hideView(view, direction);
+                } else {
+                    //view.setVisibility(View.VISIBLE);
+                    showView(view);
+                }
+            }
+        });
     }
 
     private void showViews() {
