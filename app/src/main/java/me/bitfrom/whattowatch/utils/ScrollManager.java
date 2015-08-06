@@ -93,11 +93,9 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
             public void onScrollChanged() {
                 int height = scrollView.getHeight();
                 int scrollY = scrollView.getScrollY();
-                if (scrollY >= height/2) {
-                    //view.setVisibility(View.GONE);
+                if (scrollY >= height/3) {
                     hideView(view, direction);
                 } else {
-                    //view.setVisibility(View.VISIBLE);
                     showView(view);
                 }
             }

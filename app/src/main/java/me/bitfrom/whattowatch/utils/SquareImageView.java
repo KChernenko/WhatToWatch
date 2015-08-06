@@ -1,9 +1,3 @@
-package me.bitfrom.whattowatch.utils;
-
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.ImageView;
-
 /*
  * Copyright (C) 2015 Antonio Leiva
  *
@@ -19,6 +13,13 @@ import android.widget.ImageView;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package me.bitfrom.whattowatch.utils;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.ImageView;
+
 
 public class SquareImageView extends ImageView {
 
