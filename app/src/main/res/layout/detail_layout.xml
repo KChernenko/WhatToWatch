@@ -35,7 +35,7 @@
                     app:columnCount="2">
                     <TextView
                         android:id="@+id/tv_title"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/spacing_large"
                         android:layout_marginRight="@dimen/spacing_large"
@@ -54,8 +54,9 @@
                         android:textStyle="bold"
                         android:text="@string/rating"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:id="@+id/rating"
                         android:layout_margin="@dimen/spacing_medium"
                         android:textSize="15sp"/>
@@ -69,8 +70,9 @@
                         android:text="@string/runtime" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:id="@+id/runtime"
                         android:layout_margin="@dimen/spacing_medium"
                         android:textSize="15sp" />
@@ -83,8 +85,9 @@
                         android:textStyle="bold"
                         android:text="@string/release_year"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:id="@+id/release_year"
                         android:layout_margin="@dimen/spacing_medium"
                         android:textSize="15sp"/>
@@ -98,8 +101,9 @@
                         android:text="@string/country" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
                         android:id="@+id/country"
                         android:textSize="15sp" />
@@ -112,8 +116,9 @@
                         android:textStyle="bold"
                         android:text="@string/director"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
                         android:id="@+id/director"
                         android:textSize="15sp"/>
@@ -126,8 +131,9 @@
                         android:textStyle="bold"
                         android:text="@string/writer"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
                         android:id="@+id/writers"
                         android:textSize="15sp"/>
@@ -140,8 +146,9 @@
                         android:textStyle="bold"
                         android:text="@string/genre"/>
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
                         android:id="@+id/genre"
                         android:textSize="15sp"/>
@@ -153,14 +160,14 @@
 
                     <TextView
                         android:id="@+id/plot"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_xmedium"
                         android:typeface="sans"
                         android:textSize="18sp"
                         app:layout_columnSpan="2"
                         app:layout_columnWeight="1"
-                        app:layout_gravity="fill_horizontal"/>
+                        app:layout_gravity="fill_horizontal" />
                 </android.support.v7.widget.GridLayout>
             </android.support.v7.widget.CardView>
         </FrameLayout>
