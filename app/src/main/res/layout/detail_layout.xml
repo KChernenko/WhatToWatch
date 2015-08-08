@@ -39,6 +39,7 @@
                         android:layout_marginLeft="@dimen/spacing_large"
                         android:layout_marginRight="@dimen/spacing_large"
                         android:layout_marginTop="@dimen/spacing_large"
+                        android:textColor="@color/desc_text_color"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         app:layout_columnSpan="2"
                         app:layout_columnWeight="1"
@@ -51,6 +52,7 @@
                         android:layout_margin="@dimen/spacing_medium"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:textColor="@color/desc_text_color"
                         android:text="@string/rating"/>
                     <TextView
                         android:layout_width="0dp"
@@ -58,6 +60,7 @@
                         app:layout_gravity="fill_horizontal"
                         android:id="@+id/rating"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:textSize="15sp"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -66,6 +69,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:text="@string/runtime" />
 
                     <TextView
@@ -74,12 +78,14 @@
                         app:layout_gravity="fill_horizontal"
                         android:id="@+id/runtime"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_release_year"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:text="@string/release_year"/>
@@ -89,6 +95,7 @@
                         app:layout_gravity="fill_horizontal"
                         android:id="@+id/release_year"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:textSize="15sp"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -96,6 +103,7 @@
                         android:id="@+id/tv_country"
                         android:textSize="16sp"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:textStyle="bold"
                         android:text="@string/country" />
 
@@ -104,6 +112,7 @@
                         android:layout_height="wrap_content"
                         app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:id="@+id/country"
                         android:textSize="15sp" />
                     <TextView
@@ -113,12 +122,14 @@
                         android:id="@+id/tv_director"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:textColor="@color/desc_text_color"
                         android:text="@string/director"/>
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:id="@+id/director"
                         android:textSize="15sp"/>
                     <TextView
@@ -128,12 +139,14 @@
                         android:id="@+id/tv_writer"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:textColor="@color/desc_text_color"
                         android:text="@string/writer"/>
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:id="@+id/writers"
                         android:textSize="15sp"/>
                     <TextView
@@ -143,12 +156,14 @@
                         android:id="@+id/tv_genre"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:textColor="@color/desc_text_color"
                         android:text="@string/genre"/>
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/spacing_medium"
+                        android:textColor="@color/desc_text_color"
                         android:id="@+id/genre"
                         android:textSize="15sp"/>
 
@@ -164,6 +179,7 @@
                         android:layout_margin="@dimen/spacing_xmedium"
                         android:typeface="sans"
                         android:textSize="18sp"
+                        android:textColor="@color/desc_text_color"
                         app:layout_columnSpan="2"
                         app:layout_columnWeight="1"
                         app:layout_gravity="fill_horizontal" />
