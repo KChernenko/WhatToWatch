@@ -13,8 +13,6 @@ import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
  */
 public class ImageDownloadWeapon implements ImageDownloadInteractor{
 
-    public enum FLAG {LOAD, INSERT}
-
     public void loadPoster(Context context, String posterUrl, ImageView target, FLAG flag) {
         if (flag == FLAG.LOAD) {
             downloadPoster(context, posterUrl);
