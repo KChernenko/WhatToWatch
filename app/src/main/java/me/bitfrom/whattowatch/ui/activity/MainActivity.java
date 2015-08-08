@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Shows a snackbar if an event was triggered
+     * @param event
+     * **/
     public void onEventMainThread(ServerMessageEvent event) {
         if (event != null) {
             Snackbar.make(mCoordinator, event.getMessage(), Snackbar.LENGTH_LONG)
