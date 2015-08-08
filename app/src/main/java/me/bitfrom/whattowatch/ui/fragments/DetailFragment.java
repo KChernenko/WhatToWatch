@@ -3,25 +3,23 @@ package me.bitfrom.whattowatch.ui.fragments;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.domain.weapons.network.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.Utility;
 
@@ -56,8 +54,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String SHARE_HASHTAG = " #WhatToWatchApp";
     private String mMovieShareInfo;
 
-    private CoordinatorLayout mCoordinatorLayout;
-
     private ImageView mPosterView;
     private TextView mTitleView;
     private TextView mCountriesView;
@@ -69,11 +65,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mWritersView;
     private TextView mPlotView;
 
+    private ImageDownloadInteractor mImageWeapon;
+
     private ScrollView mScrollView;
 
     private FloatingActionsMenu mBtnAction;
     private FloatingActionButton mBtnSaveToFav;
     private FloatingActionButton mBtnShare;
+
+    public DetailFragment() {
+        mImageWeapon = new ImageDownloadWeapon();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,7 +87,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mUri = Uri.parse(extras.getString(ID_KEY));
         }
 
-        mCoordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.detail_container);
         mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
 
         mPosterView = (ImageView) rootView.findViewById(R.id.poster);
@@ -158,10 +159,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String writer = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_WRITERS));
             String plot = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_PLOT));
 
-            Picasso.with(getActivity())
-                    .load(posterUrl)
-                    .placeholder(R.drawable.progress_animation)
-                    .into(mPosterView);
+            mImageWeapon.loadPoster(getActivity(), posterUrl, mPosterView,
+                    ImageDownloadWeapon.FLAG.INSERT);
 
             mTitleView.setText(title);
             mCountriesView.setText(country);

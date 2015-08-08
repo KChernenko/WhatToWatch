@@ -67,7 +67,7 @@ public class SaveDataWeapon implements SaveDataInteractor {
                     movieValues.put(MoviesContract.MoviesEntry.COLUMN_URL_IMDB, movie.getUrlIMDB());
                     movieValues.put(MoviesContract.MoviesEntry.COLUMN_DATE, dateTime);
 
-                    imageWeapon.downloadPoster(context, movie.getUrlPoster());
+                    imageWeapon.loadPoster(context, movie.getUrlPoster(), null, ImageDownloadWeapon.FLAG.LOAD);
 
                     cVVector.add(movieValues);
                 }
