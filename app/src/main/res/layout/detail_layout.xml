@@ -31,7 +31,6 @@
                 <android.support.v7.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
                     app:columnCount="2">
                     <TextView
                         android:id="@+id/tv_title"
