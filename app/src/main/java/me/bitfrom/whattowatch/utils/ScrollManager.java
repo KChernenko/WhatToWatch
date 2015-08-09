@@ -87,6 +87,12 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
         }
     }
 
+    /**
+     * Listens ScrollView onScrollChanged() and hides fab with animation.
+     * @param scrollView
+     * @param view
+     * @param direction
+     * **/
     public void hideViewInScrollView(final ScrollView scrollView, final View view, final Direction direction) {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
