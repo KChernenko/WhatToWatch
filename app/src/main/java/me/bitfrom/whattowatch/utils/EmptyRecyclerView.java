@@ -10,7 +10,7 @@ import android.view.View;
 /**
  * Created by Constantine on 28.07.2015.
  */
-public class EmptyRecyclerView extends RecyclerView{
+public class EmptyRecyclerView extends RecyclerView {
 
     private View emptyView;
 
@@ -43,7 +43,7 @@ public class EmptyRecyclerView extends RecyclerView{
         super(context, attrs, defStyle);
     }
 
-    void checkIfEmpty() {
+    private void checkIfEmpty() {
         if (emptyView != null && getAdapter() != null) {
             final boolean emptyViewVisible = getAdapter().getItemCount() == 0;
             emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
@@ -64,7 +64,10 @@ public class EmptyRecyclerView extends RecyclerView{
 
         checkIfEmpty();
     }
-
+    
+    /**
+     * Sets the view to show if the adapter is empty
+     **/
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
         checkIfEmpty();

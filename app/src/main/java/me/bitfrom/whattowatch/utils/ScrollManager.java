@@ -88,7 +88,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     }
 
     /**
-     * Listens ScrollView onScrollChanged() and hides fab with animation.
+     * Listens ScrollView's onScrollChanged() and hides fab with animation.
      * @param scrollView
      * @param view
      * @param direction
