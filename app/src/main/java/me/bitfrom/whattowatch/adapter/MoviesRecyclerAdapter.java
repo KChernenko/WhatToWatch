@@ -18,16 +18,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.MoviesContract;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = MoviesAdapter.class.getSimpleName();
+    private static final String LOG_TAG = MoviesRecyclerAdapter.class.getSimpleName();
 
     protected boolean mDataValid;
     protected boolean mAutoRequery;
@@ -41,15 +40,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public static final int FLAG_REGISTER_CONTENT_OBSERVER = 0x02;
 
     //Recommended
-    public MoviesAdapter(Context context, Cursor c, int flags) {
+    public MoviesRecyclerAdapter(Context context, Cursor c, int flags) {
         init(context, c, flags);
     }
 
-    public MoviesAdapter(Context context, Cursor c) {
+    public MoviesRecyclerAdapter(Context context, Cursor c) {
         init(context, c, FLAG_AUTO_REQUERY);
     }
 
-    public MoviesAdapter(Context context, Cursor c, boolean autoRequery) {
+    public MoviesRecyclerAdapter(Context context, Cursor c, boolean autoRequery) {
         init(context, c, autoRequery ? FLAG_AUTO_REQUERY : FLAG_REGISTER_CONTENT_OBSERVER);
     }
 

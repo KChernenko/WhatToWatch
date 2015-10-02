@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.adapter.MoviesAdapter;
+import me.bitfrom.whattowatch.adapter.MoviesRecyclerAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
@@ -32,7 +32,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
 
-    private MoviesAdapter mMoviesAdapter;
+    private MoviesRecyclerAdapter mMoviesAdapter;
     private EmptyRecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -60,7 +60,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mMoviesAdapter = new MoviesAdapter(getActivity(), null, 0);
+        mMoviesAdapter = new MoviesRecyclerAdapter(getActivity(), null, 0);
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mMoviesAdapter);
 
