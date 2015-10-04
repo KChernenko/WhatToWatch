@@ -10,14 +10,9 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.domain.contracts.SaveDataInteractor;
-import me.bitfrom.whattowatch.domain.weapons.SaveDataWeapon;
+import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.Utility;
 
 /**
@@ -29,12 +24,10 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-    private SaveDataInteractor saveDataWeapon;
-
     public MoviesSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
 
-        saveDataWeapon = new SaveDataWeapon();
+        //saveDataWeapon = new SaveDataWeapon();
     }
 
     @Override
@@ -43,7 +36,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider,
                               SyncResult syncResult) {
 
-        saveDataWeapon.saveData(getContext());
+        LoadRandomFilmsWeapon.loadFilms();
     }
 
     public static void initializeSyncAdapter(Context context) {

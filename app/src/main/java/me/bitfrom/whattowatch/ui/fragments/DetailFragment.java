@@ -19,7 +19,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
-import me.bitfrom.whattowatch.domain.weapons.network.ImageDownloadWeapon;
+import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.Utility;
 

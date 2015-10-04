@@ -5,6 +5,6 @@ package me.bitfrom.whattowatch.domain.contracts;
  */
 public interface IpositionId {
 
-    public static final String ID_KEY = "position_id";
+    String ID_KEY = "position_id";
 
 }

@@ -9,8 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.ui.fragments.MoviesFragment;
 import me.bitfrom.whattowatch.sync.MoviesSyncAdapter;
 import me.bitfrom.whattowatch.utils.ServerMessageEvent;
@@ -92,5 +95,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = WWApplication.getRefWatcher();
+        refWatcher.watch(this);
     }
 }

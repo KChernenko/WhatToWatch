@@ -5,13 +5,13 @@ import java.util.List;
 import me.bitfrom.whattowatch.rest.model.Movie;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import rx.Observable;
 
 /**
  * Created by Constantine with love.
  */
 public interface MovieAPI {
     
-    @GET("/top")
-    public List<Movie> getMovies(@Query("format") String format, @Query("start") int start, @Query("end") int end,
-                                 @Query("data") String data, @Query("token") String token);
+    @GET("top?format=JSON&start=1&end=250&data=F")
+    Observable<List<Movie>> getMovies(@Query("token") String token);
 }

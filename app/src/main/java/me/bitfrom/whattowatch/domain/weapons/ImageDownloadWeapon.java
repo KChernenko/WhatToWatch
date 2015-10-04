@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.domain.weapons.network;
+package me.bitfrom.whattowatch.domain.weapons;
 
 import android.content.Context;
 import android.widget.ImageView;
