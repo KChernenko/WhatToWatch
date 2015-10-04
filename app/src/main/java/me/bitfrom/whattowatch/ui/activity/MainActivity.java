@@ -14,7 +14,7 @@ import com.squareup.leakcanary.RefWatcher;
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.ui.fragments.RandomMoviesFragment;
+import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.ServerMessageEvent;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_container);
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.main_container, new RandomMoviesFragment())
+            getSupportFragmentManager().beginTransaction().add(R.id.main_container, new RandomFilmsFragment())
                     .commit();
         }
 

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
@@ -31,7 +33,6 @@ import static me.bitfrom.whattowatch.data.FilmsContract.*;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         IpositionId {
 
-    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private Uri mUri;
 
     private static final int DETAIL_LOADER = 0;
@@ -54,20 +55,30 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String SHARE_HASHTAG = " #WhatToWatchApp";
     private String mMovieShareInfo;
 
-    private ImageView mPosterView;
-    private TextView mTitleView;
-    private TextView mCountriesView;
-    private TextView mYearView;
-    private TextView mRuntimeView;
-    private TextView mRatingView;
-    private TextView mGenresView;
-    private TextView mDirectorsView;
-    private TextView mWritersView;
-    private TextView mPlotView;
+    @Bind(R.id.scrollView)
+    ScrollView mScrollView;
+    @Bind(R.id.poster)
+    ImageView mPosterView;
+    @Bind(R.id.tv_title)
+    TextView mTitleView;
+    @Bind(R.id.country)
+    TextView mCountriesView;
+    @Bind(R.id.release_year)
+    TextView mYearView;
+    @Bind(R.id.runtime)
+    TextView mRuntimeView;
+    @Bind(R.id.rating)
+    TextView mRatingView;
+    @Bind(R.id.genre)
+    TextView mGenresView;
+    @Bind(R.id.director)
+    TextView mDirectorsView;
+    @Bind(R.id.writers)
+    TextView mWritersView;
+    @Bind(R.id.plot)
+    TextView mPlotView;
 
     private ImageDownloadInteractor mImageWeapon;
-
-    private ScrollView mScrollView;
 
     private FloatingActionsMenu mBtnAction;
     private FloatingActionButton mBtnSaveToFav;
@@ -87,18 +98,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mUri = Uri.parse(extras.getString(ID_KEY));
         }
 
-        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
-
-        mPosterView = (ImageView) rootView.findViewById(R.id.poster);
-        mTitleView = (TextView) rootView.findViewById(R.id.tv_title);
-        mCountriesView = (TextView) rootView.findViewById(R.id.country);
-        mYearView = (TextView) rootView.findViewById(R.id.release_year);
-        mRuntimeView = (TextView) rootView.findViewById(R.id.runtime);
-        mRatingView = (TextView) rootView.findViewById(R.id.rating);
-        mGenresView = (TextView) rootView.findViewById(R.id.genre);
-        mDirectorsView = (TextView) rootView.findViewById(R.id.director);
-        mWritersView = (TextView) rootView.findViewById(R.id.writers);
-        mPlotView = (TextView) rootView.findViewById(R.id.plot);
+        ButterKnife.bind(this, rootView);
 
         initFabs(rootView);
 

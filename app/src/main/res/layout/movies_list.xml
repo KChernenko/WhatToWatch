@@ -7,15 +7,15 @@
     <me.bitfrom.whattowatch.utils.EmptyRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_of_movies"/>
+        android:id="@+id/list_of_films"/>
 
     <!-- Empty list -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/movielist_empty"
+        android:id="@+id/films_list_empty"
         android:gravity="center_horizontal|center_vertical"
-        android:text="@string/empty_movie_list"
+        android:text="@string/empty_films_list"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         android:paddingLeft="@dimen/activity_horizontal_margin"

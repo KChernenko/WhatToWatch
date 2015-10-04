@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
@@ -28,15 +30,18 @@ import static me.bitfrom.whattowatch.data.FilmsContract.*;
 /**
  * Created by Constantine with love.
  */
-public class RandomMoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
+public class RandomFilmsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
-    private static final String LOG_TAG = RandomMoviesFragment.class.getSimpleName();
+    private static final String LOG_TAG = RandomFilmsFragment.class.getSimpleName();
+
+    @Bind(R.id.list_of_films)
+    EmptyRecyclerView mRecyclerView;
+
+    @Bind(R.id.films_list_empty)
+    TextView mEmptyView;
 
     private FilmsRecyclerAdapter mMoviesAdapter;
-    private EmptyRecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private TextView mEmptyView;
 
     private static final String[] CARDS_PROJECTION = {
             FilmsEntry._ID,
@@ -54,8 +59,7 @@ public class RandomMoviesFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movies_list, container, false);
 
-        mRecyclerView = (EmptyRecyclerView) rootView.findViewById(R.id.list_of_movies);
-        mEmptyView = (TextView) rootView.findViewById(R.id.movielist_empty);
+        ButterKnife.bind(this, rootView);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -112,9 +116,9 @@ public class RandomMoviesFragment extends Fragment implements LoaderManager.Load
 
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {
-            TextView emptyView = (TextView) getView().findViewById(R.id.movielist_empty);
+            TextView emptyView = (TextView) getView().findViewById(R.id.films_list_empty);
             if (null != emptyView) {
-                String message = getString(R.string.empty_movie_list);
+                String message = getString(R.string.empty_films_list);
                 if (! Utility.isNetworkAvailable(getActivity())) {
                     message = getString(R.string.no_network_available);
                 }

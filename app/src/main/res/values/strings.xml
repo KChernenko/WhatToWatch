@@ -97,7 +97,7 @@
     <string name="share_to">Share via:</string>
 
     <!-- Strings for error handling -->
-    <string name="empty_movie_list">No Films Information Available :(</string>
+    <string name="empty_films_list">No Films Information Available :(</string>
     <string name="no_network_available">Couldn\'t load data, because network isn\'t available.</string>
     <string name="server_isnt_available">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_close_app">Close app</string>
