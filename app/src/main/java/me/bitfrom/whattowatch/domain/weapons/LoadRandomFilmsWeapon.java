@@ -25,7 +25,7 @@ public class LoadRandomFilmsWeapon {
     public static void loadFilms() {
         RestClient restClient = new RestClient();
 
-        restClient.getMovieAPI().getMovies(WWApplication.getToken())
+        restClient.getFilmsAPI().getMovies(WWApplication.getToken())
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<List<Film>, List<Film>>() {
                     @Override
