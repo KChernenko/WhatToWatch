@@ -19,14 +19,14 @@ import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
 
-import static me.bitfrom.whattowatch.data.MoviesContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.ViewHolder> {
+public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdapter.ViewHolder> {
 
-    private static final String LOG_TAG = MoviesRecyclerAdapter.class.getSimpleName();
+    private static final String LOG_TAG = FilmsRecyclerAdapter.class.getSimpleName();
 
     protected boolean mDataValid;
     protected boolean mAutoRequery;
@@ -40,15 +40,15 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
     public static final int FLAG_REGISTER_CONTENT_OBSERVER = 0x02;
 
     //Recommended
-    public MoviesRecyclerAdapter(Context context, Cursor c, int flags) {
+    public FilmsRecyclerAdapter(Context context, Cursor c, int flags) {
         init(context, c, flags);
     }
 
-    public MoviesRecyclerAdapter(Context context, Cursor c) {
+    public FilmsRecyclerAdapter(Context context, Cursor c) {
         init(context, c, FLAG_AUTO_REQUERY);
     }
 
-    public MoviesRecyclerAdapter(Context context, Cursor c, boolean autoRequery) {
+    public FilmsRecyclerAdapter(Context context, Cursor c, boolean autoRequery) {
         init(context, c, autoRequery ? FLAG_AUTO_REQUERY : FLAG_REGISTER_CONTENT_OBSERVER);
     }
 
@@ -218,9 +218,8 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.movie_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
 
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -228,18 +227,18 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
         final Cursor cursor = getItem(position);
 
-        Picasso.with(mContext).load(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_URL_POSTER)))
+        Picasso.with(mContext).load(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_URL_POSTER)))
                 .error(R.mipmap.ic_launcher)
                 .placeholder(R.drawable.progress_animation)
                 .resize(115, 170)
                 .centerCrop()
                 .into(holder.poster);
 
-        holder.title.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_TITLE)));
-        holder.director.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_DIRECTORS)));
-        holder.genres.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_GENRES)));
-        holder.rating.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_RATING)));
-        holder.year.setText(cursor.getString(cursor.getColumnIndex(MoviesEntry.COLUMN_YEAR)));
+        holder.title.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_TITLE)));
+        holder.director.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_DIRECTORS)));
+        holder.genres.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_GENRES)));
+        holder.rating.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_RATING)));
+        holder.year.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_YEAR)));
 
     }
 

@@ -23,7 +23,7 @@ import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.Utility;
 
-import static me.bitfrom.whattowatch.data.MoviesContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.*;
 
 /**
  * Created by Constantine with love.
@@ -37,18 +37,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int DETAIL_LOADER = 0;
 
     private static final String[] DETAIL_COLUMNS = {
-            MoviesEntry.TABLE_NAME + "." + MoviesEntry._ID,
-            MoviesEntry.COLUMN_URL_POSTER,
-            MoviesEntry.COLUMN_TITLE,
-            MoviesEntry.COLUMN_COUNTRIES,
-            MoviesEntry.COLUMN_YEAR,
-            MoviesEntry.COLUMN_RUNTIME,
-            MoviesEntry.COLUMN_RATING,
-            MoviesEntry.COLUMN_GENRES,
-            MoviesEntry.COLUMN_DIRECTORS,
-            MoviesEntry.COLUMN_WRITERS,
-            MoviesEntry.COLUMN_PLOT,
-            MoviesEntry.COLUMN_URL_IMDB
+            FilmsEntry.TABLE_NAME + "." + FilmsEntry._ID,
+            FilmsEntry.COLUMN_URL_POSTER,
+            FilmsEntry.COLUMN_TITLE,
+            FilmsEntry.COLUMN_COUNTRIES,
+            FilmsEntry.COLUMN_YEAR,
+            FilmsEntry.COLUMN_RUNTIME,
+            FilmsEntry.COLUMN_RATING,
+            FilmsEntry.COLUMN_GENRES,
+            FilmsEntry.COLUMN_DIRECTORS,
+            FilmsEntry.COLUMN_WRITERS,
+            FilmsEntry.COLUMN_PLOT,
+            FilmsEntry.COLUMN_URL_IMDB
     };
 
     private static final String SHARE_HASHTAG = " #WhatToWatchApp";
@@ -148,16 +148,16 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private void loadMovieInfo(Cursor data) {
         if (data != null && data.moveToFirst()) {
-            String posterUrl = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_URL_POSTER));
-            String title = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_TITLE));
-            String country = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_COUNTRIES));
-            String year = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_YEAR));
-            String runtime = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_RUNTIME));
-            String rating = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_RATING));
-            String genres = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_GENRES));
-            String director = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_DIRECTORS));
-            String writer = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_WRITERS));
-            String plot = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_PLOT));
+            String posterUrl = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_URL_POSTER));
+            String title = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_TITLE));
+            String country = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_COUNTRIES));
+            String year = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_YEAR));
+            String runtime = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_RUNTIME));
+            String rating = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_RATING));
+            String genres = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_GENRES));
+            String director = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_DIRECTORS));
+            String writer = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_WRITERS));
+            String plot = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_PLOT));
 
             mImageWeapon.loadPoster(getActivity(), posterUrl, mPosterView,
                     ImageDownloadWeapon.FLAG.INSERT);

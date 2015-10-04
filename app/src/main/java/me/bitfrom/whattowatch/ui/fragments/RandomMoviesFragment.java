@@ -17,35 +17,35 @@ import android.widget.TextView;
 
 import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.adapter.MoviesRecyclerAdapter;
+import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
 import me.bitfrom.whattowatch.utils.Utility;
 
-import static me.bitfrom.whattowatch.data.MoviesContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class MoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
+public class RandomMoviesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
 
-    private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
+    private static final String LOG_TAG = RandomMoviesFragment.class.getSimpleName();
 
-    private MoviesRecyclerAdapter mMoviesAdapter;
+    private FilmsRecyclerAdapter mMoviesAdapter;
     private EmptyRecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private TextView mEmptyView;
 
     private static final String[] CARDS_PROJECTION = {
-            MoviesEntry._ID,
-            MoviesEntry.COLUMN_URL_POSTER,
-            MoviesEntry.COLUMN_TITLE,
-            MoviesEntry.COLUMN_DIRECTORS,
-            MoviesEntry.COLUMN_GENRES,
-            MoviesEntry.COLUMN_RATING,
-            MoviesEntry.COLUMN_YEAR
+            FilmsEntry._ID,
+            FilmsEntry.COLUMN_URL_POSTER,
+            FilmsEntry.COLUMN_TITLE,
+            FilmsEntry.COLUMN_DIRECTORS,
+            FilmsEntry.COLUMN_GENRES,
+            FilmsEntry.COLUMN_RATING,
+            FilmsEntry.COLUMN_YEAR
     };
 
     private static final int CARDS_LOADER = 0;
@@ -60,7 +60,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mMoviesAdapter = new MoviesRecyclerAdapter(getActivity(), null, 0);
+        mMoviesAdapter = new FilmsRecyclerAdapter(getActivity(), null, 0);
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mMoviesAdapter);
 
@@ -68,7 +68,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Uri uri = MoviesEntry.buildMoviesUri(mMoviesAdapter.getItemId(position));
+                        Uri uri = FilmsEntry.buildFilmsUri(mMoviesAdapter.getItemId(position));
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
                         intent.putExtra(ID_KEY, uri.toString());
                         startActivity(intent);
@@ -93,7 +93,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri baseUri = MoviesEntry.CONTENT_URI;
+        Uri baseUri = FilmsEntry.CONTENT_URI;
 
         return new CursorLoader(getActivity(), baseUri, CARDS_PROJECTION, null, null, null);
     }

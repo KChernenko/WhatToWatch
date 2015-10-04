@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.cocosw.bottomsheet.BottomSheetHelper;
 
 import me.bitfrom.whattowatch.R;
 
@@ -71,7 +72,7 @@ public class Utility {
     /**
      * Returns true if the network is available or about become available.
      * @param context used to get the ConnectivityManager
-     * @return
+     * @return boolean statement
      * **/
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm =
@@ -86,7 +87,7 @@ public class Utility {
      * Returns bottom sheet builder object, that provides lollipop's like share action via bottom sheet.
      * @param activity activity instance
      * @param text text you want to share
-     * @return
+     * @return shareAction bottom sheet
      * **/
     public static BottomSheet.Builder getShareActions(Activity activity, String text) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);

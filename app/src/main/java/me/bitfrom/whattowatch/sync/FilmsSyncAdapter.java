@@ -18,13 +18,13 @@ import me.bitfrom.whattowatch.utils.Utility;
 /**
  * Created by Constantine with love.
  */
-public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
+public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String LOG_TAG = MoviesSyncAdapter.class.getSimpleName();
+    private static final String LOG_TAG = FilmsSyncAdapter.class.getSimpleName();
 
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-    public MoviesSyncAdapter(Context context, boolean autoInitialize) {
+    public FilmsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
 
         //saveDataWeapon = new SaveDataWeapon();
@@ -120,7 +120,7 @@ public class MoviesSyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Since we've created an account
          */
-        MoviesSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+        FilmsSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
 
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.

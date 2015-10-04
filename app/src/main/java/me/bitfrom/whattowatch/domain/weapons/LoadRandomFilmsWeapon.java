@@ -8,7 +8,7 @@ import java.util.List;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.rest.RestClient;
-import me.bitfrom.whattowatch.rest.model.Movie;
+import me.bitfrom.whattowatch.rest.model.Film;
 import me.bitfrom.whattowatch.utils.MovieGenerator;
 import me.bitfrom.whattowatch.utils.Utility;
 import rx.Observer;
@@ -27,10 +27,10 @@ public class LoadRandomFilmsWeapon {
 
         restClient.getMovieAPI().getMovies(WWApplication.getToken())
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<List<Movie>, List<Movie>>() {
+                .map(new Func1<List<Film>, List<Film>>() {
                     @Override
-                    public List<Movie> call(List<Movie> movies) {
-                        List<Movie> finalList = new ArrayList<>();
+                    public List<Film> call(List<Film> movies) {
+                        List<Film> finalList = new ArrayList<>();
 
                         for (Integer randomItem: getRandomFilmsIds()) {
                             finalList.add(movies.get(randomItem));
@@ -40,7 +40,7 @@ public class LoadRandomFilmsWeapon {
                     }
                 })
                 .cache()
-                .subscribe(new Observer<List<Movie>>() {
+                .subscribe(new Observer<List<Film>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(LOG_TAG, "Successfully finished!");
@@ -53,7 +53,7 @@ public class LoadRandomFilmsWeapon {
                     }
 
                     @Override
-                    public void onNext(List<Movie> movies) {
+                    public void onNext(List<Film> movies) {
                         SaveDataWeapon.saveData(movies);
                     }
                 });

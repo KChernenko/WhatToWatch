@@ -4,12 +4,11 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.text.format.Time;
 
 /**
  * Created by Constantine with love.
  */
-public class MoviesContract {
+public class FilmsContract {
 
     // The "Content authority" is a name for the entire content provider, similar to the
     // relationship between a domain name and its website.  A convenient string to use for the
@@ -27,22 +26,22 @@ public class MoviesContract {
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
 
-    public static final String PATH_MOVIES = "movies";
+    public static final String PATH_FILMS = "films";
 
 
     /* Inner class that defines the table contents of the movies table */
-    public static final class MoviesEntry implements BaseColumns {
+    public static final class FilmsEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
-                .appendPath(PATH_MOVIES).build();
+                .appendPath(PATH_FILMS).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FILMS;
 
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FILMS;
 
-        public static final String TABLE_NAME = "movies";
+        public static final String TABLE_NAME = "films";
 
         public static final String COLUMN_COUNTRIES = "countries";
 
@@ -69,7 +68,7 @@ public class MoviesContract {
         public static final String COLUMN_DATE = "date";
 
 
-        public static Uri buildMoviesUri(long id) {
+        public static Uri buildFilmsUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

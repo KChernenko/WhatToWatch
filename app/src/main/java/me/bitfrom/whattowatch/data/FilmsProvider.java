@@ -8,24 +8,25 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import static me.bitfrom.whattowatch.data.MoviesContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class MoviesProvider extends ContentProvider {
+public class FilmsProvider extends ContentProvider {
 
-    private static final String LOG_TAG = MoviesProvider.class.getSimpleName();
+    private static final String LOG_TAG = FilmsProvider.class.getSimpleName();
 
     // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private MoviesDbHelper mOpenHelper;
+    private FilmsDbHelper mOpenHelper;
 
-    static final int MOVIES = 100;
-    static final int MOVIE_ID = 101;
+    static final int FILMS = 100;
+    static final int FILMS_ID = 101;
 
     static UriMatcher buildUriMatcher() {
         // 1) The code passed into the constructor represents the code to return for the root
@@ -34,33 +35,33 @@ public class MoviesProvider extends ContentProvider {
         final String authority = CONTENT_AUTHORITY;
 
         // 2) Use the addURI function to match each of the types.
-        matcher.addURI(authority, PATH_MOVIES, MOVIES);
-        matcher.addURI(authority, PATH_MOVIES + "/#", MOVIE_ID);
+        matcher.addURI(authority, PATH_FILMS, FILMS);
+        matcher.addURI(authority, PATH_FILMS + "/#", FILMS_ID);
 
         return matcher;
     }
 
     @Override
     public boolean onCreate() {
-        mOpenHelper = new MoviesDbHelper(getContext());
+        mOpenHelper = new FilmsDbHelper(getContext());
         return true;
     }
 
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // Here's the switch statement that, given a URI, will determine what kind of request it is,
         // and query the database accordingly.
         Cursor retCursor;
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(MoviesEntry.TABLE_NAME);
+        queryBuilder.setTables(FilmsEntry.TABLE_NAME);
         switch (sUriMatcher.match(uri)) {
-            case MOVIE_ID:
+            case FILMS_ID:
             {
-                queryBuilder.appendWhere(MoviesEntry._ID + "=" + uri.getLastPathSegment());
+                queryBuilder.appendWhere(FilmsEntry._ID + "=" + uri.getLastPathSegment());
                 break;
             }
-            case MOVIES:
+            case FILMS:
             {
                 break;
             }
@@ -78,31 +79,31 @@ public class MoviesProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         // Use the Uri Matcher to determine what kind of URI this is.
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case MOVIES:
-                return MoviesEntry.CONTENT_TYPE;
-            case MOVIE_ID:
-                return MoviesEntry.CONTENT_ITEM_TYPE;
+            case FILMS:
+                return FilmsEntry.CONTENT_TYPE;
+            case FILMS_ID:
+                return FilmsEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
 
         switch (match) {
-            case MOVIES: {
-                long _id = db.insert(MoviesEntry.TABLE_NAME, null, values);
+            case FILMS: {
+                long _id = db.insert(FilmsEntry.TABLE_NAME, null, values);
 
                 if (_id > 0)
-                    returnUri = MoviesEntry.buildMoviesUri(_id);
+                    returnUri = FilmsEntry.buildFilmsUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
 
@@ -117,10 +118,10 @@ public class MoviesProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         //Start by getting a writable database
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        //Use the uriMatcher to match the MOVIES URI's we are going to handle.
+        //Use the uriMatcher to match the FILMS URI's we are going to handle.
         final int match = sUriMatcher.match(uri);
 
         int rowsDeleted;
@@ -128,18 +129,18 @@ public class MoviesProvider extends ContentProvider {
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         switch (match) {
-            case MOVIES:
-                rowsDeleted = db.delete(MoviesEntry.TABLE_NAME, selection, selectionArgs);
+            case FILMS:
+                rowsDeleted = db.delete(FilmsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case MOVIE_ID:
+            case FILMS_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsDeleted = db.delete(MoviesEntry.TABLE_NAME,
-                            MoviesEntry._ID + "=" + id,
+                    rowsDeleted = db.delete(FilmsEntry.TABLE_NAME,
+                            FilmsEntry._ID + "=" + id,
                             null);
                 } else {
-                    rowsDeleted = db.delete(MoviesEntry.TABLE_NAME,
-                            MoviesEntry._ID + "=" + id + " and " + selection, selectionArgs);
+                    rowsDeleted = db.delete(FilmsEntry.TABLE_NAME,
+                            FilmsEntry._ID + "=" + id + " and " + selection, selectionArgs);
                 }
                 break;
             default:
@@ -155,7 +156,7 @@ public class MoviesProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         //This is a lot like the delete function.  We return the number of rows impacted
         // by the update.
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -164,20 +165,20 @@ public class MoviesProvider extends ContentProvider {
         int rowsUpdated;
 
         switch (match) {
-            case MOVIES:
-                rowsUpdated = db.update(MoviesEntry.TABLE_NAME, values, selection, selectionArgs);
+            case FILMS:
+                rowsUpdated = db.update(FilmsEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
-            case MOVIE_ID:
+            case FILMS_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsUpdated = db.update(MoviesEntry.TABLE_NAME,
+                    rowsUpdated = db.update(FilmsEntry.TABLE_NAME,
                             values,
-                            MoviesEntry._ID + "=" + id,
+                            FilmsEntry._ID + "=" + id,
                             null);
                 } else {
-                    rowsUpdated = db.update(MoviesEntry.TABLE_NAME,
+                    rowsUpdated = db.update(FilmsEntry.TABLE_NAME,
                             values,
-                            MoviesEntry._ID + "=" + id
+                            FilmsEntry._ID + "=" + id
                             + " and "
                             + selection,
                             selectionArgs);
@@ -193,16 +194,16 @@ public class MoviesProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case MOVIES:
+            case FILMS:
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
                     for (ContentValues value: values) {
-                        long _id = db.insert(MoviesEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(FilmsEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }

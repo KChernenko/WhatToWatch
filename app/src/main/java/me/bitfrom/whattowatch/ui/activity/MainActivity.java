@@ -14,8 +14,8 @@ import com.squareup.leakcanary.RefWatcher;
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.ui.fragments.MoviesFragment;
-import me.bitfrom.whattowatch.sync.MoviesSyncAdapter;
+import me.bitfrom.whattowatch.ui.fragments.RandomMoviesFragment;
+import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.ServerMessageEvent;
 
 
@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_container);
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.main_container, new MoviesFragment())
+            getSupportFragmentManager().beginTransaction().add(R.id.main_container, new RandomMoviesFragment())
                     .commit();
         }
 
-        MoviesSyncAdapter.initializeSyncAdapter(this);
+        FilmsSyncAdapter.initializeSyncAdapter(this);
 
         mOnClickListener = new View.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Shows a snackbar if an event was triggered
-     * @param event
+     * @param event ServerMessageEvent
      * **/
     public void onEventMainThread(ServerMessageEvent event) {
         if (event != null) {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_sync_now) {
-            MoviesSyncAdapter.syncImmediately(this);
+            FilmsSyncAdapter.syncImmediately(this);
         }
 
         return super.onOptionsItemSelected(item);

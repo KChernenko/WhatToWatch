@@ -11,20 +11,20 @@ import java.util.List;
 /**
  * Created by Constantine with love.
  */
-public class Movie implements Parcelable {
+public class Film implements Parcelable {
 
     @SerializedName("countries")
-    private List<String> countries = new ArrayList<String>();
+    private List<String> countries = new ArrayList<>();
     @SerializedName("directors")
-    private List<Director> directors = new ArrayList<Director>();
+    private List<Director> directors = new ArrayList<>();
     @SerializedName("filmingLocations")
-    private List<String> filmingLocations = new ArrayList<String>();
+    private List<String> filmingLocations = new ArrayList<>();
     @SerializedName("genres")
-    private List<String> genres = new ArrayList<String>();
+    private List<String> genres = new ArrayList<>();
     @SerializedName("idIMDB")
     private String idIMDB;
     @SerializedName("languages")
-    private List<String> languages = new ArrayList<String>();
+    private List<String> languages = new ArrayList<>();
     @SerializedName("metascore")
     private String metascore;
     @SerializedName("originalTitle")
@@ -40,7 +40,7 @@ public class Movie implements Parcelable {
     @SerializedName("releaseDate")
     private String releaseDate;
     @SerializedName("runtime")
-    private List<String> runtime = new ArrayList<String>();
+    private List<String> runtime = new ArrayList<>();
     @SerializedName("simplePlot")
     private String simplePlot;
     @SerializedName("title")
@@ -52,16 +52,16 @@ public class Movie implements Parcelable {
     @SerializedName("votes")
     private String votes;
     @SerializedName("writers")
-    private List<Writer> writers = new ArrayList<Writer>();
+    private List<Writer> writers = new ArrayList<>();
     @SerializedName("year")
     private String year;
 
-    public Movie(List<String> countries, List<Director> directors, List<String> filmingLocations,
-                 List<String> genres, String idIMDB, List<String> languages,
-                 String metascore, String originalTitle, String plot, Integer ranking,
-                 String rated, String rating, String releaseDate, List<String> runtime,
-                 String simplePlot, String title, String urlIMDB, String urlPoster,
-                 String votes, List<Writer> writers, String year) {
+    public Film(List<String> countries, List<Director> directors, List<String> filmingLocations,
+                List<String> genres, String idIMDB, List<String> languages,
+                String metascore, String originalTitle, String plot, Integer ranking,
+                String rated, String rating, String releaseDate, List<String> runtime,
+                String simplePlot, String title, String urlIMDB, String urlPoster,
+                String votes, List<Writer> writers, String year) {
         this.countries = countries;
         this.directors = directors;
         this.filmingLocations = filmingLocations;
@@ -284,7 +284,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.year);
     }
 
-    protected Movie(Parcel in) {
+    protected Film(Parcel in) {
         this.countries = in.createStringArrayList();
         this.directors = in.createTypedArrayList(Director.CREATOR);
         this.filmingLocations = in.createStringArrayList();
@@ -308,13 +308,13 @@ public class Movie implements Parcelable {
         this.year = in.readString();
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        public Movie createFromParcel(Parcel source) {
-            return new Movie(source);
+    public static final Parcelable.Creator<Film> CREATOR = new Parcelable.Creator<Film>() {
+        public Film createFromParcel(Parcel source) {
+            return new Film(source);
         }
 
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public Film[] newArray(int size) {
+            return new Film[size];
         }
     };
 }

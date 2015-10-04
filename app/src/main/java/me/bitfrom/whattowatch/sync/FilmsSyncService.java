@@ -8,17 +8,17 @@ import android.util.Log;
 /**
  * Created by Constantine with love.
  */
-public class MoviesSyncService extends Service {
+public class FilmsSyncService extends Service {
 
     private static final Object sSyncAdapterLock = new Object();
-    private static MoviesSyncAdapter sMoviesSyncAdapter = null;
+    private static FilmsSyncAdapter sMoviesSyncAdapter = null;
 
     @Override
     public void onCreate() {
         Log.d("WhatToWatchSyncService", "onCreate - WhatToWatchSyncService");
         synchronized (sSyncAdapterLock) {
             if (sMoviesSyncAdapter == null) {
-                sMoviesSyncAdapter = new MoviesSyncAdapter(getApplicationContext(), true);
+                sMoviesSyncAdapter = new FilmsSyncAdapter(getApplicationContext(), true);
             }
         }
     }

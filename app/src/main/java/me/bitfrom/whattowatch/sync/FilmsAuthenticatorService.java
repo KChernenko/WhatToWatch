@@ -7,15 +7,15 @@ import android.os.IBinder;
 /**
  * Created by Constantine with love.
  */
-public class MoviesAuthenticatorService extends Service {
+public class FilmsAuthenticatorService extends Service {
 
     // Instance field that stores the authenticator object
-    private MoviesAuthenticator mAuthenticator;
+    private FilmsAuthenticator mAuthenticator;
 
     @Override
     public void onCreate() {
         //Create a new authenticator object
-        mAuthenticator = new MoviesAuthenticator(this);
+        mAuthenticator = new FilmsAuthenticator(this);
     }
 
     /*
