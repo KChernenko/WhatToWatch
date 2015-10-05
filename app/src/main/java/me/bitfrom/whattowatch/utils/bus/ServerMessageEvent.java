@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.utils;
+package me.bitfrom.whattowatch.utils.bus;
 
 /**
  * Created by Constantine on 29.07.2015.

@@ -1,6 +1,6 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,20 +17,19 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.bitfrom.whattowatch.ui.activity.DetailActivity;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
 import me.bitfrom.whattowatch.utils.Utility;
 
-import static me.bitfrom.whattowatch.data.FilmsContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
 /**
  * Created by Constantine with love.
  */
-public class RandomFilmsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
+public class RandomFilmsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = RandomFilmsFragment.class.getSimpleName();
 
@@ -55,30 +54,15 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     private static final int CARDS_LOADER = 0;
 
+    private UriTransfer uriTransfer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movies_list, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mMoviesAdapter = new FilmsRecyclerAdapter(getActivity(), null, 0);
-        mRecyclerView.setEmptyView(mEmptyView);
-        mRecyclerView.setAdapter(mMoviesAdapter);
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Uri uri = FilmsEntry.buildFilmsUri(mMoviesAdapter.getItemId(position));
-                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra(ID_KEY, uri.toString());
-                        startActivity(intent);
-                    }
-                })
-        );
+        initRecyclerView();
 
         return rootView;
     }
@@ -87,6 +71,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(CARDS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        uriTransfer = (UriTransfer) getActivity();
     }
 
     @Override
@@ -113,6 +103,25 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
         mMoviesAdapter.swapCursor(null);
     }
 
+
+    private void initRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mMoviesAdapter = new FilmsRecyclerAdapter(getActivity(), null, 0);
+        mRecyclerView.setEmptyView(mEmptyView);
+        mRecyclerView.setAdapter(mMoviesAdapter);
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Uri uri = FilmsEntry.buildFilmsUri(mMoviesAdapter.getItemId(position));
+                        uriTransfer.sendUri(uri.toString());
+                    }
+                })
+        );
+    }
 
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {

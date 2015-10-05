@@ -12,7 +12,13 @@
 
     <dimen name="elevation_low">9dp</dimen>
     <dimen name="elevation_high">12dp</dimen>
-    <dimen name="status_bar_height">25dp</dimen>
     <dimen name="fab_compat_margin">0dp</dimen>
+
+    <!-- Dimens for drawer_header -->
+    <dimen name="header_layout_height">172dp</dimen>
+    <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="header_avatar_sizes">64dp</dimen>
+    <dimen name="header_avatar_elevation">4dp</dimen>
+    <dimen name="header_spacing_large">16dp</dimen>
 
 </resources>

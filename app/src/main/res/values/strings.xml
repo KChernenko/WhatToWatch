@@ -13,7 +13,7 @@
     <!--Strings for MainActivity-->
     <string name="imdb_label">IMDB:</string>
 
-    <!--Strings for DetailActivity-->
+    <!--Strings for DetailFragment-->
     <string name="release_year">Released:</string>
     <string name="runtime">Runtime:</string>
     <string name="country">Country:</string>
@@ -101,4 +101,10 @@
     <string name="no_network_available">Couldn\'t load data, because network isn\'t available.</string>
     <string name="server_isnt_available">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_close_app">Close app</string>
+
+    <string name="drawer_item_home">Random films</string>
+    <string name="drawer_item_settings">Settings</string>
+
+    <string name="fake_user_name">Username</string>
+    <string name="fake_user_email">username@mail.com</string>
 </resources>

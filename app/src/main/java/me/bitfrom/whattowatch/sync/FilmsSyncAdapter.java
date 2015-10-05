@@ -20,14 +20,8 @@ import me.bitfrom.whattowatch.utils.Utility;
  */
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String LOG_TAG = FilmsSyncAdapter.class.getSimpleName();
-
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-
     public FilmsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-
-        //saveDataWeapon = new SaveDataWeapon();
     }
 
     @Override

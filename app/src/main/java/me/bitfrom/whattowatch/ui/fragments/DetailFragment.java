@@ -1,18 +1,23 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -25,7 +30,7 @@ import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.Utility;
 
-import static me.bitfrom.whattowatch.data.FilmsContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
 /**
  * Created by Constantine with love.
@@ -35,7 +40,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private Uri mUri;
 
-    private static final int DETAIL_LOADER = 0;
+    private static final int DETAIL_LOADER = 1;
 
     private static final String[] DETAIL_COLUMNS = {
             FilmsEntry.TABLE_NAME + "." + FilmsEntry._ID,
@@ -53,7 +58,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     };
 
     private static final String SHARE_HASHTAG = " #WhatToWatchApp";
-    private String mMovieShareInfo;
 
     @Bind(R.id.scrollView)
     ScrollView mScrollView;
@@ -80,19 +84,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private ImageDownloadInteractor mImageWeapon;
 
+    private ActionBar actionBar;
+
     private FloatingActionsMenu mBtnAction;
     private FloatingActionButton mBtnSaveToFav;
     private FloatingActionButton mBtnShare;
-
-    public DetailFragment() {
-        mImageWeapon = new ImageDownloadWeapon();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        Bundle extras = getActivity().getIntent().getExtras();
+        Bundle extras = getArguments();
 
         if (extras != null) {
             mUri = Uri.parse(extras.getString(ID_KEY));
@@ -102,6 +104,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         initFabs(rootView);
 
+        mImageWeapon = new ImageDownloadWeapon();
+
         ScrollManager manager = new ScrollManager();
         manager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -109,9 +113,23 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this).onContentChanged();
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.app_name);
+        }
     }
 
     @Override
@@ -178,14 +196,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private void share(String title, String rating, String director, String genres) {
 
-        mMovieShareInfo = getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
+        final StringBuilder sharedInfo = new StringBuilder(getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
                 getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
-                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n";
+                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n");
 
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.getShareActions(getActivity(), mMovieShareInfo + SHARE_HASHTAG)
+                Utility.getShareActions(getActivity(), sharedInfo + SHARE_HASHTAG)
                         .title(R.string.share_to).show();
             }
         });
