@@ -10,16 +10,15 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
-import static me.bitfrom.whattowatch.data.FilmsContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.CONTENT_AUTHORITY;
+import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
+import static me.bitfrom.whattowatch.data.FilmsContract.PATH_FILMS;
 
 /**
  * Created by Constantine with love.
  */
 public class FilmsProvider extends ContentProvider {
-
-    private static final String LOG_TAG = FilmsProvider.class.getSimpleName();
 
     // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -146,9 +145,6 @@ public class FilmsProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-
-        Log.d(LOG_TAG, "Deleted rows: " + rowsDeleted);
-        Log.d(LOG_TAG, "Uri: " + uri.toString());
 
         if (rowsDeleted != 0) getContext().getContentResolver().notifyChange(uri, null);
 

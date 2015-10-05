@@ -4,10 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,12 +19,18 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
+import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
-import me.bitfrom.whattowatch.utils.Utility;
+import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
+import me.bitfrom.whattowatch.utils.NetworkStateChecker;
+import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
+import me.bitfrom.whattowatch.utils.bus.RestSuccessEvent;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -38,6 +46,9 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     @Bind(R.id.films_list_empty)
     TextView mEmptyView;
+
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private FilmsRecyclerAdapter mMoviesAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -58,11 +69,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.movies_list, container, false);
+        View rootView = inflater.inflate(R.layout.randrom_films_fragment, container, false);
 
         ButterKnife.bind(this, rootView);
 
         initRecyclerView();
+        initSwipeToRefresh();
 
         return rootView;
     }
@@ -77,6 +89,18 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public void onAttach(Context context) {
         super.onAttach(context);
         uriTransfer = (UriTransfer) getActivity();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -96,11 +120,28 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mMoviesAdapter.swapCursor(data);
         updateEmptyView();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mMoviesAdapter.swapCursor(null);
+    }
+
+    /**
+     * If RxJava Observer's onComplete() method was called, we'll show complete message.
+     * **/
+    public void onEventMainThread(RestSuccessEvent event) {
+        MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
+                Snackbar.LENGTH_SHORT);
+    }
+
+    /**
+     * If RxJava Observer's onError() method was called, we'll show error message.
+     * **/
+    public void onEventMainThread(RestErrorEvent event) {
+        MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
+                Snackbar.LENGTH_LONG);
     }
 
 
@@ -123,13 +164,29 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
         );
     }
 
+    /**
+     * Update our list of films using swipe to refresh mechanism
+     * **/
+    private void initSwipeToRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (NetworkStateChecker.isNetworkAvailable(WWApplication.getAppContext())) {
+                    LoadRandomFilmsWeapon.loadFilms();
+                } else {
+                    NetworkStateChecker.showErrorMessage(mSwipeRefreshLayout);
+                }
+            }
+        });
+    }
+
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {
             TextView emptyView = (TextView) getView().findViewById(R.id.films_list_empty);
             if (null != emptyView) {
                 String message = getString(R.string.empty_films_list);
-                if (! Utility.isNetworkAvailable(getActivity())) {
-                    message = getString(R.string.no_network_available);
+                if (! NetworkStateChecker.isNetworkAvailable(WWApplication.getAppContext())) {
+                    message = getString(R.string.error_connection_unavailable);
                 }
                 emptyView.setText(message);
             }

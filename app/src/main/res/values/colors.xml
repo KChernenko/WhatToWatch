@@ -12,4 +12,12 @@
     <color name="splash_screen_appname_color">#FF9800</color>
 
     <color name="desc_text_color">#424242</color>
+
+    <color name="primary">#00BCD4</color>
+    <color name="primary_dark">#0097A7</color>
+    <color name="accent">#009688</color>
+    <color name="accent_translucent">#80FFEB3B</color>
+    <color name="accent_bright">#FFF493</color>
+
+    <color name="fragment_background">#EEEEEE</color>
 </resources>

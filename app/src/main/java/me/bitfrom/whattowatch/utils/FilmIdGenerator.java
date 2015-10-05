@@ -5,21 +5,21 @@ import java.util.Random;
 /**
  * Created by Constantine with love.
  */
-public class MovieGenerator {
+public class FilmIdGenerator {
 
-    private static volatile MovieGenerator mMovieGenerator;
+    private static volatile FilmIdGenerator mFilmGenerator;
 
-    private MovieGenerator() {
+    private FilmIdGenerator() {
 
     }
 
-    public static MovieGenerator getGenerator() {
-        MovieGenerator localGenerator = mMovieGenerator;
+    public static FilmIdGenerator getGenerator() {
+        FilmIdGenerator localGenerator = mFilmGenerator;
         if (localGenerator == null) {
-            synchronized (MovieGenerator.class) {
-                localGenerator = mMovieGenerator;
+            synchronized (FilmIdGenerator.class) {
+                localGenerator = mFilmGenerator;
                 if (localGenerator == null) {
-                    mMovieGenerator = localGenerator = new MovieGenerator();
+                    mFilmGenerator = localGenerator = new FilmIdGenerator();
                 }
             }
         }
@@ -31,7 +31,7 @@ public class MovieGenerator {
      * Generates an id of film in diapason between 1 and 250
      * @return random number
      * **/
-    public int getRandomMovieID() {
+    public int getRandomFilmID() {
 
         final int min = 1;
         final int max = 249;

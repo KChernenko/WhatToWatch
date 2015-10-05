@@ -2,7 +2,6 @@ package me.bitfrom.whattowatch.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,14 +16,12 @@ import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
-import me.bitfrom.whattowatch.utils.bus.ServerMessageEvent;
 
 
 public class MainActivity extends AppCompatActivity implements UriTransfer, IpositionId{
@@ -66,30 +63,6 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
         };
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
-    /**
-     * Shows a snackbar if an event was triggered
-     * @param event ServerMessageEvent
-     * **/
-    public void onEventMainThread(ServerMessageEvent event) {
-        if (event != null) {
-            Snackbar.make(drawerLayout, event.getMessage(), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.snackbar_close_app, mOnClickListener)
-                    .show();
-        }
     }
 
     @Override

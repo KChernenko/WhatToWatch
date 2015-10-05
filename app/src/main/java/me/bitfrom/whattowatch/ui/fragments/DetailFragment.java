@@ -28,7 +28,7 @@ import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
-import me.bitfrom.whattowatch.utils.Utility;
+import me.bitfrom.whattowatch.utils.ShareUtility;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -203,7 +203,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.getShareActions(getActivity(), sharedInfo + SHARE_HASHTAG)
+                ShareUtility.getShareActions(getActivity(), sharedInfo + SHARE_HASHTAG)
                         .title(R.string.share_to).show();
             }
         });

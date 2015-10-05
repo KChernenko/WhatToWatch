@@ -1,16 +1,17 @@
 package me.bitfrom.whattowatch.domain.weapons;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.rest.RestClient;
 import me.bitfrom.whattowatch.rest.model.Film;
-import me.bitfrom.whattowatch.utils.MovieGenerator;
+import me.bitfrom.whattowatch.utils.FilmIdGenerator;
 import me.bitfrom.whattowatch.utils.Utility;
+import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
+import me.bitfrom.whattowatch.utils.bus.RestSuccessEvent;
 import rx.Observer;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -19,8 +20,6 @@ import rx.schedulers.Schedulers;
  * Created by Constantine with love.
  */
 public class LoadRandomFilmsWeapon {
-
-    private static final String LOG_TAG = LoadRandomFilmsWeapon.class.getSimpleName();
 
     public static void loadFilms() {
         RestClient restClient = new RestClient();
@@ -43,12 +42,12 @@ public class LoadRandomFilmsWeapon {
                 .subscribe(new Observer<List<Film>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(LOG_TAG, "Successfully finished!");
+                        EventBus.getDefault().post(new RestSuccessEvent("List of films was updated!"));
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(LOG_TAG, "Something went wrong!");
+                        EventBus.getDefault().post(new RestErrorEvent("Something went wrong! Try later."));
                         e.printStackTrace();
                     }
 
@@ -71,7 +70,7 @@ public class LoadRandomFilmsWeapon {
         HashSet<Integer> randomMoviesNumbers = new HashSet<>();
 
         while (randomMoviesNumbers.size() < numberOfMovies) {
-            randomMoviesNumbers.add(MovieGenerator.getGenerator().getRandomMovieID());
+            randomMoviesNumbers.add(FilmIdGenerator.getGenerator().getRandomFilmID());
         }
 
         return randomMoviesNumbers;

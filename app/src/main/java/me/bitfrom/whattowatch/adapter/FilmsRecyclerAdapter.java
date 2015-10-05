@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
 
-import static me.bitfrom.whattowatch.data.FilmsContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
 /**
  * Created by Constantine with love.
@@ -217,7 +217,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.movie_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.film_item, parent, false);
 
         return new ViewHolder(view);
     }

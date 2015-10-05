@@ -1,15 +1,8 @@
 package me.bitfrom.whattowatch.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-
-import com.cocosw.bottomsheet.BottomSheet;
-import com.cocosw.bottomsheet.BottomSheetHelper;
 
 import me.bitfrom.whattowatch.R;
 
@@ -67,33 +60,5 @@ public class Utility {
         }
 
         return updateInterval;
-    }
-
-    /**
-     * Returns true if the network is available or about become available.
-     * @param context used to get the ConnectivityManager
-     * @return boolean statement
-     * **/
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    /**
-     * Returns bottom sheet builder object, that provides lollipop's like share action via bottom sheet.
-     * @param activity activity instance
-     * @param text text you want to share
-     * @return shareAction bottom sheet
-     * **/
-    public static BottomSheet.Builder getShareActions(Activity activity, String text) {
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-
-        return BottomSheetHelper.shareAction(activity, shareIntent);
     }
 }

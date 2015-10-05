@@ -1,13 +1,13 @@
 package me.bitfrom.whattowatch.utils.bus;
 
 /**
- * Created by Constantine on 29.07.2015.
+ * Created by Constantine on 05.10.2015.
  */
-public class ServerMessageEvent {
+public class RestSuccessEvent {
 
-    private final String message;
+    private String message;
 
-    public ServerMessageEvent(String message) {
+    public RestSuccessEvent(String message) {
         this.message = message;
     }
 
