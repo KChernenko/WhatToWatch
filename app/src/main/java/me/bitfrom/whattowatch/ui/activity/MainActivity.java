@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.leakcanary.RefWatcher;
@@ -22,11 +21,10 @@ import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
+import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 
 
 public class MainActivity extends AppCompatActivity implements UriTransfer, IpositionId{
-
-    private View.OnClickListener mOnClickListener;
 
     @Bind(R.id.main_toolbar)
     Toolbar toolbar;
@@ -56,13 +54,6 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
             getSupportFragmentManager().beginTransaction().add(R.id.main_container, new RandomFilmsFragment())
                     .commit();
         }
-
-        mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-        };
     }
 
     @Override
@@ -82,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         RefWatcher refWatcher = WWApplication.getRefWatcher();
         refWatcher.watch(this);
+        super.onDestroy();
     }
 
     /**
@@ -111,10 +102,32 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
+                selectDrawerItem(menuItem);
                 return true;
             }
         });
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.drawer_settings:
+                SettingsFragment sf = new SettingsFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, sf)
+                        .setTransitionStyle(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            default:
+                RandomFilmsFragment rf = new RandomFilmsFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, rf)
+                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+        }
+        menuItem.setCheckable(true);
+        drawerLayout.closeDrawers();
     }
 
     @Override

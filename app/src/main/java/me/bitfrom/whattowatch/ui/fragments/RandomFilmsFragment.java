@@ -10,6 +10,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,6 +52,8 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private ActionBar actionBar;
+
     private FilmsRecyclerAdapter mMoviesAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -82,6 +86,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(CARDS_LOADER, null, this);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -95,6 +100,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (actionBar != null) actionBar.setTitle(R.string.app_name);
     }
 
     @Override

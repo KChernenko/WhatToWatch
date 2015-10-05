@@ -3,24 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListPreference
-        android:key="@string/pref_number_of_movies_key"
-        android:title="@string/pref_number_of_movies_label"
-        android:entries="@array/pref_number_of_movies_options"
-        android:entryValues="@array/pref_number_of_movies_values"
-        android:defaultValue="@string/pref_number_of_movies_seven_default"/>
+    <PreferenceCategory
+        android:title="@string/pref_general_section">
+        <ListPreference
+            android:key="@string/pref_number_of_movies_key"
+            android:title="@string/pref_number_of_movies_label"
+            android:entries="@array/pref_number_of_movies_options"
+            android:entryValues="@array/pref_number_of_movies_values"
+            android:defaultValue="@string/pref_number_of_movies_seven_default"/>
 
-    <ListPreference
-        android:key="@string/pref_frequency_of_updates_key"
-        android:title="@string/pref_frequency_of_updates_label"
-        android:entries="@array/pref_frequency_of_updates_options"
-        android:entryValues="@array/pref_frequency_of_updates_values"
-        android:defaultValue="@string/pref_frequency_of_updates_five"/>
+        <ListPreference
+            android:key="@string/pref_frequency_of_updates_key"
+            android:title="@string/pref_frequency_of_updates_label"
+            android:entries="@array/pref_frequency_of_updates_options"
+            android:entryValues="@array/pref_frequency_of_updates_values"
+            android:defaultValue="@string/pref_frequency_of_updates_five"/>
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:title="@string/pref_enable_notifications_label"
-        android:key="@string/pref_enable_notifications_key"
-        android:summaryOff="@string/pref_enable_notifications_false"
-        android:summaryOn="@string/pref_enable_notifications_true"
-        android:defaultValue="@string/pref_enable_notifications_default"/>
+    <PreferenceCategory
+        android:title="@string/pref_notification_section">
+        <CheckBoxPreference
+            android:title="@string/pref_enable_notifications_label"
+            android:key="@string/pref_enable_notifications_key"
+            android:summaryOff="@string/pref_enable_notifications_false"
+            android:summaryOn="@string/pref_enable_notifications_true"
+            android:defaultValue="@string/pref_enable_notifications_default"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
