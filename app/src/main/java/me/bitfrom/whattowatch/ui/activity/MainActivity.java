@@ -11,12 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
@@ -69,13 +66,6 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        RefWatcher refWatcher = WWApplication.getRefWatcher();
-        refWatcher.watch(this);
-        super.onDestroy();
     }
 
     /**
