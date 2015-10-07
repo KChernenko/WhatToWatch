@@ -41,8 +41,6 @@ import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
  */
 public class RandomFilmsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String LOG_TAG = RandomFilmsFragment.class.getSimpleName();
-
     @Bind(R.id.list_of_films)
     EmptyRecyclerView mRecyclerView;
 
