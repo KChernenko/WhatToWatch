@@ -31,6 +31,7 @@ import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
+import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessEvent;
 import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
 import me.bitfrom.whattowatch.utils.bus.RestSuccessEvent;
 
@@ -153,6 +154,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
                 Snackbar.LENGTH_LONG);
     }
 
+    /**
+     * If during first app's launch connection unavailable, we'll show error message.
+     * **/
+    public void onEventMainThread(ConnectionUnsuccessEvent event) {
+        updateEmptyView();
+    }
 
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getActivity());
