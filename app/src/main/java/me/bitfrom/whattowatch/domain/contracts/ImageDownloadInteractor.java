@@ -1,12 +1,17 @@
 package me.bitfrom.whattowatch.domain.contracts;
 
 import android.content.Context;
+import android.widget.ImageView;
+
 
 /**
  * Created by Constantine with love.
  */
 public interface ImageDownloadInteractor {
 
-     void downloadPoster(Context context, String posterUrl);
+    enum FLAG {LOAD, INSERT}
+
+    void loadPoster(Context context, String posterUrl,
+                     ImageView target, FLAG flag);
 
 }

@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,18 +91,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        EventBus.getDefault().unregister(this);
-//        super.onStop();
-//    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri baseUri = MoviesEntry.CONTENT_URI;
@@ -123,17 +109,6 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         mMoviesAdapter.swapCursor(null);
     }
 
-//    public void onEventMainThread(ServerMessageEvent event) {
-//        Log.d(LOG_TAG, "onEvent was triggered!");
-//        if (event != null) {
-//            serverIsDownMsg = event.getMessage();
-//            //Log.d(LOG_TAG, "MSG: " + serverIsDownMsg);
-//            //Toast.makeText(getActivity(), serverIsDownMsg, Toast.LENGTH_LONG).show();
-//            //Snackbar.make(mCoordinator, "Had a snack at Snackbar", Snackbar.LENGTH_LONG)
-//             //       .show();
-//        }
-//        serverIsAvailable = false;
-//    }
 
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {

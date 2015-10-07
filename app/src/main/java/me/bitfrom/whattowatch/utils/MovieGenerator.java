@@ -27,6 +27,10 @@ public class MovieGenerator {
         return localGenerator;
     }
 
+    /**
+     * Generates an id of film in diapason between 1 and 250
+     * @return random number
+     * **/
     public int getRandomMovieID() {
 
         final int min = 1;

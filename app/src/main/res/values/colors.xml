@@ -10,4 +10,6 @@
     <!--Splash screen colors-->
     <color name="splash_screen_background">#FFFFFF</color>
     <color name="splash_screen_appname_color">#FF9800</color>
+
+    <color name="desc_text_color">#424242</color>
 </resources>

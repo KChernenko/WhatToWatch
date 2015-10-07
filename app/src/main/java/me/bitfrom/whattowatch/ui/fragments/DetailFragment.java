@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,28 +7,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
+import me.bitfrom.whattowatch.domain.weapons.network.ImageDownloadWeapon;
+import me.bitfrom.whattowatch.utils.ScrollManager;
+import me.bitfrom.whattowatch.utils.Utility;
 
 import static me.bitfrom.whattowatch.data.MoviesContract.*;
 
 /**
  * Created by Constantine with love.
  */
-public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, IpositionId {
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        IpositionId {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private Uri mUri;
@@ -51,8 +51,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             MoviesEntry.COLUMN_URL_IMDB
     };
 
-    private static final String SHARE_HASHTAG = " #WhatToWatch";
-    private ShareActionProvider mShareActionProvider;
+    private static final String SHARE_HASHTAG = " #WhatToWatchApp";
     private String mMovieShareInfo;
 
     private ImageView mPosterView;
@@ -66,19 +65,29 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mWritersView;
     private TextView mPlotView;
 
+    private ImageDownloadInteractor mImageWeapon;
+
+    private ScrollView mScrollView;
+
+    private FloatingActionsMenu mBtnAction;
+    private FloatingActionButton mBtnSaveToFav;
+    private FloatingActionButton mBtnShare;
+
     public DetailFragment() {
-        setHasOptionsMenu(true);
+        mImageWeapon = new ImageDownloadWeapon();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         Bundle extras = getActivity().getIntent().getExtras();
 
         if (extras != null) {
             mUri = Uri.parse(extras.getString(ID_KEY));
         }
+
+        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
 
         mPosterView = (ImageView) rootView.findViewById(R.id.poster);
         mTitleView = (TextView) rootView.findViewById(R.id.tv_title);
@@ -90,6 +99,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mDirectorsView = (TextView) rootView.findViewById(R.id.director);
         mWritersView = (TextView) rootView.findViewById(R.id.writers);
         mPlotView = (TextView) rootView.findViewById(R.id.plot);
+
+        initFabs(rootView);
+
+        ScrollManager manager = new ScrollManager();
+        manager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
         return rootView;
     }
@@ -106,19 +120,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.detailfragment, menu);
-        // Retrieve the share menu item
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        // Get the provider and hold onto it to set/change the share intent.
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-
-        if (mMovieShareInfo == null) {
-            mShareActionProvider.setShareIntent(createShareMovieIntent());
-        }
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -145,15 +146,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    private Intent createShareMovieIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mMovieShareInfo + SHARE_HASHTAG);
-
-        return shareIntent;
-    }
-
     private void loadMovieInfo(Cursor data) {
         if (data != null && data.moveToFirst()) {
             String posterUrl = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_URL_POSTER));
@@ -167,12 +159,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String writer = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_WRITERS));
             String plot = data.getString(data.getColumnIndex(MoviesEntry.COLUMN_PLOT));
 
-            Picasso.with(getActivity())
-                    .load(posterUrl)
-                    .placeholder(R.drawable.progress_animation)
-                    .resize(205, 310)
-                    .centerCrop()
-                    .into(mPosterView);
+            mImageWeapon.loadPoster(getActivity(), posterUrl, mPosterView,
+                    ImageDownloadWeapon.FLAG.INSERT);
+
             mTitleView.setText(title);
             mCountriesView.setText(country);
             mYearView.setText(year);
@@ -183,18 +172,33 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mWritersView.setText(writer);
             mPlotView.setText(plot);
 
-            enableShareActionProvider(title, rating, director, genres);
+            share(title, rating, director, genres);
         }
     }
 
-    private void enableShareActionProvider(String title, String rating, String director, String genres) {
+    private void share(String title, String rating, String director, String genres) {
+
         mMovieShareInfo = getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
                 getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
                 getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n";
 
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.getShareActions(getActivity(), mMovieShareInfo + SHARE_HASHTAG)
+                        .title(R.string.share_to).show();
+            }
+        });
+    }
 
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(createShareMovieIntent());
-        }
+    private void initFabs(View rootView) {
+
+        mBtnAction = (FloatingActionsMenu) rootView.findViewById(R.id.multiple_actions);
+        mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
+
+        mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
+        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
+
     }
 }

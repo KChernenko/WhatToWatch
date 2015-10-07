@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
@@ -20,8 +18,6 @@ import me.bitfrom.whattowatch.utils.ServerMessageEvent;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
     private CoordinatorLayout mCoordinator;
     private View.OnClickListener mOnClickListener;
 
@@ -29,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_container);
 
         if(savedInstanceState == null) {
@@ -58,8 +55,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Shows a snackbar if an event was triggered
+     * @param event
+     * **/
     public void onEventMainThread(ServerMessageEvent event) {
-        Log.d(LOG_TAG, "onEvent was triggered!");
         if (event != null) {
             Snackbar.make(mCoordinator, event.getMessage(), Snackbar.LENGTH_LONG)
                     .setAction(R.string.snackbar_close_app, mOnClickListener)
