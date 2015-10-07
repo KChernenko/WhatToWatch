@@ -155,7 +155,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     }
 
     /**
-     * If during first app's launch connection unavailable, we'll show error message.
+     * If during the first app's launch connection unavailable, we'll show error message.
      * **/
     public void onEventMainThread(ConnectionUnsuccessEvent event) {
         updateEmptyView();

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="7dp"
-    android:paddingRight="7dp">
+    android:paddingLeft="@dimen/item_layout_padding"
+    android:paddingRight="@dimen/item_layout_padding">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:cardCornerRadius="8dp"
+        android:layout_marginTop="@dimen/item_card_margin_top"
+        android:elevation="@dimen/item_card_elevation"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground">
         <LinearLayout
@@ -20,13 +19,13 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="115dp"
-                android:layout_height="170dp"
+                android:layout_width="@dimen/item_image_width"
+                android:layout_height="@dimen/item_image_height"
                 android:id="@+id/poster"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginLeft="@dimen/item_image_margin_left"
+                android:layout_marginRight="@dimen/item_image_margin_right"
+                android:layout_marginTop="@dimen/item_image_margin_top"
+                android:layout_marginBottom="@dimen/item_image_margin_bottom" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -35,42 +34,42 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:id="@+id/tv_title"
+                    android:layout_height="@dimen/item_title_height"
+                    android:layout_weight="0.83"
+                    android:layout_marginRight="@dimen/item_title_margin_right"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
+                    android:id="@+id/tv_title"
                     android:textColor="@color/cv_title_color"
                     android:textStyle="bold"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/item_title_text_size"
                     android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:layout_weight="0.83"
-                    android:layout_marginRight="5dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:singleLine="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/item_director_height"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/cv_director"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_weight="0.55"
-                    android:textColor="#424242" />
+                    android:textColor="@color/cv_director_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/item_genre_height"
                     android:id="@+id/cv_genre"
                     android:layout_weight="0.45"
                     android:gravity="top|center"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/item_genre_text_size" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.4"
-                    android:layout_marginRight="5dp">
+                    android:layout_marginRight="@dimen/item_margin_right">
 
                     <TextView
                         android:layout_width="wrap_content"

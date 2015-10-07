@@ -3,16 +3,34 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="spacing_xsmall">2dp</dimen>
-    <dimen name="spacing_medium">5dp</dimen>
-    <dimen name="spacing_xmedium">8dp</dimen>
-    <dimen name="spacing_large">16dp</dimen>
-    <dimen name="spacing_xlarge">32dp</dimen>
+    <!-- Dimens for the detail_layout -->
+    <dimen name="detail_scroll_view_padding_top">300dp</dimen>
+    <dimen name="detail_card_elevation">8dp</dimen>
+    <dimen name="detail_label_width_0">0dp</dimen>
+    <dimen name="detail_margin_16">16dp</dimen>
+    <dimen name="detail_margin_8">8dp</dimen>
+    <dimen name="detail_margin_5">5dp</dimen>
+    <dimen name="detail_label_text_size">16sp</dimen>
+    <dimen name="detail_content_text_size">15sp</dimen>
+    <dimen name="detail_plot_text_size">18sp</dimen>
 
-    <dimen name="elevation_low">9dp</dimen>
-    <dimen name="elevation_high">12dp</dimen>
-    <dimen name="fab_compat_margin">0dp</dimen>
+    <!-- Dimens for the film_item -->
+    <dimen name="item_layout_padding">7dp</dimen>
+    <dimen name="item_card_margin_top">4dp</dimen>
+    <dimen name="item_card_elevation">4dp</dimen>
+    <dimen name="item_image_width">115dp</dimen>
+    <dimen name="item_image_height">170dp</dimen>
+    <dimen name="item_image_margin_left">5dp</dimen>
+    <dimen name="item_image_margin_right">10dp</dimen>
+    <dimen name="item_image_margin_top">5dp</dimen>
+    <dimen name="item_image_margin_bottom">5dp</dimen>
+    <dimen name="item_title_height">0dp</dimen>
+    <dimen name="item_title_margin_right">5dp</dimen>
+    <dimen name="item_title_text_size">22sp</dimen>
+    <dimen name="item_director_height">0dp</dimen>
+    <dimen name="item_genre_height">0dp</dimen>
+    <dimen name="item_genre_text_size">14sp</dimen>
+    <dimen name="item_margin_right">5dp</dimen>
 
     <!-- Dimens for drawer_header -->
     <dimen name="header_layout_height">172dp</dimen>
@@ -20,5 +38,9 @@
     <dimen name="header_avatar_sizes">64dp</dimen>
     <dimen name="header_avatar_elevation">4dp</dimen>
     <dimen name="header_spacing_large">16dp</dimen>
+
+    <!-- Dimens for random_films_fragment -->
+    <dimen name="random_empty_text_padding">16dp</dimen>
+    <dimen name="random_empty_text_size">20sp</dimen>
 
 </resources>

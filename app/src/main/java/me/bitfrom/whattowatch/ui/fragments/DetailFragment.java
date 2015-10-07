@@ -59,7 +59,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String SHARE_HASHTAG = " #WhatToWatchApp";
 
-    @Bind(R.id.scrollView)
+    @Bind(R.id.detail_scroll_view)
     ScrollView mScrollView;
     @Bind(R.id.poster)
     ImageView mPosterView;
