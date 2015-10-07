@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.domain.weapons;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import me.bitfrom.whattowatch.R;
@@ -26,6 +27,7 @@ public class ImageDownloadWeapon implements ImageDownloadInteractor{
     }
 
     private void insertPoster(Context context, String posterUrl, ImageView target) {
-        Picasso.with(context).load(posterUrl).placeholder(R.drawable.progress_animation).into(target);
+        Picasso.with(context).load(posterUrl).networkPolicy(NetworkPolicy.OFFLINE)
+                .placeholder(R.drawable.progress_animation).into(target);
     }
 }
