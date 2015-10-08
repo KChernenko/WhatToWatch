@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     app:columnCount="2">
                     <TextView
-                        android:id="@+id/tv_title"
+                        android:id="@+id/cv_title"
                         android:layout_width="@dimen/detail_label_width_0"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/detail_margin_16"

@@ -260,7 +260,7 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
             super(itemView);
 
             poster = (ImageView) itemView.findViewById(R.id.poster);
-            title = (TextView) itemView.findViewById(R.id.tv_title);
+            title = (TextView) itemView.findViewById(R.id.cv_title);
             director = (TextView) itemView.findViewById(R.id.cv_director);
             genres = (TextView) itemView.findViewById(R.id.cv_genre);
             rating = (TextView) itemView.findViewById(R.id.cv_rating);

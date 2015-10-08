@@ -31,6 +31,7 @@
     <dimen name="item_genre_height">0dp</dimen>
     <dimen name="item_genre_text_size">14sp</dimen>
     <dimen name="item_margin_right">5dp</dimen>
+    <dimen name="item_layout_height">0dp</dimen>
 
     <!-- Dimens for drawer_header -->
     <dimen name="header_layout_height">172dp</dimen>

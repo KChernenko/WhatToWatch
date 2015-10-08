@@ -63,7 +63,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     ScrollView mScrollView;
     @Bind(R.id.poster)
     ImageView mPosterView;
-    @Bind(R.id.tv_title)
+    @Bind(R.id.cv_title)
     TextView mTitleView;
     @Bind(R.id.country)
     TextView mCountriesView;
