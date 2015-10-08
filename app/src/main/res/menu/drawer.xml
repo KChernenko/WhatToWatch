@@ -11,6 +11,11 @@
             android:title="@string/drawer_item_home"/>
 
         <item
+            android:id="@+id/drawer_favorites"
+            android:icon="@drawable/ic_favorite_white_24dp"
+            android:title="@string/drawer_item_favorites"/>
+
+        <item
             android:id="@+id/drawer_settings"
             android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/drawer_item_settings"/>
