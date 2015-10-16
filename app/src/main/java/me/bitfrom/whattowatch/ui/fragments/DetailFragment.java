@@ -29,6 +29,7 @@ import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.ShareUtility;
+import rx.Subscription;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -90,6 +91,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private FloatingActionButton mBtnSaveToFav;
     private FloatingActionButton mBtnShare;
 
+    private Subscription subscription;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -123,6 +126,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onAttach(context);
         actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
     }
+
 
     @Override
     public void onStop() {
@@ -219,4 +223,5 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
 
     }
+
 }

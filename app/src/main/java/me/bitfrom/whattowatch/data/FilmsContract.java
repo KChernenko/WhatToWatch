@@ -67,6 +67,8 @@ public class FilmsContract {
 
         public static final String COLUMN_DATE = "date";
 
+        public static final String COLUMN_FAVORITE = "favorite";
+
 
         public static Uri buildFilmsUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

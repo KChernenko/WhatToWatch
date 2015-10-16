@@ -13,5 +13,5 @@ import rx.Observable;
 public interface FilmsAPI {
     
     @GET("top?format=JSON&start=1&end=250&data=F")
-    Observable<List<Film>> getMovies(@Query("token") String token);
+    Observable<List<Film>> getFilms(@Query("token") String token);
 }

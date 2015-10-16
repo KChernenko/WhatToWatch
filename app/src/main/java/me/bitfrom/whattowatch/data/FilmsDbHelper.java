@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static me.bitfrom.whattowatch.data.FilmsContract.*;
+import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
 /**
  * Created by Constantine with love.
@@ -35,7 +35,8 @@ public class FilmsDbHelper extends SQLiteOpenHelper {
                 FilmsEntry.COLUMN_RATING + " TEXT NOT NULL, " +
                 FilmsEntry.COLUMN_PLOT + " TEXT NOT NULL, " +
                 FilmsEntry.COLUMN_URL_IMDB + " TEXT NOT NULL, " +
-                FilmsEntry.COLUMN_DATE + " TEXT NOT NULL" +
+                FilmsEntry.COLUMN_DATE + " TEXT NOT NULL, " +
+                FilmsEntry.COLUMN_FAVORITE + " INTEGER NOT NULL" +
                 " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIES_TABLE);

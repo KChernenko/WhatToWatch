@@ -24,6 +24,8 @@ public class SaveDataWeapon {
         GregorianCalendar calendar = new GregorianCalendar();
         long dateTime = calendar.getTimeInMillis();
 
+        final int notFavorite = 0;
+
         for (Film film: films) {
             ContentValues movieValues = new ContentValues();
 
@@ -39,6 +41,7 @@ public class SaveDataWeapon {
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_PLOT, film.getPlot());
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_IMDB, film.getUrlIMDB());
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_DATE, dateTime);
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_FAVORITE, notFavorite);
 
             imageWeapon.loadPoster(WWApplication.getAppContext(), film.getUrlPoster(), null, ImageDownloadWeapon.FLAG.LOAD);
 
@@ -54,8 +57,9 @@ public class SaveDataWeapon {
 
             // delete old data so we don't build up an endless history
             WWApplication.getAppContext().getContentResolver().delete(FilmsContract.FilmsEntry.CONTENT_URI,
-                    FilmsContract.FilmsEntry.COLUMN_DATE + " < ?",
-                    new String[] {Long.toString(dateTime)});
+                    FilmsContract.FilmsEntry.COLUMN_DATE + " < ?" + " AND "
+                            + FilmsContract.FilmsEntry.COLUMN_FAVORITE + " = ?",
+                    new String[] {Long.toString(dateTime), Integer.toString(notFavorite)});
 
             NotificationWeapon.updateNotifications(WWApplication.getAppContext());
         }
