@@ -26,24 +26,25 @@ public class SaveDataWeapon {
 
         final int notFavorite = 0;
 
-        for (Film film: films) {
+        final int filmsSize = films.size();
+        for (int i = 0; i < filmsSize; i++) {
             ContentValues movieValues = new ContentValues();
 
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_TITLE, film.getTitle());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_DIRECTORS, film.getDirectors().get(0).getName());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_GENRES, film.getGenres().toString());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_WRITERS, film.getWriters().get(0).getName());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_COUNTRIES, film.getCountries().get(0));
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_YEAR, film.getYear());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_RUNTIME, film.getRuntime().get(0));
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_POSTER, film.getUrlPoster());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_RATING, film.getRating());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_PLOT, film.getPlot());
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_IMDB, film.getUrlIMDB());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_TITLE, films.get(i).getTitle());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_DIRECTORS, films.get(i).getDirectors().get(0).getName());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_GENRES, films.get(i).getGenres().toString());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_WRITERS, films.get(i).getWriters().get(0).getName());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_COUNTRIES, films.get(i).getCountries().get(0));
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_YEAR, films.get(i).getYear());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_RUNTIME, films.get(i).getRuntime().get(0));
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_POSTER, films.get(i).getUrlPoster());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_RATING, films.get(i).getRating());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_PLOT, films.get(i).getPlot());
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_IMDB, films.get(i).getUrlIMDB());
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_DATE, dateTime);
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_FAVORITE, notFavorite);
 
-            imageWeapon.loadPoster(ImageDownloadWeapon.FLAG.LOAD, film.getUrlPoster(), null);
+            imageWeapon.loadPoster(ImageDownloadWeapon.FLAG.LOAD, films.get(i).getUrlPoster(), null);
 
             cVVector.add(movieValues);
         }
