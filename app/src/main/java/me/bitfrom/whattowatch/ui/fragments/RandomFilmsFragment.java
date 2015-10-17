@@ -31,9 +31,9 @@ import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
-import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessEvent;
+import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
 import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
-import me.bitfrom.whattowatch.utils.bus.RestSuccessEvent;
+import me.bitfrom.whattowatch.utils.bus.RestSuccessfulEvent;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -141,7 +141,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     /**
      * If RxJava Observer's onComplete() method was called, we'll show complete message.
      * **/
-    public void onEventMainThread(RestSuccessEvent event) {
+    public void onEventMainThread(RestSuccessfulEvent event) {
         MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
                 Snackbar.LENGTH_SHORT);
     }
@@ -152,12 +152,13 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public void onEventMainThread(RestErrorEvent event) {
         MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
                 Snackbar.LENGTH_LONG);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /**
      * If during the first app's launch connection unavailable, we'll show error message.
      * **/
-    public void onEventMainThread(ConnectionUnsuccessEvent event) {
+    public void onEventMainThread(ConnectionUnsuccessfulEvent event) {
         updateEmptyView();
     }
 

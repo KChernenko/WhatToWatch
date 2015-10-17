@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.domain.contracts;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 
@@ -9,9 +8,8 @@ import android.widget.ImageView;
  */
 public interface ImageDownloadInteractor {
 
-    enum FLAG {LOAD, INSERT}
+    enum FLAG {LOAD, FULL_SIZE, CROPPED_SIZE}
 
-    void loadPoster(Context context, String posterUrl,
-                     ImageView target, FLAG flag);
+    void loadPoster(FLAG flag, String posterUrl, ImageView target);
 
 }

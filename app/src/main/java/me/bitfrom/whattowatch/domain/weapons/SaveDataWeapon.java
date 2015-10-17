@@ -43,7 +43,7 @@ public class SaveDataWeapon {
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_DATE, dateTime);
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_FAVORITE, notFavorite);
 
-            imageWeapon.loadPoster(WWApplication.getAppContext(), film.getUrlPoster(), null, ImageDownloadWeapon.FLAG.LOAD);
+            imageWeapon.loadPoster(ImageDownloadWeapon.FLAG.LOAD, film.getUrlPoster(), null);
 
             cVVector.add(movieValues);
         }

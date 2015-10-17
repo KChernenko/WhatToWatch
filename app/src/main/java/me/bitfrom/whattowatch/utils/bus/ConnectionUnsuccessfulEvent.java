@@ -1,13 +1,13 @@
 package me.bitfrom.whattowatch.utils.bus;
 
 /**
- * Created by Constantine on 05.10.2015.
+ * Created by Constantine on 07.10.2015.
  */
-public class RestSuccessEvent {
+public class ConnectionUnsuccessfulEvent {
 
     private String message;
 
-    public RestSuccessEvent(String message) {
+    public ConnectionUnsuccessfulEvent(String message) {
         this.message = message;
     }
 

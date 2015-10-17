@@ -181,8 +181,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String writer = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_WRITERS));
             String plot = data.getString(data.getColumnIndex(FilmsEntry.COLUMN_PLOT));
 
-            mImageWeapon.loadPoster(getActivity(), posterUrl, mPosterView,
-                    ImageDownloadWeapon.FLAG.INSERT);
+            mImageWeapon.loadPoster(ImageDownloadWeapon.FLAG.FULL_SIZE,
+                    posterUrl, mPosterView);
 
             mTitleView.setText(title);
             mCountriesView.setText(country);

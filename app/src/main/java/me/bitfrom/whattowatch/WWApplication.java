@@ -10,7 +10,7 @@ import com.squareup.leakcanary.RefWatcher;
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
-import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessEvent;
+import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
 
 /**
  * Created by Constantine on 04.10.2015.
@@ -66,7 +66,7 @@ public class WWApplication extends Application {
                 pref.edit().putBoolean(FIRST_LAUNCH, false).commit();
             } else {
                 EventBus.getDefault()
-                        .post(new ConnectionUnsuccessEvent(getString(R.string.error_connection_unavailable)));
+                        .post(new ConnectionUnsuccessfulEvent(getString(R.string.error_connection_unavailable)));
             }
         }
     }

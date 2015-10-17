@@ -15,9 +15,9 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
+import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -39,9 +39,12 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
     public static final int FLAG_AUTO_REQUERY = 0x01;
     public static final int FLAG_REGISTER_CONTENT_OBSERVER = 0x02;
 
+    private ImageDownloadInteractor imageDownloadInteractor;
+
     //Recommended
     public FilmsRecyclerAdapter(Context context, Cursor c, int flags) {
         init(context, c, flags);
+        imageDownloadInteractor = new ImageDownloadWeapon();
     }
 
     public FilmsRecyclerAdapter(Context context, Cursor c) {
@@ -227,12 +230,9 @@ public class FilmsRecyclerAdapter extends RecyclerView.Adapter<FilmsRecyclerAdap
 
         final Cursor cursor = getItem(position);
 
-        Picasso.with(mContext).load(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_URL_POSTER)))
-                .error(R.mipmap.ic_launcher)
-                .placeholder(R.drawable.progress_animation)
-                .resize(115, 170)
-                .centerCrop()
-                .into(holder.poster);
+        imageDownloadInteractor.loadPoster(ImageDownloadInteractor.FLAG.CROPPED_SIZE,
+                cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_URL_POSTER)),
+                holder.poster);
 
         holder.title.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_TITLE)));
         holder.director.setText(cursor.getString(cursor.getColumnIndex(FilmsEntry.COLUMN_DIRECTORS)));

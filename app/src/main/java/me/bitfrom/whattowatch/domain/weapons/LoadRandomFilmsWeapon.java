@@ -9,7 +9,7 @@ import me.bitfrom.whattowatch.rest.RestClient;
 import me.bitfrom.whattowatch.rest.model.Film;
 import me.bitfrom.whattowatch.utils.Utility;
 import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
-import me.bitfrom.whattowatch.utils.bus.RestSuccessEvent;
+import me.bitfrom.whattowatch.utils.bus.RestSuccessfulEvent;
 import rx.Observer;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -28,9 +28,9 @@ public class LoadRandomFilmsWeapon {
 
     /**
      * The method where our "magic" happens. Loads data from the server using RxJava,
-     * shuffle collection of received data, takes selected amount of items form the
-     * SharedPreferences and passes items to the save method. Need to be synchronized,
-     * because it possible that user wants update the data when SyncAdapter prepared to update it.
+     * shuffle collection of the received data, takes selected amount of items form the
+     * SharedPreferences and passes the list of items to the save method. Need to be synchronized,
+     * because it possible that user wants to update the data when SyncAdapter prepared to update it.
      * **/
     public static synchronized void loadFilms() {
 
@@ -48,7 +48,7 @@ public class LoadRandomFilmsWeapon {
                 .subscribe(new Observer<List<Film>>() {
                     @Override
                     public void onCompleted() {
-                        EventBus.getDefault().post(new RestSuccessEvent(SUCCESS_MESSAGE));
+                        EventBus.getDefault().post(new RestSuccessfulEvent(SUCCESS_MESSAGE));
                     }
 
                     @Override
