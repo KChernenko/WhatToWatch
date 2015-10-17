@@ -22,6 +22,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
@@ -38,27 +39,6 @@ import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
  */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         IpositionId {
-
-    private Uri mUri;
-
-    private static final int DETAIL_LOADER = 1;
-
-    private static final String[] DETAIL_COLUMNS = {
-            FilmsEntry.TABLE_NAME + "." + FilmsEntry._ID,
-            FilmsEntry.COLUMN_URL_POSTER,
-            FilmsEntry.COLUMN_TITLE,
-            FilmsEntry.COLUMN_COUNTRIES,
-            FilmsEntry.COLUMN_YEAR,
-            FilmsEntry.COLUMN_RUNTIME,
-            FilmsEntry.COLUMN_RATING,
-            FilmsEntry.COLUMN_GENRES,
-            FilmsEntry.COLUMN_DIRECTORS,
-            FilmsEntry.COLUMN_WRITERS,
-            FilmsEntry.COLUMN_PLOT,
-            FilmsEntry.COLUMN_URL_IMDB
-    };
-
-    private static final String SHARE_HASHTAG = " #WhatToWatchApp";
 
     @Bind(R.id.detail_scroll_view)
     ScrollView mScrollView;
@@ -83,13 +63,47 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Bind(R.id.plot)
     TextView mPlotView;
 
+    @Bind(R.id.multiple_actions)
+    FloatingActionsMenu mBtnAction;
+    @Bind(R.id.action_save_fav)
+    FloatingActionButton mBtnSaveToFav;
+    @Bind(R.id.action_share)
+    FloatingActionButton mBtnShare;
+
+    @BindString(R.string.app_name)
+    String mAppNameString;
+    @BindString(R.string.share_action_awesome_intro)
+    String mShareActionIntro;
+    @BindString(R.string.share_action_imdb_rating)
+    String mShareActionRating;
+    @BindString(R.string.share_action_director)
+    String mShareActionDirector;
+    @BindString(R.string.app_hash_tag)
+    String mShareHashTag;
+
+    private Uri mUri;
+
+    private static final int DETAIL_LOADER = 1;
+
+    private static final String[] DETAIL_COLUMNS = {
+            FilmsEntry.TABLE_NAME + "." + FilmsEntry._ID,
+            FilmsEntry.COLUMN_URL_POSTER,
+            FilmsEntry.COLUMN_TITLE,
+            FilmsEntry.COLUMN_COUNTRIES,
+            FilmsEntry.COLUMN_YEAR,
+            FilmsEntry.COLUMN_RUNTIME,
+            FilmsEntry.COLUMN_RATING,
+            FilmsEntry.COLUMN_GENRES,
+            FilmsEntry.COLUMN_DIRECTORS,
+            FilmsEntry.COLUMN_WRITERS,
+            FilmsEntry.COLUMN_PLOT,
+            FilmsEntry.COLUMN_URL_IMDB
+    };
+
     private ImageDownloadInteractor mImageWeapon;
 
     private ActionBar actionBar;
 
-    private FloatingActionsMenu mBtnAction;
-    private FloatingActionButton mBtnSaveToFav;
-    private FloatingActionButton mBtnShare;
 
     private Subscription subscription;
 
@@ -105,7 +119,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         ButterKnife.bind(this, rootView);
 
-        initFabs(rootView);
+        setFabsIcons();
 
         mImageWeapon = new ImageDownloadWeapon();
 
@@ -132,7 +146,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onStop() {
         super.onStop();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.app_name);
+            actionBar.setTitle(mAppNameString);
         }
     }
 
@@ -200,28 +214,22 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private void share(String title, String rating, String director, String genres) {
 
-        final StringBuilder sharedInfo = new StringBuilder(getString(R.string.share_action_awesome_intro) + " «" + title + "»" + "\n" +
-                getString(R.string.share_action_imdb_rating) + " " + rating + ".\n" +
-                getString(R.string.share_action_director) + " " + director + "\n" + genres + "\n");
+        final StringBuilder sharedInfo = new StringBuilder(mShareActionIntro + " «" + title + "»" + "\n" +
+                mShareActionRating + " " + rating + ".\n" +
+                mShareActionDirector + " " + director + "\n" + genres + "\n");
 
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareUtility.getShareActions(getActivity(), sharedInfo + SHARE_HASHTAG)
+                ShareUtility.getShareActions(getActivity(), sharedInfo + mShareHashTag)
                         .title(R.string.share_to).show();
             }
         });
     }
 
-    private void initFabs(View rootView) {
-
-        mBtnAction = (FloatingActionsMenu) rootView.findViewById(R.id.multiple_actions);
-        mBtnSaveToFav = (FloatingActionButton) rootView.findViewById(R.id.action_save_fav);
+    private void setFabsIcons() {
         mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
-
-        mBtnShare = (FloatingActionButton) rootView.findViewById(R.id.action_share);
         mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
-
     }
 
 }

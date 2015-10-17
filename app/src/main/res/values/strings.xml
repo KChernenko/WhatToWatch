@@ -86,6 +86,7 @@
     <string name="share_action_imdb_rating">which IMDB rating is</string>
     <string name="share_action_director">And directed by</string>
     <string name="share_to">Share via:</string>
+    <string name="app_hash_tag"> #WhatToWatchApp</string>
 
     <!-- Strings for error handling -->
     <string name="empty_films_list">No Films Information Available :(</string>

@@ -199,13 +199,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     private void updateEmptyView() {
         if (mMoviesAdapter.getCount() == 0) {
-            TextView emptyView = (TextView) getView().findViewById(R.id.films_list_empty);
-            if (null != emptyView) {
+            if (null != mEmptyView) {
                 String message = getString(R.string.empty_films_list);
                 if (! NetworkStateChecker.isNetworkAvailable(WWApplication.getAppContext())) {
                     message = getString(R.string.error_connection_unavailable);
                 }
-                emptyView.setText(message);
+                mEmptyView.setText(message);
             }
         }
     }
