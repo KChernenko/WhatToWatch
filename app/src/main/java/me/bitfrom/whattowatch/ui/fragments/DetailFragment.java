@@ -212,6 +212,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
     }
 
+    private void setFabsIcons() {
+        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
+        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
+    }
+
     private void share(String title, String rating, String director, String genres) {
 
         final StringBuilder sharedInfo = new StringBuilder(mShareActionIntro + " «" + title + "»" + "\n" +
@@ -226,10 +231,4 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             }
         });
     }
-
-    private void setFabsIcons() {
-        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
-        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
-    }
-
 }

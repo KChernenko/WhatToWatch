@@ -45,7 +45,6 @@ public class ImageDownloadWeapon implements ImageDownloadInteractor{
 
     private void loadCroppedPoster(String posterUrl, ImageView target) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .showImageOnLoading(R.drawable.progress_animation)
@@ -56,7 +55,6 @@ public class ImageDownloadWeapon implements ImageDownloadInteractor{
 
     private void loadFullSizePoster(String posterUrl, ImageView target) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .showImageOnLoading(R.drawable.progress_animation)

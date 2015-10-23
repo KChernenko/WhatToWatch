@@ -11,6 +11,7 @@ import me.bitfrom.whattowatch.utils.Utility;
 import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
 import me.bitfrom.whattowatch.utils.bus.RestSuccessfulEvent;
 import rx.Observer;
+import rx.Subscription;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -27,6 +28,12 @@ public class LoadRandomFilmsWeapon {
     private static RestClient restClient = new RestClient();
 
     /**
+     * We don't want that the Observer holds a strong reference to the Observable.
+     * So, we have to unsubscribe, if we want to prevent memory leak.
+     * **/
+    private static Subscription subscription;
+
+    /**
      * The method where our "magic" happens. Loads data from the server using RxJava,
      * shuffle collection of the received data, takes selected amount of items form the
      * SharedPreferences and passes the list of items to the save method. Need to be synchronized,
@@ -34,7 +41,7 @@ public class LoadRandomFilmsWeapon {
      * **/
     public static synchronized void loadFilms() {
 
-        restClient.getFilmsAPI().getFilms(WWApplication.getToken())
+        subscription = restClient.getFilmsAPI().getFilms(WWApplication.getToken())
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<List<Film>, List<Film>>() {
                     @Override
@@ -49,6 +56,7 @@ public class LoadRandomFilmsWeapon {
                     @Override
                     public void onCompleted() {
                         EventBus.getDefault().post(new RestSuccessfulEvent(SUCCESS_MESSAGE));
+                        subscription.unsubscribe();
                     }
 
                     @Override
