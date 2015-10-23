@@ -2,17 +2,22 @@ package me.bitfrom.whattowatch.domain.weapons;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 
 /**
  * Created by Constantine with love.
  */
 public class ImageDownloadWeapon implements ImageDownloadInteractor{
+
+    private ImageLoader imageLoader;
+
+    public ImageDownloadWeapon() {
+        this.imageLoader = ImageLoader.getInstance();
+    }
 
     public void loadPoster(FLAG flag, String posterUrl, ImageView target) {
         switch (flag) {
@@ -31,25 +36,32 @@ public class ImageDownloadWeapon implements ImageDownloadInteractor{
     }
 
     private void downloadPoster(String posterUrl) {
-        Picasso.with(WWApplication.getAppContext()).load(posterUrl);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .build();
+
+        imageLoader.loadImage(posterUrl, options, null);
     }
 
     private void loadCroppedPoster(String posterUrl, ImageView target) {
-        Picasso.with(WWApplication.getAppContext())
-                .load(posterUrl)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .error(R.mipmap.ic_launcher)
-                .placeholder(R.drawable.progress_animation)
-                .resize(115, 170)
-                .centerCrop()
-                .into(target);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.drawable.progress_animation)
+                .build();
+
+        imageLoader.displayImage(posterUrl, target, options);
     }
 
     private void loadFullSizePoster(String posterUrl, ImageView target) {
-        Picasso.with(WWApplication.getAppContext())
-                .load(posterUrl)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .placeholder(R.drawable.progress_animation)
-                .into(target);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.drawable.progress_animation)
+                .build();
+
+        imageLoader.displayImage(posterUrl, target, options);
     }
 }

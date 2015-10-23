@@ -4,8 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.utils.L;
 
 import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
@@ -17,9 +21,7 @@ import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
  */
 public class WWApplication extends Application {
 
-    private static WWApplication application;
     private static Context context;
-    private RefWatcher refWatcher;
 
     private SharedPreferences pref = null;
     private static final String FIRST_LAUNCH = "app_first_launch";
@@ -30,22 +32,28 @@ public class WWApplication extends Application {
     public void onCreate() {
         super.onCreate();
         WWApplication.context = getApplicationContext();
-        refWatcher = LeakCanary.install(this);
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache())
+                .diskCacheSize(100 * 1024 * 1024).build();
+
+        L.writeLogs(false);
+        ImageLoader.getInstance().init(config);
 
         loadDataIfFirstLaunch();
-    }
-
-    public static WWApplication get() {
-        return application;
     }
 
     public static Context getAppContext() {
         return WWApplication.context;
     }
 
-    public static RefWatcher getRefWatcher() {
-        return WWApplication.get().refWatcher;
-    }
 
     public static String getToken() {
         return TOKEN;
