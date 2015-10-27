@@ -209,6 +209,8 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
                 String message = getString(R.string.empty_films_list);
                 if (! NetworkStateChecker.isNetworkAvailable(WWApplication.getAppContext())) {
                     message = getString(R.string.error_connection_unavailable);
+                } else {
+                    LoadRandomFilmsWeapon.loadFilms();
                 }
                 mEmptyView.setText(message);
             }
