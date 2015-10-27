@@ -25,8 +25,8 @@
     <string name="undo_fav">Undo</string>
 
     <!-- Strings for FavoritesFragment -->
-    <string name="favorite_fragment_title">Favorite</string>
-    <string name="empty_favorite_list">There are no films in Favorite</string>
+    <string name="favorite_fragment_title">Favorites</string>
+    <string name="empty_favorite_list">There are no films in the Favorites</string>
 
     <!--Preferences information-->
 
