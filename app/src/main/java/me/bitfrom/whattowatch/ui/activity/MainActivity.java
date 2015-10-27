@@ -17,6 +17,7 @@ import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
+import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 
@@ -105,6 +106,14 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
                 getFragmentManager().beginTransaction()
                         .replace(R.id.main_container, sf)
                         .setTransitionStyle(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.drawer_favorites:
+                FavoritesFragment ff = new FavoritesFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, ff)
+                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
                         .commit();
                 break;

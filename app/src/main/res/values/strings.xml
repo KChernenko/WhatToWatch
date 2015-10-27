@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">What to watch?</string>
 
-    <!--Strings for MainActivity-->
+    <!-- Account type (for sync-adapter authenticator) -->
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">whattowatch.bitfrom.me</string>
+    <string name="content_authority">me.bitfrom.whattowatch</string>
+
+    <!-- Strings for MainActivity -->
     <string name="imdb_label">IMDB:</string>
 
-    <!--Strings for DetailFragment-->
+    <!-- Strings for DetailFragment -->
     <string name="release_year">Released:</string>
     <string name="runtime">Runtime:</string>
     <string name="country">Country:</string>
@@ -15,12 +20,14 @@
     <string name="writer">Writer:</string>
     <string name="actors">Actors:</string>
     <string name="plot_lbl">Plot</string>
+    <string name="successfully_added_to_fav">Successfully added to Favorites</string>
+    <string name="already_in_fav">Already in Favorites</string>
+    <string name="undo_fav">Undo</string>
+    <string name="deleted_from_fav">Deleted from Favorites</string>
 
-    <!-- Account type (for sync-adapter authenticator) -->
-    <!-- SyncAdapter related -->
-    <string name="sync_account_type">whattowatch.bitfrom.me</string>
-    <string name="content_authority">me.bitfrom.whattowatch</string>
-
+    <!-- Strings for FavoritesFragment -->
+    <string name="favorite_fragment_title">Favorite</string>
+    <string name="empty_favorite_list">There are no films in Favorite</string>
 
     <!--Preferences information-->
 

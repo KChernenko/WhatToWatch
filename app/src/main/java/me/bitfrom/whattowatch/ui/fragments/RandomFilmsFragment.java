@@ -26,6 +26,7 @@ import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
 import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
+import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
@@ -66,7 +67,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
             FilmsEntry.COLUMN_YEAR
     };
 
-    private static final int CARDS_LOADER = 0;
+    private static final int RANDOM_FILMS_LOADER = 0;
 
     private UriTransfer uriTransfer;
 
@@ -84,7 +85,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(CARDS_LOADER, null, this);
+        getLoaderManager().initLoader(RANDOM_FILMS_LOADER, null, this);
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         super.onActivityCreated(savedInstanceState);
     }
@@ -115,7 +116,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onDestroy() {
-        getLoaderManager().destroyLoader(CARDS_LOADER);
+        getLoaderManager().destroyLoader(RANDOM_FILMS_LOADER);
         super.onDestroy();
     }
 
@@ -123,7 +124,12 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri baseUri = FilmsEntry.CONTENT_URI;
 
-        return new CursorLoader(getActivity(), baseUri, CARDS_PROJECTION, null, null, null);
+        return new CursorLoader(getActivity(),
+                baseUri,
+                CARDS_PROJECTION,
+                FilmsEntry.COLUMN_FAVORITE + " =?",
+                new String[] {Integer.toString(FavoriteConstants.NOT_FAVORITE)},
+                null);
     }
 
     @Override

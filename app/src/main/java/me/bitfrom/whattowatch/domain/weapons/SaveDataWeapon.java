@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.FilmsContract;
+import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.rest.model.Film;
 
@@ -23,8 +24,6 @@ public class SaveDataWeapon {
 
         GregorianCalendar calendar = new GregorianCalendar();
         long dateTime = calendar.getTimeInMillis();
-
-        final int notFavorite = 0;
 
         final int filmsSize = films.size();
         for (int i = 0; i < filmsSize; i++) {
@@ -42,7 +41,7 @@ public class SaveDataWeapon {
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_PLOT, films.get(i).getPlot());
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_URL_IMDB, films.get(i).getUrlIMDB());
             movieValues.put(FilmsContract.FilmsEntry.COLUMN_DATE, dateTime);
-            movieValues.put(FilmsContract.FilmsEntry.COLUMN_FAVORITE, notFavorite);
+            movieValues.put(FilmsContract.FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
 
             imageWeapon.loadPoster(ImageDownloadWeapon.FLAG.LOAD, films.get(i).getUrlPoster(), null);
 
@@ -60,7 +59,7 @@ public class SaveDataWeapon {
             WWApplication.getAppContext().getContentResolver().delete(FilmsContract.FilmsEntry.CONTENT_URI,
                     FilmsContract.FilmsEntry.COLUMN_DATE + " < ?" + " AND "
                             + FilmsContract.FilmsEntry.COLUMN_FAVORITE + " = ?",
-                    new String[] {Long.toString(dateTime), Integer.toString(notFavorite)});
+                    new String[] {Long.toString(dateTime), Integer.toString(FavoriteConstants.NOT_FAVORITE)});
 
             NotificationWeapon.updateNotifications(WWApplication.getAppContext());
         }

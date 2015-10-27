@@ -1,10 +1,12 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,17 +22,21 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.jakewharton.rxbinding.view.RxView;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.ShareUtility;
 import rx.Subscription;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
@@ -80,6 +86,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     String mShareActionDirector;
     @BindString(R.string.app_hash_tag)
     String mShareHashTag;
+    @BindString(R.string.successfully_added_to_fav)
+    String mSuccessfullyAddedToFav;
+    @BindString(R.string.already_in_fav)
+    String mAlreadyInFav;
 
     private Uri mUri;
 
@@ -104,7 +114,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private ActionBar actionBar;
 
-
     private Subscription subscription;
 
     @Override
@@ -125,6 +134,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         ScrollManager manager = new ScrollManager();
         manager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
+
+        addToFavorite();
 
         return rootView;
     }
@@ -156,6 +167,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onDestroy();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
+        super.onDestroyView();
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -230,5 +248,44 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         .title(R.string.share_to).show();
             }
         });
+    }
+
+    public void addToFavorite() {
+        subscription = RxView.clicks(mBtnSaveToFav)
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        Cursor c = getContext().getContentResolver().query(
+                                mUri,
+                                new String[]{FilmsEntry.COLUMN_FAVORITE},
+                                null,
+                                null,
+                                null
+                        );
+                        if (c != null && c.moveToFirst()) {
+                            if (c.getInt(c.getColumnIndex(FilmsEntry.COLUMN_FAVORITE)) == FavoriteConstants.NOT_FAVORITE) {
+                                final ContentValues cv = new ContentValues();
+                                cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
+                                getContext().getContentResolver().update(mUri, cv, null, null);
+                                final Snackbar bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
+                                bar.setAction(R.string.undo_fav, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        cv.clear();
+                                        cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
+                                        getContext().getContentResolver().update(mUri, cv, null, null);
+                                        bar.setText(R.string.deleted_from_fav);
+                                        bar.setDuration(Snackbar.LENGTH_LONG);
+                                    }
+                                });
+                                bar.show();
+                            } else {
+                                Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                        if (c != null) c.close();
+                    }
+                });
     }
 }

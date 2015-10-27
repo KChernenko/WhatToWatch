@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/fragment_background">
+
+    <me.bitfrom.whattowatch.utils.EmptyRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/favorite_list"/>
+
+    <!-- Empty list -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/favorite_list_empty"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingLeft="@dimen/random_empty_text_padding"
+        android:paddingRight="@dimen/random_empty_text_padding"
+        android:paddingTop="@dimen/random_empty_text_padding"
+        android:paddingBottom="@dimen/random_empty_text_padding"
+        android:text="@string/empty_favorite_list"
+        android:textSize="@dimen/random_empty_text_size"
+        android:textStyle="bold|italic"/>
+
+</RelativeLayout>
