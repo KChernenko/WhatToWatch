@@ -20,10 +20,9 @@
     <string name="writer">Writer:</string>
     <string name="actors">Actors:</string>
     <string name="plot_lbl">Plot</string>
-    <string name="successfully_added_to_fav">Successfully added to Favorites</string>
-    <string name="already_in_fav">Already in Favorites</string>
-    <string name="undo_fav">Undo</string>
+    <string name="successfully_added_to_fav">Added to Favorites</string>
     <string name="deleted_from_fav">Deleted from Favorites</string>
+    <string name="undo_fav">Undo</string>
 
     <!-- Strings for FavoritesFragment -->
     <string name="favorite_fragment_title">Favorite</string>

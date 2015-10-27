@@ -88,7 +88,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     String mShareHashTag;
     @BindString(R.string.successfully_added_to_fav)
     String mSuccessfullyAddedToFav;
-    @BindString(R.string.already_in_fav)
+    @BindString(R.string.deleted_from_fav)
     String mAlreadyInFav;
 
     private Uri mUri;
@@ -263,12 +263,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                                 null,
                                 null
                         );
+                        final ContentValues cv = new ContentValues();
+                        final Snackbar bar;
                         if (c != null && c.moveToFirst()) {
                             if (c.getInt(c.getColumnIndex(FilmsEntry.COLUMN_FAVORITE)) == FavoriteConstants.NOT_FAVORITE) {
-                                final ContentValues cv = new ContentValues();
                                 cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
                                 getContext().getContentResolver().update(mUri, cv, null, null);
-                                final Snackbar bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
+                                bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
                                 bar.setAction(R.string.undo_fav, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -281,7 +282,20 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                                 });
                                 bar.show();
                             } else {
-                                Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG).show();
+                                cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
+                                getContext().getContentResolver().update(mUri, cv, null, null);
+                                bar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
+                                bar.setAction(R.string.undo_fav, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        cv.clear();
+                                        cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
+                                        getContext().getContentResolver().update(mUri, cv, null, null);
+                                        bar.setText(R.string.successfully_added_to_fav);
+                                        bar.setDuration(Snackbar.LENGTH_LONG);
+                                    }
+                                });
+                                bar.show();
                             }
                         }
                         if (c != null) c.close();
