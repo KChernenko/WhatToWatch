@@ -62,6 +62,9 @@ public class SaveDataWeapon {
                     new String[] {Long.toString(dateTime), Integer.toString(FavoriteConstants.NOT_FAVORITE)});
 
             NotificationWeapon.updateNotifications(WWApplication.getAppContext());
+
+            //No need after inserting values into the database
+            cVVector.clear();
         }
     }
 }

@@ -24,7 +24,7 @@ public class LoadRandomFilmsWeapon {
     private static final String SUCCESS_MESSAGE = "List of films was updated!";
     private static final String FAILURE_MESSAGE = "Something went wrong! Try later.";
 
-    /** Less object - less memory **/
+    /** Less objects - less memory **/
     private static RestClient restClient = new RestClient();
 
     /**
