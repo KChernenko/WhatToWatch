@@ -20,4 +20,6 @@
     <color name="accent_bright">#FFF493</color>
 
     <color name="fragment_background">#EEEEEE</color>
+
+    <color name="drawer_header_text">#000000</color>
 </resources>

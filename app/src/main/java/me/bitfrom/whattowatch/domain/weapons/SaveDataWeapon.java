@@ -2,9 +2,9 @@ package me.bitfrom.whattowatch.domain.weapons;
 
 import android.content.ContentValues;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Vector;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.FilmsContract;
@@ -19,7 +19,7 @@ public class SaveDataWeapon {
 
     public static void saveData(List<Film> films) {
 
-        Vector<ContentValues> cVVector = new Vector<>(films.size());
+        ArrayList<ContentValues> cVVector = new ArrayList<>(films.size());
         ImageDownloadInteractor imageWeapon = new ImageDownloadWeapon();
 
         GregorianCalendar calendar = new GregorianCalendar();
