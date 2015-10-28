@@ -1,8 +1,8 @@
 package me.bitfrom.whattowatch.ui.activity;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         avatar.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.main_container, new RandomFilmsFragment())
+            getFragmentManager().beginTransaction().add(R.id.main_container, new RandomFilmsFragment())
                     .commit();
         }
     }
@@ -67,6 +67,19 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void sendUri(String uri) {
+        DetailFragment df = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putString(ID_KEY, uri);
+        df.setArguments(args);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_container, df)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -111,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
                 break;
             case R.id.drawer_favorites:
                 FavoritesFragment ff = new FavoritesFragment();
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(R.id.main_container, ff)
                         .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
@@ -119,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
                 break;
             default:
                 RandomFilmsFragment rf = new RandomFilmsFragment();
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(R.id.main_container, rf)
                         .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
@@ -127,18 +140,5 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         }
         menuItem.setCheckable(true);
         drawerLayout.closeDrawers();
-    }
-
-    @Override
-    public void sendUri(String uri) {
-        DetailFragment df = new DetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ID_KEY, uri);
-        df.setArguments(args);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, df)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
     }
 }

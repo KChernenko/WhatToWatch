@@ -1,16 +1,16 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -256,7 +256,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 .subscribe(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
-                        Cursor c = getContext().getContentResolver().query(
+                        Cursor c = getActivity().getContentResolver().query(
                                 mUri,
                                 new String[]{FilmsEntry.COLUMN_FAVORITE},
                                 null,
@@ -268,14 +268,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                         if (c != null && c.moveToFirst()) {
                             if (c.getInt(c.getColumnIndex(FilmsEntry.COLUMN_FAVORITE)) == FavoriteConstants.NOT_FAVORITE) {
                                 cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
-                                getContext().getContentResolver().update(mUri, cv, null, null);
+                                getActivity().getContentResolver().update(mUri, cv, null, null);
                                 bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
                                 bar.setAction(R.string.undo_fav, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         cv.clear();
                                         cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
-                                        getContext().getContentResolver().update(mUri, cv, null, null);
+                                        getActivity().getContentResolver().update(mUri, cv, null, null);
                                         bar.setText(R.string.deleted_from_fav);
                                         bar.setDuration(Snackbar.LENGTH_LONG);
                                     }
@@ -283,14 +283,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                                 bar.show();
                             } else {
                                 cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
-                                getContext().getContentResolver().update(mUri, cv, null, null);
+                                getActivity().getContentResolver().update(mUri, cv, null, null);
                                 bar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
                                 bar.setAction(R.string.undo_fav, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         cv.clear();
                                         cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
-                                        getContext().getContentResolver().update(mUri, cv, null, null);
+                                        getActivity().getContentResolver().update(mUri, cv, null, null);
                                         bar.setText(R.string.successfully_added_to_fav);
                                         bar.setDuration(Snackbar.LENGTH_LONG);
                                     }
