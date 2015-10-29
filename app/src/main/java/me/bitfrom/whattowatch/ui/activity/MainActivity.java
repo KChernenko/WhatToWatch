@@ -148,14 +148,13 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
 
     private void replaceFragment(Fragment fragment) {
         String backStateName =  fragment.getClass().getName();
-        String fragmentTag = backStateName;
 
         FragmentManager manager = getFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
 
-        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+        if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null){ //fragment not in back stack, create it.
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.main_container, fragment, fragmentTag);
+            ft.replace(R.id.main_container, fragment, backStateName);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(backStateName);
             ft.commit();
