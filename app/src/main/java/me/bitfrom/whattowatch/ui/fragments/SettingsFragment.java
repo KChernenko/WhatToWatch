@@ -5,8 +5,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,32 +18,11 @@ import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
  */
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
 
-    private static final String LOG_TAG = SettingsFragment.class.getSimpleName();
-
-    private ActionBar actionBar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.pref_general);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initToolbar();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -96,9 +73,4 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                         .getString(preference.getKey(), ""));
     }
 
-    private void initToolbar() {
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.pref_settings_screen);
-        }
-    }
 }

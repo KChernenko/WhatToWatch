@@ -9,8 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,8 +35,6 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
     @Bind(R.id.favorite_list_empty)
     TextView mEmptyView;
 
-    private ActionBar actionBar;
-
     private FilmsRecyclerAdapter mFavoriteAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -56,7 +52,6 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
 
     private UriTransfer uriTransfer;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,16 +68,9 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(FAVORITE_FILMS_LOADER, null, this);
 
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         uriTransfer = (UriTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (actionBar != null) actionBar.setTitle(R.string.favorite_fragment_title);
     }
 
     @Override

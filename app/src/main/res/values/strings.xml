@@ -6,7 +6,13 @@
     <string name="sync_account_type">whattowatch.bitfrom.me</string>
     <string name="content_authority">me.bitfrom.whattowatch</string>
 
-    <!-- Strings for MainActivity -->
+    <!-- Strings for navigation drawer -->
+    <string name="drawer_item_home">Random films</string>
+    <string name="drawer_item_favorites">Favorites</string>
+    <string name="drawer_item_settings">Settings</string>
+
+    <!-- Strings for RandomFilmsFragment -->
+    <string name="random_films_fragment_title">Random films</string>
     <string name="imdb_label">IMDB:</string>
 
     <!-- Strings for DetailFragment -->
@@ -27,6 +33,12 @@
     <!-- Strings for FavoritesFragment -->
     <string name="favorite_fragment_title">Favorites</string>
     <string name="empty_favorite_list">There are no films in the Favorites</string>
+
+    <!-- Strings for SettingsFragment-->
+    <string name="settings_fragment_title">Settings</string>
+    <string name="pref_general_section">General</string>
+    <string name="pref_notification_section">Notifications</string>
+    <string name="pref_settings_screen">Settings</string>
 
     <!--Preferences information-->
 
@@ -74,8 +86,7 @@
     <string name="pref_frequency_of_updates_five_default">Every 5 days</string>
 
     <!-- Strings related to Notification preference -->
-    <string name="pref_last_notification">last_notification
-    </string>
+    <string name="pref_last_notification">last_notification</string>
 
     <!-- Strings related to Notification Enabled preference -->
     <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
@@ -99,16 +110,6 @@
     <string name="error_connection_unavailable">Please, check your internet connection.</string>
     <string name="server_isnt_available">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_dismiss">Dismiss</string>
-
-    <!-- Strings for navigation drawer -->
-    <string name="drawer_item_home">Random films</string>
-    <string name="drawer_item_favorites">Favorites</string>
-    <string name="drawer_item_settings">Settings</string>
-
-    <!-- Strings for SettingsFragment-->
-    <string name="pref_general_section">General</string>
-    <string name="pref_notification_section">Notifications</string>
-    <string name="pref_settings_screen">Settings</string>
 
     <!-- Fake data -->
     <string name="fake_user_name">Username</string>

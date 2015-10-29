@@ -53,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         if(savedInstanceState == null) {
             replaceFragment(new RandomFilmsFragment());
         }
+
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
+                if (f != null) {
+                    updateTitleAndDrawer(f);
+                }
+            }
+        });
     }
 
     @Override
@@ -151,4 +161,17 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
             ft.commit();
         }
     }
+
+    private void updateTitleAndDrawer (Fragment fragment){
+        String fragmentClassName = fragment.getClass().getName();
+
+        if (fragmentClassName.equals(RandomFilmsFragment.class.getName())) {
+            setTitle(getString(R.string.random_films_fragment_title));
+        } else if (fragmentClassName.equals(FavoritesFragment.class.getName())) {
+            setTitle(getString(R.string.favorite_fragment_title));
+        } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
+            setTitle(getString(R.string.settings_fragment_title));
+        }
+    }
+
 }
