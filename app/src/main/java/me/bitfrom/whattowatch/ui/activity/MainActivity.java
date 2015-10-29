@@ -1,5 +1,7 @@
 package me.bitfrom.whattowatch.ui.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -49,8 +51,7 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         avatar.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
 
         if(savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.main_container, new RandomFilmsFragment())
-                    .commit();
+            replaceFragment(new RandomFilmsFragment());
         }
     }
 
@@ -70,16 +71,21 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
     }
 
     @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 1) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void sendUri(String uri) {
         DetailFragment df = new DetailFragment();
         Bundle args = new Bundle();
         args.putString(ID_KEY, uri);
         df.setArguments(args);
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main_container, df)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
+        replaceFragment(df);
     }
 
     /**
@@ -114,31 +120,35 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
 
     private void selectDrawerItem(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.drawer_settings:
-                SettingsFragment sf = new SettingsFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, sf)
-                        .setTransitionStyle(android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-                break;
             case R.id.drawer_favorites:
                 FavoritesFragment ff = new FavoritesFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, ff)
-                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                replaceFragment(ff);
+                break;
+            case R.id.drawer_settings:
+                SettingsFragment sf = new SettingsFragment();
+                replaceFragment(sf);
                 break;
             default:
                 RandomFilmsFragment rf = new RandomFilmsFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, rf)
-                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                replaceFragment(rf);
         }
         menuItem.setCheckable(true);
         drawerLayout.closeDrawers();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager = getFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.main_container, fragment, fragmentTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
     }
 }

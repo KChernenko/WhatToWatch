@@ -2,7 +2,6 @@ package me.bitfrom.whattowatch.ui.fragments;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -18,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,14 +86,11 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(RANDOM_FILMS_LOADER, null, this);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        super.onActivityCreated(savedInstanceState);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         uriTransfer = (UriTransfer) getActivity();
+
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -181,7 +178,8 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
                     @Override
                     public void onItemClick(View view, int position) {
                         Uri uri = FilmsEntry.buildFilmsUri(mMoviesAdapter.getItemId(position));
-                        uriTransfer.sendUri(uri.toString());
+                        if (uriTransfer != null) uriTransfer.sendUri(uri.toString());
+                        else Toast.makeText(getActivity(), "NULL", Toast.LENGTH_SHORT).show();
                     }
                 })
         );

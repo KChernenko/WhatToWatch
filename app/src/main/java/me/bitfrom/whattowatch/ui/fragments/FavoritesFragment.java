@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.ui.fragments;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -73,14 +72,11 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(FAVORITE_FILMS_LOADER, null, this);
-        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        super.onActivityCreated(savedInstanceState);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         uriTransfer = (UriTransfer) getActivity();
+
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
