@@ -33,15 +33,21 @@
     <dimen name="item_margin_right">5dp</dimen>
     <dimen name="item_layout_height">0dp</dimen>
 
-    <!-- Dimens for drawer_header -->
+    <!-- Dimens for the drawer_header -->
     <dimen name="header_layout_height">172dp</dimen>
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="header_avatar_sizes">64dp</dimen>
     <dimen name="header_avatar_elevation">4dp</dimen>
     <dimen name="header_spacing_large">16dp</dimen>
 
-    <!-- Dimens for random_films_fragment -->
+    <!-- Dimens for the random_films_fragment -->
     <dimen name="random_empty_text_padding">16dp</dimen>
     <dimen name="random_empty_text_size">20sp</dimen>
+
+    <!-- Dimens for the fragment_detail -->
+    <dimen name="detail_margin_top">60dp</dimen>
+    <dimen name="detail_margin_bottom">16dp</dimen>
+    <dimen name="detail_margin_right">16dp</dimen>
+    <dimen name="detail_margin_end">16dp</dimen>
 
 </resources>
