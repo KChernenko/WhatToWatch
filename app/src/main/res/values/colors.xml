@@ -14,9 +14,9 @@
 
     <!-- Drawer and ActionBar colors -->
     <color name="primary">#00838F</color>
-    <color name="primary_dark">#00838F</color>
-    <color name="accent">#00838F</color>
-    <color name="accent_translucent">#80DEEA</color>
+    <color name="primary_dark">#0097A7</color>
+    <color name="accent">#0097A7</color>
+    <color name="accent_translucent">#FFE082</color>
     <color name="accent_bright">#FFF493</color>
 
     <!-- Fabs colors -->

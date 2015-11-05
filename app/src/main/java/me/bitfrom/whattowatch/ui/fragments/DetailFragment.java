@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import me.bitfrom.whattowatch.domain.weapons.ImageDownloadWeapon;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import me.bitfrom.whattowatch.utils.ShareUtility;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -73,6 +75,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     FloatingActionButton mBtnSaveToFav;
     @Bind(R.id.action_share)
     FloatingActionButton mBtnShare;
+    @Bind(R.id.imdb_link)
+    FloatingActionButton mIMDBLink;
 
     @BindString(R.string.app_name)
     String mAppNameString;
@@ -125,8 +129,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         ButterKnife.bind(this, rootView);
-
-        setFabsIcons();
 
         mImageWeapon = new ImageDownloadWeapon();
 
@@ -225,12 +227,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mPlotView.setText(plot);
 
             share(title, rating, director, genres);
-        }
-    }
 
-    private void setFabsIcons() {
-        mBtnSaveToFav.setIcon(R.drawable.ic_star_white_24dp);
-        mBtnShare.setIcon(R.drawable.ic_share_white_24dp);
+            goToIMDB(data.getString(data.getColumnIndex(FilmsEntry.COLUMN_URL_IMDB)));
+        }
     }
 
     private void share(String title, String rating, String director, String genres) {
@@ -248,7 +247,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         });
     }
 
-    public void addToFavorite() {
+    private void addToFavorite() {
         subscription = RxView.clicks(mBtnSaveToFav)
                 .observeOn(Schedulers.newThread())
                 .subscribe(new Action1<Object>() {
@@ -262,12 +261,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                                 null
                         );
                         final ContentValues cv = new ContentValues();
-                        final Snackbar bar;
                         if (c != null && c.moveToFirst()) {
                             if (c.getInt(c.getColumnIndex(FilmsEntry.COLUMN_FAVORITE)) == FavoriteConstants.NOT_FAVORITE) {
                                 cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.FAVORITE);
                                 getActivity().getContentResolver().update(mUri, cv, null, null);
-                                bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
+                                final Snackbar bar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
                                 bar.setAction(R.string.undo_fav, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -282,7 +280,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                             } else {
                                 cv.put(FilmsEntry.COLUMN_FAVORITE, FavoriteConstants.NOT_FAVORITE);
                                 getActivity().getContentResolver().update(mUri, cv, null, null);
-                                bar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
+                                final Snackbar bar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
                                 bar.setAction(R.string.undo_fav, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -297,6 +295,19 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                             }
                         }
                         if (c != null) c.close();
+                    }
+                });
+    }
+
+    private void goToIMDB(final String filmLink) {
+        subscription = RxView.clicks(mIMDBLink)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(filmLink));
+                        startActivity(intent);
                     }
                 });
     }

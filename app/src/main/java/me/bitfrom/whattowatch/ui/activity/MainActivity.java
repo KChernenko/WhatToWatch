@@ -26,7 +26,7 @@ import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity implements UriTransfer, IpositionId{
 
-    @Bind(R.id.main_toolbar)
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
 
     @Bind(R.id.drawer_layout)
