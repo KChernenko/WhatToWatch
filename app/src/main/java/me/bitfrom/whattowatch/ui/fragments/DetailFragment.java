@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.ui.fragments;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,11 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -46,8 +45,9 @@ import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         IpositionId {
 
+
     @Bind(R.id.detail_scroll_view)
-    ScrollView mScrollView;
+    NestedScrollView mScrollView;
     @Bind(R.id.poster)
     ImageView mPosterView;
     @Bind(R.id.cv_title)
@@ -114,8 +114,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private ImageDownloadInteractor mImageWeapon;
 
-    //private ActionBar actionBar;
-
     private Subscription subscription;
 
     @Override
@@ -146,20 +144,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-    }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-//        if (actionBar != null) {
-//            actionBar.setTitle(mAppNameString);
-//        }
-    }
 
     @Override
     public void onDestroy() {

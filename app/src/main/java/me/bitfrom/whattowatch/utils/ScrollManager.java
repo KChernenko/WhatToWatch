@@ -17,6 +17,7 @@ package me.bitfrom.whattowatch.utils;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ScrollView;
 
 import java.util.HashMap;
 
@@ -93,7 +93,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
      * @param view
      * @param direction
      * **/
-    public void hideViewInScrollView(final ScrollView scrollView, final View view, final Direction direction) {
+    public void hideViewInScrollView(final NestedScrollView scrollView, final View view, final Direction direction) {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
