@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
-    @Bind(R.id.header_avatar)
-    ImageView avatar;
+//    @Bind(R.id.header_avatar)
+//    ImageView avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         initToolbar();
         setupDrawerLayout();
 
-        avatar.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+       // avatar.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
 
         if(savedInstanceState == null) {
             replaceFragment(new RandomFilmsFragment());
