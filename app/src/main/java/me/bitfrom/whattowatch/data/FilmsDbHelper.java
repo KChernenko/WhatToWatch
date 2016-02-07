@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 
 /**
- * Created by Constantine with love.
+ * Will be removed
  */
 public class FilmsDbHelper extends SQLiteOpenHelper {
 

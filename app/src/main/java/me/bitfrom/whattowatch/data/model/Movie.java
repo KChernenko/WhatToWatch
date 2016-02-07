@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.rest.model;
+package me.bitfrom.whattowatch.data.model;
 
 
 import com.google.gson.annotations.Expose;

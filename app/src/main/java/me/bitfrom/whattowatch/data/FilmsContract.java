@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by Constantine with love.
+ * Will be removed
  */
 public class FilmsContract {
 

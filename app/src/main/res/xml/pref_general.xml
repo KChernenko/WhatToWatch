@@ -28,6 +28,24 @@
             android:summaryOff="@string/pref_enable_notifications_false"
             android:summaryOn="@string/pref_enable_notifications_true"
             android:defaultValue="@string/pref_enable_notifications_default"/>
+        <SwitchPreference
+            android:title="@string/pref_enable_vibration_label"
+            android:key="@string/pref_enable_vibration_key"
+            android:summaryOff="@string/pref_enable_notifications_false"
+            android:summaryOn="@string/pref_enable_notifications_true"
+            android:defaultValue="@string/pref_enable_notifications_default"/>
+        <SwitchPreference
+            android:title="@string/pref_enable_led_label"
+            android:key="@string/pref_enable_led_key"
+            android:summaryOff="@string/pref_enable_notifications_false"
+            android:summaryOn="@string/pref_enable_notifications_true"
+            android:defaultValue="@string/pref_enable_notifications_default"/>
+        <SwitchPreference
+            android:title="@string/pref_enable_sound_label"
+            android:key="@string/pref_enable_sound_key"
+            android:summaryOff="@string/pref_enable_notifications_false"
+            android:summaryOn="@string/pref_enable_notifications_true"
+            android:defaultValue="@string/pref_enable_notifications_default"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

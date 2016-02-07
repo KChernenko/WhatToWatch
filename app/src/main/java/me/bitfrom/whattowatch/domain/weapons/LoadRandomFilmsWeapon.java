@@ -4,7 +4,7 @@ import java.util.Collections;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.rest.RestClient;
-import me.bitfrom.whattowatch.rest.model.Film;
+import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.Utility;
 import rx.Observer;

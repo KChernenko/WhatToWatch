@@ -16,7 +16,7 @@ import static me.bitfrom.whattowatch.data.FilmsContract.FilmsEntry;
 import static me.bitfrom.whattowatch.data.FilmsContract.PATH_FILMS;
 
 /**
- * Created by Constantine with love.
+ * Will be removed
  */
 public class FilmsProvider extends ContentProvider {
 

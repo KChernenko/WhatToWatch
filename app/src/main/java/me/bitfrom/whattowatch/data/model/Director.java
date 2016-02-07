@@ -1,9 +1,9 @@
-package me.bitfrom.whattowatch.rest.model;
+package me.bitfrom.whattowatch.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Writer {
+public class Director {
 
     @SerializedName("name")
     @Expose

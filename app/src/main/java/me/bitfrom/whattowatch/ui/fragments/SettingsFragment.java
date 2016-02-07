@@ -5,24 +5,44 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 
-/**
- * Created by Constantine on 05.10.2015.
- */
+
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+
+    private SwitchPreference mainSwitch;
+    private SwitchPreference vibSwitch;
+    private SwitchPreference ledSwitch;
+    private SwitchPreference soundSwitch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.pref_general);
+        mainSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_notifications_key));
+        vibSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_vibration_key));
+        ledSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_led_key));
+        soundSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_sound_key));
+
+        vibSwitch.setEnabled(mainSwitch.isChecked());
+        ledSwitch.setEnabled(mainSwitch.isChecked());
+        soundSwitch.setEnabled(mainSwitch.isChecked());
+
+        mainSwitch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                vibSwitch.setEnabled(mainSwitch.isChecked());
+                ledSwitch.setEnabled(mainSwitch.isChecked());
+                soundSwitch.setEnabled(mainSwitch.isChecked());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -34,18 +54,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.setBackgroundColor(getResources().getColor(R.color.fragment_background));
-    }
-
-    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String stringValue = newValue.toString();
 
         if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list (since they have separate labels/values).
+            // For list preferences, look up the correct display value in the preference's 'entries' list (since they have separate labels/values).
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(stringValue);
             if (prefIndex >= 0) {
@@ -55,22 +68,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
         }
-
-        FilmsSyncAdapter.initializeSyncAdapter(WWApplication.getAppContext());
-
         return true;
     }
+
 
     private void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(this);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
-        onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        // Trigger the listener immediately with the preference's current value.
+        onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
     }
-
 }

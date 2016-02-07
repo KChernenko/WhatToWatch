@@ -10,7 +10,7 @@ import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.FilmsContract;
 import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
-import me.bitfrom.whattowatch.rest.model.Movie;
+import me.bitfrom.whattowatch.data.model.Movie;
 
 /**
  * Created by Constantine with love.

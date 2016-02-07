@@ -1,6 +1,6 @@
 package me.bitfrom.whattowatch.rest.api;
 
-import me.bitfrom.whattowatch.rest.model.Film;
+import me.bitfrom.whattowatch.data.model.Film;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
