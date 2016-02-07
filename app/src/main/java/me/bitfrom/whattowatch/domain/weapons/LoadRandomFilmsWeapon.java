@@ -1,18 +1,14 @@
 package me.bitfrom.whattowatch.domain.weapons;
 
 import java.util.Collections;
-import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.rest.RestClient;
 import me.bitfrom.whattowatch.rest.model.Film;
+import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.Utility;
-import me.bitfrom.whattowatch.utils.bus.RestErrorEvent;
-import me.bitfrom.whattowatch.utils.bus.RestSuccessfulEvent;
 import rx.Observer;
 import rx.Subscription;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -41,33 +37,28 @@ public class LoadRandomFilmsWeapon {
      * **/
     public static synchronized void loadFilms() {
 
-        subscription = restClient.getFilmsAPI().getFilms(WWApplication.getToken())
+        subscription = restClient.getFilmsAPI().getFilms(ConstantsManager.API_LIST_START,
+                ConstantsManager.API_LIST_END, ConstantsManager.API_TOKEN, ConstantsManager.API_FORMAT,
+                ConstantsManager.API_DATA)
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<List<Film>, List<Film>>() {
-                    @Override
-                    public List<Film> call(List<Film> films) {
-                        Collections.shuffle(films);
-
-                        return films.subList(0, Utility.getPreferredNumbersOfMovies(WWApplication.getAppContext()));
-                    }
-                })
                 .cache()
-                .subscribe(new Observer<List<Film>>() {
+                .subscribe(new Observer<Film>() {
                     @Override
                     public void onCompleted() {
-                        EventBus.getDefault().post(new RestSuccessfulEvent(SUCCESS_MESSAGE));
-                        subscription.unsubscribe();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        EventBus.getDefault().post(new RestErrorEvent(FAILURE_MESSAGE));
-                        e.printStackTrace();
+
                     }
 
                     @Override
-                    public void onNext(List<Film> films) {
-                        SaveDataWeapon.saveData(films);
+                    public void onNext(Film film) {
+                        Collections.shuffle(film.getData().getMovies());
+
+                        SaveDataWeapon.saveData(film.getData().getMovies()
+                                .subList(0, Utility.getPreferredNumbersOfMovies(WWApplication.getAppContext())));
                     }
                 });
 

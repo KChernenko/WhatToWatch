@@ -1,7 +1,5 @@
 package me.bitfrom.whattowatch.rest.api;
 
-import java.util.List;
-
 import me.bitfrom.whattowatch.rest.model.Film;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -12,6 +10,10 @@ import rx.Observable;
  */
 public interface FilmsAPI {
     
-    @GET("top?format=JSON&start=1&end=250&data=F")
-    Observable<List<Film>> getFilms(@Query("token") String token);
+    @GET("top?")
+    Observable<Film> getFilms(@Query("start") String start,
+                                    @Query("end") String end,
+                                    @Query("token") String token,
+                                    @Query("format") String format,
+                                    @Query("data") String data);
 }

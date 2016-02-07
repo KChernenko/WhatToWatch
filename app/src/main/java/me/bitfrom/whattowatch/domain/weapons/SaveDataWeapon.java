@@ -10,14 +10,14 @@ import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.FilmsContract;
 import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.ImageDownloadInteractor;
-import me.bitfrom.whattowatch.rest.model.Film;
+import me.bitfrom.whattowatch.rest.model.Movie;
 
 /**
  * Created by Constantine with love.
  */
 public class SaveDataWeapon {
 
-    public static void saveData(List<Film> films) {
+    public static void saveData(List<Movie> films) {
 
         ArrayList<ContentValues> cVVector = new ArrayList<>(films.size());
         ImageDownloadInteractor imageWeapon = new ImageDownloadWeapon();
