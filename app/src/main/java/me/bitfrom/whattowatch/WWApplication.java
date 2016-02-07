@@ -14,6 +14,9 @@ import com.nostra13.universalimageloader.utils.L;
 
 import de.greenrobot.event.EventBus;
 import io.fabric.sdk.android.Fabric;
+import me.bitfrom.whattowatch.injection.component.ApplicationComponent;
+import me.bitfrom.whattowatch.injection.component.DaggerApplicationComponent;
+import me.bitfrom.whattowatch.injection.module.ApplicationModule;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
@@ -21,12 +24,11 @@ import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
 
 public class WWApplication extends Application {
 
-    private static Context context;
+    private ApplicationComponent mApplicationComponent;
+    public static Context context;
 
     private SharedPreferences pref = null;
     private static final String FIRST_LAUNCH = "app_first_launch";
-
-    private static final String TOKEN = "19c94797-333b-45b7-aded-4bdca4e857fa";
 
     @Override
     public void onCreate() {
@@ -34,30 +36,27 @@ public class WWApplication extends Application {
         Fabric.with(this, new Crashlytics());
         WWApplication.context = getApplicationContext();
 
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true).cacheInMemory(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build();
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .memoryCache(new WeakMemoryCache())
-                .diskCacheSize(100 * 1024 * 1024).build();
-
-        L.writeLogs(false);
-        ImageLoader.getInstance().init(config);
+        initImageLibrary();
 
         loadDataIfFirstLaunch();
     }
 
     public static Context getAppContext() {
-        return WWApplication.context;
+        return context;
     }
 
+    public static WWApplication get(Context context) {
+        return (WWApplication) context.getApplicationContext();
+    }
 
-    public static String getToken() {
-        return TOKEN;
+    public ApplicationComponent getComponent() {
+        if (mApplicationComponent == null) {
+            mApplicationComponent = DaggerApplicationComponent.builder()
+                    .applicationModule(new ApplicationModule(this))
+                    .build();
+        }
+
+        return mApplicationComponent;
     }
 
     /**
@@ -78,5 +77,24 @@ public class WWApplication extends Application {
                         .post(new ConnectionUnsuccessfulEvent(getString(R.string.error_connection_unavailable)));
             }
         }
+    }
+
+    /***
+     * Inits all needed settings for an image library
+     ***/
+    private void initImageLibrary() {
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache())
+                .diskCacheSize(100 * 1024 * 1024).build();
+
+        L.writeLogs(false);
+        ImageLoader.getInstance().init(config);
     }
 }
