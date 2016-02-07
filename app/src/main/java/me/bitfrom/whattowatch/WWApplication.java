@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -12,13 +13,12 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.L;
 
 import de.greenrobot.event.EventBus;
+import io.fabric.sdk.android.Fabric;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
 
-/**
- * Created by Constantine on 04.10.2015.
- */
+
 public class WWApplication extends Application {
 
     private static Context context;
@@ -31,6 +31,7 @@ public class WWApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         WWApplication.context = getApplicationContext();
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
