@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">What to watch?</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
     <string name="sync_account_type">whattowatch.bitfrom.me</string>
@@ -9,6 +12,7 @@
     <!-- Strings for navigation drawer -->
     <string name="drawer_item_home">Random films</string>
     <string name="drawer_item_favorites">Favorites</string>
+    <string name="drawer_item_trailers">Trailers</string>
     <string name="drawer_item_settings">Settings</string>
 
     <!-- Strings for RandomFilmsFragment -->
@@ -33,6 +37,9 @@
     <!-- Strings for FavoritesFragment -->
     <string name="favorite_fragment_title">Favorites</string>
     <string name="empty_favorite_list">There are no films in the Favorites</string>
+
+    <!-- Strings for FavoritesFragment -->
+    <string name="trailers_fragment_message">Will be added soon</string>
 
     <!-- Strings for SettingsFragment-->
     <string name="settings_fragment_title">Settings</string>
@@ -122,4 +129,13 @@
     <!-- Fake data -->
     <string name="fake_user_name">Username</string>
     <string name="fake_user_email">username@mail.com</string>
+
+    <!-- Strings for about_dialog -->
+    <string name="about_category">About</string>
+    <string name="about_dialog_title">About authors</string>
+    <string name="designed_by_lbl">Designed by:</string>
+    <string name="designer_credentials">Margarita Strokalis</string>
+    <string name="developed_by_lbl">Developed by:</string>
+    <string name="developer_credentials">Constantine Chernenko</string>
+    <string name="about_dialog_freespace_fix">\u0020</string>
 </resources>

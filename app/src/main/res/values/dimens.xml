@@ -16,7 +16,8 @@
 
     <!-- Dimens for the film_item -->
     <dimen name="item_layout_padding">7dp</dimen>
-    <dimen name="item_card_margin_top">4dp</dimen>
+    <dimen name="item_card_margin">8dp</dimen>
+    <dimen name="item_card_radius">2dp</dimen>
     <dimen name="item_card_elevation">4dp</dimen>
     <dimen name="item_image_width">115dp</dimen>
     <dimen name="item_image_height">170dp</dimen>

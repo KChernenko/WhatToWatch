@@ -5,9 +5,6 @@ import android.view.View;
 
 import me.bitfrom.whattowatch.R;
 
-/**
- * Created by Constantine on 05.10.2015.
- */
 public class MessageHandlerUtility {
 
     public static void showMessage(View view, String message, int snackBarLength) {
