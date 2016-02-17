@@ -29,7 +29,7 @@ import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
-import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
+import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;

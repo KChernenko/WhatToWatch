@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -19,6 +18,7 @@ import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.domain.contracts.IpositionId;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
+import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
@@ -26,7 +26,7 @@ import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
-public class MainActivity extends AppCompatActivity implements UriTransfer, IpositionId,
+public class MainActivity extends BaseActivity implements UriTransfer, IpositionId,
         NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.toolbar)
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
     CoordinatorLayout coordinatorLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         replaceFragment(df);
     }
 
-    /***
+    /**
      * Setup navigation drawer here.
-     ***/
+     **/
     private void setupDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /***
+    /**
      * For managing fragments transaction
-     ***/
+     **/
     private void replaceFragment(Fragment fragment) {
         String backStateName =  fragment.getClass().getName();
 
@@ -142,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements UriTransfer, Ipos
         }
     }
 
-    /***
+    /**
      * Updates toolbar title
-     ***/
+     **/
     private void updateToolbarTitle(Fragment fragment){
         String fragmentClassName = fragment.getClass().getName();
 

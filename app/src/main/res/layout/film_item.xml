@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="@dimen/item_image_width"
                 android:layout_height="@dimen/item_image_height"
-                android:id="@+id/poster"
+                android:id="@+id/cv_poster"
                 android:layout_marginLeft="@dimen/item_image_margin_left"
                 android:layout_marginRight="@dimen/item_image_margin_right"
                 android:layout_marginTop="@dimen/item_image_margin_top"

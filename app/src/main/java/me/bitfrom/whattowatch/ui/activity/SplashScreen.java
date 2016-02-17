@@ -1,23 +1,24 @@
 package me.bitfrom.whattowatch.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.ui.base.BaseActivity;
 
 /**
  * Created by Constantine with love.
  */
-public class SplashScreen extends Activity {
+public class SplashScreen extends BaseActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 1000;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
         setContentView(R.layout.splash_screen);
 
         new Handler().postDelayed(new Runnable() {

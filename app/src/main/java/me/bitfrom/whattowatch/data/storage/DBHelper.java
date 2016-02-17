@@ -71,6 +71,17 @@ public class DBHelper {
                 });
     }
 
+    public Observable<FilmModel> getFilmById() {
+        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME)
+                .map(new Func1<SqlBrite.Query, FilmModel>() {
+                    @Override
+                    public FilmModel call(SqlBrite.Query query) {
+                        return DBContract.FilmsTable.parseCursor(query.run());
+                    }
+                });
+    }
+
     public Observable<Void> clearTables() {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override

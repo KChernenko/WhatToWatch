@@ -24,7 +24,7 @@ import me.bitfrom.whattowatch.adapter.listener.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.data.FilmsContract;
 import me.bitfrom.whattowatch.domain.contracts.FavoriteConstants;
 import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
-import me.bitfrom.whattowatch.utils.EmptyRecyclerView;
+import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 
 
 public class FavoritesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{

@@ -1,15 +1,11 @@
-package me.bitfrom.whattowatch.utils;
+package me.bitfrom.whattowatch.ui.recyclerview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * Created by Constantine on 28.07.2015.
- */
+
 public class EmptyRecyclerView extends RecyclerView {
 
     private View emptyView;

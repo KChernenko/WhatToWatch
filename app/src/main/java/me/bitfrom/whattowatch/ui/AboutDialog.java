@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 
@@ -17,7 +18,12 @@ public class AboutDialog extends DialogPreference {
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        builder.setTitle(R.string.about_dialog_freespace_fix);
+        if (Build.VERSION.SDK_INT >= 21) {
+            builder.setTitle(R.string.about_dialog_freespace_fix);
+        } else {
+            builder.setTitle(R.string.about_dialog_title);
+        }
+
         builder.setNegativeButton(null, null);
         super.onPrepareDialogBuilder(builder);
     }

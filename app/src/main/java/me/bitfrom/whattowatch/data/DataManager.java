@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.data;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,12 +41,15 @@ public class DataManager {
                 .map(new Func1<Film, Observable<Movie>>() {
                     @Override
                     public Observable<Movie> call(Film film) {
-                        return mDbHelper.setFilms(film.getData().getMovies());
+                        List<Movie> result = film.getData().getMovies();
+                        Collections.shuffle(result);
+                        return mDbHelper.setFilms(result.subList(0,
+                                mPreferencesHelper.getPrefferedNuberOfFilms()));
                     }
                 });
     }
 
     public Observable<List<FilmModel>> getFilms() {
-        return mDbHelper.getFilms().distinct();
+        return mDbHelper.getFilms();
     }
 }
