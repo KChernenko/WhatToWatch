@@ -1,11 +1,13 @@
 package me.bitfrom.whattowatch.rest;
 
-import com.squareup.okhttp.OkHttpClient;
 
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.rest.api.FilmsAPI;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Constantine with love.
@@ -18,7 +20,11 @@ public class RestClient {
     public RestClient() {
 
         OkHttpClient client = new OkHttpClient();
-        client.networkInterceptors().add(new LoggingInterceptor());
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            client.interceptors().add(interceptor);
+        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

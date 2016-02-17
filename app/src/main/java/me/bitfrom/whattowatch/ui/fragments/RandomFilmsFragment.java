@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.adapter.FilmsRecyclerAdapter;
@@ -133,6 +135,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     /**
      * If RxJava Observer's onComplete() method was called, we'll show complete message.
      * **/
+    @Subscribe
     public void onEventMainThread(RestSuccessfulEvent event) {
         MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
                 Snackbar.LENGTH_SHORT);
@@ -141,6 +144,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     /**
      * If RxJava Observer's onError() method was called, we'll show error message.
      * **/
+    @Subscribe
     public void onEventMainThread(RestErrorEvent event) {
         MessageHandlerUtility.showMessage(mSwipeRefreshLayout, event.getMessage(),
                 Snackbar.LENGTH_LONG);
@@ -150,6 +154,7 @@ public class RandomFilmsFragment extends Fragment implements LoaderManager.Loade
     /**
      * If during the first app's launch connection unavailable, we'll show error message.
      * **/
+    @Subscribe
     public void onEventMainThread(ConnectionUnsuccessfulEvent event) {
         updateEmptyView();
     }

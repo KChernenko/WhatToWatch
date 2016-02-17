@@ -12,7 +12,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.utils.L;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+
 import io.fabric.sdk.android.Fabric;
 import me.bitfrom.whattowatch.injection.component.ApplicationComponent;
 import me.bitfrom.whattowatch.injection.component.DaggerApplicationComponent;
@@ -71,7 +72,7 @@ public class WWApplication extends Application {
         if (pref.getBoolean(FIRST_LAUNCH, true)) {
             FilmsSyncAdapter.initializeSyncAdapter(this);
             if (NetworkStateChecker.isNetworkAvailable(this)) {
-                pref.edit().putBoolean(FIRST_LAUNCH, false).commit();
+                pref.edit().putBoolean(FIRST_LAUNCH, false).apply();
             } else {
                 EventBus.getDefault()
                         .post(new ConnectionUnsuccessfulEvent(getString(R.string.error_connection_unavailable)));
