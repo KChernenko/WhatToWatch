@@ -8,6 +8,7 @@ import java.util.List;
 
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.model.Movie;
+import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class DBContract {
 
@@ -68,6 +69,7 @@ public class DBContract {
             values.put(COLUMN_RATING, movie.getRating());
             values.put(COLUMN_TITLE, movie.getTitle());
             values.put(COLUMN_YEAR, movie.getYear());
+            values.put(COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
 
             return values;
         }

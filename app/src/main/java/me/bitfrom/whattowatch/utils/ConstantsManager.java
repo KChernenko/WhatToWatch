@@ -15,6 +15,8 @@ public class ConstantsManager {
     public static final String DATABASE_NAME = "whattowatch.db";
     public static final int DATABASE_VERSION = 1;
     public static final String DB_LOG_TAG = "WhatToWatch";
+    public static final int NOT_FAVORITE = 0;
+    public static final int FAVORITE = 1;
 
     //For the PreferencesHelper
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";

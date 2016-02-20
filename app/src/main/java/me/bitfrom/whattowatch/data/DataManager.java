@@ -52,4 +52,13 @@ public class DataManager {
     public Observable<List<FilmModel>> getFilms() {
         return mDbHelper.getFilms();
     }
+
+    public Observable<FilmModel> getTopFilmById(String imdbUrlKey) {
+        return mDbHelper.getTopFilmById(imdbUrlKey);
+    }
+
+    public Observable<List<FilmModel>> getFavoriteFilms() {
+        return mDbHelper.getFavoriteFilms();
+    }
+
 }

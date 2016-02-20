@@ -71,15 +71,29 @@ public class DBHelper {
                 });
     }
 
-    public Observable<FilmModel> getFilmById() {
+    public Observable<FilmModel> getTopFilmById(String imdbUrlKey) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
-                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME)
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
+        + DBContract.FilmsTable.COLUMN_URL_IMDB + " = ?", imdbUrlKey)
                 .map(new Func1<SqlBrite.Query, FilmModel>() {
                     @Override
                     public FilmModel call(SqlBrite.Query query) {
                         return DBContract.FilmsTable.parseCursor(query.run());
                     }
                 });
+    }
+
+    public Observable<List<FilmModel>> getFavoriteFilms() {
+        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
+                        + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
+                String.valueOf(ConstantsManager.FAVORITE))
+        .mapToList(new Func1<Cursor, FilmModel>() {
+            @Override
+            public FilmModel call(Cursor cursor) {
+                return DBContract.FilmsTable.parseCursor(cursor);
+            }
+        });
     }
 
     public Observable<Void> clearTables() {

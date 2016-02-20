@@ -120,6 +120,7 @@ dependencies {
     compile 'com.squareup.sqlbrite:sqlbrite:0.5.1'
     compile 'com.jakewharton:butterknife:8.0.0-SNAPSHOT'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.jakewharton.timber:timber:4.1.1'
 
     //Image-side
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'

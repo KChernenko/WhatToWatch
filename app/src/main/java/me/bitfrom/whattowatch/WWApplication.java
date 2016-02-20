@@ -21,6 +21,7 @@ import me.bitfrom.whattowatch.injection.module.ApplicationModule;
 import me.bitfrom.whattowatch.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import me.bitfrom.whattowatch.utils.bus.ConnectionUnsuccessfulEvent;
+import timber.log.Timber;
 
 
 public class WWApplication extends Application {
@@ -35,6 +36,11 @@ public class WWApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
         WWApplication.context = getApplicationContext();
 
         initImageLibrary();

@@ -65,6 +65,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+        <service android:name=".data.LoadService"/>
 
     </application>
 
