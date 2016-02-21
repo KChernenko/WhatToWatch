@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.domain.weapons;
+package me.bitfrom.whattowatch.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,7 +14,6 @@ import android.provider.Settings;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
-import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 /**
  * Created by Constantine with love.

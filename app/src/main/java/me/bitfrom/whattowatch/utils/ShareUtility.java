@@ -6,9 +6,7 @@ import android.content.Intent;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.cocosw.bottomsheet.BottomSheetHelper;
 
-/**
- * Created by Constantine on 05.10.2015.
- */
+
 public class ShareUtility {
 
     /**

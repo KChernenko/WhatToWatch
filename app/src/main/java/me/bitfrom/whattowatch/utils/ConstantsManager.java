@@ -33,4 +33,6 @@ public class ConstantsManager {
     //For the MvpViewNotAttachedException
     public static final String EXCEPTION_MESSAGE = "Please call Presenter.attachView(MvpView)" +
             " before requesting data to the Presenter";
+
+    public static final String POSITION_ID_KEY = "position_id";
 }

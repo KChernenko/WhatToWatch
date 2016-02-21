@@ -18,17 +18,17 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.domain.contracts.IpositionId;
-import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
+import me.bitfrom.whattowatch.utils.UriTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
+import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
-public class MainActivity extends BaseActivity implements UriTransfer, IpositionId,
+public class MainActivity extends BaseActivity implements UriTransfer,
         NavigationView.OnNavigationItemSelectedListener, MainMvpView {
 
 
@@ -68,6 +68,12 @@ public class MainActivity extends BaseActivity implements UriTransfer, Iposition
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMainPresenter.detachView();
+        super.onDestroy();
     }
 
     @Override
@@ -114,7 +120,7 @@ public class MainActivity extends BaseActivity implements UriTransfer, Iposition
     public void sendUri(String uri) {
         DetailFragment df = new DetailFragment();
         Bundle args = new Bundle();
-        args.putString(ID_KEY, uri);
+        args.putString(ConstantsManager.POSITION_ID_KEY, uri);
         df.setArguments(args);
         replaceFragment(df);
     }

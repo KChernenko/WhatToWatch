@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.sync;
+package me.bitfrom.whattowatch.data.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.utils.Utility;
 
 /**
  * Created by Constantine with love.
@@ -108,7 +107,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static void onAccountCreated(Account newAccount, Context context) {
 
-        final int SYNC_INTERVAL = Utility.getUpdateInterval(context);
+        final int SYNC_INTERVAL = 432000; //Temporary!
         final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
         /*
          * Since we've created an account

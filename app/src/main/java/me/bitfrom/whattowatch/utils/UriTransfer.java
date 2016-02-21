@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.domain.contracts;
+package me.bitfrom.whattowatch.utils;
 
 public interface UriTransfer {
 

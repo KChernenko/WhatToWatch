@@ -28,9 +28,7 @@ import android.view.animation.Interpolator;
 
 import java.util.HashMap;
 
-/**
- * Created by Constantine on 04.08.2015.
- */
+
 public class ScrollManager extends RecyclerView.OnScrollListener {
 
     private static final int MIN_SCROLL_TO_HIDE = 10;
@@ -89,10 +87,10 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
 
     /**
      * Listens ScrollView's onScrollChanged() and hides fab with animation.
-     * @param scrollView
-     * @param view
-     * @param direction
-     * **/
+     * @param scrollView - root scrollview
+     * @param view - view, that we want to hide
+     * @param direction - UP or DOWN direction
+     **/
     public void hideViewInScrollView(final NestedScrollView scrollView, final View view, final Direction direction) {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -127,7 +125,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
      * Takes height + margins
      * @param view View to translate
      * @return translation in pixels
-     */
+     **/
     private int calculateTranslation(View view) {
         int height = view.getHeight();
 

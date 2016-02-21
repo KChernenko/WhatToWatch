@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.sync;
+package me.bitfrom.whattowatch.data.sync;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;

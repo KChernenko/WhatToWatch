@@ -17,15 +17,14 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.model.FilmModel;
-import me.bitfrom.whattowatch.domain.contracts.UriTransfer;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
+import me.bitfrom.whattowatch.utils.UriTransfer;
 
 
 public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView {
@@ -76,33 +75,11 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         super.onActivityCreated(savedInstanceState);
     }
 
-
-    private void initRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setEmptyView(mEmptyView);
-        mRecyclerView.setAdapter(mFilmsAdapter);
-    }
-
-    /**
-     * Update our list of films using swipe to refresh mechanism
-     * **/
-    private void initSwipeToRefresh() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkStateChecker.isNetworkAvailable(WWApplication.getAppContext())) {
-
-                } else {
-                    NetworkStateChecker.showErrorMessage(mSwipeRefreshLayout);
-                }
-            }
-        });
-    }
-
     @Override
     public void showFilmsList(List<FilmModel> films) {
         mFilmsAdapter.setFilms(films);
         mFilmsAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -115,5 +92,29 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     public void showError() {
         MessageHandlerUtility.showMessage(mRootLayout, "Something bad had happened!",
                 Snackbar.LENGTH_LONG);
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setEmptyView(mEmptyView);
+        mRecyclerView.setAdapter(mFilmsAdapter);
+    }
+
+    /**
+     * Update our list of films using swipe to refresh mechanism
+     **/
+    private void initSwipeToRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (NetworkStateChecker.isNetworkAvailable(getActivity())) {
+                    mRandomFilmsPresenter.loadFilms();
+                } else {
+                    MessageHandlerUtility.showMessage(mRootLayout,
+                            getString(R.string.error_connection_unavailable),
+                            Snackbar.LENGTH_LONG);
+                }
+            }
+        });
     }
 }

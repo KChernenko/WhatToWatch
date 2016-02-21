@@ -41,11 +41,11 @@
         </activity>
         <provider
             android:authorities="@string/content_authority"
-            android:name=".data.FilmsProvider"
+            android:name=".data.StubProvider"
             android:exported="false"
             android:syncable="true"/>
         <service
-            android:name=".sync.FilmsAuthenticatorService">
+            android:name=".data.sync.FilmsAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -55,7 +55,7 @@
         </service>
         <!-- The SyncAdapter service -->
         <service
-            android:name=".sync.FilmsSyncService"
+            android:name=".data.sync.FilmsSyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
