@@ -6,6 +6,7 @@ import dagger.Component;
 import me.bitfrom.whattowatch.injection.PerFragment;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
+import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
 
 @PerFragment
@@ -15,6 +16,8 @@ public interface FragmentComponent {
 
     void inject(Fragment fragment);
 
-    void inject(RandomFilmsFragment fragment);
+    void inject(RandomFilmsFragment randomFilmsFragment);
+
+    void inject(DetailFragment detailFragment);
 
 }

@@ -20,6 +20,8 @@ import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
+import me.bitfrom.whattowatch.ui.fragments.presenters.RandomFilmsPresenter;
+import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
@@ -50,9 +52,9 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         View rootView = inflater.inflate(R.layout.randrom_films_fragment, container, false);
 
         getFragmentComponent((MainActivity) getActivity()).inject(this);
-        mRandomFilmsPresenter.attachView(this);
-
         ButterKnife.bind(this, rootView);
+
+        mRandomFilmsPresenter.attachView(this);
 
         initRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);

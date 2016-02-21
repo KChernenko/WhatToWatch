@@ -78,7 +78,11 @@ public class DBHelper {
                 .map(new Func1<SqlBrite.Query, FilmModel>() {
                     @Override
                     public FilmModel call(SqlBrite.Query query) {
-                        return DBContract.FilmsTable.parseCursor(query.run());
+                        Cursor cursor = query.run();
+                        cursor.moveToFirst();
+                        FilmModel result = DBContract.FilmsTable.parseCursor(cursor);
+                        cursor.close();
+                        return result;
                     }
                 });
     }

@@ -1,7 +1,7 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +12,35 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.data.image.ImageLoader;
+import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.ui.activity.MainActivity;
+import me.bitfrom.whattowatch.ui.base.BaseFragment;
+import me.bitfrom.whattowatch.ui.fragments.presenters.DetailPresenter;
+import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
+import me.bitfrom.whattowatch.utils.ConstantsManager;
+import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 
+import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
-public class DetailFragment extends Fragment {
+
+public class DetailFragment extends BaseFragment implements DetailMvpView {
+
+    @Inject
+    protected DetailPresenter mDetailPresenter;
+    @Inject
+    protected ImageLoader mImageLoader;
+    @Inject
+    protected ScrollManager mScrollManager;
+
+    private String mImdbId;
 
     @Bind(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
@@ -68,23 +89,65 @@ public class DetailFragment extends Fragment {
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        //Bundle extras = getArguments();
-
-//        if (extras != null) {
-//            mUri = Uri.parse(extras.getString(ConstantsManager.POSITION_ID_KEY));
-//        }
-
+        getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
+        mDetailPresenter.attachView(this);
 
-        ScrollManager manager = new ScrollManager();
-        manager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
+        Bundle extras = getArguments();
+        if (extras != null) {
+            mImdbId = extras.getString(ConstantsManager.POSITION_ID_KEY);
+        }
+
+        mDetailPresenter.getFilm(mImdbId);
+
+        mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
         return rootView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mDetailPresenter.detachView();
+    }
+
+    @Override
+    public void showFilmInfo(FilmModel film) {
+        mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
+        mTitleView.setText(film.title);
+        mCountriesView.setText(film.countries);
+        mYearView.setText(film.year);
+        mRuntimeView.setText(film.runtime);
+        mRatingView.setText(film.rating);
+        mGenresView.setText(film.genres);
+        mDirectorsView.setText(film.directors);
+        mWritersView.setText(film.writers);
+        mPlotView.setText(film.plot);
+    }
+
+    @Override
+    public void showUnknownError() {
+        MessageHandlerUtility.showMessage(mScrollView,
+                getString(R.string.error_unknown), Snackbar.LENGTH_LONG);
+    }
+
+    @Override
+    public void addToFavorites() {
+
+    }
+
+    @Override
+    public void shareWithFriends() {
+
+    }
+
+    @Override
+    public void openImdbLink() {
+
     }
 }

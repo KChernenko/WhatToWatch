@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.ui.fragments;
+package me.bitfrom.whattowatch.ui.fragments.views;
 
 import java.util.List;
 

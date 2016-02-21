@@ -28,6 +28,8 @@ import android.view.animation.Interpolator;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 
 public class ScrollManager extends RecyclerView.OnScrollListener {
 
@@ -40,6 +42,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
 
     public enum Direction {UP, DOWN}
 
+    @Inject
     public ScrollManager() {
     }
 

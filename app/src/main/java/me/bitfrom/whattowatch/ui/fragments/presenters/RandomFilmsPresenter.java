@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.ui.fragments;
+package me.bitfrom.whattowatch.ui.fragments.presenters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.injection.ActivityContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
+import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import rx.Observer;
 import rx.Subscription;
