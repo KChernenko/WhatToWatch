@@ -13,19 +13,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
-import me.bitfrom.whattowatch.utils.UriTransfer;
+import me.bitfrom.whattowatch.utils.IdTransfer;
 
 
 public class FavoritesFragment extends Fragment {
 
     @Bind(R.id.favorite_list)
-    EmptyRecyclerView mRecyclerView;
-
+    protected EmptyRecyclerView mRecyclerView;
     @Bind(R.id.favorite_list_empty)
-    TextView mEmptyView;
+    protected TextView mEmptyView;
 
-
-    private UriTransfer uriTransfer;
+    private IdTransfer idTransfer;
 
     @Nullable
     @Override
@@ -40,7 +38,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        uriTransfer = (UriTransfer) getActivity();
+        idTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
     }

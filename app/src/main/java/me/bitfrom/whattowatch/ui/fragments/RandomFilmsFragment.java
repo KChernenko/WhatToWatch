@@ -24,7 +24,7 @@ import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
-import me.bitfrom.whattowatch.utils.UriTransfer;
+import me.bitfrom.whattowatch.utils.IdTransfer;
 
 
 public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView {
@@ -43,7 +43,7 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     @Inject
     protected FilmsAdapter mFilmsAdapter;
 
-    private UriTransfer uriTransfer;
+    private IdTransfer idTransfer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        uriTransfer = (UriTransfer) getActivity();
+        idTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
     }

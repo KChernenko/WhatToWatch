@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.utils.UriTransfer;
+import me.bitfrom.whattowatch.utils.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
@@ -28,20 +28,20 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
-public class MainActivity extends BaseActivity implements UriTransfer,
+public class MainActivity extends BaseActivity implements IdTransfer,
         NavigationView.OnNavigationItemSelectedListener, MainMvpView {
-
 
     @Inject
     protected MainPresenter mMainPresenter;
+
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    protected Toolbar toolbar;
     @Bind(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    protected DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
-    NavigationView navigationView;
+    protected NavigationView navigationView;
     @Bind(R.id.coordinator)
-    CoordinatorLayout coordinatorLayout;
+    protected CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,10 +117,10 @@ public class MainActivity extends BaseActivity implements UriTransfer,
     }
 
     @Override
-    public void sendUri(String uri) {
+    public void sendFilmId(String filmId) {
         DetailFragment df = new DetailFragment();
         Bundle args = new Bundle();
-        args.putString(ConstantsManager.POSITION_ID_KEY, uri);
+        args.putString(ConstantsManager.POSITION_ID_KEY, filmId);
         df.setArguments(args);
         replaceFragment(df);
     }

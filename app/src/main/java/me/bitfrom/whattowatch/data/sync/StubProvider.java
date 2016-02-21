@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.data;
+package me.bitfrom.whattowatch.data.sync;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

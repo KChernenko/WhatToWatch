@@ -41,7 +41,7 @@
         </activity>
         <provider
             android:authorities="@string/content_authority"
-            android:name=".data.StubProvider"
+            android:name=".data.sync.StubProvider"
             android:exported="false"
             android:syncable="true"/>
         <service
