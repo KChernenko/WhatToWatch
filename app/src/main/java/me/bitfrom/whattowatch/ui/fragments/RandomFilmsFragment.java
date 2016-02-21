@@ -22,12 +22,18 @@ import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
-import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
-import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import me.bitfrom.whattowatch.utils.IdTransfer;
+import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
-public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView {
+public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView, SwipeRefreshLayout.OnRefreshListener {
+
+    @Inject
+    protected RandomFilmsPresenter mRandomFilmsPresenter;
+    @Inject
+    protected FilmsAdapter mFilmsAdapter;
+    @Inject
+    protected MessageHandlerUtility mMessageUtility;
 
     @Bind(R.id.random_films_root_layout)
     protected RelativeLayout mRootLayout;
@@ -38,12 +44,7 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     @Bind(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @Inject
-    protected RandomFilmsPresenter mRandomFilmsPresenter;
-    @Inject
-    protected FilmsAdapter mFilmsAdapter;
-
-    private IdTransfer idTransfer;
+    private IdTransfer mIdTransfer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,9 +56,9 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         ButterKnife.bind(this, rootView);
 
         initRecyclerView();
-        initSwipeToRefresh();
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mRandomFilmsPresenter.getFilms();
+        mRandomFilmsPresenter.getFilms(true);
         return rootView;
     }
 
@@ -69,10 +70,14 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
-        idTransfer = (IdTransfer) getActivity();
+        mIdTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onRefresh() {
+        loadNewFilms(true);
     }
 
     @Override
@@ -83,38 +88,32 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     }
 
     @Override
-    public void showFilmsListEmpty() {
-        MessageHandlerUtility.showMessage(mRootLayout, "The list such empty((",
+    public void showUnknownError() {
+        mMessageUtility.showMessage(mRootLayout,
+                getString(R.string.error_unknown),
                 Snackbar.LENGTH_LONG);
     }
 
     @Override
-    public void showError() {
-        MessageHandlerUtility.showMessage(mRootLayout, "Something bad had happened!",
+    public void showInternetUnavailableError() {
+        mMessageUtility.showMessage(mRootLayout,
+                getString(R.string.error_connection_unavailable),
                 Snackbar.LENGTH_LONG);
+    }
+
+    @Override
+    public void loadNewFilms(boolean pullToRefresh) {
+        mRandomFilmsPresenter.loadFilms(pullToRefresh);
+    }
+
+    @Override
+    public void showLoading(boolean pullToRefresh) {
+        mSwipeRefreshLayout.setRefreshing(pullToRefresh);
     }
 
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-    }
-
-    /**
-     * Update our list of films using swipe to refresh mechanism
-     **/
-    private void initSwipeToRefresh() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (NetworkStateChecker.isNetworkAvailable(getActivity())) {
-                    mRandomFilmsPresenter.loadFilms();
-                } else {
-                    MessageHandlerUtility.showMessage(mRootLayout,
-                            getString(R.string.error_connection_unavailable),
-                            Snackbar.LENGTH_LONG);
-                }
-            }
-        });
     }
 }

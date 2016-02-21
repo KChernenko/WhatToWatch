@@ -10,7 +10,11 @@ public interface RandomFilmsMvpView extends MvpView {
 
     void showFilmsList(List<FilmModel> films);
 
-    void showFilmsListEmpty();
+    void showUnknownError();
 
-    void showError();
+    void showInternetUnavailableError();
+
+    void loadNewFilms(boolean pullToRefresh);
+
+    void showLoading(boolean pullToRefresh);
 }

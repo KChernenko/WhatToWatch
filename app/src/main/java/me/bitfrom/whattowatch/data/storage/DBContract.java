@@ -50,18 +50,26 @@ public class DBContract {
 
 
         public static ContentValues toContentValues(Movie movie) {
-            ContentValues values = new ContentValues();
+            ContentValues values = new ContentValues(13);
             StringBuilder directors = new StringBuilder();
             StringBuilder writers = new StringBuilder();
 
             values.put(COLUMN_IMDB_ID, movie.getIdIMDB());
             for (int i = 0; i < movie.getDirectors().size(); i++) {
-                directors.append(movie.getDirectors().get(i).getName()).append(" ");
+                if (i == movie.getDirectors().size() - 1) {
+                    directors.append(movie.getDirectors().get(i).getName()).append("");
+                    break;
+                }
+                directors.append(movie.getDirectors().get(i).getName()).append(", ");
             }
             values.put(COLUMN_DIRECTORS, directors.toString());
 
             for (int i = 0; i < movie.getWriters().size(); i++) {
-                writers.append(movie.getWriters().get(i).getName()).append(" ");
+                if (i == movie.getWriters().size() - 1) {
+                    writers.append(movie.getWriters().get(i).getName()).append("");
+                    break;
+                }
+                writers.append(movie.getWriters().get(i).getName()).append(", ");
             }
             values.put(COLUMN_WRITERS, writers.toString());
 
@@ -102,8 +110,8 @@ public class DBContract {
             StringBuilder result = new StringBuilder();
 
             for (int i = 0; i < movieItem.size(); i++) {
-                if (i == movieItem.size() -1) {
-                    result.append(movieItem.get(i)).append(" ");
+                if (i == movieItem.size() - 1) {
+                    result.append(movieItem.get(i)).append("");
                     break;
                 }
                 result.append(movieItem.get(i)).append("/");

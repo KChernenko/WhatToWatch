@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
-
 import android.content.Context;
 import android.content.Intent;
 
@@ -13,6 +12,7 @@ import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.injection.ActivityContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
+import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,15 +43,21 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         mContext = null;
     }
 
-    public void loadFilms() {
+    public void loadFilms(boolean pullToRefresh) {
         checkViewAttached();
-        mContext.startService(new Intent(mContext, LoadService.class));
+        getMvpView().showLoading(pullToRefresh);
+        if (NetworkStateChecker.isNetworkAvailable(mContext)) {
+            mContext.startService(new Intent(mContext, LoadService.class));
+        } else {
+            getMvpView().showLoading(false);
+            getMvpView().showInternetUnavailableError();
+        }
     }
 
-    public void getFilms() {
+    public void getFilms(boolean pullToRefresh) {
         checkViewAttached();
         if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            loadFilms();
+            loadFilms(pullToRefresh);
             mDataManager.getPreferencesHelper().markFirstLaunched();
         }
         mSubscription = mDataManager.getFilms()
@@ -66,15 +72,14 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        getMvpView().showError();
+                        getMvpView().showUnknownError();
                         Timber.e("Error occurred!", e);
-                        e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(List<FilmModel> films) {
                         if (films.isEmpty()) {
-                            getMvpView().showFilmsListEmpty();
+                            getMvpView().showUnknownError();
                         } else {
                             getMvpView().showFilmsList(films);
                         }
