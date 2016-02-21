@@ -209,7 +209,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_color_normal"
             fab:fab_colorPressed="@color/fab_color_pressed"
-            fab:fab_icon="@drawable/ic_link_white_24dp"/>
+            fab:fab_icon="@mipmap/ic_link_white_24dp"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_save_fav"
@@ -217,7 +217,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_color_normal"
             fab:fab_colorPressed="@color/fab_color_pressed"
-            fab:fab_icon="@drawable/ic_star_white_24dp"/>
+            fab:fab_icon="@mipmap/ic_star_white_24dp"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_share"
@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/fab_color_normal"
             fab:fab_colorPressed="@color/fab_color_pressed"
-            fab:fab_icon="@drawable/ic_share_white_24dp"/>
+            fab:fab_icon="@mipmap/ic_share_white_24dp"/>
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
