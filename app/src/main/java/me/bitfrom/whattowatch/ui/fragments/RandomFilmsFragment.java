@@ -22,6 +22,7 @@ import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
+import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.IdTransfer;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
@@ -113,5 +114,13 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+                    }
+                })
+        );
     }
 }

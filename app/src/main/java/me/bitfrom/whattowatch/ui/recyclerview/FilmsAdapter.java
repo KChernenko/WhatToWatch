@@ -31,8 +31,13 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
         mFilms = new ArrayList<>();
     }
 
-    public void  setFilms(List<FilmModel> films) {
+    public void setFilms(List<FilmModel> films) {
         mFilms = films;
+    }
+
+    public String getImdbIdByPosition(int position) {
+        FilmModel film = mFilms.get(position);
+        return film.idIMDB;
     }
 
     @Override
