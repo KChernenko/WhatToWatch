@@ -10,10 +10,10 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.model.Movie;
-import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class LoadService extends Service {
 
@@ -30,22 +30,24 @@ public class LoadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        Timber.d("Start loading...");
         mSubscription = mDataManager.loadFilms()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Observable<Movie>>() {
+                .subscribe(new Observer<Movie>() {
                     @Override
                     public void onCompleted() {
                         stopSelf(startId);
+                        Timber.d("Loading finished!");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mSubscription.unsubscribe();
                         stopSelf(startId);
+                        Timber.e(e, "Error occurred!");
                     }
 
                     @Override
-                    public void onNext(Observable<Movie> movieObservable) {
+                    public void onNext(Movie movie) {
 
                     }
                 });

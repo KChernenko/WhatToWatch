@@ -13,6 +13,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
@@ -27,8 +29,11 @@ import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
 public class MainActivity extends BaseActivity implements UriTransfer, IpositionId,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, MainMvpView {
 
+
+    @Inject
+    protected MainPresenter mMainPresenter;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.drawer_layout)
@@ -42,12 +47,14 @@ public class MainActivity extends BaseActivity implements UriTransfer, Iposition
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
         setupDrawerLayout();
 
+        mMainPresenter.attachView(this);
         if (savedInstanceState == null) {
             replaceFragment(new RandomFilmsFragment());
         }

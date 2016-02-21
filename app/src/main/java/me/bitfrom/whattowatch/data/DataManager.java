@@ -34,11 +34,11 @@ public class DataManager {
         return mPreferencesHelper;
     }
 
-    public Observable<Observable<Movie>> loadFilms() {
+    public Observable<Movie> loadFilms() {
         return mFilmsAPI.getFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_LIST_END, ConstantsManager.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .map(new Func1<Film, Observable<Movie>>() {
+                .concatMap(new Func1<Film, Observable<Movie>>() {
                     @Override
                     public Observable<Movie> call(Film film) {
                         List<Movie> result = film.getData().getMovies();
@@ -50,11 +50,11 @@ public class DataManager {
     }
 
     public Observable<List<FilmModel>> getFilms() {
-        return mDbHelper.getFilms();
+        return mDbHelper.getFilms().distinct();
     }
 
-    public Observable<FilmModel> getTopFilmById(String imdbUrlKey) {
-        return mDbHelper.getTopFilmById(imdbUrlKey);
+    public Observable<FilmModel> getTopFilmById(String imdbId) {
+        return mDbHelper.getTopFilmById(imdbId);
     }
 
     public Observable<List<FilmModel>> getFavoriteFilms() {

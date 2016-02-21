@@ -3,8 +3,8 @@
     package="me.bitfrom.whattowatch" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- Permissions required by the sync adapter -->
     <uses-permission
         android:name="android.permission.READ_SYNC_SETTINGS"/>
@@ -12,9 +12,6 @@
         android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
 
     <application
         android:name=".WWApplication"
@@ -27,6 +24,8 @@
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp.OkHttpGlideModule"
             android:value="GlideModule" />
+        <meta-data android:name="me.bitfrom.whattowatch.utils.GlideConfiguration"
+            android:value="GlideModule"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4917f5e6c66cb574bd374377cf2cdccfd133aa97" />

@@ -4,7 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import me.bitfrom.whattowatch.BuildConfig;
+import io.fabric.sdk.android.BuildConfig;
 import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import okhttp3.OkHttpClient;

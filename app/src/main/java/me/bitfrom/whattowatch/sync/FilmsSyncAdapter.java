@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.domain.weapons.LoadRandomFilmsWeapon;
 import me.bitfrom.whattowatch.utils.Utility;
 
 /**
@@ -30,7 +29,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider,
                               SyncResult syncResult) {
 
-        LoadRandomFilmsWeapon.loadFilms();
+//        LoadRandomFilmsWeapon.loadFilms();
     }
 
     public static void initializeSyncAdapter(Context context) {

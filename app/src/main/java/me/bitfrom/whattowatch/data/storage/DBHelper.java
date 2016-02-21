@@ -19,6 +19,7 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
+import timber.log.Timber;
 
 @Singleton
 public class DBHelper {
@@ -45,6 +46,7 @@ public class DBHelper {
                 try {
                     mDb.delete(DBContract.FilmsTable.TABLE_NAME, null);
                     for (Movie movie: newMovies) {
+                        Timber.d(movie.getTitle());
                         long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                                 DBContract.FilmsTable.toContentValues(movie),
                                 SQLiteDatabase.CONFLICT_REPLACE);
@@ -71,10 +73,10 @@ public class DBHelper {
                 });
     }
 
-    public Observable<FilmModel> getTopFilmById(String imdbUrlKey) {
+    public Observable<FilmModel> getTopFilmById(String imdbId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
-        + DBContract.FilmsTable.COLUMN_URL_IMDB + " = ?", imdbUrlKey)
+        + DBContract.FilmsTable.COLUMN_URL_IMDB + " = ?", imdbId)
                 .map(new Func1<SqlBrite.Query, FilmModel>() {
                     @Override
                     public FilmModel call(SqlBrite.Query query) {

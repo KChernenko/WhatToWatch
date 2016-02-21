@@ -17,6 +17,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
 
@@ -66,7 +67,8 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
                     @Override
                     public void onError(Throwable e) {
                         getMvpView().showError();
-                        mSubscription.unsubscribe();
+                        Timber.e("Error occurred!", e);
+                        e.printStackTrace();
                     }
 
                     @Override

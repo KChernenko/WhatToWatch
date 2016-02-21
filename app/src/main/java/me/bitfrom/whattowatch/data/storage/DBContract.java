@@ -17,6 +17,8 @@ public class DBContract {
     public abstract static class FilmsTable {
         public static final String TABLE_NAME = "films_table";
 
+
+        public static final String COLUMN_IMDB_ID = "imdb_id";
         public static final String COLUMN_COUNTRIES = "countries";
         public static final String COLUMN_DIRECTORS = "directors";
         public static final String COLUMN_GENRES = "genres";
@@ -32,7 +34,8 @@ public class DBContract {
 
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
-                        COLUMN_URL_IMDB + " TEXT NOT NULL PRIMARY KEY, " +
+                        COLUMN_IMDB_ID + " TEXT NOT NULL PRIMARY KEY, " +
+                        COLUMN_URL_IMDB + " TEXT NOT NULL, " +
                         COLUMN_COUNTRIES + " TEXT NOT NULL, " +
                         COLUMN_DIRECTORS + " TEXT NOT NULL, " +
                         COLUMN_GENRES + " TEXT NOT NULL, " +
@@ -47,17 +50,18 @@ public class DBContract {
 
 
         public static ContentValues toContentValues(Movie movie) {
-            ContentValues values = new ContentValues(10);
+            ContentValues values = new ContentValues();
             StringBuilder directors = new StringBuilder();
             StringBuilder writers = new StringBuilder();
 
+            values.put(COLUMN_IMDB_ID, movie.getIdIMDB());
             for (int i = 0; i < movie.getDirectors().size(); i++) {
-                directors.append(movie.getDirectors().get(i).getName());
+                directors.append(movie.getDirectors().get(i).getName()).append(" ");
             }
             values.put(COLUMN_DIRECTORS, directors.toString());
 
             for (int i = 0; i < movie.getWriters().size(); i++) {
-                writers.append(movie.getWriters().get(i).getName());
+                writers.append(movie.getWriters().get(i).getName()).append(" ");
             }
             values.put(COLUMN_WRITERS, writers.toString());
 
@@ -65,6 +69,7 @@ public class DBContract {
             values.put(COLUMN_GENRES, convertListItems(movie.getGenres()));
             values.put(COLUMN_RUNTIME, convertListItems(movie.getRuntime()));
             values.put(COLUMN_URL_IMDB, movie.getUrlIMDB());
+            values.put(COLUMN_URL_POSTER, movie.getUrlPoster());
             values.put(COLUMN_PLOT, movie.getPlot());
             values.put(COLUMN_RATING, movie.getRating());
             values.put(COLUMN_TITLE, movie.getTitle());
@@ -77,6 +82,8 @@ public class DBContract {
         public static FilmModel parseCursor(Cursor cursor) {
             FilmModel filmModel = new FilmModel();
 
+            filmModel.idIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID));
+            filmModel.urlPoster = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_POSTER));
             filmModel.urlIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_IMDB));
             filmModel.countries = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COUNTRIES));
             filmModel.directors = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTORS));
@@ -95,7 +102,11 @@ public class DBContract {
             StringBuilder result = new StringBuilder();
 
             for (int i = 0; i < movieItem.size(); i++) {
-                result.append(movieItem.get(i));
+                if (i == movieItem.size() -1) {
+                    result.append(movieItem.get(i)).append(" ");
+                    break;
+                }
+                result.append(movieItem.get(i)).append("/");
             }
 
             return result.toString();
