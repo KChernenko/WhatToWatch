@@ -33,8 +33,6 @@ public class MainActivity extends BaseActivity implements IdTransfer,
 
     @Inject
     protected MainPresenter mMainPresenter;
-    @Inject
-    protected MessageHandlerUtility mMessageUtility;
 
     @Bind(R.id.toolbar)
     protected Toolbar toolbar;
@@ -100,7 +98,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 replaceFragment(af);
                 break;
             case R.id.nav_trailers:
-                mMessageUtility.showMessage(coordinatorLayout,
+                MessageHandlerUtility.showMessage(coordinatorLayout,
                         getString(R.string.trailers_fragment_message),
                         Snackbar.LENGTH_LONG);
                 break;

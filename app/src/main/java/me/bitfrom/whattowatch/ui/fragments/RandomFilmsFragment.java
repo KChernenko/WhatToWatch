@@ -32,8 +32,6 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     protected RandomFilmsPresenter mRandomFilmsPresenter;
     @Inject
     protected FilmsAdapter mFilmsAdapter;
-    @Inject
-    protected MessageHandlerUtility mMessageUtility;
 
     @Bind(R.id.random_films_root_layout)
     protected RelativeLayout mRootLayout;
@@ -89,14 +87,14 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void showUnknownError() {
-        mMessageUtility.showMessage(mRootLayout,
+        MessageHandlerUtility.showMessage(mRootLayout,
                 getString(R.string.error_unknown),
                 Snackbar.LENGTH_LONG);
     }
 
     @Override
     public void showInternetUnavailableError() {
-        mMessageUtility.showMessage(mRootLayout,
+        MessageHandlerUtility.showMessage(mRootLayout,
                 getString(R.string.error_connection_unavailable),
                 Snackbar.LENGTH_LONG);
     }

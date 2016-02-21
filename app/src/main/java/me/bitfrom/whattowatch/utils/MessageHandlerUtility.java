@@ -3,18 +3,11 @@ package me.bitfrom.whattowatch.utils;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import javax.inject.Inject;
-
 import me.bitfrom.whattowatch.R;
 
 public class MessageHandlerUtility {
 
-    @Inject
-    public MessageHandlerUtility () {
-
-    }
-
-    public void showMessage(View view, String message, int snackBarLength) {
+    public static void showMessage(View view, String message, int snackBarLength) {
         switch (snackBarLength) {
             case Snackbar.LENGTH_LONG: {
                 final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
