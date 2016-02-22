@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.model.FilmModel;
@@ -44,6 +45,8 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     protected TextView mEmptyView;
     @Bind(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindString(R.string.error_unknown)
+    protected String mErrorUnknown;
 
     private IdTransfer mIdTransfer;
 
@@ -90,9 +93,11 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void showUnknownError() {
-        MessageHandlerUtility.showMessage(mRootLayout,
-                getString(R.string.error_unknown),
-                Snackbar.LENGTH_LONG);
+//        MessageHandlerUtility.showMessage(mRootLayout,
+//                getString(R.string.error_unknown),
+//                Snackbar.LENGTH_LONG);
+        mEmptyView.setText(mErrorUnknown);
+        mRecyclerView.setEmptyView(mEmptyView);
     }
 
     @Override

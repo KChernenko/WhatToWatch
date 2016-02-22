@@ -17,7 +17,6 @@ import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
@@ -62,9 +61,8 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
             mDataManager.getPreferencesHelper().markFirstLaunched();
         }
         mSubscription = mDataManager.getFilms()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .cache()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<FilmModel>>() {
                     @Override
                     public void onCompleted() {
@@ -75,6 +73,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
                     public void onError(Throwable e) {
                         getMvpView().showUnknownError();
                         Timber.e("Error occurred!", e);
+                        e.printStackTrace();
                     }
 
                     @Override

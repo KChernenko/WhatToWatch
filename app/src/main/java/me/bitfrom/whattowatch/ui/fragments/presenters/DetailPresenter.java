@@ -13,7 +13,6 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class DetailPresenter extends BasePresenter<DetailMvpView> {
@@ -42,9 +41,8 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void getFilm(String imdbId) {
         checkViewAttached();
         mSubscription = mDataManager.getTopFilmById(imdbId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .cache()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<FilmModel>() {
                     @Override
                     public void onCompleted() {

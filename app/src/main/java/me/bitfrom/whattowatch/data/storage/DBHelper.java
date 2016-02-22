@@ -19,6 +19,7 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 @Singleton
 public class DBHelper {
@@ -27,7 +28,7 @@ public class DBHelper {
 
     @Inject
     public DBHelper(DBOpenHelper dbOpenHelper) {
-        mDb = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper);
+        mDb = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
     }
 
     public BriteDatabase getBriteDb() {
@@ -44,7 +45,7 @@ public class DBHelper {
 
                 try {
                     mDb.delete(DBContract.FilmsTable.TABLE_NAME, null);
-                    for (Movie movie: newMovies) {
+                    for (Movie movie : newMovies) {
                         long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                                 DBContract.FilmsTable.toContentValues(movie),
                                 SQLiteDatabase.CONFLICT_REPLACE);
@@ -92,11 +93,11 @@ public class DBHelper {
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
                 String.valueOf(ConstantsManager.FAVORITE))
-        .mapToList(new Func1<Cursor, FilmModel>() {
-            @Override
-            public FilmModel call(Cursor cursor) {
-                return DBContract.FilmsTable.parseCursor(cursor);
-            }
+                .mapToList(new Func1<Cursor, FilmModel>() {
+                    @Override
+                    public FilmModel call(Cursor cursor) {
+                        return DBContract.FilmsTable.parseCursor(cursor);
+                    }
         });
     }
 

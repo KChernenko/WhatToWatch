@@ -18,12 +18,12 @@ import me.bitfrom.whattowatch.utils.IdTransfer;
 
 public class FavoritesFragment extends Fragment {
 
+    private IdTransfer mIdTransfer;
+
     @Bind(R.id.favorite_list)
     protected EmptyRecyclerView mRecyclerView;
     @Bind(R.id.favorite_list_empty)
     protected TextView mEmptyView;
-
-    private IdTransfer idTransfer;
 
     @Nullable
     @Override
@@ -37,8 +37,7 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
-        idTransfer = (IdTransfer) getActivity();
+        mIdTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
     }
