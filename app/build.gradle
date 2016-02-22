@@ -119,7 +119,7 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
     compile 'com.squareup.sqlbrite:sqlbrite:0.6.0'
     compile 'com.jakewharton:butterknife:8.0.0-SNAPSHOT'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.jakewharton.timber:timber:4.1.1'
 
     //Image-side

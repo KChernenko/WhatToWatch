@@ -53,12 +53,19 @@ public class DataManager {
         return mDbHelper.getFilms().distinct();
     }
 
-    public Observable<FilmModel> getTopFilmById(String imdbId) {
-        return mDbHelper.getTopFilmById(imdbId);
+    public Observable<FilmModel> getTopFilmById(String filmId) {
+        return mDbHelper.getTopFilmById(filmId).distinct();
     }
 
     public Observable<List<FilmModel>> getFavoriteFilms() {
-        return mDbHelper.getFavoriteFilms();
+        return mDbHelper.getFavoriteFilms().distinct();
     }
 
+    public void addToFavorite(String filmId) {
+        mDbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
+    }
+
+    public void removeFromFavorite(String filmId) {
+        mDbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
+    }
 }

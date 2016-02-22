@@ -102,6 +102,7 @@ public class DBContract {
             filmModel.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
             filmModel.writers = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS));
             filmModel.year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
+            filmModel.favorite = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE));
 
             return filmModel;
         }

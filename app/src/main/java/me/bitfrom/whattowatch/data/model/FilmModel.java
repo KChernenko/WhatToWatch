@@ -32,6 +32,7 @@ public class FilmModel implements Parcelable {
     public String urlIMDB;
     @SerializedName("rating")
     public String rating;
+    public String favorite;
 
     public FilmModel() {
     }
@@ -54,6 +55,7 @@ public class FilmModel implements Parcelable {
         dest.writeString(this.plot);
         dest.writeString(this.idIMDB);
         dest.writeString(this.urlIMDB);
+        dest.writeString(this.favorite);
         dest.writeString(this.rating);
     }
 
@@ -69,6 +71,7 @@ public class FilmModel implements Parcelable {
         this.plot = in.readString();
         this.idIMDB = in.readString();
         this.urlIMDB = in.readString();
+        this.favorite = in.readString();
         this.rating = in.readString();
     }
 
@@ -99,6 +102,7 @@ public class FilmModel implements Parcelable {
         if (!genres.equals(filmModel.genres)) return false;
         if (!plot.equals(filmModel.plot)) return false;
         if (!idIMDB.equals(filmModel.idIMDB)) return false;
+        if (!favorite.equals(filmModel.favorite)) return false;
         if (!urlIMDB.equals(filmModel.urlIMDB)) return false;
 
         return rating.equals(filmModel.rating);
@@ -117,6 +121,7 @@ public class FilmModel implements Parcelable {
         result = 31 * result + plot.hashCode();
         result = 31 * result + idIMDB.hashCode();
         result = 31 * result + urlIMDB.hashCode();
+        result = 31 * result + favorite.hashCode();
         result = 31 * result + rating.hashCode();
 
         return result;

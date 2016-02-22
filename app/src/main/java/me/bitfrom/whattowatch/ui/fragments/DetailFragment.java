@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.image.ImageLoader;
 import me.bitfrom.whattowatch.data.model.FilmModel;
@@ -27,6 +28,7 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
+import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
@@ -40,7 +42,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     @Inject
     protected ScrollManager mScrollManager;
 
-    private String mImdbId;
+    private String mFilmId;
 
     @Bind(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
@@ -100,10 +102,10 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
         Bundle extras = getArguments();
         if (extras != null) {
-            mImdbId = extras.getString(ConstantsManager.POSITION_ID_KEY);
+            mFilmId = extras.getString(ConstantsManager.POSITION_ID_KEY);
         }
 
-        mDetailPresenter.getFilm(mImdbId);
+        mDetailPresenter.getFilm(mFilmId);
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -138,7 +140,18 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void addToFavorites() {
+        mBtnSaveToFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+    }
+
+    @OnClick(R.id.action_save_fav)
+    public void favorite() {
+        Timber.d("Clicked!");
+        mDetailPresenter.updateFavorites(mFilmId);
     }
 
     @Override

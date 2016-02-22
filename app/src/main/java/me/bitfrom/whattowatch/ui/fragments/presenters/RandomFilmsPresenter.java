@@ -60,6 +60,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
             loadFilms(pullToRefresh);
             mDataManager.getPreferencesHelper().markFirstLaunched();
         }
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getFilms()
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())

@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.data.storage;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -20,6 +21,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 @Singleton
 public class DBHelper {
@@ -72,10 +74,10 @@ public class DBHelper {
                 });
     }
 
-    public Observable<FilmModel> getTopFilmById(String imdbId) {
+    public Observable<FilmModel> getTopFilmById(String filmId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
-        + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", imdbId)
+        + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
                 .map(new Func1<SqlBrite.Query, FilmModel>() {
                     @Override
                     public FilmModel call(SqlBrite.Query query) {
@@ -98,7 +100,43 @@ public class DBHelper {
                     public FilmModel call(Cursor cursor) {
                         return DBContract.FilmsTable.parseCursor(cursor);
                     }
-        });
+                });
+    }
+
+    public void updateFavorite(String filmId, int favorite) {
+        ContentValues values = new ContentValues(1);
+        BriteDatabase.Transaction transaction = mDb.newTransaction();
+        int result;
+        switch (favorite) {
+            case ConstantsManager.FAVORITE:
+                values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.FAVORITE);
+                try {
+                    result = mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                            values, SQLiteDatabase.CONFLICT_REPLACE,
+                            DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
+                            filmId);
+                    Timber.d("Added to favorite: " + result);
+                    transaction.markSuccessful();
+                } finally {
+                    transaction.end();
+                    values.clear();
+                }
+                break;
+            case ConstantsManager.NOT_FAVORITE:
+                values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
+                try {
+                    result = mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                            values, SQLiteDatabase.CONFLICT_REPLACE,
+                            DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
+                            filmId);
+                    Timber.d("Removed to favorite: " + result);
+                    transaction.markSuccessful();
+                } finally {
+                    transaction.end();
+                    values.clear();
+                }
+                break;
+        }
     }
 
     public Observable<Void> clearTables() {
