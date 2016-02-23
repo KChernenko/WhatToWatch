@@ -6,11 +6,11 @@
     <PreferenceCategory
         android:title="@string/pref_general_section">
         <ListPreference
-            android:key="@string/pref_number_of_movies_key"
-            android:title="@string/pref_number_of_movies_label"
-            android:entries="@array/pref_number_of_movies_options"
-            android:entryValues="@array/pref_number_of_movies_values"
-            android:defaultValue="@string/pref_number_of_movies_seven_default"/>
+            android:key="@string/pref_number_of_films_key"
+            android:title="@string/pref_number_of_films_label"
+            android:entries="@array/pref_number_of_films_options"
+            android:entryValues="@array/pref_number_of_films_values"
+            android:defaultValue="@string/pref_number_of_films_seven_default"/>
 
         <ListPreference
             android:key="@string/pref_frequency_of_updates_key"

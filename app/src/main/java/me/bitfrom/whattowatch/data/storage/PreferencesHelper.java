@@ -35,8 +35,8 @@ public class PreferencesHelper {
      * 7 - by default.
      **/
     public int getPrefferedNuberOfFilms() {
-        return Integer.parseInt(mPref.getString(mContext.getString(R.string.pref_number_of_movies_key),
-                mContext.getString(R.string.pref_number_of_movies_seven)));
+        return Integer.parseInt(mPref.getString(mContext.getString(R.string.pref_number_of_films_key),
+                mContext.getString(R.string.pref_number_of_films_seven)));
     }
 
     /**

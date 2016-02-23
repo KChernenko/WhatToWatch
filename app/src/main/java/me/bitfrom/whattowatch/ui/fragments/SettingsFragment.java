@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_number_of_movies_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_number_of_films_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_frequency_of_updates_key)));
 
         return super.onCreateView(inflater, container, savedInstanceState);
