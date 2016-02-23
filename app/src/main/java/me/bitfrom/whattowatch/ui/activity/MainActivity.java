@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.utils.IdTransfer;
+import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;

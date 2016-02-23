@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
-import me.bitfrom.whattowatch.utils.IdTransfer;
+import me.bitfrom.whattowatch.data.IdTransfer;
 
 
 public class FavoritesFragment extends Fragment {

@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.utils;
+package me.bitfrom.whattowatch.data;
 
 public interface IdTransfer {
 

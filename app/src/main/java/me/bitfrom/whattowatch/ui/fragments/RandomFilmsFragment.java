@@ -26,7 +26,7 @@ import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.utils.IdTransfer;
+import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
