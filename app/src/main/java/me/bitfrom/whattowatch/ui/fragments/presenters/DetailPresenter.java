@@ -2,6 +2,10 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 
 import javax.inject.Inject;
 
@@ -29,6 +33,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private String mRating;
     private String mDirectors;
     private String mGenres;
+    private String mImdbLink;
 
     @Inject
     public DetailPresenter(DataManager dataManager, @ActivityContext Context context) {
@@ -75,10 +80,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                         } else {
                             getMvpView().showFilmInfo(film);
                             //Init strings for sharing
-                            mTitle = film.title;
-                            mRating = film.rating;
-                            mDirectors = film.directors;
-                            mGenres = film.genres;
+                            initSharedInformation(film);
                         }
                     }
                 });
@@ -115,5 +117,34 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                         }
                     }
                 });
+    }
+
+    public void openImdbWebsite() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_message)
+                .setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(mImdbLink));
+                        mContext.startActivity(intent);
+                    }
+                });
+        getMvpView().imdbLinkDialog(alertDialog);
+    }
+
+    private void initSharedInformation(FilmModel film) {
+        mTitle = film.title;
+        mRating = film.rating;
+        mDirectors = film.directors;
+        mGenres = film.genres;
+        mImdbLink = film.urlIMDB;
     }
 }

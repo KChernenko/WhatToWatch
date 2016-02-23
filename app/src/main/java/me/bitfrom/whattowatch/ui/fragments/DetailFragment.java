@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.ui.fragments;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,6 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     @Bind(R.id.imdb_link)
     protected FloatingActionButton mIMDBLink;
 
-
     @BindString(R.string.successfully_added_to_fav)
     protected String mSuccessfullyAddedToFav;
     @BindString(R.string.deleted_from_fav)
@@ -139,6 +139,11 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
         mDetailPresenter.updateFavorites(mFilmId);
     }
 
+    @OnClick(R.id.imdb_link)
+    public void btnGoToImdbClicked() {
+        mDetailPresenter.openImdbWebsite();
+    }
+
     @Override
     public void showAddedToFavorites() {
         Snackbar snackbar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
@@ -168,7 +173,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     }
 
     @Override
-    public void openImdbLink() {
-
+    public void imdbLinkDialog(AlertDialog.Builder alertDialog) {
+        alertDialog.show();
     }
 }
