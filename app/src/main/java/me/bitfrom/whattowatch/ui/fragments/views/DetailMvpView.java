@@ -9,7 +9,9 @@ public interface DetailMvpView extends MvpView {
 
     void showUnknownError();
 
-    void addToFavorites();
+    void showAddedToFavorites();
+
+    void showRemovedFromFavorites();
 
     void shareWithFriends();
 

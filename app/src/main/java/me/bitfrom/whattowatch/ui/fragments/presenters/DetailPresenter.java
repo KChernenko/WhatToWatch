@@ -14,6 +14,8 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class DetailPresenter extends BasePresenter<DetailMvpView> {
@@ -37,12 +39,14 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void detachView() {
         super.detachView();
         if (mSubscription != null) mSubscription.unsubscribe();
+        mContext = null;
     }
 
     public void getFilm(String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getTopFilmById(filmId)
+                .subscribeOn(Schedulers.newThread())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<FilmModel>() {
@@ -73,27 +77,17 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getTopFilmById(filmId)
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .distinct()
-                .subscribe(new Observer<FilmModel>() {
+                .subscribe(new Action1<FilmModel>() {
                     @Override
-                    public void onCompleted() {
-                        Timber.d("Completed!");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(FilmModel film) {
+                    public void call(FilmModel film) {
                         if (film.favorite.equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
                             mDataManager.addToFavorite(filmId);
-                            Timber.d(film.idIMDB + " favorite.");
+                            getMvpView().showAddedToFavorites();
                         } else {
                             mDataManager.removeFromFavorite(filmId);
-                            Timber.d(film.idIMDB + " not favorite.");
+                            getMvpView().showRemovedFromFavorites();
                         }
                     }
                 });

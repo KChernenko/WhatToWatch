@@ -54,7 +54,7 @@ public class DataManager {
     }
 
     public Observable<FilmModel> getTopFilmById(String filmId) {
-        return mDbHelper.getTopFilmById(filmId).distinct();
+        return mDbHelper.getTopFilmById(filmId).first();
     }
 
     public Observable<List<FilmModel>> getFavoriteFilms() {

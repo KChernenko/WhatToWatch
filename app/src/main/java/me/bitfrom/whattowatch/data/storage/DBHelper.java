@@ -46,7 +46,9 @@ public class DBHelper {
                 BriteDatabase.Transaction transaction = mDb.newTransaction();
 
                 try {
-                    mDb.delete(DBContract.FilmsTable.TABLE_NAME, null);
+                    mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                            DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
+                            String.valueOf(ConstantsManager.NOT_FAVORITE));
                     for (Movie movie : newMovies) {
                         long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                                 DBContract.FilmsTable.toContentValues(movie),
@@ -65,7 +67,9 @@ public class DBHelper {
 
     public Observable<List<FilmModel>> getFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
-                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME)
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
+                " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
+                String.valueOf(ConstantsManager.NOT_FAVORITE))
                 .mapToList(new Func1<Cursor, FilmModel>() {
                     @Override
                     public FilmModel call(Cursor cursor) {
@@ -115,7 +119,7 @@ public class DBHelper {
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
-                    Timber.d("Added to favorite: " + result);
+                    Timber.d("Added to favorites: " + result);
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();
@@ -129,7 +133,7 @@ public class DBHelper {
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
-                    Timber.d("Removed to favorite: " + result);
+                    Timber.d("Removed from favorites: " + result);
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();

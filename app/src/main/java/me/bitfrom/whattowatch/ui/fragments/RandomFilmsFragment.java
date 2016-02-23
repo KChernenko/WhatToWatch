@@ -67,8 +67,8 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         mRandomFilmsPresenter.detachView();
     }
 
@@ -93,9 +93,6 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void showUnknownError() {
-//        MessageHandlerUtility.showMessage(mRootLayout,
-//                getString(R.string.error_unknown),
-//                Snackbar.LENGTH_LONG);
         mEmptyView.setText(mErrorUnknown);
         mRecyclerView.setEmptyView(mEmptyView);
     }

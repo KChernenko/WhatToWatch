@@ -17,6 +17,7 @@ import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
@@ -62,6 +63,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getFilms()
+                .subscribeOn(Schedulers.newThread())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<FilmModel>>() {

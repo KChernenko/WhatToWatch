@@ -28,7 +28,6 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
-import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
@@ -113,8 +112,8 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         mDetailPresenter.detachView();
     }
 
@@ -138,20 +137,31 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
                 getString(R.string.error_unknown), Snackbar.LENGTH_LONG);
     }
 
-    @Override
-    public void addToFavorites() {
-        mBtnSaveToFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-    }
-
     @OnClick(R.id.action_save_fav)
     public void favorite() {
-        Timber.d("Clicked!");
         mDetailPresenter.updateFavorites(mFilmId);
+    }
+
+    @Override
+    public void showAddedToFavorites() {
+        Snackbar snackbar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.undo_fav, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailPresenter.updateFavorites(mFilmId);
+            }
+        }).show();
+    }
+
+    @Override
+    public void showRemovedFromFavorites() {
+        Snackbar snackbar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.undo_fav, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailPresenter.updateFavorites(mFilmId);
+            }
+        }).show();
     }
 
     @Override
