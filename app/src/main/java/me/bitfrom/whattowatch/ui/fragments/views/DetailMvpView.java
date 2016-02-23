@@ -13,7 +13,7 @@ public interface DetailMvpView extends MvpView {
 
     void showRemovedFromFavorites();
 
-    void shareWithFriends();
+    void shareWithFriends(String shareInfo);
 
     void openImdbLink();
 }

@@ -116,7 +116,7 @@
     <!-- Strings for ShareBottomSheet -->
     <string name="share_action_awesome_intro">There is an awesome film</string>
     <string name="share_action_imdb_rating">which IMDB rating is</string>
-    <string name="share_action_director">And directed by</string>
+    <string name="share_action_directors">And directed by</string>
     <string name="share_to">Share via:</string>
     <string name="app_hash_tag"> #WhatToWatchApp</string>
 

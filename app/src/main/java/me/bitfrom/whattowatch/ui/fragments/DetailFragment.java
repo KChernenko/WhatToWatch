@@ -28,6 +28,7 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
+import me.bitfrom.whattowatch.utils.ShareUtility;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
@@ -75,16 +76,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     @Bind(R.id.imdb_link)
     protected FloatingActionButton mIMDBLink;
 
-    @BindString(R.string.app_name)
-    protected String mAppNameString;
-    @BindString(R.string.share_action_awesome_intro)
-    protected String mShareActionIntro;
-    @BindString(R.string.share_action_imdb_rating)
-    protected String mShareActionRating;
-    @BindString(R.string.share_action_director)
-    protected String mShareActionDirector;
-    @BindString(R.string.app_hash_tag)
-    protected String mShareHashTag;
+
     @BindString(R.string.successfully_added_to_fav)
     protected String mSuccessfullyAddedToFav;
     @BindString(R.string.deleted_from_fav)
@@ -137,8 +129,13 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
                 getString(R.string.error_unknown), Snackbar.LENGTH_LONG);
     }
 
+    @OnClick(R.id.action_share)
+    public void btnShareClicked() {
+        mDetailPresenter.shareWithFriends();
+    }
+
     @OnClick(R.id.action_save_fav)
-    public void favorite() {
+    public void btnFavoriteClicked() {
         mDetailPresenter.updateFavorites(mFilmId);
     }
 
@@ -165,8 +162,9 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     }
 
     @Override
-    public void shareWithFriends() {
-
+    public void shareWithFriends(String shareInfo) {
+        ShareUtility.getShareActions(getActivity(), shareInfo)
+                .title(R.string.share_to).show();
     }
 
     @Override

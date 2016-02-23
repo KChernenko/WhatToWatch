@@ -5,6 +5,7 @@ import android.content.Context;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.injection.ActivityContext;
@@ -24,6 +25,11 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private Context mContext;
     private Subscription mSubscription;
 
+    private String mTitle;
+    private String mRating;
+    private String mDirectors;
+    private String mGenres;
+
     @Inject
     public DetailPresenter(DataManager dataManager, @ActivityContext Context context) {
         mDataManager = dataManager;
@@ -42,7 +48,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         mContext = null;
     }
 
-    public void getFilm(String filmId) {
+    public void getFilm(final String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getTopFilmById(filmId)
@@ -68,9 +74,27 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                             getMvpView().showUnknownError();
                         } else {
                             getMvpView().showFilmInfo(film);
+                            //Init strings for sharing
+                            mTitle = film.title;
+                            mRating = film.rating;
+                            mDirectors = film.directors;
+                            mGenres = film.genres;
                         }
                     }
                 });
+    }
+
+    public void shareWithFriends() {
+        checkViewAttached();
+        StringBuilder sharedInfo = new StringBuilder();
+        sharedInfo.append(mContext.getString(R.string.share_action_awesome_intro)).append(" «")
+                .append(mTitle).append("»").append("\n")
+                .append(mContext.getString(R.string.share_action_imdb_rating)).append(" ").append(mRating)
+                .append(".\n").append(mContext.getString(R.string.share_action_directors)).append(" ")
+                .append(mDirectors).append("\n").append(mGenres).append("\n")
+                .append(mContext.getString(R.string.app_hash_tag));
+
+        getMvpView().shareWithFriends(sharedInfo.toString());
     }
 
     public void updateFavorites(final String filmId) {
