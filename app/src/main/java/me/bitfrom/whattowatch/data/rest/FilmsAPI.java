@@ -25,9 +25,9 @@ public interface FilmsAPI {
                               @Query("format") String format,
                               @Query("data") String data);
 
-    /***
+    /**
      * Helper class that sets up a new services
-     ***/
+     **/
     class Create {
 
         public static FilmsAPI filmsAPI() {

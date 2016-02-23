@@ -35,4 +35,6 @@ public class ConstantsManager {
             " before requesting data to the Presenter";
 
     public static final String POSITION_ID_KEY = "position_id";
+
+    public static final String CACHE_CLEANER_SERVICE_NAME = "ServiceThatCleansGlideDiskCache";
 }

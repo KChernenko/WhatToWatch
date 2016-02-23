@@ -64,6 +64,7 @@
                 android:resource="@xml/syncadapter" />
         </service>
         <service android:name=".data.LoadService"/>
+        <service android:name=".data.CacheCleanerService"/>
 
     </application>
 

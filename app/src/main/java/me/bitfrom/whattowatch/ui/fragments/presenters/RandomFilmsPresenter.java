@@ -3,10 +3,13 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 import android.content.Context;
 import android.content.Intent;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.data.CacheCleanerService;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.model.FilmModel;
@@ -48,6 +51,8 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         checkViewAttached();
         getMvpView().showLoading(pullToRefresh);
         if (NetworkStateChecker.isNetworkAvailable(mContext)) {
+            Glide.get(mContext).clearMemory();
+            mContext.startService(new Intent(mContext, CacheCleanerService.class));
             mContext.startService(new Intent(mContext, LoadService.class));
         } else {
             getMvpView().showLoading(false);
