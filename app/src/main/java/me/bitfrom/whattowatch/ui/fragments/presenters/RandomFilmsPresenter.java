@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.CacheCleanerService;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
@@ -81,7 +82,9 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
                     public void onError(Throwable e) {
                         getMvpView().showUnknownError();
                         Timber.e("Error occurred!", e);
-                        e.printStackTrace();
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override

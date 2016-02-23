@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.model.FilmModel;
@@ -70,7 +71,9 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                     public void onError(Throwable e) {
                         getMvpView().showUnknownError();
                         Timber.d("Error occurred!", e);
-                        e.printStackTrace();
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
