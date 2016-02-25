@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import io.fabric.sdk.android.Fabric;
 import me.bitfrom.whattowatch.injection.component.ApplicationComponent;
@@ -15,6 +17,7 @@ import timber.log.Timber;
 public class WWApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
+    private RefWatcher mRefWatcher;
 
     @Override
     public void onCreate() {
@@ -24,6 +27,8 @@ public class WWApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        mRefWatcher = LeakCanary.install(this);
     }
 
 
@@ -41,4 +46,8 @@ public class WWApplication extends Application {
         return mApplicationComponent;
     }
 
+    public static RefWatcher getRefWatcher(Context context) {
+        WWApplication application = (WWApplication) context.getApplicationContext();
+        return application.mRefWatcher;
+    }
 }

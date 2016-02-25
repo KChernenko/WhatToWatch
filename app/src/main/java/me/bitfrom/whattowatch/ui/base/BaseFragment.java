@@ -3,6 +3,8 @@ package me.bitfrom.whattowatch.ui.base;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.injection.component.DaggerFragmentComponent;
 import me.bitfrom.whattowatch.injection.component.FragmentComponent;
@@ -29,5 +31,12 @@ public class BaseFragment extends Fragment{
         }
 
         return mFragmentComponent;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = WWApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

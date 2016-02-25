@@ -32,7 +32,6 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
-import me.bitfrom.whattowatch.utils.ShareUtility;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
@@ -187,7 +186,10 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void shareWithFriends(String shareInfo) {
-        ShareUtility.getShareActions(getActivity(), shareInfo)
-                .title(R.string.share_to).show();
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareInfo);
+
+        this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
     }
 }
