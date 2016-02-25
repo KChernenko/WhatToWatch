@@ -12,17 +12,12 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 
-import javax.inject.Inject;
-
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
+import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 
 
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
-
-    @Inject
-    protected DataManager mDataManager;
 
     public FilmsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -36,6 +31,9 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
         getContext().startService(new Intent(getContext(), LoadService.class));
     }
 
+    public static void initSyncAdapter(Context context) {
+        getSyncAccount(context);
+    }
 
     /**
      * Helper method to get the fake account to be used with SyncAdapter, or make a new one
@@ -45,7 +43,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      * @return a fake account.
      **/
-    public Account getSyncAccount(Context context) {
+    public static Account getSyncAccount(Context context) {
         // Get an instance of the Android account manager
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
@@ -78,7 +76,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Helper method to schedule the sync adapter periodic execution
      **/
-    public void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -106,9 +104,9 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.content_authority), bundle);
     }
 
-    private void onAccountCreated(Account newAccount, Context context) {
+    private static void onAccountCreated(Account newAccount, Context context) {
 
-        final int SYNC_INTERVAL = mDataManager.getPreferencesHelper().getUpdateInterval();
+        final int SYNC_INTERVAL = PreferencesHelper.getUpdateInterval(context);
         final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
         /*
          * Since we've created an account

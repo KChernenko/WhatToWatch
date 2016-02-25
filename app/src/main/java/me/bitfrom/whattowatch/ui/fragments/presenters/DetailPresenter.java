@@ -2,10 +2,6 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 
 import javax.inject.Inject;
 
@@ -13,7 +9,7 @@ import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.model.FilmModel;
-import me.bitfrom.whattowatch.injection.ActivityContext;
+import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -37,7 +33,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private String mImdbLink;
 
     @Inject
-    public DetailPresenter(DataManager dataManager, @ActivityContext Context context) {
+    public DetailPresenter(DataManager dataManager, @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
@@ -51,7 +47,6 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void detachView() {
         super.detachView();
         if (mSubscription != null) mSubscription.unsubscribe();
-        mContext = null;
     }
 
     public void getFilm(final String filmId) {
@@ -122,25 +117,8 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                 });
     }
 
-    public void openImdbWebsite() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.dialog_title)
-                .setMessage(R.string.dialog_message)
-                .setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(mImdbLink));
-                        mContext.startActivity(intent);
-                    }
-                });
-        getMvpView().imdbLinkDialog(alertDialog);
+    public String getImdbLink() {
+       return mImdbLink;
     }
 
     private void initSharedInformation(FilmModel film) {

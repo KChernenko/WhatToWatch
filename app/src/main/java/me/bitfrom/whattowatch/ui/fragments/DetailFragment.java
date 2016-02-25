@@ -1,5 +1,8 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
@@ -141,7 +144,23 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @OnClick(R.id.imdb_link)
     public void btnGoToImdbClicked() {
-        mDetailPresenter.openImdbWebsite();
+         new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_message)
+                .setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(mDetailPresenter.getImdbLink()));
+                        getActivity().startActivity(intent);
+                    }
+                }).show();
     }
 
     @Override
@@ -170,10 +189,5 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     public void shareWithFriends(String shareInfo) {
         ShareUtility.getShareActions(getActivity(), shareInfo)
                 .title(R.string.share_to).show();
-    }
-
-    @Override
-    public void imdbLinkDialog(AlertDialog.Builder alertDialog) {
-        alertDialog.show();
     }
 }

@@ -14,7 +14,7 @@ import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
-import me.bitfrom.whattowatch.injection.ActivityContext;
+import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
@@ -27,16 +27,13 @@ import timber.log.Timber;
 public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
 
     private final DataManager mDataManager;
-    private FilmsSyncAdapter mFilmsSyncAdapter;
     private Context mContext;
     private Subscription mSubscription;
 
     @Inject
-    public RandomFilmsPresenter(DataManager dataManager, @ActivityContext Context context,
-                                FilmsSyncAdapter filmsSyncAdapter) {
+    public RandomFilmsPresenter(DataManager dataManager, @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
-        mFilmsSyncAdapter = filmsSyncAdapter;
     }
 
     @Override
@@ -48,7 +45,6 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
     public void detachView() {
         super.detachView();
         if (mSubscription != null) mSubscription.unsubscribe();
-        mContext = null;
     }
 
     public void loadFilms(boolean pullToRefresh) {
@@ -63,11 +59,10 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         }
     }
 
-    public void getFilms(boolean pullToRefresh) {
+    public void getFilms() {
         checkViewAttached();
-        mFilmsSyncAdapter.getSyncAccount(mContext);
         if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            loadFilms(pullToRefresh);
+            FilmsSyncAdapter.initSyncAdapter(mContext);
             mDataManager.getPreferencesHelper().markFirstLaunched();
         }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();

@@ -15,7 +15,7 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 public class PreferencesHelper {
 
     private final SharedPreferences mPrivatePref;
-    private SharedPreferences mPref;
+    private static SharedPreferences mPref;
     private Context mContext;
 
     @Inject
@@ -50,11 +50,11 @@ public class PreferencesHelper {
      * Returns number of days for syncing, that user selected in the app's settings;
      * 5 - by default.
      **/
-    public int getUpdateInterval() {
+    public static int getUpdateInterval(Context context) {
         int updateInterval;
         int updatePeriod = Integer.parseInt(mPref
-                .getString(mContext.getString(R.string.pref_frequency_of_updates_key),
-                        mContext.getString(R.string.pref_frequency_of_updates_five)));
+                .getString(context.getString(R.string.pref_frequency_of_updates_key),
+                        context.getString(R.string.pref_frequency_of_updates_five)));
 
         switch (updatePeriod) {
             case ConstantsManager.THREE_DAYS:

@@ -62,7 +62,7 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         initRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mRandomFilmsPresenter.getFilms(true);
+        mRandomFilmsPresenter.getFilms();
         return rootView;
     }
 
