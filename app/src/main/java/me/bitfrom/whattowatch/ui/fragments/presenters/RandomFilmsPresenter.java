@@ -89,6 +89,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
                     public void onNext(List<FilmModel> films) {
                         if (films.isEmpty()) {
                             getMvpView().showUnknownError();
+                            loadFilms(true);
                         } else {
                             getMvpView().showFilmsList(films);
                         }
