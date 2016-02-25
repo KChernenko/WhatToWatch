@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.data.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,21 +14,27 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 @Singleton
 public class PreferencesHelper {
 
-    private final SharedPreferences mPref;
+    private final SharedPreferences mPrivatePref;
+    private SharedPreferences mPref;
     private Context mContext;
 
     @Inject
     public PreferencesHelper(@ApplicationContext Context context) {
-        mPref = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        mPrivatePref = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        mPref = PreferenceManager.getDefaultSharedPreferences(context);
         mContext = context;
     }
 
+    public SharedPreferences getSharedPreferences() {
+        return mPref;
+    }
+
     public boolean checkIfFirstLaunched() {
-        return mPref.getBoolean(ConstantsManager.APPS_FIRST_LAUNCH, true);
+        return mPrivatePref.getBoolean(ConstantsManager.APPS_FIRST_LAUNCH, true);
     }
 
     public void markFirstLaunched() {
-        mPref.edit().putBoolean(ConstantsManager.APPS_FIRST_LAUNCH, false).apply();
+        mPrivatePref.edit().putBoolean(ConstantsManager.APPS_FIRST_LAUNCH, false).apply();
     }
 
     /**
@@ -42,7 +49,7 @@ public class PreferencesHelper {
     /**
      * Returns number of days for syncing, that user selected in the app's settings;
      * 5 - by default.
-     * **/
+     **/
     public int getUpdateInterval() {
         int updateInterval;
         int updatePeriod = Integer.parseInt(mPref
@@ -67,6 +74,6 @@ public class PreferencesHelper {
     }
 
     public void clear() {
-        mPref.edit().clear().apply();
+        mPrivatePref.edit().clear().apply();
     }
 }

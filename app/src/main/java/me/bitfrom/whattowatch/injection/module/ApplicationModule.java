@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import me.bitfrom.whattowatch.data.rest.FilmsAPI;
+import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 
 @Module
@@ -35,6 +36,12 @@ public class ApplicationModule {
     @Singleton
     FilmsAPI providesFilmsAPI() {
         return FilmsAPI.Create.filmsAPI();
+    }
+
+    @Provides
+    @Singleton
+    FilmsSyncAdapter providesFilmsSyncAdapter() {
+        return new FilmsSyncAdapter(mApplication, true);
     }
 
 }

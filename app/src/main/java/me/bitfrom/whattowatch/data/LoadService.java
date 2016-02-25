@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.model.Movie;
 import rx.Observer;
@@ -19,6 +20,8 @@ public class LoadService extends Service {
 
     @Inject
     protected DataManager mDataManager;
+    @Inject
+    protected NotificationHelper mNotification;
     private Subscription mSubscription;
 
     @Override
@@ -36,14 +39,20 @@ public class LoadService extends Service {
                 .subscribe(new Observer<Movie>() {
                     @Override
                     public void onCompleted() {
-                        stopSelf(startId);
+                        getApplication()
+                                .startService(new Intent(getApplication(), CacheCleanerService.class));
+                        mNotification.showNotification();
                         Timber.d("Loading finished!");
+                        stopSelf(startId);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         stopSelf(startId);
                         Timber.e(e, "Error occurred!");
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override

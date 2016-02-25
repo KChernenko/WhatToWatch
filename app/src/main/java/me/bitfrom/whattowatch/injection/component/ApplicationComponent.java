@@ -11,6 +11,7 @@ import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.rest.FilmsAPI;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
+import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
 
@@ -32,4 +33,6 @@ public interface ApplicationComponent {
     DBHelper providesDBHelper();
 
     DataManager providesDataManager();
+
+    FilmsSyncAdapter providesSyncAdapter();
 }

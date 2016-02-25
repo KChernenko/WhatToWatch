@@ -10,10 +10,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.data.CacheCleanerService;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
 import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ActivityContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
@@ -27,13 +27,16 @@ import timber.log.Timber;
 public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
 
     private final DataManager mDataManager;
+    private FilmsSyncAdapter mFilmsSyncAdapter;
     private Context mContext;
     private Subscription mSubscription;
 
     @Inject
-    public RandomFilmsPresenter(DataManager dataManager, @ActivityContext Context context) {
+    public RandomFilmsPresenter(DataManager dataManager, @ActivityContext Context context,
+                                FilmsSyncAdapter filmsSyncAdapter) {
         mDataManager = dataManager;
         mContext = context;
+        mFilmsSyncAdapter = filmsSyncAdapter;
     }
 
     @Override
@@ -53,7 +56,6 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         getMvpView().showLoading(pullToRefresh);
         if (NetworkStateChecker.isNetworkAvailable(mContext)) {
             Glide.get(mContext).clearMemory();
-            mContext.startService(new Intent(mContext, CacheCleanerService.class));
             mContext.startService(new Intent(mContext, LoadService.class));
         } else {
             getMvpView().showLoading(false);
@@ -63,6 +65,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
 
     public void getFilms(boolean pullToRefresh) {
         checkViewAttached();
+        mFilmsSyncAdapter.getSyncAccount(mContext);
         if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
             loadFilms(pullToRefresh);
             mDataManager.getPreferencesHelper().markFirstLaunched();

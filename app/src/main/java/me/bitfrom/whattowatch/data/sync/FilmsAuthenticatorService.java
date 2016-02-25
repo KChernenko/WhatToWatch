@@ -4,9 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-/**
- * Created by Constantine with love.
- */
+
 public class FilmsAuthenticatorService extends Service {
 
     // Instance field that stores the authenticator object

@@ -14,7 +14,7 @@ public class ShareUtility {
      * @param activity activity instance
      * @param text text you want to share
      * @return shareAction bottom sheet
-     * **/
+     **/
     public static BottomSheet.Builder getShareActions(Activity activity, String text) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
