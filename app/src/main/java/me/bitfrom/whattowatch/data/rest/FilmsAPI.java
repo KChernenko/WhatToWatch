@@ -8,9 +8,16 @@ import rx.Observable;
 public interface FilmsAPI {
 
     @GET("top?")
-    Observable<Film> getFilms(@Query("start") String start,
-                              @Query("end") String end,
-                              @Query("token") String token,
-                              @Query("format") String format,
-                              @Query("data") String data);
+    Observable<Film> getTopFilms(@Query("start") String start,
+                                 @Query("end") String end,
+                                 @Query("token") String token,
+                                 @Query("format") String format,
+                                 @Query("data") String data);
+
+    @GET("bottom?")
+    Observable<Film> getBottomFilms(@Query("start") String start,
+                                    @Query("end") String end,
+                                    @Query("token") String token,
+                                    @Query("format") String format,
+                                    @Query("data") String data);
 }

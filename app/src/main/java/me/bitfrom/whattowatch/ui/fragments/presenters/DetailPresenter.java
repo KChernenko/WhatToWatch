@@ -50,7 +50,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void getFilm(final String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getTopFilmById(filmId)
+        mSubscription = mDataManager.getFilmById(filmId)
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +87,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void updateFavorites(final String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getTopFilmById(filmId)
+        mSubscription = mDataManager.getFilmById(filmId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {

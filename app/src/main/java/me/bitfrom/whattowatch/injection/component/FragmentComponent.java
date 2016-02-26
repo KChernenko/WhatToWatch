@@ -8,7 +8,7 @@ import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
-import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
+import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 
 @PerFragment
 @Component(dependencies = ApplicationComponent.class,
@@ -17,7 +17,7 @@ public interface FragmentComponent {
 
     void inject(Fragment fragment);
 
-    void inject(RandomFilmsFragment randomFilmsFragment);
+    void inject(TopFilmsFragment topFilmsFragment);
 
     void inject(DetailFragment detailFragment);
 

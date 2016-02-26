@@ -33,24 +33,24 @@ public class DataManager {
         return mPreferencesHelper;
     }
 
-    public Observable<Movie> loadFilms() {
-        return mFilmsAPI.getFilms(ConstantsManager.API_LIST_START,
-                ConstantsManager.API_LIST_END, BuildConfig.API_TOKEN,
+    public Observable<Movie> loadTopFilms() {
+        return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
+                ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
                     List<Movie> result = film.getData().getMovies();
                     Collections.shuffle(result);
-                    return mDbHelper.setFilms(result.subList(0,
+                    return mDbHelper.setTopFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
                 });
     }
 
-    public Observable<List<FilmModel>> getFilms() {
-        return mDbHelper.getFilms().distinct();
+    public Observable<List<FilmModel>> getTopFilms() {
+        return mDbHelper.getTopFilms().distinct();
     }
 
-    public Observable<FilmModel> getTopFilmById(String filmId) {
-        return mDbHelper.getTopFilmById(filmId).first();
+    public Observable<FilmModel> getFilmById(String filmId) {
+        return mDbHelper.getFilmById(filmId).first();
     }
 
     public Observable<List<FilmModel>> getFavoriteFilms() {
@@ -63,5 +63,21 @@ public class DataManager {
 
     public void removeFromFavorite(String filmId) {
         mDbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
+    }
+
+    public Observable<Movie> loadBottomFilms() {
+        return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
+                ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
+                ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
+                .concatMap(film -> {
+                    List<Movie> result = film.getData().getMovies();
+                    Collections.shuffle(result);
+                    return mDbHelper.setBottomFilms(result.subList(0,
+                            mPreferencesHelper.getPrefferedNuberOfFilms()));
+                });
+    }
+
+    public Observable<List<FilmModel>> getBottomFilms() {
+        return mDbHelper.getBottomFilms().distinct();
     }
 }

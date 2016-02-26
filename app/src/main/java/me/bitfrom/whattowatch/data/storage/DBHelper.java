@@ -18,7 +18,6 @@ import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.model.Movie;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
-import rx.Subscriber;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -36,43 +35,43 @@ public class DBHelper {
         return mDb;
     }
 
-    public Observable<Movie> setFilms(final Collection<Movie> newMovies) {
-        return Observable.create(new Observable.OnSubscribe<Movie>() {
-            @Override
-            public void call(Subscriber<? super Movie> subscriber) {
-                if (subscriber.isUnsubscribed()) return;
+    public Observable<Movie> setTopFilms(final Collection<Movie> newMovies) {
+        return Observable.create(subscriber -> {
+            if (subscriber.isUnsubscribed()) return;
 
-                BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = mDb.newTransaction();
 
-                try {
-                    mDb.delete(DBContract.FilmsTable.TABLE_NAME,
-                            DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
-                            String.valueOf(ConstantsManager.NOT_FAVORITE));
-                    for (Movie movie : newMovies) {
-                        long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
-                                DBContract.FilmsTable.toContentValues(movie),
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                        if (result >= 0) subscriber.onNext(movie);
-                        else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
-                    }
-                    transaction.markSuccessful();
-                    subscriber.onCompleted();
-                } finally {
-                    transaction.end();
+            try {
+                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                        DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
+                        String.valueOf(ConstantsManager.NOT_FAVORITE));
+                for (Movie movie : newMovies) {
+                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                            DBContract.FilmsTable.toContentValues(movie,
+                                    ConstantsManager.TOP),
+                            SQLiteDatabase.CONFLICT_REPLACE);
+                    if (result >= 0) subscriber.onNext(movie);
+                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
+                transaction.markSuccessful();
+                subscriber.onCompleted();
+            } finally {
+                transaction.end();
             }
         });
     }
 
-    public Observable<List<FilmModel>> getFilms() {
+    public Observable<List<FilmModel>> getTopFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
-                " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
-                String.valueOf(ConstantsManager.NOT_FAVORITE))
+                        " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                        " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
+                        String.valueOf(ConstantsManager.TOP)})
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<FilmModel> getTopFilmById(String filmId) {
+    public Observable<FilmModel> getFilmById(String filmId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
@@ -129,24 +128,54 @@ public class DBHelper {
         }
     }
 
-    public Observable<Void> clearTables() {
-        return Observable.create(new Observable.OnSubscribe<Void>() {
-            @Override
-            public void call(Subscriber<? super Void> subscriber) {
-                if (subscriber.isUnsubscribed()) return;
+    public Observable<Movie> setBottomFilms(final Collection<Movie> newMovies) {
+        return Observable.create(subscriber -> {
+            if (subscriber.isUnsubscribed()) return;
 
-                BriteDatabase.Transaction transaction = mDb.newTransaction();
-                try {
-                    Cursor cursor = mDb.query("SELECT name FROM sqlite_master WHERE type='table'");
-                    while (cursor.moveToNext()) {
-                        mDb.delete(cursor.getString(cursor.getColumnIndex("name")), null);
-                    }
-                    cursor.close();
-                    transaction.markSuccessful();
-                    subscriber.onCompleted();
-                } finally {
-                    transaction.end();
+            BriteDatabase.Transaction transaction = mDb.newTransaction();
+
+            try {
+                for (Movie movie : newMovies) {
+                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                            DBContract.FilmsTable.toContentValues(movie,
+                                    ConstantsManager.BOTTOM),
+                            SQLiteDatabase.CONFLICT_REPLACE);
+                    if (result >= 0) subscriber.onNext(movie);
+                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
+                transaction.markSuccessful();
+                subscriber.onCompleted();
+            } finally {
+                transaction.end();
+            }
+        });
+    }
+
+    public Observable<List<FilmModel>> getBottomFilms() {
+        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
+                        " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                        " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
+                String.valueOf(ConstantsManager.BOTTOM)})
+                .mapToList(DBContract.FilmsTable::parseCursor);
+    }
+
+    public Observable<Void> clearTables() {
+        return Observable.create(subscriber -> {
+            if (subscriber.isUnsubscribed()) return;
+
+            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            try {
+                Cursor cursor = mDb.query("SELECT name FROM sqlite_master WHERE type='table'");
+                while (cursor.moveToNext()) {
+                    mDb.delete(cursor.getString(cursor.getColumnIndex("name")), null);
+                }
+                cursor.close();
+                transaction.markSuccessful();
+                subscriber.onCompleted();
+            } finally {
+                transaction.end();
             }
         });
     }

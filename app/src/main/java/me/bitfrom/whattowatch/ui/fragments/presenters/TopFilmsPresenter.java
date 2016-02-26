@@ -9,31 +9,31 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.LoadService;
+import me.bitfrom.whattowatch.data.LoadTopFilmsService;
 import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
-import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
+import me.bitfrom.whattowatch.ui.fragments.views.TopFilmsMvpView;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
+public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
 
     private final DataManager mDataManager;
     private Context mContext;
     private Subscription mSubscription;
 
     @Inject
-    public RandomFilmsPresenter(DataManager dataManager, @ApplicationContext Context context) {
+    public TopFilmsPresenter(DataManager dataManager, @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
 
     @Override
-    public void attachView(RandomFilmsMvpView mvpView) {
+    public void attachView(TopFilmsMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -48,7 +48,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         getMvpView().showLoading(pullToRefresh);
         if (NetworkStateChecker.isNetworkAvailable(mContext)) {
             Glide.get(mContext).clearMemory();
-            mContext.startService(new Intent(mContext, LoadService.class));
+            mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
         } else {
             getMvpView().showLoading(false);
             getMvpView().showInternetUnavailableError();
@@ -62,7 +62,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
             mDataManager.getPreferencesHelper().markFirstLaunched();
         }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getFilms()
+        mSubscription = mDataManager.getTopFilms()
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())

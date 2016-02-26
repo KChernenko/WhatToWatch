@@ -63,7 +63,8 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".data.LoadService"/>
+        <service android:name=".data.LoadTopFilmsService"/>
+        <service android:name=".data.LoadBottomFilmsService"/>
         <service android:name=".data.CacheCleanerService"/>
 
     </application>

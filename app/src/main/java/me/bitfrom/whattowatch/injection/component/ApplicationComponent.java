@@ -7,7 +7,8 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.LoadService;
+import me.bitfrom.whattowatch.data.LoadBottomFilmsService;
+import me.bitfrom.whattowatch.data.LoadTopFilmsService;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
@@ -18,7 +19,9 @@ import me.bitfrom.whattowatch.injection.module.RestModule;
 @Component(modules = {ApplicationModule.class, RestModule.class})
 public interface ApplicationComponent {
 
-    void inject(LoadService loadService);
+    void inject(LoadTopFilmsService loadTopFilmsService);
+
+    void inject(LoadBottomFilmsService loadBottomFilmsService);
 
     @ApplicationContext
     Context contex();

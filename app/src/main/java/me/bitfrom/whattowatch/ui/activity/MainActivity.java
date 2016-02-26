@@ -22,7 +22,7 @@ import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
-import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
+import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
 
         mMainPresenter.attachView(this);
         if (savedInstanceState == null) {
-            replaceFragment(new RandomFilmsFragment());
+            replaceFragment(new TopFilmsFragment());
         }
 
         getFragmentManager().addOnBackStackChangedListener(() -> {
@@ -108,8 +108,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 replaceFragment(sf);
                 break;
             default:
-                RandomFilmsFragment rff = new RandomFilmsFragment();
-                replaceFragment(rff);
+                TopFilmsFragment tff = new TopFilmsFragment();
+                replaceFragment(tff);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     private void updateToolbarTitle(Fragment fragment){
         String fragmentClassName = fragment.getClass().getName();
 
-        if (fragmentClassName.equals(RandomFilmsFragment.class.getName())) {
+        if (fragmentClassName.equals(TopFilmsFragment.class.getName())) {
             setTitle(getString(R.string.random_films_fragment_title));
             navigationView.setCheckedItem(R.id.nav_top_films);
         } else if (fragmentClassName.equals(FavoritesFragment.class.getName())) {

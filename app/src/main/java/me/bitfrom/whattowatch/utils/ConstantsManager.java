@@ -6,7 +6,8 @@ public class ConstantsManager {
     //Constants for api request
     public static final String BASE_URL = "http://www.myapifilms.com/imdb/";
     public static final String API_LIST_START = "1";
-    public static final String API_LIST_END = "250";
+    public static final String API_TOP_LIST_END = "250";
+    public static final String API_BOTTOM_LIST_END = "100";
     public static final String API_FORMAT = "json";
     public static final String API_DATA = "1";
 
@@ -16,6 +17,8 @@ public class ConstantsManager {
     public static final String DB_LOG_TAG = "WhatToWatch";
     public static final int NOT_FAVORITE = 0;
     public static final int FAVORITE = 1;
+    public static final int TOP = 2;
+    public static final int BOTTOM = 3;
 
     //For the PreferencesHelper
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";

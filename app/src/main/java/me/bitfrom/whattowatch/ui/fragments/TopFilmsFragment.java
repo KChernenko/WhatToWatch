@@ -22,17 +22,17 @@ import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
-import me.bitfrom.whattowatch.ui.fragments.presenters.RandomFilmsPresenter;
-import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
+import me.bitfrom.whattowatch.ui.fragments.presenters.TopFilmsPresenter;
+import me.bitfrom.whattowatch.ui.fragments.views.TopFilmsMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 
 
-public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView, SwipeRefreshLayout.OnRefreshListener {
+public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
-    protected RandomFilmsPresenter mRandomFilmsPresenter;
+    protected TopFilmsPresenter mTopFilmsPresenter;
     @Inject
     protected FilmsAdapter mFilmsAdapter;
 
@@ -56,19 +56,19 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mRandomFilmsPresenter.attachView(this);
+        mTopFilmsPresenter.attachView(this);
 
         initRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mRandomFilmsPresenter.getFilms();
+        mTopFilmsPresenter.getFilms();
         return rootView;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRandomFilmsPresenter.detachView();
+        mTopFilmsPresenter.detachView();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void loadNewFilms(boolean pullToRefresh) {
-        mRandomFilmsPresenter.loadFilms(pullToRefresh);
+        mTopFilmsPresenter.loadFilms(pullToRefresh);
     }
 
     @Override

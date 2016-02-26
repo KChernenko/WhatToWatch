@@ -6,7 +6,7 @@ import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.ui.base.MvpView;
 
 
-public interface RandomFilmsMvpView extends MvpView {
+public interface TopFilmsMvpView extends MvpView {
 
     void showFilmsList(List<FilmModel> films);
 

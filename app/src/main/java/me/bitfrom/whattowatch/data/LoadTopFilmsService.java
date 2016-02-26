@@ -14,12 +14,12 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class LoadService extends Service {
-
+public class LoadTopFilmsService extends Service {
     @Inject
     protected DataManager mDataManager;
     @Inject
     protected NotificationHelper mNotification;
+
     private Subscription mSubscription;
 
     @Override
@@ -31,21 +31,21 @@ public class LoadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        Timber.d("Start loading...");
-        mSubscription = mDataManager.loadFilms()
+        Timber.d("Start loading top films...");
+        getApplication()
+                .startService(new Intent(getApplication(), CacheCleanerService.class));
+        mSubscription = mDataManager.loadTopFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
-                    getApplication()
-                            .startService(new Intent(getApplication(), CacheCleanerService.class));
                     mNotification.showNotification();
-                    Timber.d("Loading finished!");
+                    Timber.d("Loading top films has finished!");
                     stopSelf(startId);
                 })
                 .subscribe(movie -> {
 
                 }, throwable -> {
                     stopSelf(startId);
-                    Timber.e(throwable, "Error occurred!");
+                    Timber.e(throwable, "Error occurred while loading top films!");
                     if (BuildConfig.DEBUG) {
                         throwable.printStackTrace();
                     }

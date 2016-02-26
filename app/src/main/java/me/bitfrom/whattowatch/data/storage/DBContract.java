@@ -31,6 +31,7 @@ public class DBContract {
         public static final String COLUMN_WRITERS = "writers";
         public static final String COLUMN_YEAR = "year";
         public static final String COLUMN_FAVORITE = "favorite";
+        public static final String COLUMN_CATEGORY = "category";
 
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -46,10 +47,11 @@ public class DBContract {
                         COLUMN_URL_POSTER + " TEXT NOT NULL, " +
                         COLUMN_WRITERS + " TEXT NOT NULL, " +
                         COLUMN_YEAR + " TEXT NOT NULL, " +
-                        COLUMN_FAVORITE + " INTEGER" + " );";
+                        COLUMN_FAVORITE + " INTEGER, " +
+                        COLUMN_CATEGORY + " INTEGER" + " );";
 
 
-        public static ContentValues toContentValues(Movie movie) {
+        public static ContentValues toContentValues(Movie movie, int category) {
             ContentValues values = new ContentValues(13);
             StringBuilder directors = new StringBuilder();
             StringBuilder writers = new StringBuilder();
@@ -83,6 +85,7 @@ public class DBContract {
             values.put(COLUMN_TITLE, movie.getTitle());
             values.put(COLUMN_YEAR, movie.getYear());
             values.put(COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
+            values.put(COLUMN_CATEGORY, category);
 
             return values;
         }
