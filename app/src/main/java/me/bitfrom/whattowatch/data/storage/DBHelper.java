@@ -43,8 +43,10 @@ public class DBHelper {
 
             try {
                 mDb.delete(DBContract.FilmsTable.TABLE_NAME,
-                        DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
-                        String.valueOf(ConstantsManager.NOT_FAVORITE));
+                        DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                        " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                        String.valueOf(ConstantsManager.NOT_FAVORITE),
+                        String.valueOf(ConstantsManager.TOP));
                 for (Movie movie : newMovies) {
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
@@ -135,6 +137,11 @@ public class DBHelper {
             BriteDatabase.Transaction transaction = mDb.newTransaction();
 
             try {
+                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                        DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                                " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                        String.valueOf(ConstantsManager.NOT_FAVORITE),
+                        String.valueOf(ConstantsManager.BOTTOM));
                 for (Movie movie : newMovies) {
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
