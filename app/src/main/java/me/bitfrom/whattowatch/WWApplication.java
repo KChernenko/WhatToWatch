@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -29,6 +30,7 @@ public class WWApplication extends Application {
         }
 
         mRefWatcher = LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
     }
 
 
