@@ -8,14 +8,14 @@ import javax.inject.Singleton;
 import dagger.Component;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
-import me.bitfrom.whattowatch.data.rest.FilmsAPI;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
+import me.bitfrom.whattowatch.injection.module.RestModule;
 
 @Singleton
-@Component(modules = ApplicationModule.class)
+@Component(modules = {ApplicationModule.class, RestModule.class})
 public interface ApplicationComponent {
 
     void inject(LoadService loadService);
@@ -24,8 +24,6 @@ public interface ApplicationComponent {
     Context contex();
 
     Application application();
-
-    FilmsAPI providesFilmsAPI();
 
     PreferencesHelper providesPreferencesHelper();
 
