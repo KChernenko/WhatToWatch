@@ -43,6 +43,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     @Bind(R.id.coordinator)
     protected CoordinatorLayout coordinatorLayout;
 
+    private Bundle mArgs;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        mArgs = new Bundle();
 
         setSupportActionBar(toolbar);
         setupDrawerLayout();
@@ -95,6 +99,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         switch (item.getItemId()) {
             case R.id.nav_favorites:
                 FavoritesFragment af = new FavoritesFragment();
+                mArgs.clear();
                 replaceFragment(af);
                 break;
             case R.id.nav_trailers:
@@ -119,9 +124,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     @Override
     public void sendFilmId(String filmId) {
         DetailFragment df = new DetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ConstantsManager.POSITION_ID_KEY, filmId);
-        df.setArguments(args);
+        mArgs.putString(ConstantsManager.POSITION_ID_KEY, filmId);
+        df.setArguments(mArgs);
         replaceFragment(df);
     }
 
