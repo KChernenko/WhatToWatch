@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.END);
         } else if (getFragmentManager().getBackStackEntryCount() > 1) {
             getFragmentManager().popBackStack();
         } else {
