@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         switch (item.getItemId()) {
             case R.id.nav_favorites:
                 FavoritesFragment af = new FavoritesFragment();
-                mArgs.clear();
+                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(af);
                 break;
             case R.id.nav_trailers:
