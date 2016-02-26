@@ -1,6 +1,8 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,17 +24,17 @@ import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
-import me.bitfrom.whattowatch.ui.fragments.presenters.TopFilmsPresenter;
-import me.bitfrom.whattowatch.ui.fragments.views.TopFilmsMvpView;
+import me.bitfrom.whattowatch.ui.fragments.presenters.BottomFilmsPresenter;
+import me.bitfrom.whattowatch.ui.fragments.views.BottomFilmsMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 
-
-public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, SwipeRefreshLayout.OnRefreshListener {
+public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpView,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
-    protected TopFilmsPresenter mTopFilmsPresenter;
+    protected BottomFilmsPresenter mBottomFilmsPresenter;
     @Inject
     protected FilmsAdapter mFilmsAdapter;
 
@@ -49,6 +51,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
 
     private IdTransfer mIdTransfer;
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.films_list_fragment, container, false);
@@ -56,19 +59,13 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mTopFilmsPresenter.attachView(this);
+        mBottomFilmsPresenter.attachView(this);
 
         initRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mTopFilmsPresenter.getFilms();
+        mBottomFilmsPresenter.getFilms();
         return rootView;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mTopFilmsPresenter.detachView();
     }
 
     @Override
@@ -105,7 +102,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
 
     @Override
     public void loadNewFilms(boolean pullToRefresh) {
-        mTopFilmsPresenter.loadFilms(pullToRefresh);
+        mBottomFilmsPresenter.loadFilms(pullToRefresh);
     }
 
     @Override

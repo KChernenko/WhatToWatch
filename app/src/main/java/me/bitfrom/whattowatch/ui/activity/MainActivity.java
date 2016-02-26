@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,10 +19,11 @@ import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
+import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
-import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
+import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 
@@ -99,9 +99,9 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 replaceFragment(af);
                 break;
             case R.id.nav_bottom_films:
-                Snackbar.make(coordinatorLayout,
-                        getString(R.string.trailers_fragment_message),
-                        Snackbar.LENGTH_LONG).show();
+                BottomFilmsFragment bff = new BottomFilmsFragment();
+                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                replaceFragment(bff);
                 break;
             case R.id.nav_settings:
                 SettingsFragment sf = new SettingsFragment();
@@ -167,6 +167,9 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         } else if (fragmentClassName.equals(FavoritesFragment.class.getName())) {
             setTitle(getString(R.string.drawer_item_favorites));
             navigationView.setCheckedItem(R.id.nav_favorites);
+        } else if (fragmentClassName.equals(BottomFilmsFragment.class.getName())) {
+            setTitle(getString(R.string.drawer_item_bottom));
+            navigationView.setCheckedItem(R.id.nav_bottom_films);
         } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
             setTitle(getString(R.string.settings_fragment_title));
             navigationView.setCheckedItem(R.id.nav_settings);
