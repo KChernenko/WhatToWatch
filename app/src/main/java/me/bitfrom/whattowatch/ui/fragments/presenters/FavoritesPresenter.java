@@ -40,7 +40,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
     public void getFavoriteFilms() {
         checkViewAttached();
         mSubscription = mDataManager.getFavoriteFilms()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<FilmModel>>() {

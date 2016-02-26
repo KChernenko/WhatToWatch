@@ -67,7 +67,7 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
         }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getFilms()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<FilmModel>>() {
