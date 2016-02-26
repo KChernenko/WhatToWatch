@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class About {
+public class AboutPojo {
 
     @SerializedName("version")
     @Expose

@@ -16,13 +16,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.image.ImageLoader;
-import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.data.model.Film;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
 
 public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHolder> {
 
-    private List<FilmModel> mFilms;
+    private List<Film> mFilms;
     @Inject
     protected ImageLoader mImageLoader;
 
@@ -31,12 +31,12 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
         mFilms = new ArrayList<>();
     }
 
-    public void setFilms(List<FilmModel> films) {
+    public void setFilms(List<Film> films) {
         mFilms = films;
     }
 
     public String getImdbIdByPosition(int position) {
-        FilmModel film = mFilms.get(position);
+        Film film = mFilms.get(position);
         return film.idIMDB;
     }
 
@@ -49,7 +49,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     @Override
     public void onBindViewHolder(FilmsViewHolder holder, int position) {
-        FilmModel film = mFilms.get(position);
+        Film film = mFilms.get(position);
         mImageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster, holder.poster);
         holder.title.setText(film.title);
         holder.director.setText(film.directors);

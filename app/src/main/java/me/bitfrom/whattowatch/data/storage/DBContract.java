@@ -6,8 +6,8 @@ import android.database.Cursor;
 
 import java.util.List;
 
-import me.bitfrom.whattowatch.data.model.FilmModel;
-import me.bitfrom.whattowatch.data.model.Movie;
+import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.data.model.MoviePojo;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class DBContract {
@@ -51,7 +51,7 @@ public class DBContract {
                         COLUMN_CATEGORY + " INTEGER" + " );";
 
 
-        public static ContentValues toContentValues(Movie movie, int category) {
+        public static ContentValues toContentValues(MoviePojo movie, int category) {
             ContentValues values = new ContentValues(13);
             StringBuilder directors = new StringBuilder();
             StringBuilder writers = new StringBuilder();
@@ -90,24 +90,24 @@ public class DBContract {
             return values;
         }
 
-        public static FilmModel parseCursor(Cursor cursor) {
-            FilmModel filmModel = new FilmModel();
+        public static Film parseCursor(Cursor cursor) {
+            Film film = new Film();
 
-            filmModel.idIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID));
-            filmModel.urlPoster = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_POSTER));
-            filmModel.urlIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_IMDB));
-            filmModel.countries = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COUNTRIES));
-            filmModel.directors = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTORS));
-            filmModel.genres = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GENRES));
-            filmModel.plot = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PLOT));
-            filmModel.rating = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RATING));
-            filmModel.runtime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RUNTIME));
-            filmModel.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-            filmModel.writers = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS));
-            filmModel.year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
-            filmModel.favorite = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE));
+            film.idIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID));
+            film.urlPoster = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_POSTER));
+            film.urlIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_IMDB));
+            film.countries = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COUNTRIES));
+            film.directors = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTORS));
+            film.genres = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GENRES));
+            film.plot = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PLOT));
+            film.rating = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RATING));
+            film.runtime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RUNTIME));
+            film.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
+            film.writers = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS));
+            film.year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
+            film.favorite = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE));
 
-            return filmModel;
+            return film;
         }
 
         private static String convertListItems(List<String> movieItem) {

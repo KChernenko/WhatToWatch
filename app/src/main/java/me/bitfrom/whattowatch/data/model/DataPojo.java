@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Data {
+public class DataPojo {
 
     @SerializedName("movies")
     @Expose
-    private List<Movie> movies = new ArrayList<>();
+    private List<MoviePojo> movies = new ArrayList<>();
 
     /**
      *
      * @return
      * The movies
      */
-    public List<Movie> getMovies() {
+    public List<MoviePojo> getMovies() {
         return movies;
     }
 
@@ -28,7 +28,7 @@ public class Data {
      * @param movies
      * The movies
      */
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(List<MoviePojo> movies) {
         this.movies = movies;
     }
 }

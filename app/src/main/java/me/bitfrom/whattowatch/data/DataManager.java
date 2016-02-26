@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.data.model.FilmModel;
-import me.bitfrom.whattowatch.data.model.Movie;
+import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.data.model.MoviePojo;
 import me.bitfrom.whattowatch.data.rest.FilmsAPI;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
@@ -33,27 +33,27 @@ public class DataManager {
         return mPreferencesHelper;
     }
 
-    public Observable<Movie> loadTopFilms() {
+    public Observable<MoviePojo> loadTopFilms() {
         return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
-                    List<Movie> result = film.getData().getMovies();
+                    List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return mDbHelper.setTopFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
                 });
     }
 
-    public Observable<List<FilmModel>> getTopFilms() {
+    public Observable<List<Film>> getTopFilms() {
         return mDbHelper.getTopFilms().distinct();
     }
 
-    public Observable<FilmModel> getFilmById(String filmId) {
+    public Observable<Film> getFilmById(String filmId) {
         return mDbHelper.getFilmById(filmId).first();
     }
 
-    public Observable<List<FilmModel>> getFavoriteFilms() {
+    public Observable<List<Film>> getFavoriteFilms() {
         return mDbHelper.getFavoriteFilms().distinct();
     }
 
@@ -65,19 +65,19 @@ public class DataManager {
         mDbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
     }
 
-    public Observable<Movie> loadBottomFilms() {
+    public Observable<MoviePojo> loadBottomFilms() {
         return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
-                    List<Movie> result = film.getData().getMovies();
+                    List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return mDbHelper.setBottomFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
                 });
     }
 
-    public Observable<List<FilmModel>> getBottomFilms() {
+    public Observable<List<Film>> getBottomFilms() {
         return mDbHelper.getBottomFilms().distinct();
     }
 }

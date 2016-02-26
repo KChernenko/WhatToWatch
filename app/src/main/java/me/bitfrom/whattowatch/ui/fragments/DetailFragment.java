@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.image.ImageLoader;
-import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.DetailPresenter;
@@ -120,7 +120,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     }
 
     @Override
-    public void showFilmInfo(FilmModel film) {
+    public void showFilmInfo(Film film) {
         mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
         mTitleView.setText(film.title);
         mCountriesView.setText(film.countries);

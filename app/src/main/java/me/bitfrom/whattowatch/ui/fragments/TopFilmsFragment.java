@@ -19,7 +19,7 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.IdTransfer;
-import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.TopFilmsPresenter;
@@ -84,7 +84,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
-    public void showFilmsList(List<FilmModel> films) {
+    public void showFilmsList(List<Film> films) {
         mFilmsAdapter.setFilms(films);
         mFilmsAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);

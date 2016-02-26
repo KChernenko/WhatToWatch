@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.model.FilmModel;
+import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
@@ -105,7 +105,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
        return mImdbLink;
     }
 
-    private void initSharedInformation(FilmModel film) {
+    private void initSharedInformation(Film film) {
         mTitle = film.title;
         mRating = film.rating;
         mDirectors = film.directors;

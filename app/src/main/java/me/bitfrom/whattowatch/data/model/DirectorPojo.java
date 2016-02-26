@@ -3,7 +3,7 @@ package me.bitfrom.whattowatch.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Director {
+public class DirectorPojo {
 
     @SerializedName("name")
     @Expose

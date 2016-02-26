@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+public class MoviePojo {
 
     @SerializedName("title")
     @Expose
@@ -23,10 +23,10 @@ public class Movie {
     private String releaseDate;
     @SerializedName("directors")
     @Expose
-    private List<Director> directors = new ArrayList<>();
+    private List<DirectorPojo> directors = new ArrayList<>();
     @SerializedName("writers")
     @Expose
-    private List<Writer> writers = new ArrayList<>();
+    private List<WriterPojo> writers = new ArrayList<>();
     @SerializedName("runtime")
     @Expose
     private List<String> runtime = new ArrayList<>();
@@ -153,7 +153,7 @@ public class Movie {
      * @return
      * The directors
      */
-    public List<Director> getDirectors() {
+    public List<DirectorPojo> getDirectors() {
         return directors;
     }
 
@@ -162,7 +162,7 @@ public class Movie {
      * @param directors
      * The directors
      */
-    public void setDirectors(List<Director> directors) {
+    public void setDirectors(List<DirectorPojo> directors) {
         this.directors = directors;
     }
 
@@ -171,7 +171,7 @@ public class Movie {
      * @return
      * The writers
      */
-    public List<Writer> getWriters() {
+    public List<WriterPojo> getWriters() {
         return writers;
     }
 
@@ -180,7 +180,7 @@ public class Movie {
      * @param writers
      * The writers
      */
-    public void setWriters(List<Writer> writers) {
+    public void setWriters(List<WriterPojo> writers) {
         this.writers = writers;
     }
 

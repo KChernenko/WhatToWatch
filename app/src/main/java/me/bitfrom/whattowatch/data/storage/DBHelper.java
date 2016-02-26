@@ -14,8 +14,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import me.bitfrom.whattowatch.data.model.FilmModel;
-import me.bitfrom.whattowatch.data.model.Movie;
+import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.data.model.MoviePojo;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -35,7 +35,7 @@ public class DBHelper {
         return mDb;
     }
 
-    public Observable<Movie> setTopFilms(final Collection<Movie> newMovies) {
+    public Observable<MoviePojo> setTopFilms(final Collection<MoviePojo> newMovies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -47,7 +47,7 @@ public class DBHelper {
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.TOP));
-                for (Movie movie : newMovies) {
+                for (MoviePojo movie : newMovies) {
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.TOP),
@@ -63,7 +63,7 @@ public class DBHelper {
         });
     }
 
-    public Observable<List<FilmModel>> getTopFilms() {
+    public Observable<List<Film>> getTopFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
@@ -73,20 +73,20 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<FilmModel> getFilmById(String filmId) {
+    public Observable<Film> getFilmById(String filmId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
                 .map(query -> {
                     Cursor cursor = query.run();
                     cursor.moveToFirst();
-                    FilmModel result = DBContract.FilmsTable.parseCursor(cursor);
+                    Film result = DBContract.FilmsTable.parseCursor(cursor);
                     cursor.close();
                     return result;
                 });
     }
 
-    public Observable<List<FilmModel>> getFavoriteFilms() {
+    public Observable<List<Film>> getFavoriteFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
@@ -130,7 +130,7 @@ public class DBHelper {
         }
     }
 
-    public Observable<Movie> setBottomFilms(final Collection<Movie> newMovies) {
+    public Observable<MoviePojo> setBottomFilms(final Collection<MoviePojo> newMovies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -142,7 +142,7 @@ public class DBHelper {
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.BOTTOM));
-                for (Movie movie : newMovies) {
+                for (MoviePojo movie : newMovies) {
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.BOTTOM),
@@ -158,7 +158,7 @@ public class DBHelper {
         });
     }
 
-    public Observable<List<FilmModel>> getBottomFilms() {
+    public Observable<List<Film>> getBottomFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
