@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 
@@ -86,7 +87,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ext.betaDistributionReleaseNotesFilePath =
@@ -100,6 +101,19 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -109,10 +123,13 @@ dependencies {
     final DAGGER_VERSION = "2.0.2"
     final DAGGER_ANNOTATION_VERSION = "10.0-b28"
 
-    final RX_VERSION = "1.1.0"
+    final RX_JAVA_VERSION = "1.1.1"
+    final RX_ANDROID_VERSION = "1.1.0"
+    final RX_PG_VERSION = "1.1.1.0"
 
     final RETROFIT_VERSION = "2.0.0-beta4"
     final OKHTTP_VERSION = "3.1.2"
+    final GSON_VERSION = "2.6.1"
 
     final SQLBRITE_VERSION = "0.6.0"
 
@@ -147,15 +164,18 @@ dependencies {
     compile "com.google.dagger:dagger:$DAGGER_VERSION"
     provided "org.glassfish:javax.annotation:$DAGGER_ANNOTATION_VERSION"
     //Rx
-    compile "io.reactivex:rxjava:$RX_VERSION"
-    compile "io.reactivex:rxandroid:$RX_VERSION"
+    compile "io.reactivex:rxjava:$RX_JAVA_VERSION"
+    compile "io.reactivex:rxandroid:$RX_ANDROID_VERSION"
+    compile "com.artemzin.rxjava:proguard-rules:$RX_PG_VERSION"
+    //Database
+    compile "com.squareup.sqlbrite:sqlbrite:$SQLBRITE_VERSION"
     //OkHttp
     compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
     compile ("com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION") {
         exclude module: 'okhttp'
     }
-    //Database
-    compile "com.squareup.sqlbrite:sqlbrite:$SQLBRITE_VERSION"
+    //Gson
+    compile "com.google.code.gson:gson:$GSON_VERSION"
     //Retrofit
     compile ("com.squareup.retrofit2:retrofit:$RETROFIT_VERSION") {
         exclude module: 'okhttp'
@@ -192,4 +212,8 @@ dependencies {
 // Log out test results to console
 tasks.matching {it instanceof Test}.all {
     testLogging.events = ["failed", "passed", "skipped"]
+}
+
+retrolambda {
+    jvmArgs '-noverify'
 }

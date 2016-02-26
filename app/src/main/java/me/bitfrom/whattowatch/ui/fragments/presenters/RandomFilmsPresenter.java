@@ -5,20 +5,16 @@ import android.content.Intent;
 
 import com.bumptech.glide.Glide;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadService;
-import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.utils.NetworkStateChecker;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -70,29 +66,18 @@ public class RandomFilmsPresenter extends BasePresenter<RandomFilmsMvpView> {
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<FilmModel>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
+                .subscribe(films -> {
+                    if (films.isEmpty()) {
                         getMvpView().showUnknownError();
-                        Timber.e("Error occurred!", e);
-                        if (BuildConfig.DEBUG) {
-                            e.printStackTrace();
-                        }
+                        loadFilms(true);
+                    } else {
+                        getMvpView().showFilmsList(films);
                     }
-
-                    @Override
-                    public void onNext(List<FilmModel> films) {
-                        if (films.isEmpty()) {
-                            getMvpView().showUnknownError();
-                            loadFilms(true);
-                        } else {
-                            getMvpView().showFilmsList(films);
-                        }
+                }, throwable -> {
+                    getMvpView().showUnknownError();
+                    Timber.e("Error occurred!", throwable);
+                    if (BuildConfig.DEBUG) {
+                        throwable.printStackTrace();
                     }
                 });
     }

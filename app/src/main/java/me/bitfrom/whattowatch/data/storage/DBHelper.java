@@ -19,7 +19,6 @@ import me.bitfrom.whattowatch.data.model.Movie;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -70,27 +69,19 @@ public class DBHelper {
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                 " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
                 String.valueOf(ConstantsManager.NOT_FAVORITE))
-                .mapToList(new Func1<Cursor, FilmModel>() {
-                    @Override
-                    public FilmModel call(Cursor cursor) {
-                        return DBContract.FilmsTable.parseCursor(cursor);
-                    }
-                });
+                .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
     public Observable<FilmModel> getTopFilmById(String filmId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
-                .map(new Func1<SqlBrite.Query, FilmModel>() {
-                    @Override
-                    public FilmModel call(SqlBrite.Query query) {
-                        Cursor cursor = query.run();
-                        cursor.moveToFirst();
-                        FilmModel result = DBContract.FilmsTable.parseCursor(cursor);
-                        cursor.close();
-                        return result;
-                    }
+                .map(query -> {
+                    Cursor cursor = query.run();
+                    cursor.moveToFirst();
+                    FilmModel result = DBContract.FilmsTable.parseCursor(cursor);
+                    cursor.close();
+                    return result;
                 });
     }
 
@@ -99,12 +90,7 @@ public class DBHelper {
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
                 String.valueOf(ConstantsManager.FAVORITE))
-                .mapToList(new Func1<Cursor, FilmModel>() {
-                    @Override
-                    public FilmModel call(Cursor cursor) {
-                        return DBContract.FilmsTable.parseCursor(cursor);
-                    }
-                });
+                .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
     public void updateFavorite(String filmId, int favorite) {

@@ -63,13 +63,10 @@ public class MainActivity extends BaseActivity implements IdTransfer,
             replaceFragment(new RandomFilmsFragment());
         }
 
-        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
-                if (f != null) {
-                    updateToolbarTitle(f);
-                }
+        getFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
+            if (f != null) {
+                updateToolbarTitle(f);
             }
         });
     }

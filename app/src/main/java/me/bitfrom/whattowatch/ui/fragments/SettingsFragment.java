@@ -34,14 +34,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         ledSwitch.setEnabled(mainSwitch.isChecked());
         soundSwitch.setEnabled(mainSwitch.isChecked());
 
-        mainSwitch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                vibSwitch.setEnabled(mainSwitch.isChecked());
-                ledSwitch.setEnabled(mainSwitch.isChecked());
-                soundSwitch.setEnabled(mainSwitch.isChecked());
-                return true;
-            }
+        mainSwitch.setOnPreferenceClickListener(preference -> {
+            vibSwitch.setEnabled(mainSwitch.isChecked());
+            ledSwitch.setEnabled(mainSwitch.isChecked());
+            soundSwitch.setEnabled(mainSwitch.isChecked());
+            return true;
         });
     }
 

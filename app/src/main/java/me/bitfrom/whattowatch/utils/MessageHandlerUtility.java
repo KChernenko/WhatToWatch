@@ -11,22 +11,16 @@ public class MessageHandlerUtility {
         switch (snackBarLength) {
             case Snackbar.LENGTH_LONG: {
                 final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.snackbar_dismiss, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
+                snackbar.setAction(R.string.snackbar_dismiss, v -> {
+                    snackbar.dismiss();
                 });
                 snackbar.show();
                 break;
             }
             case Snackbar.LENGTH_SHORT: {
                 final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
-                snackbar.setAction(R.string.snackbar_dismiss, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
+                snackbar.setAction(R.string.snackbar_dismiss, v -> {
+                    snackbar.dismiss();
                 });
                 snackbar.show();
                 break;

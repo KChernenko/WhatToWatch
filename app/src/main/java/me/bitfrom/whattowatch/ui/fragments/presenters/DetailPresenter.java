@@ -13,10 +13,8 @@ import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -56,30 +54,19 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<FilmModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
+                .subscribe(film -> {
+                    if (film == null) {
                         getMvpView().showUnknownError();
-                        Timber.d("Error occurred!", e);
-                        if (BuildConfig.DEBUG) {
-                            e.printStackTrace();
-                        }
+                    } else {
+                        getMvpView().showFilmInfo(film);
+                        //Init strings for sharing
+                        initSharedInformation(film);
                     }
-
-                    @Override
-                    public void onNext(FilmModel film) {
-                        if (film == null) {
-                            getMvpView().showUnknownError();
-                        } else {
-                            getMvpView().showFilmInfo(film);
-                            //Init strings for sharing
-                            initSharedInformation(film);
-                        }
+                }, throwable -> {
+                    getMvpView().showUnknownError();
+                    Timber.d("Error occurred!", throwable);
+                    if (BuildConfig.DEBUG) {
+                        throwable.printStackTrace();
                     }
                 });
     }
@@ -103,16 +90,13 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         mSubscription = mDataManager.getTopFilmById(filmId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<FilmModel>() {
-                    @Override
-                    public void call(FilmModel film) {
-                        if (film.favorite.equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
-                            mDataManager.addToFavorite(filmId);
-                            getMvpView().showAddedToFavorites();
-                        } else {
-                            mDataManager.removeFromFavorite(filmId);
-                            getMvpView().showRemovedFromFavorites();
-                        }
+                .subscribe(film -> {
+                    if (film.favorite.equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
+                        mDataManager.addToFavorite(filmId);
+                        getMvpView().showAddedToFavorites();
+                    } else {
+                        mDataManager.removeFromFavorite(filmId);
+                        getMvpView().showRemovedFromFavorites();
                     }
                 });
     }

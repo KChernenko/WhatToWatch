@@ -10,8 +10,6 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.data.model.Movie;
-import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -36,28 +34,20 @@ public class LoadService extends Service {
         Timber.d("Start loading...");
         mSubscription = mDataManager.loadFilms()
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Movie>() {
-                    @Override
-                    public void onCompleted() {
-                        getApplication()
-                                .startService(new Intent(getApplication(), CacheCleanerService.class));
-                        mNotification.showNotification();
-                        Timber.d("Loading finished!");
-                        stopSelf(startId);
-                    }
+                .doAfterTerminate(() -> {
+                    getApplication()
+                            .startService(new Intent(getApplication(), CacheCleanerService.class));
+                    mNotification.showNotification();
+                    Timber.d("Loading finished!");
+                    stopSelf(startId);
+                })
+                .subscribe(movie -> {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        stopSelf(startId);
-                        Timber.e(e, "Error occurred!");
-                        if (BuildConfig.DEBUG) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Movie movie) {
-
+                }, throwable -> {
+                    stopSelf(startId);
+                    Timber.e(throwable, "Error occurred!");
+                    if (BuildConfig.DEBUG) {
+                        throwable.printStackTrace();
                     }
                 });
 

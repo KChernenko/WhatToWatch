@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.model.Movie;
 import me.bitfrom.whattowatch.data.rest.FilmsAPI;
@@ -15,7 +14,6 @@ import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
-import rx.functions.Func1;
 
 @Singleton
 public class DataManager {
@@ -39,14 +37,11 @@ public class DataManager {
         return mFilmsAPI.getFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .concatMap(new Func1<Film, Observable<Movie>>() {
-                    @Override
-                    public Observable<Movie> call(Film film) {
-                        List<Movie> result = film.getData().getMovies();
-                        Collections.shuffle(result);
-                        return mDbHelper.setFilms(result.subList(0,
-                                mPreferencesHelper.getPrefferedNuberOfFilms()));
-                    }
+                .concatMap(film -> {
+                    List<Movie> result = film.getData().getMovies();
+                    Collections.shuffle(result);
+                    return mDbHelper.setFilms(result.subList(0,
+                            mPreferencesHelper.getPrefferedNuberOfFilms()));
                 });
     }
 

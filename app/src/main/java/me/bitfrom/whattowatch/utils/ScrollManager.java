@@ -21,7 +21,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -95,16 +94,13 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
      * @param direction - UP or DOWN direction
      **/
     public void hideViewInScrollView(final NestedScrollView scrollView, final View view, final Direction direction) {
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int height = scrollView.getHeight();
-                int scrollY = scrollView.getScrollY();
-                if (scrollY >= height/4) {
-                    hideView(view, direction);
-                } else {
-                    showView(view);
-                }
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            int height = scrollView.getHeight();
+            int scrollY = scrollView.getScrollY();
+            if (scrollY >= height/4) {
+                hideView(view, direction);
+            } else {
+                showView(view);
             }
         });
     }
