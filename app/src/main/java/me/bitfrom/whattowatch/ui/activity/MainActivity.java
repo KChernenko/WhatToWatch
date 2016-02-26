@@ -25,7 +25,6 @@ import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.RandomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
-import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
 public class MainActivity extends BaseActivity implements IdTransfer,
@@ -81,7 +80,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.END);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (getFragmentManager().getBackStackEntryCount() > 1) {
             getFragmentManager().popBackStack();
         } else {
@@ -99,10 +98,10 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 mArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(af);
                 break;
-            case R.id.nav_trailers:
-                MessageHandlerUtility.showMessage(coordinatorLayout,
+            case R.id.nav_bottom_films:
+                Snackbar.make(coordinatorLayout,
                         getString(R.string.trailers_fragment_message),
-                        Snackbar.LENGTH_LONG);
+                        Snackbar.LENGTH_LONG).show();
                 break;
             case R.id.nav_settings:
                 SettingsFragment sf = new SettingsFragment();
@@ -164,7 +163,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
 
         if (fragmentClassName.equals(RandomFilmsFragment.class.getName())) {
             setTitle(getString(R.string.random_films_fragment_title));
-            navigationView.setCheckedItem(R.id.nav_random_films);
+            navigationView.setCheckedItem(R.id.nav_top_films);
         } else if (fragmentClassName.equals(FavoritesFragment.class.getName())) {
             setTitle(getString(R.string.drawer_item_favorites));
             navigationView.setCheckedItem(R.id.nav_favorites);

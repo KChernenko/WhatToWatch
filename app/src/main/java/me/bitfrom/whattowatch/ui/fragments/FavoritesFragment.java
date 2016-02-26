@@ -28,7 +28,6 @@ import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
 public class FavoritesFragment extends BaseFragment implements FavoritesMvpView {
@@ -92,8 +91,8 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
 
     @Override
     public void showUnknownError() {
-        MessageHandlerUtility.showMessage(mRootLayout,
-                mErrorUnknown, Snackbar.LENGTH_LONG);
+        Snackbar.make(mRootLayout,
+                mErrorUnknown, Snackbar.LENGTH_LONG).show();
     }
 
     private void initRecyclerView() {

@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
@@ -26,8 +27,6 @@ import me.bitfrom.whattowatch.ui.fragments.views.RandomFilmsMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
-import me.bitfrom.whattowatch.data.IdTransfer;
-import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 
 
 public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpView, SwipeRefreshLayout.OnRefreshListener {
@@ -99,9 +98,9 @@ public class RandomFilmsFragment extends BaseFragment implements RandomFilmsMvpV
 
     @Override
     public void showInternetUnavailableError() {
-        MessageHandlerUtility.showMessage(mRootLayout,
+        Snackbar.make(mRootLayout,
                 getString(R.string.error_connection_unavailable),
-                Snackbar.LENGTH_LONG);
+                Snackbar.LENGTH_LONG).show();
     }
 
     @Override

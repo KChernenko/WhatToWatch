@@ -29,7 +29,6 @@ import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.DetailPresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
-import me.bitfrom.whattowatch.utils.MessageHandlerUtility;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
@@ -83,6 +82,8 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
 
+    private Snackbar mSnackbar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -134,8 +135,8 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void showUnknownError() {
-        MessageHandlerUtility.showMessage(mScrollView,
-                getString(R.string.error_unknown), Snackbar.LENGTH_LONG);
+        Snackbar.make(mScrollView,
+                getString(R.string.error_unknown), Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.action_share)
@@ -165,8 +166,8 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void showAddedToFavorites() {
-        Snackbar snackbar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.undo_fav, v -> {
+        mSnackbar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
+        mSnackbar.setAction(R.string.undo_fav, v -> {
             mDetailPresenter.updateFavorites(mFilmId);
         }).show();
     }

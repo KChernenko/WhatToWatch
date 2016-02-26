@@ -5,10 +5,10 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_random_films"
+            android:id="@+id/nav_top_films"
             android:checked="true"
-            android:icon="@mipmap/ic_local_movies_black_24dp"
-            android:title="@string/drawer_item_home"/>
+            android:icon="@mipmap/ic_thumb_up_black_24dp"
+            android:title="@string/drawer_item_top"/>
 
         <item
             android:id="@+id/nav_favorites"
@@ -16,9 +16,13 @@
             android:title="@string/drawer_item_favorites"/>
 
         <item
-            android:id="@+id/nav_trailers"
-            android:icon="@mipmap/ic_movie_filter_black_24dp"
-            android:title="@string/drawer_item_trailers"/>
+            android:id="@+id/nav_bottom_films"
+            android:icon="@mipmap/ic_thumb_down_black_24dp"
+            android:title="@string/drawer_item_bottom"/>
+        <item
+            android:id="@+id/nav_trending_films"
+            android:icon="@mipmap/ic_trending_up_black_24dp"
+            android:title="@string/drawer_item_trending"/>
     </group>
     <group
         android:id="@+id/menu_bottom"

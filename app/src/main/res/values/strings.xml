@@ -10,9 +10,10 @@
     <string name="content_authority">me.bitfrom.whattowatch</string>
 
     <!-- Strings for navigation drawer -->
-    <string name="drawer_item_home">Random films</string>
+    <string name="drawer_item_top">Top films</string>
     <string name="drawer_item_favorites">Favorite</string>
-    <string name="drawer_item_trailers">Trailers</string>
+    <string name="drawer_item_bottom">Bottom films</string>
+    <string name="drawer_item_trending">Trending</string>
     <string name="drawer_item_settings">Settings</string>
 
     <!-- Strings for RandomFilmsFragment -->
