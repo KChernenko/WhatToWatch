@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.data.model.FilmModel;
 import me.bitfrom.whattowatch.data.model.Movie;
@@ -36,7 +37,7 @@ public class DataManager {
 
     public Observable<Movie> loadFilms() {
         return mFilmsAPI.getFilms(ConstantsManager.API_LIST_START,
-                ConstantsManager.API_LIST_END, ConstantsManager.API_TOKEN,
+                ConstantsManager.API_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(new Func1<Film, Observable<Movie>>() {
                     @Override
