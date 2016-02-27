@@ -21,6 +21,7 @@ public class ConstantsManager {
     public static final int TOP = 1;
     public static final int BOTTOM = -1;
     public static final int IN_CINEMAS = 0;
+    public static final int COMING_SOON = 2;
 
     //For the PreferencesHelper
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";

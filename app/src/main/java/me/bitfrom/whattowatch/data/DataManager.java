@@ -92,7 +92,7 @@ public class DataManager {
                    InTheaterPojo inTheaterPojo;
                    for (int i = 0; i < inTheatreSize; i++) {
                        inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
-                       for (MoviePojo moviePojo: inTheaterPojo.getMovies()) {
+                       for (MoviePojo moviePojo : inTheaterPojo.getMovies()) {
                            result.add(moviePojo);
                        }
                    }
@@ -102,5 +102,25 @@ public class DataManager {
 
     public Observable<List<Film>> getInCinemasFilms() {
         return mDbHelper.getInCinemasFilms().distinct();
+    }
+
+    public Observable<MoviePojo> loadComingSoonFilms() {
+        return mFilmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
+                .flatMap(theaterPojo -> {
+                    List<MoviePojo> result = new ArrayList<>();
+                    int inTheatreSize = theaterPojo.getData().getInTheaters().size();
+                    InTheaterPojo inTheaterPojo;
+                    for (int i = 0; i < inTheatreSize; i++) {
+                        inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
+                        for (MoviePojo moviePojo : inTheaterPojo.getMovies()) {
+                            result.add(moviePojo);
+                        }
+                    }
+                    return mDbHelper.setComingSoon(result);
+                });
+    }
+
+    public Observable<List<Film>> getComingSoonFilms() {
+        return mDbHelper.getComingSoon().distinct();
     }
 }

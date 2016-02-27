@@ -13,9 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.LoadBottomFilmsService;
-import me.bitfrom.whattowatch.data.LoadInCinemasFilmsService;
-import me.bitfrom.whattowatch.data.LoadTopFilmsService;
+import me.bitfrom.whattowatch.data.services.LoadBottomFilmsService;
+import me.bitfrom.whattowatch.data.services.LoadComingSoonService;
+import me.bitfrom.whattowatch.data.services.LoadInCinemasFilmsService;
+import me.bitfrom.whattowatch.data.services.LoadTopFilmsService;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 
 
@@ -35,6 +36,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
         mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
         mContext.startService(new Intent(mContext, LoadBottomFilmsService.class));
         mContext.startService(new Intent(mContext, LoadInCinemasFilmsService.class));
+        mContext.startService(new Intent(mContext, LoadComingSoonService.class));
     }
 
     public static void initSyncAdapter(Context context) {

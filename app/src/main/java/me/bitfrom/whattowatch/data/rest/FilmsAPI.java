@@ -26,4 +26,8 @@ public interface FilmsAPI {
     Observable<TheaterPojo> getInCinemas(@Query("token") String token,
                                                @Query("format") String format,
                                                @Query("language") String language);
+
+    @GET("comingSoon?")
+    Observable<TheaterPojo> getComingSoon(@Query("token") String token,
+                                          @Query("format") String format);
 }

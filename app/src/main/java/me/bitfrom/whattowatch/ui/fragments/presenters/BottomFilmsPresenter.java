@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.LoadBottomFilmsService;
+import me.bitfrom.whattowatch.data.services.LoadBottomFilmsService;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.BottomFilmsMvpView;

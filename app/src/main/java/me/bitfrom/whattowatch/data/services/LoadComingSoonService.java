@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.data;
+package me.bitfrom.whattowatch.data.services;
 
 
 import android.app.Service;
@@ -10,16 +10,16 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
+import me.bitfrom.whattowatch.data.CacheCleanerService;
+import me.bitfrom.whattowatch.data.DataManager;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class LoadInCinemasFilmsService extends Service {
+public class LoadComingSoonService extends Service {
 
     @Inject
     protected DataManager mDataManager;
-    @Inject
-    protected NotificationHelper mNotification;
 
     private Subscription mSubscription;
 
@@ -32,20 +32,20 @@ public class LoadInCinemasFilmsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        Timber.d("Start loading top films...");
+        Timber.d("Start loading coming soon films...");
         getApplication()
                 .startService(new Intent(getApplication(), CacheCleanerService.class));
-        mSubscription = mDataManager.loadInCinemaFilms()
+        mSubscription = mDataManager.loadComingSoonFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
-                    Timber.d("Loading top films has finished!");
+                    Timber.d("Loading coming soon films has finished!");
                     stopSelf(startId);
                 })
                 .subscribe(movie -> {
 
                 }, throwable -> {
                     stopSelf(startId);
-                    Timber.e(throwable, "Error occurred while loading top films!");
+                    Timber.e(throwable, "Error occurred while loading coming soon films!");
                     if (BuildConfig.DEBUG) {
                         throwable.printStackTrace();
                     }

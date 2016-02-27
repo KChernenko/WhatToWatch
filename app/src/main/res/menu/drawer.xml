@@ -20,9 +20,13 @@
             android:icon="@mipmap/ic_thumb_down_black_24dp"
             android:title="@string/drawer_item_bottom"/>
         <item
-            android:id="@+id/nav_trending_films"
+            android:id="@+id/nav_in_cinemas"
             android:icon="@mipmap/ic_theater_black_24dp"
             android:title="@string/drawer_item_in_cinemas"/>
+        <item
+            android:id="@+id/nav_coming_soon"
+            android:icon="@mipmap/ic_run_black_24dp"
+            android:title="@string/drawer_item_coming_soon"/>
     </group>
     <group
         android:id="@+id/menu_bottom"

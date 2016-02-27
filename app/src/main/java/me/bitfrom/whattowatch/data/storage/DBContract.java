@@ -81,7 +81,11 @@ public class DBContract {
             values.put(COLUMN_URL_IMDB, movie.getUrlIMDB());
             values.put(COLUMN_URL_POSTER, movie.getUrlPoster());
             values.put(COLUMN_PLOT, movie.getPlot());
-            values.put(COLUMN_RATING, movie.getRating());
+            if (movie.getRating().equals("")) {
+                values.put(COLUMN_RATING, "N/A");
+            } else {
+                values.put(COLUMN_RATING, movie.getRating());
+            }
             values.put(COLUMN_TITLE, movie.getTitle());
             values.put(COLUMN_YEAR, movie.getYear());
             values.put(COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);

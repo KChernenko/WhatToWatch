@@ -20,6 +20,7 @@ import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
+import me.bitfrom.whattowatch.ui.fragments.ComingSoonFragment;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
@@ -107,10 +108,15 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 mArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(bff);
                 break;
-            case R.id.nav_trending_films:
+            case R.id.nav_in_cinemas:
                 InCinemasFragment icf = new InCinemasFragment();
                 mArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(icf);
+                break;
+            case R.id.nav_coming_soon:
+                ComingSoonFragment csf = new ComingSoonFragment();
+                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                replaceFragment(csf);
                 break;
             case R.id.nav_settings:
                 SettingsFragment sf = new SettingsFragment();
@@ -181,7 +187,10 @@ public class MainActivity extends BaseActivity implements IdTransfer,
             navigationView.setCheckedItem(R.id.nav_bottom_films);
         } else if (fragmentClassName.equals(InCinemasFragment.class.getName())) {
             setTitle(getString(R.string.drawer_item_in_cinemas));
-            navigationView.setCheckedItem(R.id.nav_trending_films);
+            navigationView.setCheckedItem(R.id.nav_in_cinemas);
+        } else if (fragmentClassName.equals(ComingSoonFragment.class.getName())) {
+            setTitle(getString(R.string.drawer_item_coming_soon));
+            navigationView.setCheckedItem(R.id.nav_coming_soon);
         } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
             setTitle(getString(R.string.settings_fragment_title));
             navigationView.setCheckedItem(R.id.nav_settings);

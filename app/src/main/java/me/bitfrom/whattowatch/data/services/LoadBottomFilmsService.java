@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.data;
+package me.bitfrom.whattowatch.data.services;
 
 
 import android.app.Service;
@@ -10,6 +10,9 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
+import me.bitfrom.whattowatch.data.CacheCleanerService;
+import me.bitfrom.whattowatch.data.DataManager;
+import me.bitfrom.whattowatch.data.NotificationHelper;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
