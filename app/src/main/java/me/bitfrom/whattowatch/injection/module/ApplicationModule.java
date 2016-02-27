@@ -4,8 +4,11 @@ package me.bitfrom.whattowatch.injection.module;
 import android.app.Application;
 import android.content.Context;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
+import me.bitfrom.whattowatch.data.image.ImageDownloader;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 
 @Module
@@ -28,4 +31,10 @@ public class ApplicationModule {
         return mApplication;
     }
 
+    @Provides
+    @ApplicationContext
+    @Singleton
+    ImageDownloader providesImageDownloader() {
+        return new ImageDownloader();
+    }
 }

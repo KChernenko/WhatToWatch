@@ -22,7 +22,7 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.image.ImageLoader;
+import me.bitfrom.whattowatch.data.image.ImageDownloader;
 import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
@@ -39,7 +39,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     @Inject
     protected DetailPresenter mDetailPresenter;
     @Inject
-    protected ImageLoader mImageLoader;
+    protected ImageDownloader mImageLoader;
     @Inject
     protected ScrollManager mScrollManager;
 

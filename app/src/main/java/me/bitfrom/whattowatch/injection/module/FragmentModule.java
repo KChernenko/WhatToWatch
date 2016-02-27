@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.bitfrom.whattowatch.data.image.ImageLoader;
+import me.bitfrom.whattowatch.data.image.ImageDownloader;
 import me.bitfrom.whattowatch.injection.ActivityContext;
 
 @Module
@@ -26,7 +26,7 @@ public class FragmentModule {
     @Provides
     @ActivityContext
     @Singleton
-    ImageLoader providesImageLoader() {
-        return new ImageLoader(mFragment.getActivity());
+    ImageDownloader providesImageLoader() {
+        return new ImageDownloader();
     }
 }

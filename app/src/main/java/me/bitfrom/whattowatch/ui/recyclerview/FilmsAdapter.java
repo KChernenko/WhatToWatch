@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.image.ImageLoader;
+import me.bitfrom.whattowatch.data.image.ImageDownloader;
 import me.bitfrom.whattowatch.data.model.Film;
 
 import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
@@ -24,7 +24,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     private List<Film> mFilms;
     @Inject
-    protected ImageLoader mImageLoader;
+    protected ImageDownloader mImageLoader;
 
     @Inject
     public FilmsAdapter() {

@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import me.bitfrom.whattowatch.data.image.ImageDownloader;
 import me.bitfrom.whattowatch.data.model.Film;
 import me.bitfrom.whattowatch.data.model.MoviePojo;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -21,14 +22,18 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
+
 @Singleton
 public class DBHelper {
 
     private final BriteDatabase mDb;
+    private ImageDownloader mImageDownloader;
 
     @Inject
-    public DBHelper(DBOpenHelper dbOpenHelper) {
+    public DBHelper(DBOpenHelper dbOpenHelper, ImageDownloader imageDownloader) {
         mDb = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
+        mImageDownloader = imageDownloader;
     }
 
     public BriteDatabase getBriteDb() {
@@ -52,6 +57,7 @@ public class DBHelper {
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.TOP),
                             SQLiteDatabase.CONFLICT_REPLACE);
+                    cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
                     else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
@@ -147,6 +153,7 @@ public class DBHelper {
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.BOTTOM),
                             SQLiteDatabase.CONFLICT_REPLACE);
+                    cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
                     else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
@@ -186,6 +193,7 @@ public class DBHelper {
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.IN_CINEMAS),
                             SQLiteDatabase.CONFLICT_REPLACE);
+                    cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
                     else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
@@ -225,6 +233,7 @@ public class DBHelper {
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.COMING_SOON),
                             SQLiteDatabase.CONFLICT_REPLACE);
+                    cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
                     else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
@@ -263,5 +272,9 @@ public class DBHelper {
                 transaction.end();
             }
         });
+    }
+
+    private void cacheImage(String imgUrl) {
+        mImageDownloader.loadImage(Flag.LOAD_ONLY, imgUrl, null);
     }
 }

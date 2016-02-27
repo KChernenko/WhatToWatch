@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.data.CacheCleanerService;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.NotificationHelper;
 import rx.Subscription;
@@ -35,8 +34,6 @@ public class LoadBottomFilmsService extends Service {
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         Timber.d("Start loading bottom films ...");
-        getApplication()
-                .startService(new Intent(getApplication(), CacheCleanerService.class));
         mSubscription = mDataManager.loadBottomFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
