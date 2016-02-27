@@ -14,11 +14,14 @@ import android.os.Bundle;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.data.LoadBottomFilmsService;
+import me.bitfrom.whattowatch.data.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.data.LoadTopFilmsService;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 
 
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
+
+    private static Context mContext;
 
     public FilmsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -29,12 +32,14 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
                               String authority,
                               ContentProviderClient provider,
                               SyncResult syncResult) {
-        getContext().startService(new Intent(getContext(), LoadTopFilmsService.class));
-        getContext().startService(new Intent(getContext(), LoadBottomFilmsService.class));
+        mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
+        mContext.startService(new Intent(mContext, LoadBottomFilmsService.class));
+        mContext.startService(new Intent(mContext, LoadInCinemasFilmsService.class));
     }
 
     public static void initSyncAdapter(Context context) {
-        getSyncAccount(context);
+        mContext = context;
+        getSyncAccount(mContext);
     }
 
     /**

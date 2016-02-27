@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import me.bitfrom.whattowatch.data.DataManager;
 import me.bitfrom.whattowatch.data.LoadBottomFilmsService;
+import me.bitfrom.whattowatch.data.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.data.LoadTopFilmsService;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
@@ -22,6 +23,8 @@ public interface ApplicationComponent {
     void inject(LoadTopFilmsService loadTopFilmsService);
 
     void inject(LoadBottomFilmsService loadBottomFilmsService);
+
+    void inject(LoadInCinemasFilmsService loadInCinemasFilmsService);
 
     @ApplicationContext
     Context contex();

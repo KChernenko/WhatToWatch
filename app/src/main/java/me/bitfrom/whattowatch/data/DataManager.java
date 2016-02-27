@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.data;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.data.model.InTheaterPojo;
 import me.bitfrom.whattowatch.data.model.MoviePojo;
 import me.bitfrom.whattowatch.data.rest.FilmsAPI;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
@@ -79,5 +81,26 @@ public class DataManager {
 
     public Observable<List<Film>> getBottomFilms() {
         return mDbHelper.getBottomFilms().distinct();
+    }
+
+    public Observable<MoviePojo> loadInCinemaFilms() {
+       return mFilmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
+               ConstantsManager.TEST_LAN)
+               .flatMap(theaterPojo -> {
+                   List<MoviePojo> result = new ArrayList<>();
+                   int inTheatreSize = theaterPojo.getData().getInTheaters().size();
+                   InTheaterPojo inTheaterPojo;
+                   for (int i = 0; i < inTheatreSize; i++) {
+                       inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
+                       for (MoviePojo moviePojo: inTheaterPojo.getMovies()) {
+                           result.add(moviePojo);
+                       }
+                   }
+                   return mDbHelper.setInCinemas(result);
+               });
+    }
+
+    public Observable<List<Film>> getInCinemasFilms() {
+        return mDbHelper.getInCinemasFilms().distinct();
     }
 }

@@ -66,6 +66,7 @@
         <service android:name=".data.LoadTopFilmsService"/>
         <service android:name=".data.LoadBottomFilmsService"/>
         <service android:name=".data.CacheCleanerService"/>
+        <service android:name=".data.LoadInCinemasFilmsService"/>
 
     </application>
 

@@ -168,6 +168,45 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
+    public Observable<MoviePojo> setInCinemas(final Collection<MoviePojo> movies) {
+        return Observable.create(subscriber -> {
+            if (subscriber.isUnsubscribed()) return;
+
+            BriteDatabase.Transaction transaction = mDb.newTransaction();
+
+            try {
+                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                        DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                                " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                        String.valueOf(ConstantsManager.NOT_FAVORITE),
+                        String.valueOf(ConstantsManager.IN_CINEMAS));
+
+                for (MoviePojo movie : movies) {
+                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                            DBContract.FilmsTable.toContentValues(movie,
+                                    ConstantsManager.IN_CINEMAS),
+                            SQLiteDatabase.CONFLICT_REPLACE);
+                    if (result >= 0) subscriber.onNext(movie);
+                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                }
+                transaction.markSuccessful();
+                subscriber.onCompleted();
+            } finally {
+                transaction.end();
+            }
+        });
+    }
+
+    public Observable<List<Film>> getInCinemasFilms() {
+        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
+                        " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                        " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
+                new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
+                        String.valueOf(ConstantsManager.IN_CINEMAS)})
+                .mapToList(DBContract.FilmsTable::parseCursor);
+    }
+
     public Observable<Void> clearTables() {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;

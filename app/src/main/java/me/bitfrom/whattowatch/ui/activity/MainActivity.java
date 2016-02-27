@@ -22,6 +22,7 @@ import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
+import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -41,6 +42,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     protected NavigationView navigationView;
     @Bind(R.id.coordinator)
     protected CoordinatorLayout coordinatorLayout;
+
+    protected ActionBarDrawerToggle toggle;
 
     private Bundle mArgs;
 
@@ -72,6 +75,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
 
     @Override
     protected void onDestroy() {
+        drawerLayout.removeDrawerListener(toggle);
         mMainPresenter.detachView();
         super.onDestroy();
     }
@@ -103,6 +107,11 @@ public class MainActivity extends BaseActivity implements IdTransfer,
                 mArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(bff);
                 break;
+            case R.id.nav_trending_films:
+                InCinemasFragment icf = new InCinemasFragment();
+                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                replaceFragment(icf);
+                break;
             case R.id.nav_settings:
                 SettingsFragment sf = new SettingsFragment();
                 replaceFragment(sf);
@@ -129,9 +138,9 @@ public class MainActivity extends BaseActivity implements IdTransfer,
      * Setup navigation drawer here.
      **/
     private void setupDrawerLayout() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -170,6 +179,9 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         } else if (fragmentClassName.equals(BottomFilmsFragment.class.getName())) {
             setTitle(getString(R.string.drawer_item_bottom));
             navigationView.setCheckedItem(R.id.nav_bottom_films);
+        } else if (fragmentClassName.equals(InCinemasFragment.class.getName())) {
+            setTitle(getString(R.string.drawer_item_in_cinemas));
+            navigationView.setCheckedItem(R.id.nav_trending_films);
         } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
             setTitle(getString(R.string.settings_fragment_title));
             navigationView.setCheckedItem(R.id.nav_settings);

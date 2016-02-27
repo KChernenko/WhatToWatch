@@ -10,6 +10,7 @@ public class ConstantsManager {
     public static final String API_BOTTOM_LIST_END = "100";
     public static final String API_FORMAT = "json";
     public static final String API_DATA = "1";
+    public static final String TEST_LAN = "en";
 
     //Constants for data storage
     public static final String DATABASE_NAME = "whattowatch.db";
@@ -19,6 +20,7 @@ public class ConstantsManager {
     public static final int FAVORITE = 1;
     public static final int TOP = 1;
     public static final int BOTTOM = -1;
+    public static final int IN_CINEMAS = 0;
 
     //For the PreferencesHelper
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";

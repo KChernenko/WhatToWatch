@@ -117,7 +117,7 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '23.1.1'
+    final SUPPORT_LIBRARY_VERSION = '23.2.0'
     final JUNIT_VERSION = "4.12"
 
     final DAGGER_VERSION = "2.0.2"
