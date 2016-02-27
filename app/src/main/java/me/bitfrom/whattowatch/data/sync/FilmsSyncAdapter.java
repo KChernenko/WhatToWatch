@@ -33,15 +33,14 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
                               String authority,
                               ContentProviderClient provider,
                               SyncResult syncResult) {
-        mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadBottomFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadInCinemasFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadComingSoonService.class));
+        getContext().startService(new Intent(getContext(), LoadTopFilmsService.class));
+        getContext().startService(new Intent(getContext(), LoadBottomFilmsService.class));
+        getContext().startService(new Intent(getContext(), LoadInCinemasFilmsService.class));
+        getContext().startService(new Intent(getContext(), LoadComingSoonService.class));
     }
 
     public static void initSyncAdapter(Context context) {
-        mContext = context;
-        getSyncAccount(mContext);
+        getSyncAccount(context);
     }
 
     /**
