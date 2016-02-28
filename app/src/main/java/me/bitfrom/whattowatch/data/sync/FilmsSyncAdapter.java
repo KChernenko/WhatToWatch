@@ -19,7 +19,6 @@ import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
-
     public FilmsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
