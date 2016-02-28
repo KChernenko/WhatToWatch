@@ -56,14 +56,15 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mArgs = new Bundle();
-
         setSupportActionBar(toolbar);
         setupDrawerLayout();
 
         mMainPresenter.attachView(this);
         if (savedInstanceState == null) {
+            mArgs = new Bundle();
             replaceFragment(new TopFilmsFragment());
+        } else {
+            mArgs = savedInstanceState;
         }
 
         getFragmentManager().addOnBackStackChangedListener(() -> {
