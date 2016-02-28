@@ -76,6 +76,12 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (mInCinemasPresenter != null) mInCinemasPresenter.detachView();
+    }
+
+    @Override
     public void onRefresh() {
         loadNewFilms(true);
     }

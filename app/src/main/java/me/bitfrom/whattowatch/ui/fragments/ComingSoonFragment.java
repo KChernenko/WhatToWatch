@@ -76,6 +76,12 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (mComingSoonPresenter != null) mComingSoonPresenter.detachView();
+    }
+
+    @Override
     public void onRefresh() {
         loadNewFilms(true);
     }

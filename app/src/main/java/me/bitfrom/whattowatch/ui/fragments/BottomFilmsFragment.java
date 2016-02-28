@@ -76,6 +76,12 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (mBottomFilmsPresenter != null) mBottomFilmsPresenter.detachView();
+    }
+
+    @Override
     public void onRefresh() {
         loadNewFilms(true);
     }

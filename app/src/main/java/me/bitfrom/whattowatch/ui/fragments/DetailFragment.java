@@ -111,12 +111,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mDetailPresenter.detachView();
+        if (mDetailPresenter != null) mDetailPresenter.detachView();
     }
 
     @Override

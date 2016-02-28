@@ -73,6 +73,12 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (mTopFilmsPresenter != null) mTopFilmsPresenter.detachView();
+    }
+
+    @Override
     public void onRefresh() {
         loadNewFilms(true);
     }

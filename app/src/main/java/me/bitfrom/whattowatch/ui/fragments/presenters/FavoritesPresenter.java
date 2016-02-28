@@ -29,7 +29,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null) mSubscription.unsubscribe();
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
     }
 
     public void getFavoriteFilms() {
