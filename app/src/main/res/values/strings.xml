@@ -120,6 +120,11 @@
     <string name="notification_message">There are some WONDERFUL films for YOU!</string>
 
     <!-- Strings for ShareBottomSheet -->
+    <string name="share_action_title">Describe your fillings</string>
+    <string name="share_action_next">Next</string>
+    <string name="share_action_cancel">Cancel</string>
+    <string name="share_action_error_long_comment">Your comment is too long</string>
+    <string name="share_action_edit_text_hint">Your short comment…</string>
     <string name="share_action_awesome_intro">There is an awesome film</string>
     <string name="share_action_imdb_rating">which IMDB rating is</string>
     <string name="share_action_directors">And directed by</string>

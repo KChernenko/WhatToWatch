@@ -51,4 +51,9 @@
     <dimen name="detail_margin_right">16dp</dimen>
     <dimen name="detail_margin_end">16dp</dimen>
 
+    <!-- Dimens for the share_dialog -->
+    <dimen name="share_dialog_root_padding">10dp</dimen>
+    <dimen name="share_dialog_title_text_size">18sp</dimen>
+    <dimen name="share_dialog_il_margin_top">20dp</dimen>
+
 </resources>

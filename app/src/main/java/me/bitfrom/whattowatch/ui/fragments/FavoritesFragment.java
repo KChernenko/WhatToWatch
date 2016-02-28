@@ -49,6 +49,8 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     @BindString(R.string.error_unknown)
     protected String mErrorUnknown;
 
+    private RecyclerItemClickListener mRecyclerItemClickListener;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     public void onStop() {
         super.onStop();
         if (mFavoritesPresenter != null) mFavoritesPresenter.detachView();
+        if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
     }
 
     @Override
@@ -99,10 +102,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), (view, position) -> {
-                    if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-                })
-        );
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }

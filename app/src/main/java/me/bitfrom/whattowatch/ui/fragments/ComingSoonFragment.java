@@ -50,6 +50,7 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     protected String mErrorUnknown;
 
     private IdTransfer mIdTransfer;
+    private RecyclerItemClickListener mRecyclerItemClickListener;
 
     @Nullable
     @Override
@@ -79,6 +80,8 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     public void onStop() {
         super.onStop();
         if (mComingSoonPresenter != null) mComingSoonPresenter.detachView();
+        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setOnRefreshListener(null);
+        if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
     }
 
     @Override
@@ -120,10 +123,9 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), (view, position) -> {
-                    if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-                })
-        );
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }

@@ -74,7 +74,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     public void shareWithFriends() {
         checkViewAttached();
         StringBuilder sharedInfo = new StringBuilder();
-        sharedInfo.append(mContext.getString(R.string.share_action_awesome_intro)).append(" «")
+        sharedInfo.append(" «")
                 .append(mTitle).append("»").append("\n")
                 .append(mContext.getString(R.string.share_action_imdb_rating)).append(" ").append(mRating)
                 .append(".\n").append(mContext.getString(R.string.share_action_directors)).append(" ")

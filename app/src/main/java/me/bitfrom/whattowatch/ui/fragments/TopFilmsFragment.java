@@ -48,6 +48,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     protected String mErrorUnknown;
 
     private IdTransfer mIdTransfer;
+    private RecyclerItemClickListener mRecyclerItemClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     public void onStop() {
         super.onStop();
         if (mTopFilmsPresenter != null) mTopFilmsPresenter.detachView();
+        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setOnRefreshListener(null);
+        if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
     }
 
     @Override
@@ -117,10 +120,9 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), (view, position) -> {
-                    if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-                })
-        );
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }

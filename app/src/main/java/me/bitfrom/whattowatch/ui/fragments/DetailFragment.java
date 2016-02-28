@@ -2,13 +2,16 @@ package me.bitfrom.whattowatch.ui.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,8 +84,6 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     protected String mSuccessfullyAddedToFav;
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
-
-    private Snackbar mSnackbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,26 +162,51 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void showAddedToFavorites() {
-        mSnackbar = Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG);
-        mSnackbar.setAction(R.string.undo_fav, v -> {
-            mDetailPresenter.updateFavorites(mFilmId);
-        }).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.undo_fav, v -> {
+                        mDetailPresenter.updateFavorites(mFilmId);
+                    }).show();
+        } else {
+            Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void showRemovedFromFavorites() {
-        Snackbar snackbar = Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.undo_fav, v -> {
-            mDetailPresenter.updateFavorites(mFilmId);
-        }).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.undo_fav, v -> {
+                        mDetailPresenter.updateFavorites(mFilmId);
+                    }).show();
+        } else {
+            Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void shareWithFriends(String shareInfo) {
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareInfo);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.share_dialog, null);
+        dialogBuilder.setView(dialogView);
 
-        this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
+        final TextInputLayout til = (TextInputLayout) dialogView.findViewById(R.id.input_layout_comment);
+        final EditText edt = (EditText) dialogView.findViewById(R.id.user_comment);
+
+        dialogBuilder.setPositiveButton(R.string.share_action_next, (dialog, whichButton) -> {
+            if (edt.getText().toString().length() >= ConstantsManager.SHARE_COMMENT_SIZE) {
+                til.setError(getString(R.string.share_action_error_long_comment));
+            } else {
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, edt.getText().toString() + shareInfo);
+
+                this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
+            }
+        });
+        dialogBuilder.setNegativeButton(R.string.share_action_cancel, (dialog, whichButton) -> {
+            dialog.cancel();
+        }).create().show();
     }
 }

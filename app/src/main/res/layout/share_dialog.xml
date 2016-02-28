@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/share_dialog_root_padding"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_title"
+        android:text="@string/share_action_title"
+        android:textStyle="bold"
+        android:textColor="@color/share_dialog_title_color"
+        android:textSize="@dimen/share_dialog_title_text_size"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/share_dialog_il_margin_top"
+        android:id="@+id/input_layout_comment"
+        android:hint="@string/share_action_edit_text_hint">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_comment"
+            android:inputType="text"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
