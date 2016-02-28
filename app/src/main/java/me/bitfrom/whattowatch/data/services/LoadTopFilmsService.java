@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.NotificationHelper;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -19,8 +18,6 @@ import timber.log.Timber;
 public class LoadTopFilmsService extends Service {
     @Inject
     protected DataManager mDataManager;
-    @Inject
-    protected NotificationHelper mNotification;
 
     private Subscription mSubscription;
 
@@ -37,7 +34,6 @@ public class LoadTopFilmsService extends Service {
         mSubscription = mDataManager.loadTopFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
-                    mNotification.showNotification();
                     Timber.d("Loading top films has finished!");
                     stopSelf(startId);
                 })

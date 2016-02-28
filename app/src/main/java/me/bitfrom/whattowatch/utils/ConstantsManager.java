@@ -41,5 +41,5 @@ public class ConstantsManager {
 
     public static final String POSITION_ID_KEY = "position_id";
 
-    public static final String CACHE_CLEANER_SERVICE_NAME = "ServiceThatCleansGlideDiskCache";
+    public static final String SYNC_ALL_SERVICE_NAME = "ServiceThatSyncAll";
 }

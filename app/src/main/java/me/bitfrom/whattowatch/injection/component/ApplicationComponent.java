@@ -11,6 +11,7 @@ import me.bitfrom.whattowatch.data.services.LoadBottomFilmsService;
 import me.bitfrom.whattowatch.data.services.LoadComingSoonService;
 import me.bitfrom.whattowatch.data.services.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.data.services.LoadTopFilmsService;
+import me.bitfrom.whattowatch.data.services.SyncAllService;
 import me.bitfrom.whattowatch.data.storage.DBHelper;
 import me.bitfrom.whattowatch.data.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
@@ -28,6 +29,8 @@ public interface ApplicationComponent {
     void inject(LoadInCinemasFilmsService loadInCinemasFilmsService);
 
     void inject(LoadComingSoonService loadComingSoonService);
+
+    void inject(SyncAllService syncAllService);
 
     @ApplicationContext
     Context contex();

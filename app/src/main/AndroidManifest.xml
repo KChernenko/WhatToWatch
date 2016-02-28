@@ -64,6 +64,7 @@
         <service android:name=".data.services.LoadBottomFilmsService"/>
         <service android:name=".data.services.LoadInCinemasFilmsService"/>
         <service android:name=".data.services.LoadComingSoonService"/>
+        <service android:name=".data.services.SyncAllService"/>
 
     </application>
 
