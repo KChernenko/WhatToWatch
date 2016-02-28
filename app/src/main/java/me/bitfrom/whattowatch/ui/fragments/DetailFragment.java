@@ -91,18 +91,21 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mDetailPresenter.attachView(this);
-
         Bundle extras = getArguments();
         if (extras != null) {
             mFilmId = extras.getString(ConstantsManager.POSITION_ID_KEY);
         }
 
-        mDetailPresenter.getFilm(mFilmId);
-
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mDetailPresenter.attachView(this);
+        mDetailPresenter.getFilm(mFilmId);
     }
 
     @Override

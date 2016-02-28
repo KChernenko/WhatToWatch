@@ -57,10 +57,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mFavoritesPresenter.attachView(this);
         initRecyclerView();
-
-        mFavoritesPresenter.getFavoriteFilms();
 
         return rootView;
     }
@@ -70,6 +67,17 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         mIdTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
+        mFavoritesPresenter.attachView(this);
+        mFavoritesPresenter.getFavoriteFilms();
     }
 
     @Override
@@ -100,9 +108,5 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
-            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-        });
-        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }

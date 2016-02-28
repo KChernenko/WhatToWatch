@@ -51,6 +51,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .showImageOnLoading(R.drawable.progress_animation)
+                .cacheInMemory(true)
                 .build();
 
 

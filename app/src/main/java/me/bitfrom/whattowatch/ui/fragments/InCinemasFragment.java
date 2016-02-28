@@ -59,12 +59,8 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mInCinemasPresenter.attachView(this);
-
         initRecyclerView();
-        mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mInCinemasPresenter.getFilms();
         return rootView;
     }
 
@@ -73,6 +69,18 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         mIdTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mInCinemasPresenter.attachView(this);
+        mInCinemasPresenter.getFilms();
     }
 
     @Override
@@ -122,9 +130,5 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
-            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-        });
-        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }

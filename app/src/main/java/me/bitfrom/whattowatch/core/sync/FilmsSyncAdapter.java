@@ -55,7 +55,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
         // If the password doesn't exist, the account doesn't exist
         if ( null == accountManager.getPassword(newAccount) ) {
             /*
-            * Add the account and account type, no password or user core
+            * Add the account and account type, no password or user data
             * If successful, return the Account object, otherwise report an error.
             */
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {

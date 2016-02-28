@@ -62,7 +62,6 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         mComingSoonPresenter.attachView(this);
 
         initRecyclerView();
-        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mComingSoonPresenter.getFilms();
         return rootView;
@@ -73,6 +72,16 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         mIdTransfer = (IdTransfer) getActivity();
 
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+        });
+        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -122,9 +131,5 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
-            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
-        });
-        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
     }
 }
