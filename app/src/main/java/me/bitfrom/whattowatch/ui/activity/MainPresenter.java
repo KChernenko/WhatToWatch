@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui.activity;
 
-
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.ui.base.BasePresenter;

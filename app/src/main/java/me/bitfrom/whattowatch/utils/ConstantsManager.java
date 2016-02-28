@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.utils;
 
-
 public class ConstantsManager {
 
     //Constants for api request

@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.bitfrom.whattowatch.data.image.ImageDownloader;
+import me.bitfrom.whattowatch.core.image.ImageDownloader;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 
 @Module

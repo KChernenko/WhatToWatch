@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.IdTransfer;
+import me.bitfrom.whattowatch.core.IdTransfer;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.ComingSoonFragment;
@@ -27,7 +27,6 @@ import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
-
 
 public class MainActivity extends BaseActivity implements IdTransfer,
         NavigationView.OnNavigationItemSelectedListener, MainMvpView {

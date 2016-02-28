@@ -60,22 +60,20 @@ public class WWApplication extends Application {
         return application.mRefWatcher;
     }
 
-    /***
-     * Inits all needed settings for an image library
-     ***/
+    /**
+     * Init all needed settings for an image library
+     **/
     private void initImageLibrary() {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
 
-
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
                 getApplicationContext())
                 .defaultDisplayImageOptions(defaultOptions)
                 .memoryCache(new WeakMemoryCache())
                 .diskCacheSize(100 * 1024 * 1024).build();
-
 
         L.writeLogs(false);
         ImageLoader.getInstance().init(config);

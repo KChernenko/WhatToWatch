@@ -7,8 +7,8 @@ import android.content.Intent;
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.data.DataManager;
-import me.bitfrom.whattowatch.data.services.LoadInCinemasFilmsService;
+import me.bitfrom.whattowatch.core.DataManager;
+import me.bitfrom.whattowatch.core.services.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.InCinemasMvpView;

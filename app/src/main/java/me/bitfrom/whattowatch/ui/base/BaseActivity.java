@@ -8,7 +8,6 @@ import me.bitfrom.whattowatch.injection.component.ActivityComponent;
 import me.bitfrom.whattowatch.injection.component.DaggerActivityComponent;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 
-
 public class BaseActivity extends AppCompatActivity {
 
     private ActivityComponent mActivityComponent;

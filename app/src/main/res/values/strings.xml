@@ -137,7 +137,7 @@
     <string name="error_unknown">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_dismiss">Dismiss</string>
 
-    <!-- Fake data -->
+    <!-- Fake core -->
     <string name="fake_user_name">Username</string>
     <string name="fake_user_email">username@mail.com</string>
 

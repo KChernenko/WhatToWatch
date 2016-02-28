@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui.base;
 
-
 import me.bitfrom.whattowatch.utils.MvpViewNotAttachedException;
 
 public class BasePresenter <T extends MvpView> implements Presenter<T> {

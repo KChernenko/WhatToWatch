@@ -25,8 +25,8 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.image.ImageDownloader;
-import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.core.image.ImageDownloader;
+import me.bitfrom.whattowatch.core.model.Film;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.DetailPresenter;
@@ -34,8 +34,7 @@ import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 
-import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
-
+import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
 public class DetailFragment extends BaseFragment implements DetailMvpView {
 

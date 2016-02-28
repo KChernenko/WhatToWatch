@@ -3,7 +3,7 @@ package me.bitfrom.whattowatch.ui.base;
 
 import java.util.List;
 
-import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.core.model.Film;
 
 public interface ListMvpView extends MvpView {
 

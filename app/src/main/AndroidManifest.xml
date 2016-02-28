@@ -37,11 +37,11 @@
         </activity>
         <provider
             android:authorities="@string/content_authority"
-            android:name=".data.sync.StubProvider"
+            android:name=".core.sync.StubProvider"
             android:exported="false"
             android:syncable="true"/>
         <service
-            android:name=".data.sync.FilmsAuthenticatorService">
+            android:name=".core.sync.FilmsAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -51,7 +51,7 @@
         </service>
         <!-- The SyncAdapter service -->
         <service
-            android:name=".data.sync.FilmsSyncService"
+            android:name=".core.sync.FilmsSyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -60,11 +60,11 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".data.services.LoadTopFilmsService"/>
-        <service android:name=".data.services.LoadBottomFilmsService"/>
-        <service android:name=".data.services.LoadInCinemasFilmsService"/>
-        <service android:name=".data.services.LoadComingSoonService"/>
-        <service android:name=".data.services.SyncAllService"/>
+        <service android:name=".core.services.LoadTopFilmsService"/>
+        <service android:name=".core.services.LoadBottomFilmsService"/>
+        <service android:name=".core.services.LoadInCinemasFilmsService"/>
+        <service android:name=".core.services.LoadComingSoonService"/>
+        <service android:name=".core.services.SyncAllService"/>
 
     </application>
 

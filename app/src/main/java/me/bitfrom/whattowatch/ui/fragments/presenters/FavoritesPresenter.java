@@ -4,7 +4,7 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.data.DataManager;
+import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
 import rx.Subscription;

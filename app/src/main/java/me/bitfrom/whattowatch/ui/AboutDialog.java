@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;

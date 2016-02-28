@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.bitfrom.whattowatch.data.rest.FilmsAPI;
+import me.bitfrom.whattowatch.core.rest.FilmsAPI;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

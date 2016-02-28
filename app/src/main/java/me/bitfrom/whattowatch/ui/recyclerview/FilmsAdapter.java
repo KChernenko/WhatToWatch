@@ -15,10 +15,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.data.image.ImageDownloader;
-import me.bitfrom.whattowatch.data.model.Film;
+import me.bitfrom.whattowatch.core.image.ImageDownloader;
+import me.bitfrom.whattowatch.core.model.Film;
 
-import static me.bitfrom.whattowatch.data.image.ImageLoaderInteractor.Flag;
+import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
 public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHolder> {
 

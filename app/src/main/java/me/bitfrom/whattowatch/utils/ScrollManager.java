@@ -29,7 +29,6 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-
 public class ScrollManager extends RecyclerView.OnScrollListener {
 
     private static final int MIN_SCROLL_TO_HIDE = 10;
