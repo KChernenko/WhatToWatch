@@ -66,12 +66,6 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mTopFilmsPresenter.detachView();
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         mIdTransfer = (IdTransfer) getActivity();
 

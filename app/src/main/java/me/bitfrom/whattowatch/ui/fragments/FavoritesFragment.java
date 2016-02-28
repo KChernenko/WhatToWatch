@@ -73,12 +73,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mFavoritesPresenter.detachView();
-    }
-
-    @Override
     public void showListOfFavorites(List<Film> favoriteFilms) {
         mFilmsAdapter.setFilms(favoriteFilms);
         mFilmsAdapter.notifyDataSetChanged();
