@@ -60,11 +60,8 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        mComingSoonPresenter.attachView(this);
-
         initRecyclerView();
 
-        mComingSoonPresenter.getFilms();
         return rootView;
     }
 
@@ -78,6 +75,8 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
         });
         mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mComingSoonPresenter.attachView(this);
+        mComingSoonPresenter.getFilms();
     }
 
     @Override
