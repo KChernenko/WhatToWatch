@@ -17,6 +17,9 @@
     <string name="drawer_item_coming_soon">Coming soon</string>
     <string name="drawer_item_settings">Settings</string>
 
+    <string name="start_syncing_message">Start syncing data</string>
+    <string name="syncing_dismiss">Dismiss</string>
+
     <!-- Strings for TopFilmsFragment -->
     <string name="random_films_fragment_title">Top films</string>
     <string name="imdb_label">IMDB:</string>
@@ -149,4 +152,5 @@
     <string name="developed_by_lbl">Developed by:</string>
     <string name="developer_credentials">Constantine Chernenko</string>
     <string name="about_dialog_freespace_fix">\u0020</string>
+
 </resources>

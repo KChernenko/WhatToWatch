@@ -17,7 +17,6 @@ import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 
-
 @Singleton
 public class DataManager {
 

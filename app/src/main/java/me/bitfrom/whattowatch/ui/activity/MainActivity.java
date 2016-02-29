@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -65,6 +66,8 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         } else {
             mArgs = savedInstanceState;
         }
+
+        mMainPresenter.initFirstSync();
 
         getFragmentManager().addOnBackStackChangedListener(() -> {
             Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
@@ -138,6 +141,16 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         mArgs.putString(ConstantsManager.POSITION_ID_KEY, filmId);
         df.setArguments(mArgs);
         replaceFragment(df);
+    }
+
+    @Override
+    public void showDataStartSyncing() {
+        final Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                getString(R.string.start_syncing_message), Snackbar.LENGTH_LONG);
+        snackbar.setAction(getText(R.string.syncing_dismiss), v -> {
+                    snackbar.dismiss();
+                });
+        snackbar.show();
     }
 
     /**

@@ -17,7 +17,6 @@ import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.activity.MainActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
-
 public class NotificationHelper {
 
     private DataManager mDataManager;

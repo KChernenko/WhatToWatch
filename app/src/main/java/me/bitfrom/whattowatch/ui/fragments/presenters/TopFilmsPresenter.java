@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.services.LoadTopFilmsService;
-import me.bitfrom.whattowatch.core.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.TopFilmsMvpView;
@@ -54,10 +53,6 @@ public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
 
     public void getFilms() {
         checkViewAttached();
-        if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            FilmsSyncAdapter.initSyncAdapter(mContext);
-            mDataManager.getPreferencesHelper().markFirstLaunched();
-        }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getTopFilms()
                 .subscribeOn(Schedulers.io())
