@@ -2,7 +2,6 @@ package me.bitfrom.whattowatch.ui.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -168,26 +167,18 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Override
     public void showAddedToFavorites() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.undo_fav, v -> {
-                        mDetailPresenter.updateFavorites(mFilmId);
-                    }).show();
-        } else {
-            Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG).show();
-        }
+        Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo_fav, v -> {
+                    mDetailPresenter.updateFavorites(mFilmId);
+                }).show();
     }
 
     @Override
     public void showRemovedFromFavorites() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.undo_fav, v -> {
-                        mDetailPresenter.updateFavorites(mFilmId);
-                    }).show();
-        } else {
-            Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG).show();
-        }
+        Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo_fav, v -> {
+                    mDetailPresenter.updateFavorites(mFilmId);
+                }).show();
     }
 
     @Override
