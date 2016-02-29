@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.ui.activity;
+package me.bitfrom.whattowatch.ui.activities.presenters;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
+import me.bitfrom.whattowatch.ui.activities.views.MainMvpView;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 
 public class MainPresenter extends BasePresenter<MainMvpView> {
@@ -38,4 +39,6 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
             getMvpView().showDataStartSyncing();
         }
     }
+
+
 }

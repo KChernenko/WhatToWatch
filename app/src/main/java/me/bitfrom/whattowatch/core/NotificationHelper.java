@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
-import me.bitfrom.whattowatch.ui.activity.MainActivity;
+import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class NotificationHelper {

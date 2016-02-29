@@ -1,16 +1,18 @@
-package me.bitfrom.whattowatch.ui.fragments;
+package me.bitfrom.whattowatch.ui.activities;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,16 +29,15 @@ import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
 import me.bitfrom.whattowatch.core.model.Film;
-import me.bitfrom.whattowatch.ui.activity.MainActivity;
-import me.bitfrom.whattowatch.ui.base.BaseFragment;
-import me.bitfrom.whattowatch.ui.fragments.presenters.DetailPresenter;
-import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
+import me.bitfrom.whattowatch.ui.activities.presenters.DetailPresenter;
+import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
+import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
-public class DetailFragment extends BaseFragment implements DetailMvpView {
+public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Inject
     protected DetailPresenter mDetailPresenter;
@@ -47,6 +48,10 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     private String mFilmId;
 
+    @Bind(R.id.detail_toolbar)
+    protected Toolbar mToolbar;
+    @Bind(R.id.collapsing_toolbar)
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
     @Bind(R.id.poster)
@@ -85,41 +90,65 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     protected String mAlreadyInFav;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
 
-        getFragmentComponent((MainActivity) getActivity()).inject(this);
-        ButterKnife.bind(this, rootView);
+        setContentView(R.layout.detail_activity);
 
-        Bundle extras = getArguments();
-        if (extras != null) {
-            mFilmId = extras.getString(ConstantsManager.POSITION_ID_KEY);
-        }
+        ButterKnife.bind(this);
+        mDetailPresenter.attachView(this);
+
+        mFilmId = getIntent().getStringExtra(ConstantsManager.POSITION_ID_KEY);
+
+        initActionBar();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
-        return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mDetailPresenter.attachView(this);
         mDetailPresenter.getFilm(mFilmId);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
         if (mDetailPresenter != null) mDetailPresenter.detachView();
+        super.onDestroy();
+    }
+
+    @OnClick(R.id.action_share)
+    public void btnShareClicked() {
+        mDetailPresenter.shareWithFriends();
+    }
+
+    @OnClick(R.id.action_save_fav)
+    public void btnFavoriteClicked() {
+        mDetailPresenter.updateFavorites(mFilmId);
+    }
+
+    @OnClick(R.id.imdb_link)
+    public void btnGoToImdbClicked() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_message)
+                .setNegativeButton(R.string.dialog_negative, (dialog, which) -> {
+                    dialog.cancel();
+                })
+                .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(mDetailPresenter.getImdbLink()));
+                    this.startActivity(intent);
+                }).show();
     }
 
     @Override
     public void showFilmInfo(Film film) {
         mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
+
+        collapsingToolbarLayout.setTitle(film.title);
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+
         mTitleView.setText(film.title);
         mCountriesView.setText(film.countries);
         mYearView.setText(film.year);
@@ -135,31 +164,6 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     public void showUnknownError() {
         Snackbar.make(mScrollView,
                 getString(R.string.error_unknown), Snackbar.LENGTH_LONG).show();
-    }
-
-    @OnClick(R.id.action_share)
-    public void btnShareClicked() {
-        mDetailPresenter.shareWithFriends();
-    }
-
-    @OnClick(R.id.action_save_fav)
-    public void btnFavoriteClicked() {
-        mDetailPresenter.updateFavorites(mFilmId);
-    }
-
-    @OnClick(R.id.imdb_link)
-    public void btnGoToImdbClicked() {
-         new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.dialog_title)
-                .setMessage(R.string.dialog_message)
-                .setNegativeButton(R.string.dialog_negative, (dialog, which) -> {
-                    dialog.cancel();
-                })
-                .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(mDetailPresenter.getImdbLink()));
-                    getActivity().startActivity(intent);
-                }).show();
     }
 
     @Override
@@ -188,8 +192,8 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
 
     @Override
     public void shareWithFriends(String shareInfo) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.share_dialog, null);
         dialogBuilder.setView(dialogView);
 
@@ -210,5 +214,11 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
         dialogBuilder.setNegativeButton(R.string.share_action_cancel, (dialog, whichButton) -> {
             dialog.cancel();
         }).create().show();
+    }
+
+    private void initActionBar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }

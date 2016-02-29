@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.ui.activity;
+package me.bitfrom.whattowatch.ui.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,19 +18,18 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.core.IdTransfer;
+import me.bitfrom.whattowatch.ui.activities.presenters.MainPresenter;
+import me.bitfrom.whattowatch.ui.activities.views.MainMvpView;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.fragments.ComingSoonFragment;
-import me.bitfrom.whattowatch.ui.fragments.DetailFragment;
 import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
-public class MainActivity extends BaseActivity implements IdTransfer,
-        NavigationView.OnNavigationItemSelectedListener, MainMvpView {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainMvpView {
 
     @Inject
     protected MainPresenter mMainPresenter;
@@ -53,7 +52,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -78,7 +77,7 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         drawerLayout.removeDrawerListener(toggle);
         mMainPresenter.detachView();
         super.onDestroy();
@@ -136,20 +135,12 @@ public class MainActivity extends BaseActivity implements IdTransfer,
     }
 
     @Override
-    public void sendFilmId(String filmId) {
-        DetailFragment df = new DetailFragment();
-        mArgs.putString(ConstantsManager.POSITION_ID_KEY, filmId);
-        df.setArguments(mArgs);
-        replaceFragment(df);
-    }
-
-    @Override
     public void showDataStartSyncing() {
         final Snackbar snackbar = Snackbar.make(coordinatorLayout,
                 getString(R.string.start_syncing_message), Snackbar.LENGTH_LONG);
         snackbar.setAction(getText(R.string.syncing_dismiss), v -> {
-                    snackbar.dismiss();
-                });
+            snackbar.dismiss();
+        });
         snackbar.show();
     }
 

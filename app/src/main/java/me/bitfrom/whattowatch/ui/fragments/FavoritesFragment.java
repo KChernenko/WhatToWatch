@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,15 +19,16 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.core.IdTransfer;
 import me.bitfrom.whattowatch.core.model.Film;
-import me.bitfrom.whattowatch.ui.activity.MainActivity;
+import me.bitfrom.whattowatch.ui.activities.DetailActivity;
+import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.FavoritesPresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
 import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
+import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class FavoritesFragment extends BaseFragment implements FavoritesMvpView {
 
@@ -34,8 +36,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     protected FavoritesPresenter mFavoritesPresenter;
     @Inject
     protected FilmsAdapter mFilmsAdapter;
-
-    private IdTransfer mIdTransfer;
 
     @Bind(R.id.favorite_root_layout)
     protected RelativeLayout mRootLayout;
@@ -63,17 +63,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        mIdTransfer = (IdTransfer) getActivity();
-
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
-            if (mIdTransfer != null) mIdTransfer.sendFilmId(mFilmsAdapter.getImdbIdByPosition(position));
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
+            startActivity(intent);
         });
         mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
         mFavoritesPresenter.attachView(this);

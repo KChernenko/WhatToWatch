@@ -1,4 +1,5 @@
-package me.bitfrom.whattowatch.ui.fragments.views;
+package me.bitfrom.whattowatch.ui.activities.views;
+
 
 import me.bitfrom.whattowatch.core.model.Film;
 import me.bitfrom.whattowatch.ui.base.MvpView;

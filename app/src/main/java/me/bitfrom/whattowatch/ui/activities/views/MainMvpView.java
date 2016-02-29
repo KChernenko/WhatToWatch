@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.ui.activity;
+package me.bitfrom.whattowatch.ui.activities.views;
 
 import me.bitfrom.whattowatch.ui.base.MvpView;
 

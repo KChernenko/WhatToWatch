@@ -1,5 +1,4 @@
-package me.bitfrom.whattowatch.ui.fragments.presenters;
-
+package me.bitfrom.whattowatch.ui.activities.presenters;
 
 import android.content.Context;
 
@@ -9,9 +8,9 @@ import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.model.Film;
-import me.bitfrom.whattowatch.injection.ApplicationContext;
+import me.bitfrom.whattowatch.injection.ActivityContext;
+import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
-import me.bitfrom.whattowatch.ui.fragments.views.DetailMvpView;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,7 +30,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private String mImdbLink;
 
     @Inject
-    public DetailPresenter(DataManager dataManager, @ApplicationContext Context context) {
+    public DetailPresenter(DataManager dataManager, @ActivityContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
@@ -102,7 +101,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     }
 
     public String getImdbLink() {
-       return mImdbLink;
+        return mImdbLink;
     }
 
     private void initSharedInformation(Film film) {

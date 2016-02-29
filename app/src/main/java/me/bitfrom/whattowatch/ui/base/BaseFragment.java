@@ -10,7 +10,7 @@ import me.bitfrom.whattowatch.injection.component.DaggerFragmentComponent;
 import me.bitfrom.whattowatch.injection.component.FragmentComponent;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
-import me.bitfrom.whattowatch.ui.activity.MainActivity;
+import me.bitfrom.whattowatch.ui.activities.MainActivity;
 
 public class BaseFragment extends Fragment{
 
