@@ -6,7 +6,6 @@ import android.os.IBinder;
 
 import timber.log.Timber;
 
-
 public class FilmsSyncService extends Service {
 
     private static final Object sSyncAdapterLock = new Object();

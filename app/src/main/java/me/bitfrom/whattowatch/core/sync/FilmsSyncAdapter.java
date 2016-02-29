@@ -16,7 +16,6 @@ import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.services.SyncAllService;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 
-
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public FilmsSyncAdapter(Context context, boolean autoInitialize) {
