@@ -1,7 +1,9 @@
 package me.bitfrom.whattowatch.ui.activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -10,6 +12,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -55,7 +58,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     protected NestedScrollView mScrollView;
     @Bind(R.id.poster)
     protected ImageView mPosterView;
-    @Bind(R.id.cv_title)
+    @Bind(R.id.title)
     protected TextView mTitleView;
     @Bind(R.id.country)
     protected TextView mCountriesView;
@@ -65,7 +68,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     protected TextView mRuntimeView;
     @Bind(R.id.rating)
     protected TextView mRatingView;
-    @Bind(R.id.genre)
+    @Bind(R.id.genres)
     protected TextView mGenresView;
     @Bind(R.id.director)
     protected TextView mDirectorsView;
@@ -101,6 +104,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         mFilmId = getIntent().getStringExtra(ConstantsManager.POSITION_ID_KEY);
 
         initActionBar();
+        setupWindowAnimations();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -144,10 +148,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     @Override
     public void showFilmInfo(Film film) {
         mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
-
-        collapsingToolbarLayout.setTitle(film.title);
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-
         mTitleView.setText(film.title);
         mCountriesView.setText(film.countries);
         mYearView.setText(film.year);
@@ -157,6 +157,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         mDirectorsView.setText(film.directors);
         mWritersView.setText(film.writers);
         mPlotView.setText(film.plot);
+
+        setCollapsingToolbarLayout(film.title);
     }
 
     @Override
@@ -212,4 +214,20 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            getWindow().setEnterTransition(explode);
+            getWindow().setExitTransition(explode);
+        }
+    }
+
+    private void setCollapsingToolbarLayout(String title) {
+        collapsingToolbarLayout.setTitle(title);
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    }
+
 }

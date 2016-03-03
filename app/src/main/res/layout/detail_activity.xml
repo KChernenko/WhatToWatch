@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     app:columnCount="2">
                     <TextView
-                        android:id="@+id/cv_title"
+                        android:id="@+id/title"
                         android:layout_width="@dimen/detail_label_width_0"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/detail_margin_16"
@@ -188,7 +188,7 @@
                         app:layout_gravity="fill_horizontal"
                         android:layout_margin="@dimen/detail_margin_5"
                         android:textColor="@color/desc_text_color"
-                        android:id="@+id/genre"
+                        android:id="@+id/genres"
                         android:textSize="@dimen/detail_content_text_size"/>
 
                     <android.support.v7.widget.Space

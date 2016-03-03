@@ -12,7 +12,7 @@ import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
 import me.bitfrom.whattowatch.ui.activities.MainActivity;
 
-public class BaseFragment extends Fragment{
+public class BaseFragment extends Fragment {
 
     private FragmentComponent mFragmentComponent;
 

@@ -1,9 +1,12 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -71,7 +74,13 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
-            startActivity(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(getActivity());
+                ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+            } else {
+                startActivity(intent);
+            }
         });
         mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
         mSwipeRefreshLayout.setOnRefreshListener(this);
