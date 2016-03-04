@@ -31,7 +31,6 @@ public class LoadComingSoonService extends Service {
     public int onStartCommand(Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         Timber.d("Start loading coming soon films...");
-
         mSubscription = mDataManager.loadComingSoonFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
@@ -39,7 +38,6 @@ public class LoadComingSoonService extends Service {
                     stopSelf(startId);
                 })
                 .subscribe(movie -> {
-
                 }, throwable -> {
                     stopSelf(startId);
                     Timber.e(throwable, "Error occurred while loading coming soon films!");
@@ -47,7 +45,6 @@ public class LoadComingSoonService extends Service {
                         throwable.printStackTrace();
                     }
                 });
-
         return START_STICKY;
     }
 

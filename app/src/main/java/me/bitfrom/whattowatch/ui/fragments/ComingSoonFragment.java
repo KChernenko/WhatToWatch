@@ -35,7 +35,7 @@ import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpView,
-    SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     protected ComingSoonPresenter mComingSoonPresenter;

@@ -29,7 +29,7 @@ public class MoviePojo {
     private List<WriterPojo> writers = new ArrayList<>();
     @SerializedName("runtime")
     @Expose
-    private List<String> runtime = new ArrayList<>();
+    private String runtime;
     @SerializedName("urlPoster")
     @Expose
     private String urlPoster;
@@ -76,6 +76,7 @@ public class MoviePojo {
     @Expose
     private Integer ranking;
 
+
     /**
      *
      * @return
@@ -84,6 +85,7 @@ public class MoviePojo {
     public String getTitle() {
         return title;
     }
+
 
     /**
      *
@@ -94,6 +96,7 @@ public class MoviePojo {
         this.title = title;
     }
 
+
     /**
      *
      * @return
@@ -102,6 +105,7 @@ public class MoviePojo {
     public String getOriginalTitle() {
         return originalTitle;
     }
+
 
     /**
      *
@@ -112,6 +116,7 @@ public class MoviePojo {
         this.originalTitle = originalTitle;
     }
 
+
     /**
      *
      * @return
@@ -120,6 +125,7 @@ public class MoviePojo {
     public String getYear() {
         return year;
     }
+
 
     /**
      *
@@ -130,6 +136,7 @@ public class MoviePojo {
         this.year = year;
     }
 
+
     /**
      *
      * @return
@@ -138,6 +145,7 @@ public class MoviePojo {
     public String getReleaseDate() {
         return releaseDate;
     }
+
 
     /**
      *
@@ -148,6 +156,7 @@ public class MoviePojo {
         this.releaseDate = releaseDate;
     }
 
+
     /**
      *
      * @return
@@ -156,6 +165,7 @@ public class MoviePojo {
     public List<DirectorPojo> getDirectors() {
         return directors;
     }
+
 
     /**
      *
@@ -166,6 +176,7 @@ public class MoviePojo {
         this.directors = directors;
     }
 
+
     /**
      *
      * @return
@@ -174,6 +185,7 @@ public class MoviePojo {
     public List<WriterPojo> getWriters() {
         return writers;
     }
+
 
     /**
      *
@@ -184,23 +196,26 @@ public class MoviePojo {
         this.writers = writers;
     }
 
+
     /**
      *
      * @return
      * The runtime
      */
-    public List<String> getRuntime() {
+    public String getRuntime() {
         return runtime;
     }
+
 
     /**
      *
      * @param runtime
      * The runtime
      */
-    public void setRuntime(List<String> runtime) {
+    public void setRuntime(String runtime) {
         this.runtime = runtime;
     }
+
 
     /**
      *
@@ -211,6 +226,7 @@ public class MoviePojo {
         return urlPoster;
     }
 
+
     /**
      *
      * @param urlPoster
@@ -219,6 +235,7 @@ public class MoviePojo {
     public void setUrlPoster(String urlPoster) {
         this.urlPoster = urlPoster;
     }
+
 
     /**
      *
@@ -229,6 +246,7 @@ public class MoviePojo {
         return countries;
     }
 
+
     /**
      *
      * @param countries
@@ -237,6 +255,7 @@ public class MoviePojo {
     public void setCountries(List<String> countries) {
         this.countries = countries;
     }
+
 
     /**
      *
@@ -247,6 +266,7 @@ public class MoviePojo {
         return languages;
     }
 
+
     /**
      *
      * @param languages
@@ -255,6 +275,7 @@ public class MoviePojo {
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
+
 
     /**
      *
@@ -265,6 +286,7 @@ public class MoviePojo {
         return genres;
     }
 
+
     /**
      *
      * @param genres
@@ -273,6 +295,7 @@ public class MoviePojo {
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
+
 
     /**
      *
@@ -283,6 +306,7 @@ public class MoviePojo {
         return plot;
     }
 
+
     /**
      *
      * @param plot
@@ -291,6 +315,7 @@ public class MoviePojo {
     public void setPlot(String plot) {
         this.plot = plot;
     }
+
 
     /**
      *
@@ -301,6 +326,7 @@ public class MoviePojo {
         return simplePlot;
     }
 
+
     /**
      *
      * @param simplePlot
@@ -309,6 +335,7 @@ public class MoviePojo {
     public void setSimplePlot(String simplePlot) {
         this.simplePlot = simplePlot;
     }
+
 
     /**
      *
@@ -319,6 +346,7 @@ public class MoviePojo {
         return idIMDB;
     }
 
+
     /**
      *
      * @param idIMDB
@@ -327,6 +355,7 @@ public class MoviePojo {
     public void setIdIMDB(String idIMDB) {
         this.idIMDB = idIMDB;
     }
+
 
     /**
      *
@@ -337,6 +366,7 @@ public class MoviePojo {
         return urlIMDB;
     }
 
+
     /**
      *
      * @param urlIMDB
@@ -345,6 +375,7 @@ public class MoviePojo {
     public void setUrlIMDB(String urlIMDB) {
         this.urlIMDB = urlIMDB;
     }
+
 
     /**
      *
@@ -355,6 +386,7 @@ public class MoviePojo {
         return rating;
     }
 
+
     /**
      *
      * @param rating
@@ -363,6 +395,7 @@ public class MoviePojo {
     public void setRating(String rating) {
         this.rating = rating;
     }
+
 
     /**
      *
@@ -373,6 +406,7 @@ public class MoviePojo {
         return metascore;
     }
 
+
     /**
      *
      * @param metascore
@@ -381,6 +415,7 @@ public class MoviePojo {
     public void setMetascore(String metascore) {
         this.metascore = metascore;
     }
+
 
     /**
      *
@@ -391,6 +426,7 @@ public class MoviePojo {
         return filmingLocations;
     }
 
+
     /**
      *
      * @param filmingLocations
@@ -399,6 +435,7 @@ public class MoviePojo {
     public void setFilmingLocations(List<String> filmingLocations) {
         this.filmingLocations = filmingLocations;
     }
+
 
     /**
      *
@@ -409,6 +446,7 @@ public class MoviePojo {
         return rated;
     }
 
+
     /**
      *
      * @param rated
@@ -417,6 +455,7 @@ public class MoviePojo {
     public void setRated(String rated) {
         this.rated = rated;
     }
+
 
     /**
      *
@@ -427,6 +466,7 @@ public class MoviePojo {
         return votes;
     }
 
+
     /**
      *
      * @param votes
@@ -435,6 +475,7 @@ public class MoviePojo {
     public void setVotes(String votes) {
         this.votes = votes;
     }
+
 
     /**
      *
@@ -445,6 +486,7 @@ public class MoviePojo {
         return type;
     }
 
+
     /**
      *
      * @param type
@@ -454,6 +496,7 @@ public class MoviePojo {
         this.type = type;
     }
 
+
     /**
      *
      * @return
@@ -462,6 +505,7 @@ public class MoviePojo {
     public Integer getRanking() {
         return ranking;
     }
+
 
     /**
      *

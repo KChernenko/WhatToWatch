@@ -1,7 +1,10 @@
 package me.bitfrom.whattowatch.injection.module;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -26,7 +29,9 @@ public class RestModule {
 
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                //.addNetworkInterceptor(new StethoInterceptor())
+                .addNetworkInterceptor(new StethoInterceptor())
+                .connectTimeout(90, TimeUnit.SECONDS)
+                .readTimeout(90, TimeUnit.SECONDS)
                 .build();
     }
 

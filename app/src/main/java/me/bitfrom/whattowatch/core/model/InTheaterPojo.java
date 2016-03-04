@@ -30,7 +30,6 @@ public class InTheaterPojo {
         return openingThisWeek;
     }
 
-
     /**
      * @param openingThisWeek
      * The openingThisWeek
