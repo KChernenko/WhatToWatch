@@ -94,6 +94,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
 
+    private Explode mExplode;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +110,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
 
         initActionBar();
         setupWindowAnimations();
-        //attachTransactionListeners();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -117,9 +118,13 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
 
     @Override
     public void onDestroy() {
+        Timber.d("onDestroy() was called!");
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mExplode.removeListener(this);
+        }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
         super.onDestroy();
     }
@@ -260,11 +265,11 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Explode explode = new Explode();
-            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            explode.addListener(this);
-            getWindow().setEnterTransition(explode);
-            getWindow().setExitTransition(explode);
+            mExplode = new Explode();
+            mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            mExplode.addListener(this);
+            getWindow().setEnterTransition(mExplode);
+            getWindow().setExitTransition(mExplode);
         }
     }
 

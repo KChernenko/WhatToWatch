@@ -53,6 +53,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected ActionBarDrawerToggle toggle;
 
     private Bundle mArgs;
+    private Explode mExplode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onDestroy() {
         drawerLayout.removeDrawerListener(toggle);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mExplode.removeListener(this);
+        }
         mMainPresenter.detachView();
         super.onDestroy();
     }
@@ -256,13 +260,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Explode explode = new Explode();
-            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            explode.addListener(this);
-            getWindow().setEnterTransition(explode);
-            getWindow().setExitTransition(explode);
-            getWindow().setReenterTransition(explode);
-            getWindow().setReturnTransition(explode);
+            mExplode = new Explode();
+            mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            mExplode.addListener(this);
+            getWindow().setEnterTransition(mExplode);
+            getWindow().setExitTransition(mExplode);
+            getWindow().setReenterTransition(mExplode);
+            getWindow().setReturnTransition(mExplode);
         }
     }
 }

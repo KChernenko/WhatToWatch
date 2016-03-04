@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
-import com.facebook.stetho.Stetho;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,7 +32,8 @@ public class WWApplication extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-            Stetho.initializeWithDefaults(this);
+            //Because of memory leak
+            //Stetho.initializeWithDefaults(this);
         }
 
         mRefWatcher = LeakCanary.install(this);
