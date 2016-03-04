@@ -33,10 +33,10 @@ public class WWApplication extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+            Stetho.initializeWithDefaults(this);
         }
 
         mRefWatcher = LeakCanary.install(this);
-        Stetho.initializeWithDefaults(this);
         initImageLibrary();
     }
 

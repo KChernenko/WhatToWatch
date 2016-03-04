@@ -30,7 +30,7 @@
                 android:layout_marginStart="@dimen/item_image_margin_left"
                 android:layout_marginEnd="@dimen/item_image_margin_right"
                 android:layout_marginTop="@dimen/item_image_margin_top"
-                android:layout_marginBottom="@dimen/item_image_margin_bottom" />
+                android:layout_marginBottom="@dimen/item_image_margin_bottom"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -50,22 +50,22 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/item_title_text_size"
                     android:ellipsize="marquee"
-                    android:singleLine="true" />
+                    android:singleLine="true"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/item_director_height"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/cv_director"
+                    android:id="@+id/cv_directors"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_weight="0.55"
-                    android:textColor="@color/cv_director_color" />
+                    android:textColor="@color/cv_director_color"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/item_genre_height"
-                    android:id="@+id/cv_genre"
+                    android:id="@+id/cv_genres"
                     android:layout_weight="0.45"
                     android:gravity="top|center"
                     android:textSize="@dimen/item_genre_text_size" />
@@ -97,7 +97,7 @@
                         android:gravity="center"
                         android:layout_gravity="top"
                         android:textColor="@color/cv_imdb_color"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"

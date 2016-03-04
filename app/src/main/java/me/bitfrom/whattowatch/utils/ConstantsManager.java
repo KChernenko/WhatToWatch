@@ -43,4 +43,12 @@ public class ConstantsManager {
     public static final String SYNC_ALL_SERVICE_NAME = "ServiceThatSyncAll";
 
     public static final int SHARE_COMMENT_SIZE = 50;
+
+    public static final int TRANSITION_DURATION = 350;
+
+    public static final String SHARED_POSTER = "shared_poster";
+    public static final String SHARED_TITLE = "shared_title";
+    public static final String SHARED_DIRECTOR = "shared_director";
+    public static final String SHARED_GENRES = "shared_genres";
+    public static final String SHARED_RATING = "shared_rating";
 }

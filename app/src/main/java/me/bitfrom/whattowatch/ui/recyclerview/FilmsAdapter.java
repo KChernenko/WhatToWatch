@@ -63,15 +63,15 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
         return mFilms.size();
     }
 
-    class FilmsViewHolder extends RecyclerView.ViewHolder {
+    public class FilmsViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.cv_poster)
         ImageView poster;
         @Bind(R.id.cv_title)
         TextView title;
-        @Bind(R.id.cv_director)
+        @Bind(R.id.cv_directors)
         TextView director;
-        @Bind(R.id.cv_genre)
+        @Bind(R.id.cv_genres)
         TextView genres;
         @Bind(R.id.cv_rating)
         TextView rating;

@@ -1,8 +1,10 @@
 package me.bitfrom.whattowatch.ui.activities;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -28,8 +32,11 @@ import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainMvpView {
+@TargetApi(Build.VERSION_CODES.KITKAT)
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        MainMvpView, Transition.TransitionListener {
 
     @Inject
     protected MainPresenter mMainPresenter;
@@ -57,6 +64,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         setSupportActionBar(toolbar);
         setupDrawerLayout();
+        setWindowAnimations();
 
         mMainPresenter.attachView(this);
         if (savedInstanceState == null) {
@@ -166,6 +174,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
         if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null){
+
             FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.main_container, fragment, backStateName);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -198,6 +207,62 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
             setTitle(getString(R.string.settings_fragment_title));
             navigationView.setCheckedItem(R.id.nav_settings);
+        }
+    }
+
+    @Override
+    public void onTransitionStart(Transition transition) {
+        Timber.d("onTransitionStart() was called!");
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionEnd(Transition transition) {
+        Timber.d("onTransitionEnd() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionCancel(Transition transition) {
+        Timber.d("onTransitionCancel() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionPause(Transition transition) {
+        Timber.d("onTransitionPause() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @Override
+    public void onTransitionResume(Transition transition) {
+        Timber.d("onTransitionResume() was called!");
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            explode.addListener(this);
+            getWindow().setEnterTransition(explode);
+            getWindow().setExitTransition(explode);
+            getWindow().setReenterTransition(explode);
+            getWindow().setReturnTransition(explode);
         }
     }
 }
