@@ -123,6 +123,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getEnterTransition().removeListener(this);
+            getWindow().getExitTransition().removeListener(this);
             mExplode.removeListener(this);
         }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
@@ -222,6 +224,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @Override
     public void onTransitionStart(Transition transition) {
         Timber.d("onTransitionStart() was called!");
+        transition.removeListener(this);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -254,6 +257,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @Override
     public void onTransitionResume(Transition transition) {
         Timber.d("onTransitionResume() was called!");
+        transition.removeListener(this);
     }
 
     private void initActionBar() {
