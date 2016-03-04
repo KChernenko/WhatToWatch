@@ -145,7 +145,7 @@ dependencies {
 
     final AUIL_VERSION = "1.9.5";
 
-    final LEAK_CANARY_VERSION = "1.3.1"
+    final LEAK_CANARY_VERSION = "1.4-beta1"
     final FABRIC_CRASH_LIST_VERSION = "2.5.5@aar"
     final STETHO_VERSION = "1.3.1"
 

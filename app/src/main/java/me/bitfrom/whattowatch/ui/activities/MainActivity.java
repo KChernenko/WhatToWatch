@@ -13,8 +13,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
-import android.view.Gravity;
+import android.transition.Explode;
+import android.transition.Transition;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -32,8 +32,11 @@ import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainMvpView {
+@TargetApi(Build.VERSION_CODES.KITKAT)
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        MainMvpView, Transition.TransitionListener {
 
     @Inject
     protected MainPresenter mMainPresenter;
@@ -207,16 +210,59 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    @Override
+    public void onTransitionStart(Transition transition) {
+        Timber.d("onTransitionStart() was called!");
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionEnd(Transition transition) {
+        Timber.d("onTransitionEnd() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionCancel(Transition transition) {
+        Timber.d("onTransitionCancel() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionPause(Transition transition) {
+        Timber.d("onTransitionPause() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        getWindow().getReenterTransition().removeListener(this);
+        getWindow().getReturnTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @Override
+    public void onTransitionResume(Transition transition) {
+        Timber.d("onTransitionResume() was called!");
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide slideTransition = new Slide();
-            slideTransition.setSlideEdge(Gravity.END);
-            slideTransition.setDuration(ConstantsManager.TRANSITION_DURATION);
-            getWindow().setEnterTransition(slideTransition);
-            getWindow().setExitTransition(slideTransition);
-            getWindow().setReenterTransition(slideTransition);
-            getWindow().setReturnTransition(slideTransition);
+            Explode explode = new Explode();
+            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            explode.addListener(this);
+            getWindow().setEnterTransition(explode);
+            getWindow().setExitTransition(explode);
+            getWindow().setReenterTransition(explode);
+            getWindow().setReturnTransition(explode);
         }
     }
 }

@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -36,10 +37,12 @@ import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.ScrollManager;
+import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
-public class DetailActivity extends BaseActivity implements DetailMvpView {
+@TargetApi(Build.VERSION_CODES.KITKAT)
+public class DetailActivity extends BaseActivity implements DetailMvpView, Transition.TransitionListener {
 
     @Inject
     protected DetailPresenter mDetailPresenter;
@@ -105,6 +108,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
         initActionBar();
         setupWindowAnimations();
+        //attachTransactionListeners();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -209,6 +213,44 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         }).create().show();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionStart(Transition transition) {
+        Timber.d("onTransitionStart() was called!");
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionEnd(Transition transition) {
+        Timber.d("onTransitionEnd() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionCancel(Transition transition) {
+        Timber.d("onTransitionCancel() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onTransitionPause(Transition transition) {
+        Timber.d("onTransitionPause() was called!");
+        getWindow().getEnterTransition().removeListener(this);
+        getWindow().getExitTransition().removeListener(this);
+        transition.removeListener(this);
+    }
+
+    @Override
+    public void onTransitionResume(Transition transition) {
+        Timber.d("onTransitionResume() was called!");
+    }
+
     private void initActionBar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -220,6 +262,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Explode explode = new Explode();
             explode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            explode.addListener(this);
             getWindow().setEnterTransition(explode);
             getWindow().setExitTransition(explode);
         }
@@ -229,5 +272,4 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         collapsingToolbarLayout.setTitle(title);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
     }
-
 }
