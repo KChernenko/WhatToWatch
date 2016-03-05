@@ -3,6 +3,9 @@ package me.bitfrom.whattowatch.ui.activities;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -225,6 +228,10 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            Drawable navIcon = mToolbar.getNavigationIcon();
+            if (navIcon != null) navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

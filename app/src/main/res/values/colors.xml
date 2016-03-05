@@ -15,6 +15,7 @@
     <color name="accent">#0097A7</color>
     <color name="accent_translucent">#FFE082</color>
     <color name="accent_bright">#FFF493</color>
+    <color name="white">#ffffff</color>
 
     <!-- Fabs colors -->
     <color name="fab_color_normal">#E57373</color>
