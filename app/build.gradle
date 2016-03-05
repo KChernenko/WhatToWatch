@@ -161,6 +161,7 @@ dependencies {
     compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:gridlayout-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+
     //Fabric
     compile("com.crashlytics.sdk.android:crashlytics:$FABRIC_CRASH_LIST_VERSION") {
         transitive = true;

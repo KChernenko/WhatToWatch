@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,8 +42,9 @@ import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
-@TargetApi(Build.VERSION_CODES.KITKAT)
-public class DetailActivity extends BaseActivity implements DetailMvpView, Transition.TransitionListener {
+
+@SuppressLint("NewApi")
+public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Inject
     protected DetailPresenter mDetailPresenter;
@@ -95,6 +97,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     protected String mAlreadyInFav;
 
     private Explode mExplode;
+    private Transition.TransitionListener mTransitionListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,9 +126,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getEnterTransition().removeListener(this);
-            getWindow().getExitTransition().removeListener(this);
-            mExplode.removeListener(this);
+            mExplode.removeListener(mTransitionListener);
         }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
         super.onDestroy();
@@ -220,46 +221,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
         }).create().show();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionStart(Transition transition) {
-        Timber.d("onTransitionStart() was called!");
-        transition.removeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionEnd(Transition transition) {
-        Timber.d("onTransitionEnd() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionCancel(Transition transition) {
-        Timber.d("onTransitionCancel() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionPause(Transition transition) {
-        Timber.d("onTransitionPause() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @Override
-    public void onTransitionResume(Transition transition) {
-        Timber.d("onTransitionResume() was called!");
-        transition.removeListener(this);
-    }
-
     private void initActionBar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -271,7 +232,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mExplode = new Explode();
             mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            mExplode.addListener(this);
+            iniTransitionListener();
+            mExplode.addListener(mTransitionListener);
             getWindow().setEnterTransition(mExplode);
             getWindow().setExitTransition(mExplode);
         }
@@ -280,5 +242,49 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     private void setCollapsingToolbarLayout(String title) {
         collapsingToolbarLayout.setTitle(title);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    }
+
+    private void iniTransitionListener() {
+        mTransitionListener = new Transition.TransitionListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionStart(Transition transition) {
+                Timber.d("onTransitionStart() was called!");
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                Timber.d("onTransitionEnd() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionCancel(Transition transition) {
+                Timber.d("onTransitionCancel() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionPause(Transition transition) {
+                Timber.d("onTransitionPause() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+                Timber.d("onTransitionResume() was called!");
+                transition.removeListener(this);
+            }
+        };
     }
 }

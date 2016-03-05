@@ -41,7 +41,6 @@ public class WWApplication extends Application {
         initImageLibrary();
     }
 
-
     public static WWApplication get(Context context) {
         return (WWApplication) context.getApplicationContext();
     }
