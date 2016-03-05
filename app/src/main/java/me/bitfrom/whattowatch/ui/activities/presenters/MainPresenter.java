@@ -1,12 +1,14 @@
 package me.bitfrom.whattowatch.ui.activities.presenters;
 
 import android.content.Context;
+import android.content.Intent;
 
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
+import me.bitfrom.whattowatch.ui.activities.WWIntro;
 import me.bitfrom.whattowatch.ui.activities.views.MainMvpView;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 
@@ -34,9 +36,12 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
     public void initFirstSync() {
         checkViewAttached();
         if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            FilmsSyncAdapter.initSyncAdapter(mContext);
+            Intent intent = new Intent(mContext, WWIntro.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
             mDataManager.getPreferencesHelper().markFirstLaunched();
-            getMvpView().showDataStartSyncing();
+        } else {
+            FilmsSyncAdapter.initSyncAdapter(mContext);
         }
     }
 

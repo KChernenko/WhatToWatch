@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -144,16 +143,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void showDataStartSyncing() {
-        final Snackbar snackbar = Snackbar.make(coordinatorLayout,
-                getString(R.string.start_syncing_message), Snackbar.LENGTH_LONG);
-        snackbar.setAction(getText(R.string.syncing_dismiss), v -> {
-            snackbar.dismiss();
-        });
-        snackbar.show();
     }
 
     /**
