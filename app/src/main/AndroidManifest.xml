@@ -40,7 +40,8 @@
 
         </activity>
         <activity android:name=".ui.activities.WWIntro"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <provider
             android:authorities="@string/content_authority"
             android:name=".core.sync.StubProvider"

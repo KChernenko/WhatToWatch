@@ -22,7 +22,8 @@
         android:fontFamily="sans-serif-thin"
         android:textSize="@dimen/slider_big_text_size"
         android:textColor="@color/slider_text_color_white"
-        android:text="@string/slider_4_top_text"/>
+        android:text="@string/slider_4_top_text"
+        android:id="@+id/slide_4_top_text"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -44,7 +45,8 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif-thin"
             android:textColor="@color/slider_text_color_white"
-            android:text="@string/slider_4_middle_text"/>
+            android:text="@string/slider_4_middle_text"
+            android:id="@+id/slide_4_middle_text"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -56,7 +58,8 @@
         android:paddingRight="@dimen/slider_padding_64"
         android:textColor="@color/slider_text_color_white"
         android:textSize="@dimen/slider_small_text_size"
-        android:text="@string/slider_4_bottom_text"/>
+        android:text="@string/slider_4_bottom_text"
+        android:id="@+id/slide_4_bottom_text"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="@dimen/slider_bottom_height"/>

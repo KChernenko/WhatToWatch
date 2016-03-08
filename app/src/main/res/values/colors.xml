@@ -25,12 +25,12 @@
     <color name="share_dialog_title_color">#E57373</color>
 
     <!-- Intro sliders colors -->
-    <color name="slider_1_background">#654538</color>
-    <color name="slider_2_background">#0c7b7b</color>
-    <color name="slider_3_background">#db585a</color>
-    <color name="slider_4_background">#f5be56</color>
-    <color name="slider_5_background">#bb9c87</color>
-    <color name="slider_6_background">#f7d5ba</color>
+    <color name="slider_1_background">#009688</color>
+    <color name="slider_2_background">#FF5722</color>
+    <color name="slider_3_background">#607D8B</color>
+    <color name="slider_4_background">#2196F3</color>
+    <color name="slider_5_background">#9E9E9E</color>
+    <color name="slider_6_background">#4CAF50</color>
     <color name="slider_text_color_white">#ffffff</color>
     <color name="slider_text_color_red">#db585a</color>
 
