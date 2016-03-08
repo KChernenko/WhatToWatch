@@ -115,6 +115,7 @@ public class DataManager {
                         for (MoviePojo moviePojo: allMovies) {
                             result.add(moviePojo);
                         }
+                        allMovies.clear();
                     }
                     return mDbHelper.setComingSoon(result);
                 });
