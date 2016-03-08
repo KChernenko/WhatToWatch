@@ -67,7 +67,7 @@
     <dimen name="slider_biggest_text_size">42sp</dimen>
     <dimen name="slider_big_text_size">32sp</dimen>
     <dimen name="slider_medium_text_size">24sp</dimen>
-    <dimen name="slider_small_text_size">18sp</dimen>
+    <dimen name="slider_small_text_size">16sp</dimen>
     <dimen name="slider_middle_text_margin">20dp</dimen>
 
 </resources>
