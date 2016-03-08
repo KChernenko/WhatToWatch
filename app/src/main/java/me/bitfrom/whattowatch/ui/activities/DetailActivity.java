@@ -203,7 +203,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     @Override
     public void showUnknownError() {
         Snackbar.make(mScrollView,
-                getString(R.string.error_unknown), Snackbar.LENGTH_LONG).show();
+                getString(R.string.error_list_empty), Snackbar.LENGTH_LONG).show();
     }
 
     @Override

@@ -135,9 +135,9 @@
     <string name="app_hash_tag"> #WhatToWatchApp</string>
 
     <!-- Strings for error handling -->
-    <string name="empty_films_list">No Films Information Available :(</string>
+    <string name="empty_films_list">Oops! This list is empty. Loading a new one…</string>
     <string name="error_connection_unavailable">Please, check your internet connection.</string>
-    <string name="error_unknown">Oops! Something wrong with the server :( Try again later.</string>
+    <string name="error_list_empty">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_dismiss">Dismiss</string>
     <string name="not_valid_info">N/A</string>
 

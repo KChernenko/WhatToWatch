@@ -48,7 +48,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     protected TextView mEmptyView;
     @Bind(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindString(R.string.error_unknown)
+    @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;
 
     private RecyclerItemClickListener mRecyclerItemClickListener;
@@ -107,8 +107,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
 
     @Override
     public void showUnknownError() {
-        mEmptyView.setText(mErrorUnknown);
-        mRecyclerView.setEmptyView(mEmptyView);
+        Snackbar.make(mRootLayout, mErrorUnknown, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -132,5 +131,6 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
+        mRecyclerView.setEmptyView(mEmptyView);
     }
 }
