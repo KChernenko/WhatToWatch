@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -20,6 +21,7 @@ import android.transition.Explode;
 import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +43,7 @@ import me.bitfrom.whattowatch.ui.activities.presenters.DetailPresenter;
 import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import me.bitfrom.whattowatch.utils.OnSwipeTouchListener;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import timber.log.Timber;
 
@@ -57,12 +60,12 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     @Inject
     protected ScrollManager mScrollManager;
 
-    private String mFilmId;
-
+    @Bind(R.id.detail_root_layout)
+    protected CoordinatorLayout mRootLayout;
     @Bind(R.id.detail_toolbar)
     protected Toolbar mToolbar;
     @Bind(R.id.collapsing_toolbar)
-    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
     @Bind(R.id.poster)
@@ -100,8 +103,10 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
 
+    private String mFilmId;
     private Explode mExplode;
     private Transition.TransitionListener mTransitionListener;
+    private OnSwipeTouchListener mSwipeTouchListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +122,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
         initActionBar();
         setupWindowAnimations();
+        initSwipeListener();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -134,11 +140,18 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        mSwipeTouchListener.getGestureDetector().onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public void onDestroy() {
         Timber.d("onDestroy() was called!");
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
+        mRootLayout.setOnTouchListener(null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mExplode.removeListener(mTransitionListener);
         }
@@ -258,8 +271,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     private void setCollapsingToolbarLayout(String title) {
-        collapsingToolbarLayout.setTitle(title);
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        mCollapsingToolbarLayout.setTitle(title);
+        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
     }
 
     private void iniTransitionListener() {
@@ -304,5 +317,15 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
                 transition.removeListener(this);
             }
         };
+    }
+
+    private void initSwipeListener() {
+        mSwipeTouchListener = new OnSwipeTouchListener(this) {
+            public void onSwipeRight() {
+                onBackPressed();
+            }
+        };
+
+        mRootLayout.setOnTouchListener(mSwipeTouchListener);
     }
 }
