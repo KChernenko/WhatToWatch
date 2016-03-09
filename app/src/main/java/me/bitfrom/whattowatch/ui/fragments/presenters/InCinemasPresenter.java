@@ -61,7 +61,6 @@ public class InCinemasPresenter extends BasePresenter<InCinemasMvpView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {
-                        getMvpView().showUnknownError();
                         loadFilms(true);
                     } else {
                         getMvpView().showFilmsList(films);

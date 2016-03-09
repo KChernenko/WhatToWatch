@@ -46,9 +46,5 @@ public class ConstantsManager {
 
     public static final int TRANSITION_DURATION = 350;
 
-    public static final String SHARED_POSTER = "shared_poster";
-    public static final String SHARED_TITLE = "shared_title";
-    public static final String SHARED_DIRECTOR = "shared_director";
-    public static final String SHARED_GENRES = "shared_genres";
-    public static final String SHARED_RATING = "shared_rating";
+    public static final String ARG_LAYOUT_RES_ID = "layoutResId";
 }

@@ -50,7 +50,7 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
     protected TextView mEmptyView;
     @Bind(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindString(R.string.error_unknown)
+    @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;
 
     private RecyclerItemClickListener mRecyclerItemClickListener;
@@ -110,8 +110,7 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
 
     @Override
     public void showUnknownError() {
-        mEmptyView.setText(mErrorUnknown);
-        mRecyclerView.setEmptyView(mEmptyView);
+        Snackbar.make(mRootLayout, mErrorUnknown, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -135,5 +134,6 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
+        mRecyclerView.setEmptyView(mEmptyView);
     }
 }

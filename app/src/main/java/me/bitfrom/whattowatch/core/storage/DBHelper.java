@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.core.storage;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -85,9 +84,15 @@ public class DBHelper {
                         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
                 .map(query -> {
                     Cursor cursor = query.run();
-                    cursor.moveToFirst();
-                    Film result = DBContract.FilmsTable.parseCursor(cursor);
-                    cursor.close();
+                    Film result = null;
+                    if (cursor != null) {
+                        try {
+                            cursor.moveToFirst();
+                            result = DBContract.FilmsTable.parseCursor(cursor);
+                        } finally {
+                            cursor.close();
+                        }
+                    }
                     return result;
                 });
     }
@@ -155,7 +160,7 @@ public class DBHelper {
                             SQLiteDatabase.CONFLICT_REPLACE);
                     cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
-                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
                 subscriber.onCompleted();
@@ -195,7 +200,7 @@ public class DBHelper {
                             SQLiteDatabase.CONFLICT_REPLACE);
                     cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
-                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
                 subscriber.onCompleted();
@@ -235,7 +240,7 @@ public class DBHelper {
                             SQLiteDatabase.CONFLICT_REPLACE);
                     cacheImage(movie.getUrlPoster());
                     if (result >= 0) subscriber.onNext(movie);
-                    else Log.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
                 subscriber.onCompleted();

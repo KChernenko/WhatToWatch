@@ -33,19 +33,20 @@ public class DBContract {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_IMDB_ID + " TEXT NOT NULL PRIMARY KEY, " +
-                        COLUMN_URL_IMDB + " TEXT NOT NULL, " +
+                        COLUMN_URL_IMDB + " TEXT, " +
                         COLUMN_COUNTRIES + " TEXT NOT NULL, " +
                         COLUMN_DIRECTORS + " TEXT NOT NULL, " +
                         COLUMN_GENRES + " TEXT NOT NULL, " +
-                        COLUMN_PLOT + " TEXT NOT NULL, " +
+                        COLUMN_PLOT + " TEXT, " +
                         COLUMN_RATING + " TEXT NOT NULL, " +
-                        COLUMN_RUNTIME + " TEXT NOT NULL, " +
+                        COLUMN_RUNTIME + " TEXT , " +
                         COLUMN_TITLE + " TEXT NOT NULL, " +
                         COLUMN_URL_POSTER + " TEXT NOT NULL, " +
                         COLUMN_WRITERS + " TEXT NOT NULL, " +
                         COLUMN_YEAR + " TEXT NOT NULL, " +
                         COLUMN_FAVORITE + " INTEGER, " +
                         COLUMN_CATEGORY + " INTEGER" + " );";
+
 
         public static ContentValues toContentValues(MoviePojo movie, int category) {
             ContentValues values = new ContentValues(13);
@@ -73,30 +74,17 @@ public class DBContract {
 
             values.put(COLUMN_COUNTRIES, convertListItems(movie.getCountries()));
             values.put(COLUMN_GENRES, convertListItems(movie.getGenres()));
-            if (convertListItems(movie.getRuntime()).equals("")) {
-                values.put(COLUMN_RUNTIME, "N/A");
-            } else {
-                values.put(COLUMN_RUNTIME, convertListItems(movie.getRuntime()));
-            }
+            values.put(COLUMN_RUNTIME, movie.getRuntime());
             values.put(COLUMN_URL_IMDB, movie.getUrlIMDB());
             values.put(COLUMN_URL_POSTER, movie.getUrlPoster());
             values.put(COLUMN_PLOT, movie.getPlot());
-            if (movie.getPlot().equals("")) {
-                values.put(COLUMN_PLOT, "N/A");
-            } else {
-                values.put(COLUMN_PLOT, movie.getPlot());
-            }
             if (movie.getRating().equals("")) {
                 values.put(COLUMN_RATING, "N/A");
             } else {
                 values.put(COLUMN_RATING, movie.getRating());
             }
             values.put(COLUMN_TITLE, movie.getTitle());
-            if (movie.getYear().equals("")) {
-                values.put(COLUMN_YEAR, "N/A");
-            } else {
-                values.put(COLUMN_YEAR, movie.getYear());
-            }
+            values.put(COLUMN_YEAR, movie.getYear());
             values.put(COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
             values.put(COLUMN_CATEGORY, category);
 
@@ -119,7 +107,6 @@ public class DBContract {
             film.writers = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS));
             film.year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
             film.favorite = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE));
-
 
             return film;
         }

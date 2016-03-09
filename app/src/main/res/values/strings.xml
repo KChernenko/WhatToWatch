@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">What to watch?</string>
+    <string name="app_name" translatable="false">What to watch?</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">whattowatch.bitfrom.me</string>
-    <string name="content_authority">me.bitfrom.whattowatch</string>
+    <string name="sync_account_type" translatable="false">whattowatch.bitfrom.me</string>
+    <string name="content_authority" translatable="false">me.bitfrom.whattowatch</string>
 
     <!-- Strings for navigation drawer -->
     <string name="drawer_item_top">Top films</string>
@@ -135,9 +135,9 @@
     <string name="app_hash_tag"> #WhatToWatchApp</string>
 
     <!-- Strings for error handling -->
-    <string name="empty_films_list">No Films Information Available :(</string>
+    <string name="empty_films_list">Oops! This list is empty. Loading a new one…</string>
     <string name="error_connection_unavailable">Please, check your internet connection.</string>
-    <string name="error_unknown">Oops! Something wrong with the server :( Try again later.</string>
+    <string name="error_list_empty">Oops! Something wrong with the server :( Try again later.</string>
     <string name="snackbar_dismiss">Dismiss</string>
     <string name="not_valid_info">N/A</string>
 
@@ -153,5 +153,30 @@
     <string name="developed_by_lbl">Developed by:</string>
     <string name="developer_credentials">Constantine Chernenko</string>
     <string name="about_dialog_freespace_fix">\u0020</string>
+
+    <!-- Strings for slider 1 -->
+    <string name="slider_1_top_text">Welcome!</string>
+    <string name="slider_1_middle_text">This app is going to suggest you some interesting films</string>
+    <string name="slider_1_bottom_text">You can select number of films and period of updates in the Settings</string>
+    <!-- Strings for slider 2 -->
+    <string name="slider_2_top_text">Something cool</string>
+    <string name="slider_2_middle_text">1. Top films</string>
+    <string name="slider_2_bottom_text">Films from the TOP250 list</string>
+    <!-- Strings for slider 3 -->
+    <string name="slider_3_top_text">Or not</string>
+    <string name="slider_3_middle_text">2. Bottom films</string>
+    <string name="slider_3_bottom_text">Films from the worst TOP100 list</string>
+    <!-- Strings for slider 4 -->
+    <string name="slider_4_top_text">Or new</string>
+    <string name="slider_4_middle_text">3. In cinemas</string>
+    <string name="slider_4_bottom_text">Films that are in cinemas now</string>
+    <!-- Strings for slider 5 -->
+    <string name="slider_5_top_text">Or not existed</string>
+    <string name="slider_5_middle_text">4. Coming soon</string>
+    <string name="slider_5_bottom_text">Films that are in cinemas now</string>
+    <!-- Strings for slider 6 -->
+    <string name="slider_6_top_text">What else?</string>
+    <string name="slider_6_middle_text">Save the liked ones to favorite or share with friends*</string>
+    <string name="slider_6_bottom_text">*If you have them</string>
 
 </resources>

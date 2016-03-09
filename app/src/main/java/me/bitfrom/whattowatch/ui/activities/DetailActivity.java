@@ -1,11 +1,16 @@
 package me.bitfrom.whattowatch.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -15,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,13 +43,15 @@ import me.bitfrom.whattowatch.ui.activities.presenters.DetailPresenter;
 import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import me.bitfrom.whattowatch.utils.OnSwipeTouchListener;
 import me.bitfrom.whattowatch.utils.ScrollManager;
 import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
-@TargetApi(Build.VERSION_CODES.KITKAT)
-public class DetailActivity extends BaseActivity implements DetailMvpView, Transition.TransitionListener {
+
+@SuppressLint("NewApi")
+public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Inject
     protected DetailPresenter mDetailPresenter;
@@ -51,12 +60,12 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @Inject
     protected ScrollManager mScrollManager;
 
-    private String mFilmId;
-
+    @Bind(R.id.detail_root_layout)
+    protected CoordinatorLayout mRootLayout;
     @Bind(R.id.detail_toolbar)
     protected Toolbar mToolbar;
     @Bind(R.id.collapsing_toolbar)
-    protected CollapsingToolbarLayout collapsingToolbarLayout;
+    protected CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
     @Bind(R.id.poster)
@@ -94,6 +103,11 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
 
+    private String mFilmId;
+    private Explode mExplode;
+    private Transition.TransitionListener mTransitionListener;
+    private OnSwipeTouchListener mSwipeTouchListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +122,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
 
         initActionBar();
         setupWindowAnimations();
-        //attachTransactionListeners();
+        initSwipeListener();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
 
@@ -116,10 +130,31 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        mSwipeTouchListener.getGestureDetector().onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public void onDestroy() {
+        Timber.d("onDestroy() was called!");
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
+        mRootLayout.setOnTouchListener(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mExplode.removeListener(mTransitionListener);
+        }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
         super.onDestroy();
     }
@@ -168,7 +203,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
     @Override
     public void showUnknownError() {
         Snackbar.make(mScrollView,
-                getString(R.string.error_unknown), Snackbar.LENGTH_LONG).show();
+                getString(R.string.error_list_empty), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -213,63 +248,84 @@ public class DetailActivity extends BaseActivity implements DetailMvpView, Trans
         }).create().show();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionStart(Transition transition) {
-        Timber.d("onTransitionStart() was called!");
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionEnd(Transition transition) {
-        Timber.d("onTransitionEnd() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionCancel(Transition transition) {
-        Timber.d("onTransitionCancel() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onTransitionPause(Transition transition) {
-        Timber.d("onTransitionPause() was called!");
-        getWindow().getEnterTransition().removeListener(this);
-        getWindow().getExitTransition().removeListener(this);
-        transition.removeListener(this);
-    }
-
-    @Override
-    public void onTransitionResume(Transition transition) {
-        Timber.d("onTransitionResume() was called!");
-    }
-
     private void initActionBar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            Drawable navIcon = mToolbar.getNavigationIcon();
+            if (navIcon != null) navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Explode explode = new Explode();
-            explode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            explode.addListener(this);
-            getWindow().setEnterTransition(explode);
-            getWindow().setExitTransition(explode);
+            mExplode = new Explode();
+            mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
+            iniTransitionListener();
+            mExplode.addListener(mTransitionListener);
+            getWindow().setEnterTransition(mExplode);
+            getWindow().setExitTransition(mExplode);
         }
     }
 
     private void setCollapsingToolbarLayout(String title) {
-        collapsingToolbarLayout.setTitle(title);
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        mCollapsingToolbarLayout.setTitle(title);
+        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    }
+
+    private void iniTransitionListener() {
+        mTransitionListener = new Transition.TransitionListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionStart(Transition transition) {
+                Timber.d("onTransitionStart() was called!");
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                Timber.d("onTransitionEnd() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionCancel(Transition transition) {
+                Timber.d("onTransitionCancel() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onTransitionPause(Transition transition) {
+                Timber.d("onTransitionPause() was called!");
+                getWindow().getEnterTransition().removeListener(this);
+                getWindow().getExitTransition().removeListener(this);
+                transition.removeListener(this);
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+                Timber.d("onTransitionResume() was called!");
+                transition.removeListener(this);
+            }
+        };
+    }
+
+    private void initSwipeListener() {
+        mSwipeTouchListener = new OnSwipeTouchListener(this) {
+            public void onSwipeRight() {
+                onBackPressed();
+            }
+        };
+
+        mRootLayout.setOnTouchListener(mSwipeTouchListener);
     }
 }

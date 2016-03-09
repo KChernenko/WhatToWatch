@@ -47,7 +47,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     @Bind(R.id.favorite_list_empty)
     protected TextView mEmptyView;
 
-    @BindString(R.string.error_unknown)
+    @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;
 
     private RecyclerItemClickListener mRecyclerItemClickListener;

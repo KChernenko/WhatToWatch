@@ -108,13 +108,14 @@ public class DataManager {
         return mFilmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
                 .flatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
-                    int inTheatreSize = theaterPojo.getData().getInTheaters().size();
-                    InTheaterPojo inTheaterPojo;
+                    int inTheatreSize = theaterPojo.getData().getComingSoon().size();
+                    List<MoviePojo> allMovies;
                     for (int i = 0; i < inTheatreSize; i++) {
-                        inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
-                        for (MoviePojo moviePojo : inTheaterPojo.getMovies()) {
+                        allMovies = theaterPojo.getData().getComingSoon().get(i).getMovies();
+                        for (MoviePojo moviePojo: allMovies) {
                             result.add(moviePojo);
                         }
+                        allMovies.clear();
                     }
                     return mDbHelper.setComingSoon(result);
                 });

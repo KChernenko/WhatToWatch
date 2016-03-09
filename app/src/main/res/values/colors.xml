@@ -6,10 +6,7 @@
     <color name="cv_director_color">#424242</color>
     <color name="cv_imdb_color">#FFB300</color>
 
-    <!--Splash screen colors-->
-    <color name="splash_screen_background">#FFFFFF</color>
-    <color name="splash_screen_appname_color">#FF9800</color>
-
+    <!-- DetailActivity colors -->
     <color name="desc_text_color">#424242</color>
 
     <!-- Drawer and ActionBar colors -->
@@ -18,15 +15,23 @@
     <color name="accent">#0097A7</color>
     <color name="accent_translucent">#FFE082</color>
     <color name="accent_bright">#FFF493</color>
+    <color name="white">#ffffff</color>
 
     <!-- Fabs colors -->
     <color name="fab_color_normal">#E57373</color>
     <color name="fab_color_pressed">#B2EBF2</color>
 
-    <color name="fragment_background">#EEEEEE</color>
-
     <!-- Share dialogs colors -->
     <color name="share_dialog_title_color">#E57373</color>
 
-    <color name="drawer_header_text">#000000</color>
+    <!-- Intro sliders colors -->
+    <color name="slider_1_background">#009688</color>
+    <color name="slider_2_background">#FF5722</color>
+    <color name="slider_3_background">#607D8B</color>
+    <color name="slider_4_background">#2196F3</color>
+    <color name="slider_5_background">#9E9E9E</color>
+    <color name="slider_6_background">#4CAF50</color>
+    <color name="slider_text_color_white">#ffffff</color>
+    <color name="slider_text_color_red">#db585a</color>
+
 </resources>

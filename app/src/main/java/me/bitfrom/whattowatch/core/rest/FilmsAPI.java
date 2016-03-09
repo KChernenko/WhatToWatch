@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.core.rest;
 
 import me.bitfrom.whattowatch.core.model.FilmPojo;
 import me.bitfrom.whattowatch.core.model.TheaterPojo;
+import me.bitfrom.whattowatch.core.model.comingsoon.NewMoviesPojo;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -28,6 +29,6 @@ public interface FilmsAPI {
                                                @Query("language") String language);
 
     @GET("comingSoon?")
-    Observable<TheaterPojo> getComingSoon(@Query("token") String token,
+    Observable<NewMoviesPojo> getComingSoon(@Query("token") String token,
                                           @Query("format") String format);
 }

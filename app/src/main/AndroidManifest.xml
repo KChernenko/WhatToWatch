@@ -21,7 +21,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4917f5e6c66cb574bd374377cf2cdccfd133aa97" />
@@ -40,6 +39,9 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <activity android:name=".ui.activities.WWIntro"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <provider
             android:authorities="@string/content_authority"
             android:name=".core.sync.StubProvider"
