@@ -113,11 +113,10 @@ public class DBHelper {
             case ConstantsManager.FAVORITE:
                 values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.FAVORITE);
                 try {
-                    result = mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                    mDb.update(DBContract.FilmsTable.TABLE_NAME,
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
-                    Timber.d("Added to favorites: " + result);
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();
@@ -127,11 +126,10 @@ public class DBHelper {
             case ConstantsManager.NOT_FAVORITE:
                 values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
                 try {
-                    result = mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                    mDb.update(DBContract.FilmsTable.TABLE_NAME,
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
-                    Timber.d("Removed from favorites: " + result);
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();
@@ -257,6 +255,16 @@ public class DBHelper {
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                 new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.COMING_SOON)})
+                .mapToList(DBContract.FilmsTable::parseCursor);
+    }
+
+    public Observable<List<Film>> searchInFavorite(String title) {
+        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+                "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
+                " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
+                " AND " + DBContract.FilmsTable.COLUMN_TITLE + " LIKE ?",
+                new String[] {String.valueOf(ConstantsManager.FAVORITE),
+                "%" + title + "%"})
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 

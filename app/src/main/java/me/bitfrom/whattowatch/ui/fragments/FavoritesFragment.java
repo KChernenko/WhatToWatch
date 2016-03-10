@@ -8,10 +8,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -49,8 +53,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
 
     @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;
+    @BindString(R.string.error_nothing_has_found)
+    protected String mErrorNothingFound;
+    @BindString(R.string.search_title)
+    protected String mSearchHint;
 
     private RecyclerItemClickListener mRecyclerItemClickListener;
+    private SearchView mSearchView;
+    private SearchView.OnQueryTextListener mQueryListener;
 
     @Nullable
     @Override
@@ -63,6 +73,26 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         initRecyclerView();
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        mSearchView = (SearchView)menu.findItem(R.id.search_action).getActionView();
+        mSearchView.setQueryHint(mSearchHint);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        initOnQueryListener();
+        mSearchView.setOnQueryTextListener(mQueryListener);
     }
 
     @Override
@@ -85,10 +115,37 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                // handle back button's click listener
+                if (!mSearchView.isIconified()) {
+                    mSearchView.setIconified(true);
+                    mSearchView.onActionViewCollapsed();
+                } else {
+                    getActivity().onBackPressed();
+                }
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
+        if (mSearchView != null) mSearchView.onActionViewCollapsed();
         if (mFavoritesPresenter != null) mFavoritesPresenter.detachView();
         if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
     }
 
     @Override
@@ -108,9 +165,30 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
                 mErrorUnknown, Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showNothingHasFound() {
+        mEmptyView.setText(mErrorNothingFound);
+        mRecyclerView.setEmptyView(mEmptyView);
+    }
+
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
+    }
+
+    private void initOnQueryListener() {
+        mQueryListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mFavoritesPresenter.search(newText);
+                return false;
+            }
+        };
     }
 }
