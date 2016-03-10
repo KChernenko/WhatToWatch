@@ -18,9 +18,9 @@ https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
     implementation; AUIL has beautiful disk-ram cache mechanism, that helps to use less memory in
     ReclyclerView)
 * ButterKnife
-* AppIntro(https://github.com/PaoloRotolo/AppIntro)
-* FloatingActionButton(https://github.com/futuresimple/android-floating-action-button)
-* RippleEffect(https://github.com/traex/RippleEffect)
+* [AppIntro](https://github.com/PaoloRotolo/AppIntro)
+* [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
+* [RippleEffect](https://github.com/traex/RippleEffect)
 
 Developer libraries:
 * [Timber](https://github.com/JakeWharton/timber)
