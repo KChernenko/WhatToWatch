@@ -125,10 +125,15 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         super.onStop();
         //noinspection ConstantConditions
         getView().setOnKeyListener(null);
-        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
         if (mSearchView != null) mSearchView.onActionViewCollapsed();
         if (mFavoritesPresenter != null) mFavoritesPresenter.detachView();
         if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
     }
 
     @Override
