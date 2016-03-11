@@ -33,7 +33,7 @@ Developer libraries:
 * Functional (UI) tests (Espresso).
 
 ### What next features will appear:
-* Search in the Favorite.
+* ~~Search in the Favorite.~~
 * Swipe to delete item from the list.
 
 ## License
