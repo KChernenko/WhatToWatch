@@ -60,6 +60,7 @@ public class ComingSoonPresenter extends BasePresenter<ComingSoonMvpView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {
+                        getMvpView().showListIsEmpty();
                         loadFilms(true);
                     } else {
                         getMvpView().showFilmsList(films);

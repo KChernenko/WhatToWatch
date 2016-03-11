@@ -40,7 +40,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
-                    getMvpView().showListOfFavorites(films);
+                    if (films.isEmpty()) {
+                        getMvpView().showListIsEmpty();
+                    } else {
+                        getMvpView().showListOfFavorites(films);
+                    }
                 }, throwable -> {
                     getMvpView().showUnknownError();
                     if (BuildConfig.DEBUG) {

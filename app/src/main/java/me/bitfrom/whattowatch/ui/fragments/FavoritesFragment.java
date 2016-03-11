@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +33,6 @@ import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.FavoritesPresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
-import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -47,7 +47,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     @Bind(R.id.favorite_root_layout)
     protected RelativeLayout mRootLayout;
     @Bind(R.id.favorite_list)
-    protected EmptyRecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
     @Bind(R.id.favorite_list_empty)
     protected TextView mEmptyView;
     @Bind(R.id.nothing_found)
@@ -138,17 +138,18 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
 
     @Override
     public void showListOfFavorites(List<Film> favoriteFilms) {
-        if (favoriteFilms.isEmpty()) {
-            mNothingFound.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        } else {
-            mNothingFound.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mFilmsAdapter.setFilms(favoriteFilms);
-            mFilmsAdapter.notifyDataSetChanged();
-        }
+        mNothingFound.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mFilmsAdapter.setFilms(favoriteFilms);
+        mFilmsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showListIsEmpty() {
+        mNothingFound.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override

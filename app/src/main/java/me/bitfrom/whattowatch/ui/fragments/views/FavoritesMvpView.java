@@ -13,4 +13,6 @@ public interface FavoritesMvpView extends MvpView {
 
     void showNothingHasFound();
 
+    void showListIsEmpty();
+
 }

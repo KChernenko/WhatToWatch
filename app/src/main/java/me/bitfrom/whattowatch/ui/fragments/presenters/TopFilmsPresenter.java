@@ -60,6 +60,7 @@ public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {
+                        getMvpView().showListIsEmpty();
                         loadFilms(true);
                     } else {
                         getMvpView().showFilmsList(films);
