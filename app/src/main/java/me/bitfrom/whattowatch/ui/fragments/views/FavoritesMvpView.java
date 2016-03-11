@@ -9,8 +9,6 @@ public interface FavoritesMvpView extends MvpView {
 
     void showListOfFavorites(List<Film> favoriteFilms);
 
-    void showEmptyList();
-
     void showUnknownError();
 
     void showNothingHasFound();

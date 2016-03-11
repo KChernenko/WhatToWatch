@@ -50,9 +50,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     protected EmptyRecyclerView mRecyclerView;
     @Bind(R.id.favorite_list_empty)
     protected TextView mEmptyView;
+    @Bind(R.id.nothing_found)
+    protected TextView mNothingFound;
 
     @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;
+    @BindString(R.string.empty_favorite_list)
+    protected String mErrorEmptyList;
     @BindString(R.string.error_nothing_has_found)
     protected String mErrorNothingFound;
     @BindString(R.string.search_title)
@@ -102,6 +106,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //noinspection unchecked
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(getActivity());
                 ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
@@ -112,51 +117,33 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
         mFavoritesPresenter.attachView(this);
         mFavoritesPresenter.getFavoriteFilms();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener((v, keyCode, event) -> {
-            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                // handle back button's click listener
-                if (!mSearchView.isIconified()) {
-                    mSearchView.setIconified(true);
-                    mSearchView.onActionViewCollapsed();
-                } else {
-                    getActivity().onBackPressed();
-                }
-                return true;
-            }
-            return false;
-        });
+        initKeyListener();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        //noinspection ConstantConditions
+        getView().setOnKeyListener(null);
+        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
         if (mSearchView != null) mSearchView.onActionViewCollapsed();
         if (mFavoritesPresenter != null) mFavoritesPresenter.detachView();
         if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
-    }
-
-    @Override
     public void showListOfFavorites(List<Film> favoriteFilms) {
-        mFilmsAdapter.setFilms(favoriteFilms);
-        mFilmsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showEmptyList() {
-        mRecyclerView.setEmptyView(mEmptyView);
+        if (favoriteFilms.isEmpty()) {
+            mNothingFound.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mNothingFound.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mFilmsAdapter.setFilms(favoriteFilms);
+            mFilmsAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -167,13 +154,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
 
     @Override
     public void showNothingHasFound() {
-        mEmptyView.setText(mErrorNothingFound);
-        mRecyclerView.setEmptyView(mEmptyView);
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
+        mNothingFound.setVisibility(View.VISIBLE);
     }
 
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
     }
 
@@ -190,5 +177,24 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
                 return false;
             }
         };
+    }
+
+    private void initKeyListener() {
+        //noinspection ConstantConditions
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                // handle back button's click listener
+                if (!mSearchView.isIconified()) {
+                    mSearchView.setIconified(true);
+                    mSearchView.onActionViewCollapsed();
+                } else {
+                    getActivity().onBackPressed();
+                }
+                return true;
+            }
+            return false;
+        });
     }
 }
