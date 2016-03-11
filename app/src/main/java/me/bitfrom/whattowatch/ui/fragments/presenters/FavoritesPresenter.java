@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.ui.fragments.presenters;
 
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -39,13 +40,30 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
+                    getMvpView().showListOfFavorites(films);
+                }, throwable -> {
+                    getMvpView().showUnknownError();
+                    if (BuildConfig.DEBUG) {
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    public void search(String title) {
+        checkViewAttached();
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        mSubscription = mDataManager.getSearchResult(title)
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(films -> {
                     if (films.isEmpty()) {
-                        getMvpView().showEmptyList();
+                        getMvpView().showNothingHasFound();
                     } else {
                         getMvpView().showListOfFavorites(films);
                     }
                 }, throwable -> {
-                    getMvpView().showUnknownError();
+                   getMvpView().showUnknownError();
                     if (BuildConfig.DEBUG) {
                         throwable.printStackTrace();
                     }

@@ -24,4 +24,19 @@
         android:textSize="@dimen/random_empty_text_size"
         android:textStyle="bold|italic"/>
 
+    <!-- Empty result -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nothing_found"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="@dimen/random_empty_text_margin"
+        android:paddingLeft="@dimen/random_empty_text_padding"
+        android:paddingRight="@dimen/random_empty_text_padding"
+        android:paddingTop="@dimen/random_empty_text_padding"
+        android:paddingBottom="@dimen/random_empty_text_padding"
+        android:text="@string/error_nothing_has_found"
+        android:textSize="@dimen/random_empty_text_size"
+        android:textStyle="bold|italic"/>
+
 </RelativeLayout>

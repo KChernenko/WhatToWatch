@@ -46,9 +46,8 @@
     <!-- Strings for FavoritesFragment -->
     <string name="favorite_fragment_title">Favorite</string>
     <string name="empty_favorite_list">There are no films in the Favorite</string>
-
-    <!-- Strings for FavoritesFragment -->
-    <string name="trailers_fragment_message">Will be added soon</string>
+    <string name="search_title">Search</string>
+    <string name="error_nothing_has_found">Nothing has found</string>
 
     <!-- Strings for SettingsFragment-->
     <string name="settings_fragment_title">Settings</string>

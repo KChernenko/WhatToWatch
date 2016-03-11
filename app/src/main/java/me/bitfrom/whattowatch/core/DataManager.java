@@ -112,7 +112,7 @@ public class DataManager {
                     List<MoviePojo> allMovies;
                     for (int i = 0; i < inTheatreSize; i++) {
                         allMovies = theaterPojo.getData().getComingSoon().get(i).getMovies();
-                        for (MoviePojo moviePojo: allMovies) {
+                        for (MoviePojo moviePojo : allMovies) {
                             result.add(moviePojo);
                         }
                         allMovies.clear();
@@ -123,5 +123,9 @@ public class DataManager {
 
     public Observable<List<Film>> getComingSoonFilms() {
         return mDbHelper.getComingSoon().distinct();
+    }
+
+    public Observable<List<Film>> getSearchResult(String title) {
+        return mDbHelper.searchInFavorite(title).distinct();
     }
 }
