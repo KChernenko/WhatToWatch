@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.fragments.presenters.ComingSoonPresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.ComingSoonMvpView;
-import me.bitfrom.whattowatch.ui.recyclerview.EmptyRecyclerView;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -45,7 +45,7 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     @Bind(R.id.films_root_layout)
     protected RelativeLayout mRootLayout;
     @Bind(R.id.list_of_films)
-    protected EmptyRecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
     @Bind(R.id.films_list_empty)
     protected TextView mEmptyView;
     @Bind(R.id.swipeRefreshLayout)
@@ -75,6 +75,7 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //noinspection unchecked
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(getActivity());
                 ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
@@ -103,9 +104,17 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
 
     @Override
     public void showFilmsList(List<Film> films) {
+        mEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
         mFilmsAdapter.setFilms(films);
         mFilmsAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showListIsEmpty() {
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -132,8 +141,6 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
 
     private void initRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setEmptyView(mEmptyView);
         mRecyclerView.setAdapter(mFilmsAdapter);
-        mRecyclerView.setEmptyView(mEmptyView);
     }
 }

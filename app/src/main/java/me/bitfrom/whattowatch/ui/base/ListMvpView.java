@@ -16,4 +16,6 @@ public interface ListMvpView extends MvpView {
     void loadNewFilms(boolean pullToRefresh);
 
     void showLoading(boolean pullToRefresh);
+
+    void showListIsEmpty();
 }
