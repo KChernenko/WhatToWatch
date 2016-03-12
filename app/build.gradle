@@ -14,12 +14,7 @@ android {
         versionProps.load(new FileInputStream(versionPropsFile))
         def code = versionProps['VERSION_CODE'].toInteger() + 1
         def version = versionProps['VERSION_NAME']
-        if (code >= 300) {
-            version = version.toDouble() + 0.1
-            code = 1
-        }
         versionProps['VERSION_CODE']=code.toString()
-        versionProps['VERSION_NAME']=version.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
 
         defaultConfig {
