@@ -33,13 +33,13 @@ public class DBContract {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_IMDB_ID + " TEXT NOT NULL PRIMARY KEY, " +
-                        COLUMN_URL_IMDB + " TEXT, " +
+                        COLUMN_URL_IMDB + " TEXT NOT NULL, " +
                         COLUMN_COUNTRIES + " TEXT NOT NULL, " +
                         COLUMN_DIRECTORS + " TEXT NOT NULL, " +
                         COLUMN_GENRES + " TEXT NOT NULL, " +
-                        COLUMN_PLOT + " TEXT, " +
+                        COLUMN_PLOT + " TEXT NOT NULL, " +
                         COLUMN_RATING + " TEXT NOT NULL, " +
-                        COLUMN_RUNTIME + " TEXT , " +
+                        COLUMN_RUNTIME + " TEXT NOT NULL, " +
                         COLUMN_TITLE + " TEXT NOT NULL, " +
                         COLUMN_URL_POSTER + " TEXT NOT NULL, " +
                         COLUMN_WRITERS + " TEXT NOT NULL, " +
@@ -74,10 +74,18 @@ public class DBContract {
 
             values.put(COLUMN_COUNTRIES, convertListItems(movie.getCountries()));
             values.put(COLUMN_GENRES, convertListItems(movie.getGenres()));
-            values.put(COLUMN_RUNTIME, movie.getRuntime());
+            if (movie.getRuntime().equals("")) {
+                values.put(COLUMN_RUNTIME, "N/A");
+            } else {
+                values.put(COLUMN_RUNTIME, movie.getRuntime());
+            }
             values.put(COLUMN_URL_IMDB, movie.getUrlIMDB());
             values.put(COLUMN_URL_POSTER, movie.getUrlPoster());
-            values.put(COLUMN_PLOT, movie.getPlot());
+            if (movie.getPlot().equals("")) {
+                values.put(COLUMN_PLOT, "N/A");
+            } else {
+                values.put(COLUMN_PLOT, movie.getPlot());
+            }
             if (movie.getRating().equals("")) {
                 values.put(COLUMN_RATING, "N/A");
             } else {
