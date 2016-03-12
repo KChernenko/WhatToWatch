@@ -128,8 +128,8 @@ dependencies {
     final RX_ANDROID_VERSION = "1.1.0"
     final RX_PG_VERSION = "1.1.1.0"
 
-    final RETROFIT_VERSION = "2.0.0-beta4"
-    final OKHTTP_VERSION = "3.1.2"
+    final RETROFIT_VERSION = "2.0.0"
+    final OKHTTP_VERSION = "3.2.0"
     final GSON_VERSION = "2.6.1"
 
     final SQLBRITE_VERSION = "0.6.2"
