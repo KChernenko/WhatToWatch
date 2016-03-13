@@ -34,7 +34,6 @@ import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import timber.log.Timber;
 
-
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         MainMvpView {

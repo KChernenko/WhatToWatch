@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.ui.fragments.presenters;
 
-
 import android.content.Context;
 import android.content.Intent;
 
