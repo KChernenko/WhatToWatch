@@ -49,7 +49,6 @@ import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
-
 @SuppressLint("NewApi")
 public class DetailActivity extends BaseActivity implements DetailMvpView {
 

@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.injection.module;
 
-
 import android.app.Application;
 import android.content.Context;
 

@@ -19,7 +19,6 @@ import me.bitfrom.whattowatch.injection.component.DaggerApplicationComponent;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
 import timber.log.Timber;
 
-
 public class WWApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
