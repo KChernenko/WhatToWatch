@@ -1,12 +1,10 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AboutPojo {
 
     @SerializedName("version")
-    @Expose
     private String version;
 
     /**

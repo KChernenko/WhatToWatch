@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -9,70 +8,48 @@ import java.util.List;
 public class MoviePojo {
 
     @SerializedName("title")
-    @Expose
     private String title;
     @SerializedName("originalTitle")
-    @Expose
     private String originalTitle;
     @SerializedName("year")
-    @Expose
     private String year;
     @SerializedName("releaseDate")
-    @Expose
     private String releaseDate;
     @SerializedName("directors")
-    @Expose
     private List<DirectorPojo> directors = new ArrayList<>();
     @SerializedName("writers")
-    @Expose
     private List<WriterPojo> writers = new ArrayList<>();
     @SerializedName("runtime")
-    @Expose
     private String runtime;
     @SerializedName("urlPoster")
-    @Expose
     private String urlPoster;
     @SerializedName("countries")
-    @Expose
     private List<String> countries = new ArrayList<>();
     @SerializedName("languages")
-    @Expose
     private List<String> languages = new ArrayList<>();
     @SerializedName("genres")
-    @Expose
     private List<String> genres = new ArrayList<>();
     @SerializedName("plot")
-    @Expose
     private String plot;
     @SerializedName("simplePlot")
-    @Expose
     private String simplePlot;
     @SerializedName("idIMDB")
-    @Expose
     private String idIMDB;
     @SerializedName("urlIMDB")
-    @Expose
     private String urlIMDB;
     @SerializedName("rating")
-    @Expose
     private String rating;
     @SerializedName("metascore")
-    @Expose
     private String metascore;
     @SerializedName("filmingLocations")
-    @Expose
     private List<String> filmingLocations = new ArrayList<>();
     @SerializedName("rated")
-    @Expose
     private String rated;
     @SerializedName("votes")
-    @Expose
     private String votes;
     @SerializedName("type")
-    @Expose
     private String type;
     @SerializedName("ranking")
-    @Expose
     private Integer ranking;
 
 

@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 public class DataTheaterPojo {
 
     @SerializedName("inTheaters")
-    @Expose
     private List<InTheaterPojo> inTheaters = new ArrayList<>();
 
     /**

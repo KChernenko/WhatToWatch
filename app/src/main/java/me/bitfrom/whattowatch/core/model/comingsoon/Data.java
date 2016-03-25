@@ -1,14 +1,13 @@
 package me.bitfrom.whattowatch.core.model.comingsoon;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Data {
 
     @SerializedName("comingSoon")
-    @Expose
     private List<ComingSoon> comingSoon = new ArrayList<>();
 
     /**

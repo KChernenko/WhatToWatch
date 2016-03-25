@@ -1,17 +1,17 @@
 package me.bitfrom.whattowatch.core.model.comingsoon;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import me.bitfrom.whattowatch.core.model.MoviePojo;
 
 public class ComingSoon {
 
-    @Expose
+    @SerializedName("date")
     private String date;
     @SerializedName("movies")
-    @Expose
     private List<MoviePojo> movies = new ArrayList<>();
 
     /**
