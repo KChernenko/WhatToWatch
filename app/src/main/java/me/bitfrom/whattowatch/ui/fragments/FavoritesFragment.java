@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.ui.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -137,7 +138,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     }
 
     @Override
-    public void showListOfFavorites(List<Film> favoriteFilms) {
+    public void showListOfFavorites(@NonNull List<Film> favoriteFilms) {
         mNothingFound.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);

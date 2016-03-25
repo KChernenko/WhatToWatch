@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,7 @@ public class NotificationHelper {
     private Context mContext;
 
     @Inject
-    public NotificationHelper(DataManager dataManager, @ApplicationContext Context context) {
+    public NotificationHelper(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }

@@ -17,6 +17,7 @@ package me.bitfrom.whattowatch.utils;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -92,7 +93,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
      * @param view - view, that we want to hide
      * @param direction - UP or DOWN direction
      **/
-    public void hideViewInScrollView(final NestedScrollView scrollView, final View view, final Direction direction) {
+    public void hideViewInScrollView(@NonNull final NestedScrollView scrollView, final View view, final Direction direction) {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
             int height = scrollView.getHeight();
             int scrollY = scrollView.getScrollY();

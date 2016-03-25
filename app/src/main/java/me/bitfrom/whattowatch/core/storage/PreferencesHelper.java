@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.core.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +20,7 @@ public class PreferencesHelper {
     private Context mContext;
 
     @Inject
-    public PreferencesHelper(@ApplicationContext Context context) {
+    public PreferencesHelper(@NonNull @ApplicationContext Context context) {
         mPrivatePref = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
         mPref = PreferenceManager.getDefaultSharedPreferences(context);
         mContext = context;
@@ -50,7 +51,7 @@ public class PreferencesHelper {
      * Returns number of days for syncing, that user selected in the app's settings;
      * 5 - by default.
      **/
-    public static int getUpdateInterval(Context context) {
+    public static int getUpdateInterval(@NonNull Context context) {
         int updateInterval;
         int updatePeriod = Integer.parseInt(mPref
                 .getString(context.getString(R.string.pref_frequency_of_updates_key),

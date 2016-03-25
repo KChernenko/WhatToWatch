@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.core.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class LoadInCinemasFilmsService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, final int startId) {
+    public int onStartCommand(@NonNull Intent intent, int flags, final int startId) {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         Timber.d("Start loading in cinemas films...");
 

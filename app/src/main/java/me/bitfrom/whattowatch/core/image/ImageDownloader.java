@@ -1,6 +1,6 @@
 package me.bitfrom.whattowatch.core.image;
 
-
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -20,7 +20,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
     }
 
     @Override
-    public void loadImage(@Flag int flag, String imageUrl, ImageView target) {
+    public void loadImage(@Flag int flag, @NonNull String imageUrl, ImageView target) {
         switch (flag) {
             case Flag.LOAD_ONLY:
                 downloadPoster(imageUrl);
@@ -36,7 +36,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
         }
     }
 
-    private void downloadPoster(String posterUrl) {
+    private void downloadPoster(@NonNull String posterUrl) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .build();
@@ -46,7 +46,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
     }
 
 
-    private void loadCroppedPoster(String posterUrl, ImageView target) {
+    private void loadCroppedPoster(@NonNull String posterUrl, @NonNull ImageView target) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
@@ -59,7 +59,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
     }
 
 
-    private void loadFullSizePoster(String posterUrl, ImageView target) {
+    private void loadFullSizePoster(@NonNull String posterUrl, @NonNull ImageView target) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)

@@ -1,6 +1,7 @@
 package me.bitfrom.whattowatch.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,7 +10,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
-    public OnSwipeTouchListener (Context ctx){
+    public OnSwipeTouchListener (@NonNull Context ctx){
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 

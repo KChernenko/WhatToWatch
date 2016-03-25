@@ -1,5 +1,7 @@
 package me.bitfrom.whattowatch.ui.fragments.presenters;
 
+import android.support.annotation.NonNull;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -18,12 +20,12 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
     private Subscription mSubscription;
 
     @Inject
-    public FavoritesPresenter(DataManager dataManager) {
+    public FavoritesPresenter(@NonNull DataManager dataManager) {
         mDataManager = dataManager;
     }
 
     @Override
-    public void attachView(FavoritesMvpView mvpView) {
+    public void attachView(@NonNull FavoritesMvpView mvpView) {
         super.attachView(mvpView);
     }
 

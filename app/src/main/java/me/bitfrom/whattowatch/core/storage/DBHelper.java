@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.core.storage;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -30,16 +31,18 @@ public class DBHelper {
     private ImageDownloader mImageDownloader;
 
     @Inject
-    public DBHelper(DBOpenHelper dbOpenHelper, ImageDownloader imageDownloader) {
+    public DBHelper(@NonNull DBOpenHelper dbOpenHelper, @NonNull ImageDownloader imageDownloader) {
         mDb = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
         mImageDownloader = imageDownloader;
     }
 
+    @NonNull
     public BriteDatabase getBriteDb() {
         return mDb;
     }
 
-    public Observable<MoviePojo> setTopFilms(final Collection<MoviePojo> newMovies) {
+    @NonNull
+    public Observable<MoviePojo> setTopFilms(@NonNull final Collection<MoviePojo> newMovies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -68,6 +71,7 @@ public class DBHelper {
         });
     }
 
+    @NonNull
     public Observable<List<Film>> getTopFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
@@ -78,7 +82,8 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<Film> getFilmById(String filmId) {
+    @NonNull
+    public Observable<Film> getFilmById(@NonNull String filmId) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
@@ -97,6 +102,7 @@ public class DBHelper {
                 });
     }
 
+    @NonNull
     public Observable<List<Film>> getFavoriteFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
@@ -108,7 +114,6 @@ public class DBHelper {
     public void updateFavorite(String filmId, int favorite) {
         ContentValues values = new ContentValues(1);
         BriteDatabase.Transaction transaction = mDb.newTransaction();
-        int result;
         switch (favorite) {
             case ConstantsManager.FAVORITE:
                 values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.FAVORITE);
@@ -139,7 +144,8 @@ public class DBHelper {
         }
     }
 
-    public Observable<MoviePojo> setBottomFilms(final Collection<MoviePojo> newMovies) {
+    @NonNull
+    public Observable<MoviePojo> setBottomFilms(@NonNull final Collection<MoviePojo> newMovies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -168,6 +174,7 @@ public class DBHelper {
         });
     }
 
+    @NonNull
     public Observable<List<Film>> getBottomFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
@@ -178,7 +185,8 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<MoviePojo> setInCinemas(final Collection<MoviePojo> movies) {
+    @NonNull
+    public Observable<MoviePojo> setInCinemas(@NonNull final Collection<MoviePojo> movies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -208,6 +216,7 @@ public class DBHelper {
         });
     }
 
+    @NonNull
     public Observable<List<Film>> getInCinemasFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
@@ -218,7 +227,7 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<MoviePojo> setComingSoon(final Collection<MoviePojo> movies) {
+    public Observable<MoviePojo> setComingSoon(@NonNull final Collection<MoviePojo> movies) {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
@@ -248,6 +257,7 @@ public class DBHelper {
         });
     }
 
+    @NonNull
     public Observable<List<Film>> getComingSoon() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
@@ -258,7 +268,8 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<List<Film>> searchInFavorite(String title) {
+    @NonNull
+    public Observable<List<Film>> searchInFavorite(@NonNull String title) {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                 " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
