@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.ui.recyclerview;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
         mFilms = new ArrayList<>();
     }
 
-    public void setFilms(List<Film> films) {
+    public void setFilms(@NonNull List<Film> films) {
         mFilms = films;
     }
 
@@ -48,7 +49,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
     }
 
     @Override
-    public void onBindViewHolder(FilmsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FilmsViewHolder holder, int position) {
         Film film = mFilms.get(position);
         mImageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster, holder.poster);
         holder.title.setText(film.title);

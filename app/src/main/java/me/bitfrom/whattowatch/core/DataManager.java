@@ -1,5 +1,7 @@
 package me.bitfrom.whattowatch.core;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,16 +27,18 @@ public class DataManager {
     private final PreferencesHelper mPreferencesHelper;
 
     @Inject
-    public DataManager(FilmsAPI filmsAPI, DBHelper dbHelper, PreferencesHelper preferencesHelper) {
+    public DataManager(@NonNull FilmsAPI filmsAPI, @NonNull DBHelper dbHelper, @NonNull PreferencesHelper preferencesHelper) {
         mFilmsAPI = filmsAPI;
         mDbHelper = dbHelper;
         mPreferencesHelper = preferencesHelper;
     }
 
+    @NonNull
     public PreferencesHelper getPreferencesHelper() {
         return mPreferencesHelper;
     }
 
+    @NonNull
     public Observable<MoviePojo> loadTopFilms() {
         return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
@@ -47,26 +51,30 @@ public class DataManager {
                 });
     }
 
+    @NonNull
     public Observable<List<Film>> getTopFilms() {
         return mDbHelper.getTopFilms().distinct();
     }
 
-    public Observable<Film> getFilmById(String filmId) {
+    @NonNull
+    public Observable<Film> getFilmById(@NonNull String filmId) {
         return mDbHelper.getFilmById(filmId).first();
     }
 
+    @NonNull
     public Observable<List<Film>> getFavoriteFilms() {
         return mDbHelper.getFavoriteFilms().distinct();
     }
 
-    public void addToFavorite(String filmId) {
+    public void addToFavorite(@NonNull String filmId) {
         mDbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
     }
 
-    public void removeFromFavorite(String filmId) {
+    public void removeFromFavorite(@NonNull String filmId) {
         mDbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
     }
 
+    @NonNull
     public Observable<MoviePojo> loadBottomFilms() {
         return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
@@ -79,10 +87,12 @@ public class DataManager {
                 });
     }
 
+    @NonNull
     public Observable<List<Film>> getBottomFilms() {
         return mDbHelper.getBottomFilms().distinct();
     }
 
+    @NonNull
     public Observable<MoviePojo> loadInCinemaFilms() {
         return mFilmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
                 ConstantsManager.TEST_LAN)
@@ -100,10 +110,12 @@ public class DataManager {
                 });
     }
 
+    @NonNull
     public Observable<List<Film>> getInCinemasFilms() {
         return mDbHelper.getInCinemasFilms().distinct();
     }
 
+    @NonNull
     public Observable<MoviePojo> loadComingSoonFilms() {
         return mFilmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
                 .flatMap(theaterPojo -> {
@@ -121,11 +133,13 @@ public class DataManager {
                 });
     }
 
+    @NonNull
     public Observable<List<Film>> getComingSoonFilms() {
         return mDbHelper.getComingSoon().distinct();
     }
 
-    public Observable<List<Film>> getSearchResult(String title) {
+    @NonNull
+    public Observable<List<Film>> getSearchResult(@NonNull String title) {
         return mDbHelper.searchInFavorite(title).distinct();
     }
 }

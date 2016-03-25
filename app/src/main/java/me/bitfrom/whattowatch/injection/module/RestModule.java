@@ -1,5 +1,7 @@
 package me.bitfrom.whattowatch.injection.module;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,6 +11,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.bitfrom.whattowatch.core.rest.AutoValueAdapterFactory;
 import me.bitfrom.whattowatch.core.rest.FilmsAPI;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import okhttp3.OkHttpClient;
@@ -37,12 +40,13 @@ public class RestModule {
     @Singleton
     public Gson providesGson() {
         return new GsonBuilder()
+                .registerTypeAdapterFactory(new AutoValueAdapterFactory())
                 .create();
     }
 
     @Provides
     @Singleton
-    public Retrofit providesRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    public Retrofit providesRetrofit(@NonNull OkHttpClient okHttpClient, @NonNull Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(ConstantsManager.BASE_URL)
                 .client(okHttpClient)
@@ -53,7 +57,7 @@ public class RestModule {
 
     @Singleton
     @Provides
-    public FilmsAPI providesFilmsApi(Retrofit retrofit) {
+    public FilmsAPI providesFilmsApi(@NonNull Retrofit retrofit) {
         return retrofit.create(FilmsAPI.class);
     }
 }

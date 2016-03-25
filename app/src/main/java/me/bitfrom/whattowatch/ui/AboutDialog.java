@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 import android.preference.DialogPreference;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import me.bitfrom.whattowatch.R;
 
 public class AboutDialog extends DialogPreference {
 
-    public AboutDialog(Context context, AttributeSet attrs) {
+    public AboutDialog(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
         setDialogLayoutResource(R.layout.about_dialog);
     }

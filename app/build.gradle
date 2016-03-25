@@ -1,47 +1,62 @@
+import junit.framework.Test
+import org.moallemi.gradle.internal.VersionCodeType
 apply plugin: 'com.android.application'
+apply plugin: 'org.moallemi.advanced-build-version'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
-    def versionPropsFile = file('version.properties')
-
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionPropsFile))
-        def code = versionProps['VERSION_CODE'].toInteger() + 1
-        def version = versionProps['VERSION_NAME']
-        versionProps['VERSION_CODE']=code.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
-
-        defaultConfig {
-            applicationId "me.bitfrom.whattowatch"
-            minSdkVersion 16
-            targetSdkVersion 23
-            versionCode code
-            versionName version.toString() + "." + code.toString()
-
-            def apiKeyPropsFile = file('api_key.properties')
-            if (apiKeyPropsFile.canRead()) {
-                def Properties apiKeyProps = new Properties()
-                apiKeyProps.load(new FileInputStream(apiKeyPropsFile))
-
-                if (apiKeyProps != null && apiKeyProps.containsKey('API_KEY')) {
-                    buildConfigField "String", "API_TOKEN", apiKeyProps['API_KEY']
-                } else {
-                    throw new GradleException("api_key.properties found but cant read API_TOKEN")
-                }
-            } else {
-                throw new GradleException("api_key.properties not found. Please, provide your own " +
-                        "api key from the www.myapifilms.com")
-            }
+    advancedVersioning {
+        nameOptions {
+            versionMajor 0
+            versionMinor 8
+            versionPatch 5
+            versionBuild versionCode
+        }
+        codeOptions {
+            versionCodeType VersionCodeType.AUTO_INCREMENT_ONE_STEP
+            dependsOnTasks 'debug', 'release', 'assemble'
         }
     }
-    else {
-        throw new GradleException("Could not read version.properties!")
+
+    def appVersionName = advancedVersioning.versionName
+    def appVersionCode = advancedVersioning.versionCode
+
+    defaultConfig {
+        applicationId "me.bitfrom.whattowhatch"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionName appVersionName
+        versionCode appVersionCode
+        multiDexEnabled true
+
+        def apiKeyPropsFile = file('api_key.properties')
+        if (apiKeyPropsFile.canRead()) {
+            def Properties apiKeyProps = new Properties()
+            apiKeyProps.load(new FileInputStream(apiKeyPropsFile))
+
+            if (apiKeyProps != null && apiKeyProps.containsKey('API_KEY')) {
+                buildConfigField "String", "API_TOKEN", apiKeyProps['API_KEY']
+            } else {
+                throw new GradleException("api_key.properties found but cant read API_TOKEN")
+            }
+        } else {
+            throw new GradleException("api_key.properties not found. Please, provide your own " +
+                    "api key from the www.myapifilms.com")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     signingConfigs {
@@ -98,14 +113,17 @@ android {
 
         debug {
             debuggable true
-            versionNameSuffix ".debug"
+            versionNameSuffix ".dev"
             signingConfig signingConfigs.debug
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    lintOptions {
+        warningsAsErrors true
+        abortOnError false
+
+        disable 'GoogleAppIndexingWarning' // App does not have deep linking.
+        disable 'InvalidPackage' // Okio references java.nio that does not presented in Android SDK.
     }
 
     packagingOptions {
@@ -118,97 +136,63 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '23.2.0'
-    final JUNIT_VERSION = "4.12"
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile libraries.supportAnnotations
+    compile libraries.supportAppCompat
+    compile libraries.supportV4
+    compile libraries.supportDesign
+    compile libraries.supportRecyclerView
+    compile libraries.supportCardView
+    compile libraries.supportGridLayout
+    compile libraries.multidex
 
-    final DAGGER_VERSION = "2.0.2"
-    final DAGGER_ANNOTATION_VERSION = "10.0-b28"
+    compile libraries.dagger
+    compile libraries.javaxInject
+    compile libraries.javaxAnnotationApi
+    apt libraries.daggerCompiler
 
-    final RX_JAVA_VERSION = "1.1.1"
-    final RX_ANDROID_VERSION = "1.1.0"
-    final RX_PG_VERSION = "1.1.1.0"
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+    compile libraries.rxProguardRules
 
-    final RETROFIT_VERSION = "2.0.0"
-    final OKHTTP_VERSION = "3.2.0"
-    final GSON_VERSION = "2.6.1"
+    compile libraries.okHttp
+    compile libraries.okHttpLoggingInterceptor
+    compile libraries.retrofit
+    compile libraries.retrofitRxJavaAdapter
+    compile libraries.retrofitGsonConverter
+    compile libraries.gson
+    // Do not compile AutoValue dependencies to the app.
+    apt libraries.autoValueParcel
+    //compile libraries.autoValueParcelTA
+    // Make AutoValue annotation visible to the compiler.
+    provided libraries.autoValueParcel
 
-    final SQLBRITE_VERSION = "0.6.2"
+    compile libraries.sqlBrite
 
-    final BUTTERKNIFE_VERSION = "8.0.0-SNAPSHOT"
+    compile libraries.universalImageLoader
 
-    final TIMBER_VERSION = "4.1.1"
+    compile libraries.butterKnife
+    apt libraries.butterKnifeCompiler
+    compile libraries.appIntro
+    compile libraries.rippleEffect
+    compile libraries.getBaseFAB
 
-    final AUIL_VERSION = "1.9.5";
+    compile libraries.permissionsDispatcher
+    apt libraries.pDProcessor
 
-    final LEAK_CANARY_VERSION = "1.4-beta1"
-    final FABRIC_CRASH_LIST_VERSION = "2.5.5@aar"
-    final STETHO_VERSION = "1.3.1"
+    compile libraries.stetho
+    compile libraries.stethoOkHttp
+    debugCompile libraries.leakCanaryDebug
+    releaseCompile libraries.leakCanaryRelease
+    testCompile  libraries.leakCanaryTests
+    compile libraries.tinyDancer
+    compile libraries.timber
 
-    final RIPPLE_EFFECT_VERSION = "1.3"
-    final GETBASE_FAB_VERSION = "1.10.1"
-    final APP_INTRO_VERSION = "3.4.0";
-
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile "junit:junit:$JUNIT_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:gridlayout-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-
-    //Fabric
-    compile("com.crashlytics.sdk.android:crashlytics:$FABRIC_CRASH_LIST_VERSION") {
+    compile (libraries.crashlystics) {
         transitive = true;
     }
-    //Required by Dagger2
-    def daggerCompiler = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    provided "org.glassfish:javax.annotation:$DAGGER_ANNOTATION_VERSION"
-    //Rx
-    compile "io.reactivex:rxjava:$RX_JAVA_VERSION"
-    compile "io.reactivex:rxandroid:$RX_ANDROID_VERSION"
-    compile "com.artemzin.rxjava:proguard-rules:$RX_PG_VERSION"
-    //Database
-    compile "com.squareup.sqlbrite:sqlbrite:$SQLBRITE_VERSION"
-    //OkHttp
-    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
-    compile ("com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION") {
-        exclude module: 'okhttp'
-    }
-    //Gson
-    compile "com.google.code.gson:gson:$GSON_VERSION"
-    //Retrofit
-    compile ("com.squareup.retrofit2:retrofit:$RETROFIT_VERSION") {
-        exclude module: 'okhttp'
-    }
-    compile ("com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION") {
-        exclude module: 'retrofit'
-    }
-    compile ("com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION") {
-        exclude module: 'retrofit'
-    }
-    //View injector
-    compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
 
-    //Developer
-    compile "com.jakewharton.timber:timber:$TIMBER_VERSION"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
-    compile "com.facebook.stetho:stetho:$STETHO_VERSION"
-    compile "com.facebook.stetho:stetho-okhttp3:$STETHO_VERSION"
-
-    //Image-side
-    compile "com.nostra13.universalimageloader:universal-image-loader:$AUIL_VERSION"
-
-    //UI other
-    compile "com.github.traex.rippleeffect:library:$RIPPLE_EFFECT_VERSION"
-    compile "com.getbase:floatingactionbutton:$GETBASE_FAB_VERSION"
-    compile "com.github.paolorotolo:appintro:$APP_INTRO_VERSION"
-
-    // APT dependencies
-    apt daggerCompiler
-    apt "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
+    testCompile libraries.junit
 }
 
 // Log out test results to console

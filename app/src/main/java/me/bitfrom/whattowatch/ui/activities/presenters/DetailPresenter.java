@@ -1,6 +1,7 @@
 package me.bitfrom.whattowatch.ui.activities.presenters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -30,13 +31,13 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private String mImdbLink;
 
     @Inject
-    public DetailPresenter(DataManager dataManager, @ActivityContext Context context) {
+    public DetailPresenter(@NonNull DataManager dataManager, @NonNull @ActivityContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
 
     @Override
-    public void attachView(DetailMvpView mvpView) {
+    public void attachView(@NonNull DetailMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -46,7 +47,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
     }
 
-    public void getFilm(final String filmId) {
+    public void getFilm(@NonNull final String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getFilmById(filmId)
@@ -83,7 +84,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         getMvpView().shareWithFriends(sharedInfo.toString());
     }
 
-    public void updateFavorites(final String filmId) {
+    public void updateFavorites(@NonNull final String filmId) {
         checkViewAttached();
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getFilmById(filmId)
@@ -104,7 +105,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         return mImdbLink;
     }
 
-    private void initSharedInformation(Film film) {
+    private void initSharedInformation(@NonNull Film film) {
         mTitle = film.title;
         mRating = film.rating;
         mDirectors = film.directors;

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -186,7 +187,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     @Override
-    public void showFilmInfo(Film film) {
+    public void showFilmInfo(@NonNull Film film) {
         mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
         mTitleView.setText(film.title);
         mCountriesView.setText(film.countries);
@@ -271,7 +272,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         }
     }
 
-    private void setCollapsingToolbarLayout(String title) {
+    private void setCollapsingToolbarLayout(@NonNull String title) {
         mCollapsingToolbarLayout.setTitle(title);
         mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
     }

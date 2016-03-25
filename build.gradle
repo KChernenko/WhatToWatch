@@ -1,6 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'dependencies.gradle'
 
 buildscript {
+    apply from: 'dependencies.gradle'
+
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
@@ -9,10 +12,23 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'io.fabric.tools:gradle:1.+'
+        // See dependencies.gradle for declaration of plugins.
+        classpath gradlePlugins.android
+
+        //A plugin to generate the Android version code and version name automatically
+        classpath gradlePlugins.gradleABVersions
+
+        // Compile-time annotation processing.
+        classpath gradlePlugins.apt
+
+        // Backport of some Java 8 language features such as Lambdas and method references.
+        classpath gradlePlugins.retrolambda
+
+        // Needed for Lint + Retrolambda.
+        classpath gradlePlugins.lombok
+
+        //Fabric
+        classpath gradlePlugins.fabricPlugin
     }
 }
 

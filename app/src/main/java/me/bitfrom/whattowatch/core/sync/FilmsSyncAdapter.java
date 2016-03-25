@@ -11,6 +11,7 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.services.SyncAllService;
@@ -18,19 +19,19 @@ import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 
 public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    public FilmsSyncAdapter(Context context, boolean autoInitialize) {
+    public FilmsSyncAdapter(@NonNull Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
     @Override
-    public void onPerformSync(Account account, Bundle extras,
-                              String authority,
-                              ContentProviderClient provider,
-                              SyncResult syncResult) {
+    public void onPerformSync(@NonNull Account account, @NonNull Bundle extras,
+                              @NonNull String authority,
+                              @NonNull ContentProviderClient provider,
+                              @NonNull SyncResult syncResult) {
         getContext().startService(new Intent(getContext(), SyncAllService.class));
     }
 
-    public static void initSyncAdapter(Context context) {
+    public static void initSyncAdapter(@NonNull Context context) {
         getSyncAccount(context);
     }
 
@@ -42,7 +43,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      * @return a fake account.
      **/
-    public static Account getSyncAccount(Context context) {
+    public static Account getSyncAccount(@NonNull Context context) {
         // Get an instance of the Android account manager
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
@@ -75,7 +76,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Helper method to schedule the sync adapter periodic execution
      **/
-    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+    public static void configurePeriodicSync(@NonNull Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -95,7 +96,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
      * Helper method to have the sync adapter sync immediately
      * @param context The context used to access the account service
      **/
-    public void syncImmediately(Context context) {
+    public void syncImmediately(@NonNull Context context) {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -103,7 +104,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.content_authority), bundle);
     }
 
-    private static void onAccountCreated(Account newAccount, Context context) {
+    private static void onAccountCreated(@NonNull Account newAccount, @NonNull Context context) {
 
         final int SYNC_INTERVAL = PreferencesHelper.getUpdateInterval(context);
         final int SYNC_FLEXTIME = SYNC_INTERVAL/3;

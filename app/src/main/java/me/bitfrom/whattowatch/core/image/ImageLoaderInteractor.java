@@ -1,6 +1,7 @@
 package me.bitfrom.whattowatch.core.image;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import java.lang.annotation.Retention;
@@ -16,5 +17,5 @@ public interface ImageLoaderInteractor {
         int FULL_SIZE = 2;
     }
 
-    void loadImage(@Flag int flag, String imageUrl, ImageView target);
+    void loadImage(@Flag int flag, @NonNull String imageUrl, ImageView target);
 }

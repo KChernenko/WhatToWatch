@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.ui.activities.presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -18,13 +19,13 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
     private Context mContext;
 
     @Inject
-    public MainPresenter(DataManager dataManager, @ApplicationContext Context context) {
+    public MainPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
 
     @Override
-    public void attachView(MainMvpView mvpView) {
+    public void attachView(@NonNull MainMvpView mvpView) {
         super.attachView(mvpView);
     }
 

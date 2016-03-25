@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.injection.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
 
@@ -15,24 +16,24 @@ public class ApplicationModule {
 
     protected final Application mApplication;
 
-    public ApplicationModule(Application application) {
+    public ApplicationModule(@NonNull Application application) {
         mApplication = application;
     }
 
-    @Provides
+    @Provides @NonNull
     Application providesApplication() {
         return mApplication;
     }
 
     @Provides
-    @ApplicationContext
+    @ApplicationContext @NonNull
     Context providesContext() {
         return mApplication;
     }
 
     @Provides
     @ApplicationContext
-    @Singleton
+    @Singleton @NonNull
     ImageDownloader providesImageDownloader() {
         return new ImageDownloader();
     }

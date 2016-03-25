@@ -1,6 +1,7 @@
 package me.bitfrom.whattowatch.ui.recyclerview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -15,7 +16,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     private GestureDetector mGestureDetector;
 
-    public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
+    public RecyclerItemClickListener(@NonNull Context context, OnItemClickListener listener) {
         mListener = listener;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override public boolean onSingleTapUp(MotionEvent e) {

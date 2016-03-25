@@ -1,6 +1,7 @@
 package me.bitfrom.whattowatch.injection.module;
 
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
 
@@ -14,18 +15,18 @@ public class FragmentModule {
 
     private Fragment mFragment;
 
-    public FragmentModule(Fragment fragment) {
+    public FragmentModule(@NonNull Fragment fragment) {
         mFragment = fragment;
     }
 
-    @Provides
+    @Provides @NonNull
     Fragment providesFragment() {
         return mFragment;
     }
 
     @Provides
     @ActivityContext
-    @Singleton
+    @Singleton @NonNull
     ImageDownloader providesImageLoader() {
         return new ImageDownloader();
     }

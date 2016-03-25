@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -24,13 +25,13 @@ public class BottomFilmsPresenter extends BasePresenter<BottomFilmsMvpView> {
     private Subscription mSubscription;
 
     @Inject
-    public BottomFilmsPresenter(DataManager dataManager, @ApplicationContext Context context) {
+    public BottomFilmsPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
 
     @Override
-    public void attachView(BottomFilmsMvpView mvpView) {
+    public void attachView(@NonNull BottomFilmsMvpView mvpView) {
         super.attachView(mvpView);
     }
 

@@ -1,5 +1,7 @@
 package me.bitfrom.whattowatch.ui.base;
 
+import android.support.annotation.NonNull;
+
 import me.bitfrom.whattowatch.utils.MvpViewNotAttachedException;
 
 public class BasePresenter <T extends MvpView> implements Presenter<T> {
@@ -7,7 +9,7 @@ public class BasePresenter <T extends MvpView> implements Presenter<T> {
     private T mMvpView;
 
     @Override
-    public void attachView(T mvpView) {
+    public void attachView(@NonNull T mvpView) {
         mMvpView = mvpView;
     }
 

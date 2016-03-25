@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.ui.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -100,7 +101,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
-    public void showFilmsList(List<Film> films) {
+    public void showFilmsList(@NonNull List<Film> films) {
         mEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mFilmsAdapter.setFilms(films);

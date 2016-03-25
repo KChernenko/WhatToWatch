@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.core.storage;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class DBContract {
                         COLUMN_CATEGORY + " INTEGER" + " );";
 
 
-        public static ContentValues toContentValues(MoviePojo movie, int category) {
+        public static ContentValues toContentValues(@NonNull MoviePojo movie, int category) {
             ContentValues values = new ContentValues(13);
             StringBuilder directors = new StringBuilder();
             StringBuilder writers = new StringBuilder();
@@ -99,7 +100,7 @@ public class DBContract {
             return values;
         }
 
-        public static Film parseCursor(Cursor cursor) {
+        public static Film parseCursor(@NonNull Cursor cursor) {
             Film film = new Film();
 
             film.idIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID));
@@ -119,7 +120,7 @@ public class DBContract {
             return film;
         }
 
-        private static String convertListItems(List<String> movieItem) {
+        private static String convertListItems(@NonNull List<String> movieItem) {
             StringBuilder result = new StringBuilder();
 
             for (int i = 0; i < movieItem.size(); i++) {

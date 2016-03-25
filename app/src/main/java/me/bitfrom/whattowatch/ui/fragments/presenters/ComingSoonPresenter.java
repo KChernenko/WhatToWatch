@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.ui.fragments.presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -24,7 +25,7 @@ public class ComingSoonPresenter extends BasePresenter<ComingSoonMvpView> {
     private Subscription mSubscription;
 
     @Inject
-    public ComingSoonPresenter(DataManager dataManager, @ApplicationContext Context context) {
+    public ComingSoonPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
         mDataManager = dataManager;
         mContext = context;
     }
