@@ -91,7 +91,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {
-                    if (film.favorite.equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
+                    if (film.favorite().equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
                         mDataManager.addToFavorite(filmId);
                         getMvpView().showAddedToFavorites();
                     } else {
@@ -106,10 +106,10 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     }
 
     private void initSharedInformation(@NonNull Film film) {
-        mTitle = film.title;
-        mRating = film.rating;
-        mDirectors = film.directors;
-        mGenres = film.genres;
-        mImdbLink = film.urlIMDB;
+        mTitle = film.title();
+        mRating = film.rating();
+        mDirectors = film.directors();
+        mGenres = film.genres();
+        mImdbLink = film.urlIMDB();
     }
 }

@@ -101,23 +101,21 @@ public class DBContract {
         }
 
         public static Film parseCursor(@NonNull Cursor cursor) {
-            Film film = new Film();
-
-            film.idIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID));
-            film.urlPoster = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_POSTER));
-            film.urlIMDB = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_IMDB));
-            film.countries = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COUNTRIES));
-            film.directors = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTORS));
-            film.genres = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GENRES));
-            film.plot = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PLOT));
-            film.rating = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RATING));
-            film.runtime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RUNTIME));
-            film.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-            film.writers = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS));
-            film.year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
-            film.favorite = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE));
-
-            return film;
+            return Film.builder()
+                    .idIMDB(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMDB_ID)))
+                    .urlPoster(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_POSTER)))
+                    .urlIMDB(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL_IMDB)))
+                    .countries(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COUNTRIES)))
+                    .directors(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DIRECTORS)))
+                    .genres(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GENRES)))
+                    .plot(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PLOT)))
+                    .rating(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RATING)))
+                    .runtime(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RUNTIME)))
+                    .title(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)))
+                    .writers(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_WRITERS)))
+                    .year(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR)))
+                    .favorite(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FAVORITE)))
+                    .build();
         }
 
         private static String convertListItems(@NonNull List<String> movieItem) {
