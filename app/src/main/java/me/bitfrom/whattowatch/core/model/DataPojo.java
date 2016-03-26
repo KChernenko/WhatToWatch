@@ -1,6 +1,5 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 public class DataPojo {
 
     @SerializedName("movies")
-    @Expose
     private List<MoviePojo> movies = new ArrayList<>();
 
 

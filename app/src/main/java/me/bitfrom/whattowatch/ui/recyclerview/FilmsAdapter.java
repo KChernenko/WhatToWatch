@@ -38,7 +38,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     public String getImdbIdByPosition(int position) {
         Film film = mFilms.get(position);
-        return film.idIMDB;
+        return film.idIMDB();
     }
 
     @Override
@@ -51,12 +51,12 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
     @Override
     public void onBindViewHolder(@NonNull FilmsViewHolder holder, int position) {
         Film film = mFilms.get(position);
-        mImageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster, holder.poster);
-        holder.title.setText(film.title);
-        holder.director.setText(film.directors);
-        holder.genres.setText(film.genres);
-        holder.rating.setText(film.rating);
-        holder.year.setText(film.year);
+        mImageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster(), holder.poster);
+        holder.title.setText(film.title());
+        holder.director.setText(film.directors());
+        holder.genres.setText(film.genres());
+        holder.rating.setText(film.rating());
+        holder.year.setText(film.year());
     }
 
     @Override

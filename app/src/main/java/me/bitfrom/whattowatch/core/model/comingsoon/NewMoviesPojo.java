@@ -1,16 +1,14 @@
 package me.bitfrom.whattowatch.core.model.comingsoon;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import me.bitfrom.whattowatch.core.model.AboutPojo;
 
 public class NewMoviesPojo {
 
     @SerializedName("data")
-    @Expose
     private Data data;
     @SerializedName("about")
-    @Expose
     private AboutPojo about;
 
     /**

@@ -17,6 +17,8 @@ https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
 * Android Universal Image Loader (Picasso cached images using OkHttp cache, Glide has awful cache
     implementation; AUIL has beautiful disk-ram cache mechanism, that helps to use less memory in
     a ReclyclerView and instantly cache images on disk during the synchronization)
+
+* [AutoValue: Parcel Extension](https://github.com/rharter/auto-value-parcel)
 * ButterKnife
 * [AppIntro](https://github.com/PaoloRotolo/AppIntro)
 * [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)

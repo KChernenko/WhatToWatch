@@ -188,18 +188,18 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Override
     public void showFilmInfo(@NonNull Film film) {
-        mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster, mPosterView);
-        mTitleView.setText(film.title);
-        mCountriesView.setText(film.countries);
-        mYearView.setText(film.year);
-        mRuntimeView.setText(film.runtime);
-        mRatingView.setText(film.rating);
-        mGenresView.setText(film.genres);
-        mDirectorsView.setText(film.directors);
-        mWritersView.setText(film.writers);
-        mPlotView.setText(film.plot);
+        mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster(), mPosterView);
+        mTitleView.setText(film.title());
+        mCountriesView.setText(film.countries());
+        mYearView.setText(film.year());
+        mRuntimeView.setText(film.runtime());
+        mRatingView.setText(film.rating());
+        mGenresView.setText(film.genres());
+        mDirectorsView.setText(film.directors());
+        mWritersView.setText(film.writers());
+        mPlotView.setText(film.plot());
 
-        setCollapsingToolbarLayout(film.title);
+        setCollapsingToolbarLayout(film.title());
     }
 
     @Override
