@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.bitfrom.whattowatch.core.rest.AutoValueAdapterFactory;
 import me.bitfrom.whattowatch.core.rest.FilmsAPI;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import okhttp3.OkHttpClient;
@@ -40,7 +39,6 @@ public class RestModule {
     @Singleton
     public Gson providesGson() {
         return new GsonBuilder()
-                .registerTypeAdapterFactory(new AutoValueAdapterFactory())
                 .create();
     }
 

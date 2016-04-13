@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.core;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,12 +42,11 @@ public class DataManager {
         return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .concatMap(film -> {
+                .flatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
-                    Collections.shuffle(result);
                     return mDbHelper.setTopFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
-                });
+                }).onBackpressureBuffer();
     }
 
     @NonNull
@@ -79,17 +77,16 @@ public class DataManager {
         return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .concatMap(film -> {
+                .flatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
-                    Collections.shuffle(result);
                     return mDbHelper.setBottomFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
-                });
+                }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getBottomFilms() {
-        return mDbHelper.getBottomFilms().distinct();
+        return mDbHelper.getBottomFilms();
     }
 
     @NonNull
@@ -107,12 +104,12 @@ public class DataManager {
                         }
                     }
                     return mDbHelper.setInCinemas(result);
-                });
+                }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getInCinemasFilms() {
-        return mDbHelper.getInCinemasFilms().distinct();
+        return mDbHelper.getInCinemasFilms();
     }
 
     @NonNull
@@ -130,7 +127,7 @@ public class DataManager {
                         allMovies.clear();
                     }
                     return mDbHelper.setComingSoon(result);
-                });
+                }).onBackpressureBuffer();
     }
 
     @NonNull

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,11 +41,10 @@ public class DBHelper {
     }
 
     @NonNull
-    public Observable<MoviePojo> setTopFilms(@NonNull final Collection<MoviePojo> newMovies) {
-        return Observable.create(subscriber -> {
-            if (subscriber.isUnsubscribed()) return;
-
+    public Observable<MoviePojo> setTopFilms(@NonNull final List<MoviePojo> newMovies) {
+        return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = mDb.newTransaction();
+            MoviePojo movie = null;
 
             try {
                 mDb.delete(DBContract.FilmsTable.TABLE_NAME,
@@ -54,20 +52,24 @@ public class DBHelper {
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.TOP));
-                for (MoviePojo movie : newMovies) {
+
+                for (int i = 0; i < newMovies.size(); i++) {
+                    movie = newMovies.get(i);
+
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.TOP),
                             SQLiteDatabase.CONFLICT_REPLACE);
+
                     cacheImage(movie.getUrlPoster());
-                    if (result >= 0) subscriber.onNext(movie);
-                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    if (result < 0) Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
-                subscriber.onCompleted();
             } finally {
                 transaction.end();
             }
+
+            return Observable.just(movie);
         });
     }
 
@@ -141,56 +143,62 @@ public class DBHelper {
                     values.clear();
                 }
                 break;
+            default:
+                transaction.close();
+                break;
         }
     }
 
     @NonNull
-    public Observable<MoviePojo> setBottomFilms(@NonNull final Collection<MoviePojo> newMovies) {
-        return Observable.create(subscriber -> {
-            if (subscriber.isUnsubscribed()) return;
-
+    public Observable<MoviePojo> setBottomFilms(@NonNull final List<MoviePojo> newMovies) {
+        return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = mDb.newTransaction();
-
+            MoviePojo movie = null;
             try {
                 mDb.delete(DBContract.FilmsTable.TABLE_NAME,
                         DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.BOTTOM));
-                for (MoviePojo movie : newMovies) {
+
+                for (int i = 0; i < newMovies.size(); i++) {
+                    movie = newMovies.get(i);
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.BOTTOM),
                             SQLiteDatabase.CONFLICT_REPLACE);
+
                     cacheImage(movie.getUrlPoster());
-                    if (result >= 0) subscriber.onNext(movie);
-                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    if (result < 0) Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
-                subscriber.onCompleted();
             } finally {
                 transaction.end();
             }
+
+            return Observable.just(movie);
         });
     }
 
     @NonNull
-    public Observable<List<Film>> getBottomFilms() {
+    public Observable<List<Film>>
+
+    getBottomFilms() {
         return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                 new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.BOTTOM)})
-                .mapToList(DBContract.FilmsTable::parseCursor);
+                .mapToList(DBContract.FilmsTable::parseCursor)
+                .first();
     }
 
     @NonNull
-    public Observable<MoviePojo> setInCinemas(@NonNull final Collection<MoviePojo> movies) {
-        return Observable.create(subscriber -> {
-            if (subscriber.isUnsubscribed()) return;
-
+    public Observable<MoviePojo> setInCinemas(@NonNull final List<MoviePojo> movies) {
+        return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = mDb.newTransaction();
+            MoviePojo movie = null;
 
             try {
                 mDb.delete(DBContract.FilmsTable.TABLE_NAME,
@@ -199,20 +207,23 @@ public class DBHelper {
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.IN_CINEMAS));
 
-                for (MoviePojo movie : movies) {
+                for (int i = 0; i < movies.size(); i++) {
+                    movie = movies.get(i);
+
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.IN_CINEMAS),
                             SQLiteDatabase.CONFLICT_REPLACE);
+
                     cacheImage(movie.getUrlPoster());
-                    if (result >= 0) subscriber.onNext(movie);
-                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    if (result < 0) Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
-                subscriber.onCompleted();
             } finally {
                 transaction.end();
             }
+
+            return Observable.just(movie);
         });
     }
 
@@ -227,11 +238,10 @@ public class DBHelper {
                 .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
-    public Observable<MoviePojo> setComingSoon(@NonNull final Collection<MoviePojo> movies) {
-        return Observable.create(subscriber -> {
-            if (subscriber.isUnsubscribed()) return;
-
+    public Observable<MoviePojo> setComingSoon(@NonNull final List<MoviePojo> movies) {
+        return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = mDb.newTransaction();
+            MoviePojo movie = null;
 
             try {
                 mDb.delete(DBContract.FilmsTable.TABLE_NAME,
@@ -240,20 +250,23 @@ public class DBHelper {
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.COMING_SOON));
 
-                for (MoviePojo movie : movies) {
+                for (int i = 0; i < movies.size(); i++) {
+                    movie = movies.get(i);
+
                     long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.COMING_SOON),
                             SQLiteDatabase.CONFLICT_REPLACE);
+
                     cacheImage(movie.getUrlPoster());
-                    if (result >= 0) subscriber.onNext(movie);
-                    else Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
+                    if (result < 0) Timber.e(ConstantsManager.DB_LOG_TAG, "Failed to insert data: " + result);
                 }
                 transaction.markSuccessful();
-                subscriber.onCompleted();
             } finally {
                 transaction.end();
             }
+
+           return Observable.just(movie);
         });
     }
 
@@ -276,7 +289,8 @@ public class DBHelper {
                 " AND " + DBContract.FilmsTable.COLUMN_TITLE + " LIKE ?",
                 new String[] {String.valueOf(ConstantsManager.FAVORITE),
                 "%" + title + "%"})
-                .mapToList(DBContract.FilmsTable::parseCursor);
+                .mapToList(DBContract.FilmsTable::parseCursor)
+                .first();
     }
 
     public Observable<Void> clearTables() {
