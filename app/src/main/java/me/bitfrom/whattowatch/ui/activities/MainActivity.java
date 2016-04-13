@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         mMainPresenter.detachView();
         super.onDestroy();
+        removeActivityFromTransitionManager(this);
     }
 
     @Override

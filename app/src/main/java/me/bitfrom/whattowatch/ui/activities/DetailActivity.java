@@ -147,7 +147,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Override
     public void onDestroy() {
-        Timber.d("onDestroy() was called!");
         mBtnSaveToFav.setOnClickListener(null);
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
@@ -159,6 +158,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
         super.onDestroy();
+        removeActivityFromTransitionManager(this);
     }
 
     @OnClick(R.id.action_share)
