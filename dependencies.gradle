@@ -14,7 +14,7 @@ ext.versions = [
         fabricPlugin                 : '1.+',
 
         //Support libs
-        supportLibs                  : '23.2.1',
+        supportLibs                  : '23.3.0',
 
         //Dagger
         dagger                       : '2.1',
@@ -22,18 +22,18 @@ ext.versions = [
         javaxAnnotationApi           : '1.2',
 
         //Rx
-        rxJava                       : '1.1.2',
+        rxJava                       : '1.1.3',
         rxAndroid                    : '1.1.0',
         rxProguardRules              : '1.1.1.0',
 
         //Rest
         okHttp                       : '3.2.0',
-        retrofit                     : '2.0.0',
+        retrofit                     : '2.0.2',
         gson                         : '2.6.2',
         autoValueParcel              : '0.2.1',
 
         //Database
-        sqlBrite                     : '0.6.2',
+        sqlBrite                     : '0.6.3',
 
         //Image-side
         universalImageLoader         : '1.9.5',
@@ -45,14 +45,14 @@ ext.versions = [
         getBaseFAB                   : '1.10.1',
 
         //Other
-        permissionsDispatcher        : '2.1.0',
+        permissionsDispatcher        : '2.1.2',
         gradleAdvancedBuildVersion   : '1.5.3',
 
         // Developer tools
         stetho                       : '1.3.1',
         leakCanary                   : '1.4-beta2',
         tinyDancer                   : '0.0.9',
-        timber                       : '4.1.1',
+        timber                       : '4.1.2',
 
         //Trackers
         crashlystics                 : '2.5.5@aar',
