@@ -6,11 +6,9 @@ import java.util.List;
 
 import me.bitfrom.whattowatch.core.model.Film;
 
-public interface ListMvpView extends MvpView {
+public interface ListMvpView extends MvpViewWithInternet {
 
     void showFilmsList(@NonNull List<Film> films);
-
-    void showUnknownError();
 
     void showInternetUnavailableError();
 

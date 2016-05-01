@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.DataManager;
+import me.bitfrom.whattowatch.core.busevents.ServerErrorEvent;
 import me.bitfrom.whattowatch.core.services.LoadTopFilmsService;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
@@ -20,32 +24,38 @@ import timber.log.Timber;
 
 public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
 
-    private final DataManager mDataManager;
-    private Context mContext;
-    private Subscription mSubscription;
+    private final DataManager dataManager;
+    private Context context;
+    private EventBus eventBus;
+    private Subscription subscription;
 
     @Inject
-    public TopFilmsPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
-        mDataManager = dataManager;
-        mContext = context;
+    public TopFilmsPresenter(@NonNull DataManager dataManager,
+                             @NonNull @ApplicationContext Context context,
+                             @NonNull EventBus eventBus) {
+        this.dataManager = dataManager;
+        this.context = context;
+        this.eventBus = eventBus;
     }
 
     @Override
     public void attachView(@NonNull TopFilmsMvpView mvpView) {
         super.attachView(mvpView);
+        eventBus.register(this);
     }
 
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        eventBus.unregister(this);
     }
 
     public void loadFilms(boolean pullToRefresh) {
         checkViewAttached();
         getMvpView().showLoading(pullToRefresh);
-        if (NetworkStateChecker.isNetworkAvailable(mContext)) {
-            mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
+        if (NetworkStateChecker.isNetworkAvailable(context)) {
+            context.startService(new Intent(context, LoadTopFilmsService.class));
         } else {
             getMvpView().showLoading(false);
             getMvpView().showInternetUnavailableError();
@@ -54,8 +64,8 @@ public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
 
     public void getFilms() {
         checkViewAttached();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getTopFilms()
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = dataManager.getTopFilms()
                 .subscribeOn(Schedulers.io())
                 .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,8 +77,16 @@ public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
                         getMvpView().showFilmsList(films);
                     }
                 }, throwable -> {
-                    getMvpView().showUnknownError();
+                    getMvpView().showLoading(false);
+                    getMvpView().showServerError();
                     Timber.e(throwable, "Error occurred!");
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void serverErrorEventHandler(ServerErrorEvent event) {
+        checkViewAttached();
+        getMvpView().showLoading(false);
+        getMvpView().showServerError();
     }
 }

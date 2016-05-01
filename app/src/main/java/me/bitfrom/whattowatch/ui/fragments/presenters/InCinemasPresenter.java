@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.DataManager;
+import me.bitfrom.whattowatch.core.busevents.ServerErrorEvent;
 import me.bitfrom.whattowatch.core.services.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
@@ -20,32 +24,38 @@ import timber.log.Timber;
 
 public class InCinemasPresenter extends BasePresenter<InCinemasMvpView> {
 
-    private final DataManager mDataManager;
-    private Context mContext;
-    private Subscription mSubscription;
+    private final DataManager dataManager;
+    private Context context;
+    private EventBus eventBus;
+    private Subscription subscription;
 
     @Inject
-    protected InCinemasPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
-        mDataManager = dataManager;
-        mContext = context;
+    protected InCinemasPresenter(@NonNull DataManager dataManager,
+                                 @NonNull @ApplicationContext Context context,
+                                 @NonNull EventBus eventBus) {
+        this.dataManager = dataManager;
+        this.context = context;
+        this.eventBus = eventBus;
     }
 
     @Override
     public void attachView(@NonNull InCinemasMvpView mvpView) {
         super.attachView(mvpView);
+        eventBus.register(this);
     }
 
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        eventBus.unregister(this);
     }
 
     public void loadFilms(boolean pullToRefresh) {
         checkViewAttached();
         getMvpView().showLoading(pullToRefresh);
-        if (NetworkStateChecker.isNetworkAvailable(mContext)) {
-            mContext.startService(new Intent(mContext, LoadInCinemasFilmsService.class));
+        if (NetworkStateChecker.isNetworkAvailable(context)) {
+            context.startService(new Intent(context, LoadInCinemasFilmsService.class));
         } else {
             getMvpView().showLoading(false);
             getMvpView().showInternetUnavailableError();
@@ -54,8 +64,8 @@ public class InCinemasPresenter extends BasePresenter<InCinemasMvpView> {
 
     public void getFilms() {
         checkViewAttached();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getInCinemasFilms()
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = dataManager.getInCinemasFilms()
                 .subscribeOn(Schedulers.io())
                 .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,8 +77,16 @@ public class InCinemasPresenter extends BasePresenter<InCinemasMvpView> {
                         getMvpView().showFilmsList(films);
                     }
                 }, throwable -> {
-                    getMvpView().showUnknownError();
+                    getMvpView().showLoading(false);
+                    getMvpView().showServerError();
                     Timber.e(throwable, "Error occurred!");
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void serverErrorEventHandler(ServerErrorEvent event) {
+        checkViewAttached();
+        getMvpView().showLoading(false);
+        getMvpView().showServerError();
     }
 }

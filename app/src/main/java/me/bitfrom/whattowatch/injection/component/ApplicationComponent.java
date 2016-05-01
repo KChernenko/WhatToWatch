@@ -44,4 +44,6 @@ public interface ApplicationComponent {
     DBHelper providesDBHelper();
 
     DataManager providesDataManager();
+
+    EventBus providesEventBus();
 }
