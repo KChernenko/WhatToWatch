@@ -57,7 +57,7 @@ public class InCinemasPresenter extends BasePresenter<InCinemasMvpView> {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getInCinemasFilms()
                 .subscribeOn(Schedulers.io())
-                .cache()
+                .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {

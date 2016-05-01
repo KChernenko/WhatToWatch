@@ -190,8 +190,7 @@ public class DBHelper {
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                 new String[] {String.valueOf(ConstantsManager.NOT_FAVORITE),
                         String.valueOf(ConstantsManager.BOTTOM)})
-                .mapToList(DBContract.FilmsTable::parseCursor)
-                .first();
+                .mapToList(DBContract.FilmsTable::parseCursor);
     }
 
     @NonNull

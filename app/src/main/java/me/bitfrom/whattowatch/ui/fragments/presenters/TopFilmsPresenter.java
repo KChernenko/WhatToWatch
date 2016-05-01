@@ -57,7 +57,7 @@ public class TopFilmsPresenter extends BasePresenter<TopFilmsMvpView> {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getTopFilms()
                 .subscribeOn(Schedulers.io())
-                .cache()
+                .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {

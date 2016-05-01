@@ -57,7 +57,7 @@ public class BottomFilmsPresenter extends BasePresenter<BottomFilmsMvpView> {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getBottomFilms()
                 .subscribeOn(Schedulers.io())
-                .cache()
+                .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {

@@ -57,7 +57,7 @@ public class ComingSoonPresenter extends BasePresenter<ComingSoonMvpView> {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
         mSubscription = mDataManager.getComingSoonFilms()
                 .subscribeOn(Schedulers.io())
-                .cache()
+                .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(films -> {
                     if (films.isEmpty()) {
