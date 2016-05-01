@@ -33,6 +33,7 @@ public class WWApplication extends Application {
         initFabric();
         initLeakCanary();
         initImageLibrary();
+        initStetho();
     }
 
     public static WWApplication get(Context context) {

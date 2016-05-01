@@ -21,8 +21,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.model.Film;
@@ -43,13 +43,13 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
     @Inject
     protected FilmsAdapter mFilmsAdapter;
 
-    @Bind(R.id.films_root_layout)
+    @BindView(R.id.films_root_layout)
     protected RelativeLayout mRootLayout;
-    @Bind(R.id.list_of_films)
+    @BindView(R.id.list_of_films)
     protected RecyclerView mRecyclerView;
-    @Bind(R.id.films_list_empty)
+    @BindView(R.id.films_list_empty)
     protected TextView mEmptyView;
-    @Bind(R.id.swipeRefreshLayout)
+    @BindView(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     @BindString(R.string.error_list_empty)
     protected String mErrorUnknown;

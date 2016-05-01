@@ -33,8 +33,9 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindColor;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
@@ -60,48 +61,50 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     @Inject
     protected ScrollManager mScrollManager;
 
-    @Bind(R.id.detail_root_layout)
+    @BindView(R.id.detail_root_layout)
     protected CoordinatorLayout mRootLayout;
-    @Bind(R.id.detail_toolbar)
+    @BindView(R.id.detail_toolbar)
     protected Toolbar mToolbar;
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @Bind(R.id.detail_scroll_view)
+    @BindView(R.id.detail_scroll_view)
     protected NestedScrollView mScrollView;
-    @Bind(R.id.poster)
+    @BindView(R.id.poster)
     protected ImageView mPosterView;
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     protected TextView mTitleView;
-    @Bind(R.id.country)
+    @BindView(R.id.country)
     protected TextView mCountriesView;
-    @Bind(R.id.release_year)
+    @BindView(R.id.release_year)
     protected TextView mYearView;
-    @Bind(R.id.runtime)
+    @BindView(R.id.runtime)
     protected TextView mRuntimeView;
-    @Bind(R.id.rating)
+    @BindView(R.id.rating)
     protected TextView mRatingView;
-    @Bind(R.id.genres)
+    @BindView(R.id.genres)
     protected TextView mGenresView;
-    @Bind(R.id.director)
+    @BindView(R.id.director)
     protected TextView mDirectorsView;
-    @Bind(R.id.writers)
+    @BindView(R.id.writers)
     protected TextView mWritersView;
-    @Bind(R.id.plot)
+    @BindView(R.id.plot)
     protected TextView mPlotView;
 
-    @Bind(R.id.multiple_actions)
+    @BindView(R.id.multiple_actions)
     protected FloatingActionsMenu mBtnAction;
-    @Bind(R.id.action_save_fav)
+    @BindView(R.id.action_save_fav)
     protected FloatingActionButton mBtnSaveToFav;
-    @Bind(R.id.action_share)
+    @BindView(R.id.action_share)
     protected FloatingActionButton mBtnShare;
-    @Bind(R.id.imdb_link)
+    @BindView(R.id.imdb_link)
     protected FloatingActionButton mIMDBLink;
 
     @BindString(R.string.successfully_added_to_fav)
     protected String mSuccessfullyAddedToFav;
     @BindString(R.string.deleted_from_fav)
     protected String mAlreadyInFav;
+    @BindColor(android.R.color.transparent)
+    protected int transparentColor;
 
     private String mFilmId;
     private Explode mExplode;
@@ -274,7 +277,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     private void setCollapsingToolbarLayout(@NonNull String title) {
         mCollapsingToolbarLayout.setTitle(title);
-        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        mCollapsingToolbarLayout.setExpandedTitleColor(transparentColor);
     }
 
     private void iniTransitionListener() {

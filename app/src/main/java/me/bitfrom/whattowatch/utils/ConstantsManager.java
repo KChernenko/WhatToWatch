@@ -10,6 +10,15 @@ public class ConstantsManager {
     public static final String API_FORMAT = "json";
     public static final String API_DATA = "1";
     public static final String TEST_LAN = "en";
+    public static final int CONNECTION_TIMEOUT = 50;
+    public static final int READ_TIMEOUT = 50;
+    //Server errors
+    public static final int INTERNAL_SERVER_ERROR = 500;
+    public static final int NOT_IMPLEMENTED = 501;
+    public static final int BAD_GATEWAY = 502;
+    public static final int SERVICE_UNAVAILABLE = 503;
+    public static final int GATEWAY_TIME_OUT = 504;
+    public static final int NETWORK_CONNECT_TIMEOUT_ERROR = 599;
 
     //Constants for data storage
     public static final String DATABASE_NAME = "whattowatch.db";

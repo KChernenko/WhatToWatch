@@ -3,6 +3,8 @@ package me.bitfrom.whattowatch.core;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,8 +44,9 @@ public class DataManager {
         return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .flatMap(film -> {
+                .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
+                    Collections.shuffle(result);
                     return mDbHelper.setTopFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
                 }).onBackpressureBuffer();
@@ -51,7 +54,7 @@ public class DataManager {
 
     @NonNull
     public Observable<List<Film>> getTopFilms() {
-        return mDbHelper.getTopFilms().distinct();
+        return mDbHelper.getTopFilms();
     }
 
     @NonNull
@@ -77,8 +80,9 @@ public class DataManager {
         return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
-                .flatMap(film -> {
+                .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
+                    Collections.shuffle(result);
                     return mDbHelper.setBottomFilms(result.subList(0,
                             mPreferencesHelper.getPrefferedNuberOfFilms()));
                 }).onBackpressureBuffer();
@@ -93,7 +97,7 @@ public class DataManager {
     public Observable<MoviePojo> loadInCinemaFilms() {
         return mFilmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
                 ConstantsManager.TEST_LAN)
-                .flatMap(theaterPojo -> {
+                .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
                     int inTheatreSize = theaterPojo.getData().getInTheaters().size();
                     InTheaterPojo inTheaterPojo;
@@ -103,6 +107,7 @@ public class DataManager {
                             result.add(moviePojo);
                         }
                     }
+                    Collections.shuffle(result);
                     return mDbHelper.setInCinemas(result);
                 }).onBackpressureBuffer();
     }
@@ -115,7 +120,7 @@ public class DataManager {
     @NonNull
     public Observable<MoviePojo> loadComingSoonFilms() {
         return mFilmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
-                .flatMap(theaterPojo -> {
+                .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
                     int inTheatreSize = theaterPojo.getData().getComingSoon().size();
                     List<MoviePojo> allMovies;
@@ -126,6 +131,7 @@ public class DataManager {
                         }
                         allMovies.clear();
                     }
+                    Collections.shuffle(result);
                     return mDbHelper.setComingSoon(result);
                 }).onBackpressureBuffer();
     }

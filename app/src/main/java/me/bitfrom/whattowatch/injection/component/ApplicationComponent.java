@@ -3,6 +3,8 @@ package me.bitfrom.whattowatch.injection.component;
 import android.app.Application;
 import android.content.Context;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -16,7 +18,7 @@ import me.bitfrom.whattowatch.core.storage.DBHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
-import me.bitfrom.whattowatch.injection.module.RestModule;
+import me.bitfrom.whattowatch.core.rest.RestModule;
 
 @Singleton
 @Component(modules = {ApplicationModule.class, RestModule.class})
@@ -33,7 +35,7 @@ public interface ApplicationComponent {
     void inject(SyncAllService syncAllService);
 
     @ApplicationContext
-    Context contex();
+    Context context();
 
     Application application();
 

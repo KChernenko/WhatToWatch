@@ -42,9 +42,6 @@ public class LoadTopFilmsService extends Service {
                 }, throwable -> {
                     stopSelf(startId);
                     Timber.e(throwable, "Error occurred while loading top films!");
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
                 });
 
         return START_STICKY;

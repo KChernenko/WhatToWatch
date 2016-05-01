@@ -42,9 +42,6 @@ public class LoadComingSoonService extends Service {
                 }, throwable -> {
                     stopSelf(startId);
                     Timber.e(throwable, "Error occurred while loading coming soon films!");
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
                 });
         return START_STICKY;
     }

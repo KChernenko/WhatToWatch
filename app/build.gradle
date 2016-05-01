@@ -56,6 +56,8 @@ android {
     }
 
     dexOptions {
+        incremental true
+        maxProcessCount 4
         javaMaxHeapSize "4g"
     }
 
@@ -179,6 +181,7 @@ dependencies {
 
     compile libraries.permissionsDispatcher
     apt libraries.pDProcessor
+    compile libraries.eventBus
 
     compile libraries.stetho
     compile libraries.stethoOkHttp

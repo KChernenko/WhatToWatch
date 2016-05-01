@@ -13,7 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
@@ -66,17 +66,17 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     public class FilmsViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.cv_poster)
+        @BindView(R.id.cv_poster)
         ImageView poster;
-        @Bind(R.id.cv_title)
+        @BindView(R.id.cv_title)
         TextView title;
-        @Bind(R.id.cv_directors)
+        @BindView(R.id.cv_directors)
         TextView director;
-        @Bind(R.id.cv_genres)
+        @BindView(R.id.cv_genres)
         TextView genres;
-        @Bind(R.id.cv_rating)
+        @BindView(R.id.cv_rating)
         TextView rating;
-        @Bind(R.id.cv_year)
+        @BindView(R.id.cv_year)
         TextView year;
 
         public FilmsViewHolder(View itemView) {

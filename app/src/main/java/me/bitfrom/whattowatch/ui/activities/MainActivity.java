@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.ui.activities.presenters.MainPresenter;
@@ -41,13 +41,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Inject
     protected MainPresenter mMainPresenter;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     protected DrawerLayout drawerLayout;
-    @Bind(R.id.navigation_view)
+    @BindView(R.id.navigation_view)
     protected NavigationView navigationView;
-    @Bind(R.id.coordinator)
+    @BindView(R.id.coordinator)
     protected CoordinatorLayout coordinatorLayout;
 
     protected ActionBarDrawerToggle toggle;

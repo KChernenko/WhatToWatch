@@ -45,9 +45,6 @@ public class LoadBottomFilmsService extends Service {
                 }, throwable -> {
                     stopSelf(startId);
                     Timber.e(throwable, "Error occurred while loading bottom films!");
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
                 });
 
         return START_STICKY;

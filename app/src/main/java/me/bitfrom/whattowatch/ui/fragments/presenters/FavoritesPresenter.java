@@ -13,6 +13,7 @@ import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
 
@@ -69,10 +70,8 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
                         getMvpView().showListOfFavorites(films);
                     }
                 }, throwable -> {
-                   getMvpView().showUnknownError();
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
+                    getMvpView().showUnknownError();
+                    Timber.e(throwable, "Error occurred!");
                 });
     }
 }

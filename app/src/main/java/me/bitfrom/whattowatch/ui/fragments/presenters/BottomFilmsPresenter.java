@@ -68,10 +68,7 @@ public class BottomFilmsPresenter extends BasePresenter<BottomFilmsMvpView> {
                     }
                 }, throwable -> {
                     getMvpView().showUnknownError();
-                    Timber.e("Error occurred!", throwable);
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
+                    Timber.e(throwable, "Error occurred!");
                 });
     }
 

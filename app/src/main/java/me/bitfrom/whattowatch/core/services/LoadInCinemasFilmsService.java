@@ -44,9 +44,6 @@ public class LoadInCinemasFilmsService extends Service {
                 }, throwable -> {
                     stopSelf(startId);
                     Timber.e(throwable, "Error occurred while loading in cinemas films!");
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
                 });
 
         return START_STICKY;

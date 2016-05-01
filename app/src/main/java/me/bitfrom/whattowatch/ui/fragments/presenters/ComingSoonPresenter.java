@@ -31,7 +31,7 @@ public class ComingSoonPresenter extends BasePresenter<ComingSoonMvpView> {
     }
 
     @Override
-    public void attachView(ComingSoonMvpView mvpView) {
+    public void attachView(@NonNull ComingSoonMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -68,10 +68,7 @@ public class ComingSoonPresenter extends BasePresenter<ComingSoonMvpView> {
                     }
                 }, throwable -> {
                     getMvpView().showUnknownError();
-                    Timber.e("Error occurred!", throwable);
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
+                    Timber.e(throwable, "Error occurred!");
                 });
     }
 }

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -37,4 +39,7 @@ public class ApplicationModule {
     ImageDownloader providesImageDownloader() {
         return new ImageDownloader();
     }
+
+    @Provides
+    EventBus providesEventBus() {return EventBus.getDefault();}
 }
