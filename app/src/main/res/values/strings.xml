@@ -151,6 +151,8 @@
     <string name="designer_credentials">Margarita Strokalis</string>
     <string name="developed_by_lbl">Developed by:</string>
     <string name="developer_credentials">Constantine Chernenko</string>
+    <string name="animations_by_lbl">Animations by:</string>
+    <string name="animations_credentials">Denis Ermak</string>
     <string name="about_dialog_freespace_fix">\u0020</string>
 
     <!-- Strings for slider 1 -->

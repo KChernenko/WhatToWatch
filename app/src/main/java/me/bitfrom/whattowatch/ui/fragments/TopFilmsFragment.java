@@ -73,14 +73,9 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //noinspection unchecked
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(getActivity());
-                ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
-            } else {
-                startActivity(intent);
-            }
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                    .makeCustomAnimation(getActivity(), R.anim.enter_pull_in, R.anim.exit_fade_out);
+            ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
         });
         mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
         mSwipeRefreshLayout.setOnRefreshListener(this);

@@ -14,6 +14,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.busevents.ServerErrorEvent;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import okhttp3.Interceptor;
@@ -70,13 +71,16 @@ public class RestModule {
                                            @NonNull StethoInterceptor stethoInterceptor,
                                            @NonNull Interceptor responseCodeInterceptor) {
 
-        return new OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor(responseCodeInterceptor)
-                .addNetworkInterceptor(stethoInterceptor)
-                .connectTimeout(ConstantsManager.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(ConstantsManager.READ_TIMEOUT, TimeUnit.SECONDS)
-                .build();
+        OkHttpClient.Builder okHttp = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            okHttp.addInterceptor(httpLoggingInterceptor);
+            okHttp.addInterceptor(responseCodeInterceptor);
+            okHttp.addNetworkInterceptor(stethoInterceptor);
+        }
+        okHttp.connectTimeout(ConstantsManager.CONNECTION_TIMEOUT, TimeUnit.SECONDS);
+        okHttp.readTimeout(ConstantsManager.READ_TIMEOUT, TimeUnit.SECONDS);
+
+        return okHttp.build();
     }
 
     @Provides

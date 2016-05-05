@@ -71,4 +71,8 @@
     <dimen name="slider_small_text_size">16sp</dimen>
     <dimen name="slider_middle_text_margin">20dp</dimen>
 
+    <!-- Dimens for the about dialog -->
+    <dimen name="about_dialog_margin_left">10dp</dimen>
+    <dimen name="about_dialog_general_text_size">16sp</dimen>
+
 </resources>

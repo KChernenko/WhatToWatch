@@ -15,15 +15,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/designed_by_title"
-            android:textSize="16sp"
+            android:textSize="@dimen/about_dialog_general_text_size"
             android:text="@string/designed_by_lbl"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/designed_by"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="16sp"
+            android:layout_marginStart="@dimen/about_dialog_margin_left"
+            android:layout_marginLeft="@dimen/about_dialog_margin_left"
+            android:textSize="@dimen/about_dialog_general_text_size"
             android:textColor="@color/primary"
             android:textStyle="bold"
             android:text="@string/designer_credentials"/>
@@ -37,18 +37,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/developed_by_title"
-            android:textSize="16sp"
+            android:textSize="@dimen/about_dialog_general_text_size"
             android:text="@string/developed_by_lbl"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/developed_by"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="16sp"
+            android:layout_marginStart="@dimen/about_dialog_margin_left"
+            android:layout_marginLeft="@dimen/about_dialog_margin_left"
+            android:textSize="@dimen/about_dialog_general_text_size"
             android:textColor="@color/primary"
             android:textStyle="bold"
             android:text="@string/developer_credentials"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/animations_section">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/animations_by_title"
+            android:textSize="@dimen/about_dialog_general_text_size"
+            android:text="@string/animations_by_lbl"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/animations_by"
+            android:layout_marginStart="@dimen/about_dialog_margin_left"
+            android:layout_marginLeft="@dimen/about_dialog_margin_left"
+            android:textSize="@dimen/about_dialog_general_text_size"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:text="@string/animations_credentials"/>
     </LinearLayout>
 
 

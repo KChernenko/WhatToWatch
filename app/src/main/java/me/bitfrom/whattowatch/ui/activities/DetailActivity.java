@@ -124,7 +124,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         mFilmId = getIntent().getStringExtra(ConstantsManager.POSITION_ID_KEY);
 
         initActionBar();
-        setupWindowAnimations();
         initSwipeListener();
 
         mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
@@ -154,14 +153,15 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         mBtnShare.setOnClickListener(null);
         mIMDBLink.setOnClickListener(null);
         mRootLayout.setOnTouchListener(null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getEnterTransition().removeListener(mTransitionListener);
-            getWindow().getExitTransition().removeListener(mTransitionListener);
-            mExplode.removeListener(mTransitionListener);
-        }
         if (mDetailPresenter != null) mDetailPresenter.detachView();
         super.onDestroy();
-        removeActivityFromTransitionManager(this);
+        //removeActivityFromTransitionManager(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.enter_fade_in, R.anim.exit_push_out);
     }
 
     @OnClick(R.id.action_share)
@@ -263,66 +263,11 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void setupWindowAnimations() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mExplode = new Explode();
-            mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            iniTransitionListener();
-            mExplode.addListener(mTransitionListener);
-            getWindow().setEnterTransition(mExplode);
-            getWindow().setExitTransition(mExplode);
-        }
-    }
-
     private void setCollapsingToolbarLayout(@NonNull String title) {
         mCollapsingToolbarLayout.setTitle(title);
         mCollapsingToolbarLayout.setExpandedTitleColor(transparentColor);
     }
 
-    private void iniTransitionListener() {
-        mTransitionListener = new Transition.TransitionListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionStart(Transition transition) {
-                Timber.d("onTransitionStart() was called!");
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                Timber.d("onTransitionEnd() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionCancel(Transition transition) {
-                Timber.d("onTransitionCancel() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionPause(Transition transition) {
-                Timber.d("onTransitionPause() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-                Timber.d("onTransitionResume() was called!");
-                transition.removeListener(this);
-            }
-        };
-    }
 
     private void initSwipeListener() {
         mSwipeTouchListener = new OnSwipeTouchListener(this) {

@@ -66,7 +66,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         setSupportActionBar(toolbar);
         setupDrawerLayout();
-        setWindowAnimations();
 
         mMainPresenter.attachView(this);
         if (savedInstanceState == null) {
@@ -89,12 +88,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onDestroy() {
         drawerLayout.removeDrawerListener(toggle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mExplode.removeListener(mTransitionListener);
-        }
         mMainPresenter.detachView();
         super.onDestroy();
-        removeActivityFromTransitionManager(this);
     }
 
     @Override
@@ -206,68 +201,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             setTitle(getString(R.string.settings_fragment_title));
             navigationView.setCheckedItem(R.id.nav_settings);
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setWindowAnimations() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mExplode = new Explode();
-            mExplode.setDuration(ConstantsManager.TRANSITION_DURATION);
-            initTransitionListener();
-            mExplode.addListener(mTransitionListener);
-            getWindow().setEnterTransition(mExplode);
-            getWindow().setExitTransition(mExplode);
-            getWindow().setReenterTransition(mExplode);
-            getWindow().setReturnTransition(mExplode);
-        }
-    }
-
-    private void initTransitionListener() {
-        mTransitionListener = new Transition.TransitionListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionStart(Transition transition) {
-                Timber.d("onTransitionStart() was called!");
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                Timber.d("onTransitionEnd() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                getWindow().getReenterTransition().removeListener(this);
-                getWindow().getReturnTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionCancel(Transition transition) {
-                Timber.d("onTransitionCancel() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                getWindow().getReenterTransition().removeListener(this);
-                getWindow().getReturnTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionPause(Transition transition) {
-                Timber.d("onTransitionPause() was called!");
-                getWindow().getEnterTransition().removeListener(this);
-                getWindow().getExitTransition().removeListener(this);
-                getWindow().getReenterTransition().removeListener(this);
-                getWindow().getReturnTransition().removeListener(this);
-                transition.removeListener(this);
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onTransitionResume(Transition transition) {
-                Timber.d("onTransitionResume() was called!");
-            }
-        };
     }
 }
