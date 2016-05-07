@@ -41,7 +41,6 @@ ext.versions = [
         //UI
         butterKnife                  : '8.0.0',
         appIntro                     : '3.4.0',
-        rippleEffect                 : '1.3',
         getBaseFAB                   : '1.10.1',
 
         //Other
@@ -107,7 +106,6 @@ ext.libraries = [
         butterKnife             : "com.jakewharton:butterknife:$versions.butterKnife",
         butterKnifeCompiler     : "com.jakewharton:butterknife-compiler:$versions.butterKnife",
         appIntro                : "com.github.paolorotolo:appintro:$versions.appIntro",
-        rippleEffect            : "com.github.traex.rippleeffect:library:$versions.rippleEffect",
         getBaseFAB              : "com.getbase:floatingactionbutton:$versions.getBaseFAB",
 
         permissionsDispatcher   : "com.github.hotchemi:permissionsdispatcher:$versions.permissionsDispatcher",

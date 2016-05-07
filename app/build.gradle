@@ -27,7 +27,7 @@ android {
     def appVersionCode = advancedVersioning.versionCode
 
     defaultConfig {
-        applicationId "me.bitfrom.whattowhatch"
+        applicationId "me.bitfrom.whattowatch"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionName appVersionName
@@ -176,7 +176,6 @@ dependencies {
     compile libraries.butterKnife
     apt libraries.butterKnifeCompiler
     compile libraries.appIntro
-    compile libraries.rippleEffect
     compile libraries.getBaseFAB
 
     compile libraries.permissionsDispatcher
