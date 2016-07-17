@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.core;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class DataManager {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return mDbHelper.setTopFilms(result.subList(0,
-                            mPreferencesHelper.getPrefferedNuberOfFilms()));
+                            mPreferencesHelper.getProfferedNuderOfFilms()));
                 }).onBackpressureBuffer();
     }
 
@@ -84,7 +83,7 @@ public class DataManager {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return mDbHelper.setBottomFilms(result.subList(0,
-                            mPreferencesHelper.getPrefferedNuberOfFilms()));
+                            mPreferencesHelper.getProfferedNuderOfFilms()));
                 }).onBackpressureBuffer();
     }
 

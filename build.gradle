@@ -21,6 +21,9 @@ buildscript {
         // Compile-time annotation processing.
         classpath gradlePlugins.apt
 
+        //SqlDelight
+        classpath gradlePlugins.sqlDelight
+
         // Backport of some Java 8 language features such as Lambdas and method references.
         classpath gradlePlugins.retrolambda
 

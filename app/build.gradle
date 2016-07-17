@@ -1,9 +1,10 @@
 import junit.framework.Test
 import org.moallemi.gradle.internal.VersionCodeType
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.squareup.sqldelight'
 apply plugin: 'org.moallemi.advanced-build-version'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 
 android {
@@ -148,6 +149,7 @@ dependencies {
     compile libraries.supportGridLayout
     compile libraries.multidex
 
+    apt libraries.javaPoet
     compile libraries.dagger
     compile libraries.javaxInject
     compile libraries.javaxAnnotationApi
@@ -178,8 +180,6 @@ dependencies {
     compile libraries.appIntro
     compile libraries.getBaseFAB
 
-    compile libraries.permissionsDispatcher
-    apt libraries.pDProcessor
     compile libraries.eventBus
 
     compile libraries.stetho

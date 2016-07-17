@@ -26,4 +26,3 @@ public class FilmsSyncService extends Service {
         return sMoviesSyncAdapter.getSyncAdapterBinder();
     }
 }
-

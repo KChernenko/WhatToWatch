@@ -42,7 +42,7 @@ public class PreferencesHelper {
      * Returns number of films, that user selected in the application's settings;
      * 7 - by default.
      **/
-    public int getPrefferedNuberOfFilms() {
+    public int getProfferedNuderOfFilms() {
         return Integer.parseInt(mPref.getString(mContext.getString(R.string.pref_number_of_films_key),
                 mContext.getString(R.string.pref_number_of_films_seven)));
     }
