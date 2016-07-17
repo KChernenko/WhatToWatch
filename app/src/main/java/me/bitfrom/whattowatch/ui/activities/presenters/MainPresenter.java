@@ -15,13 +15,14 @@ import me.bitfrom.whattowatch.ui.base.BasePresenter;
 
 public class MainPresenter extends BasePresenter<MainMvpView> {
 
-    private DataManager mDataManager;
-    private Context mContext;
+    private Context context;
+    private DataManager dataManager;
 
     @Inject
-    public MainPresenter(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
-        mDataManager = dataManager;
-        mContext = context;
+    public MainPresenter(@NonNull @ApplicationContext Context context,
+                         @NonNull DataManager dataManager) {
+        this.context = context;
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -36,15 +37,13 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
 
     public void initFirstSync() {
         checkViewAttached();
-        if (mDataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            Intent intent = new Intent(mContext, WWIntro.class);
+        if (dataManager.getPreferencesHelper().checkIfFirstLaunched()) {
+            Intent intent = new Intent(context, WWIntro.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
-            mDataManager.getPreferencesHelper().markFirstLaunched();
+            context.startActivity(intent);
+            dataManager.getPreferencesHelper().markFirstLaunched();
         } else {
-            FilmsSyncAdapter.initSyncAdapter(mContext);
+            FilmsSyncAdapter.initSyncAdapter(context);
         }
     }
-
-
 }

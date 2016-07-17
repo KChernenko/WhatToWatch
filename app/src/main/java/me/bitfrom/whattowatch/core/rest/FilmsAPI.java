@@ -13,24 +13,24 @@ public interface FilmsAPI {
 
     @GET("top?") @NonNull
     Observable<FilmPojo> getTopFilms(@Query("start") String start,
-                                 @Query("end") String end,
-                                 @Query("token") String token,
-                                 @Query("format") String format,
-                                 @Query("data") String data);
+                                     @Query("end") String end,
+                                     @Query("token") String token,
+                                     @Query("format") String format,
+                                     @Query("data") String data);
 
     @GET("bottom?") @NonNull
     Observable<FilmPojo> getBottomFilms(@Query("start") String start,
-                                    @Query("end") String end,
-                                    @Query("token") String token,
-                                    @Query("format") String format,
-                                    @Query("data") String data);
+                                        @Query("end") String end,
+                                        @Query("token") String token,
+                                        @Query("format") String format,
+                                        @Query("data") String data);
 
     @GET("inTheaters?") @NonNull
     Observable<TheaterPojo> getInCinemas(@Query("token") String token,
-                                               @Query("format") String format,
-                                               @Query("language") String language);
+                                         @Query("format") String format,
+                                         @Query("language") String language);
 
     @GET("comingSoon?") @NonNull
     Observable<NewMoviesPojo> getComingSoon(@Query("token") String token,
-                                          @Query("format") String format);
+                                            @Query("format") String format);
 }

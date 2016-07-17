@@ -24,17 +24,18 @@ import timber.log.Timber;
 
 public class BottomFilmsPresenter extends BasePresenter<BottomFilmsMvpView> {
 
-    private final DataManager dataManager;
     private Context context;
+    private final DataManager dataManager;
     private EventBus eventBus;
+
     private Subscription subscription;
 
     @Inject
-    public BottomFilmsPresenter(@NonNull DataManager dataManager,
-                                @NonNull @ApplicationContext Context context,
+    public BottomFilmsPresenter(@NonNull @ApplicationContext Context context,
+                                @NonNull DataManager dataManager,
                                 @NonNull EventBus eventBus) {
-        this.dataManager = dataManager;
         this.context = context;
+        this.dataManager = dataManager;
         this.eventBus = eventBus;
     }
 

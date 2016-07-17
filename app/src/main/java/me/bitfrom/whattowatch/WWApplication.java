@@ -22,8 +22,8 @@ import timber.log.Timber;
 
 public class WWApplication extends Application {
 
-    private ApplicationComponent mApplicationComponent;
-    private RefWatcher mRefWatcher;
+    private ApplicationComponent applicationComponent;
+    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -41,18 +41,18 @@ public class WWApplication extends Application {
     }
 
     public ApplicationComponent getComponent() {
-        if (mApplicationComponent == null) {
-            mApplicationComponent = DaggerApplicationComponent.builder()
+        if (applicationComponent == null) {
+            applicationComponent = DaggerApplicationComponent.builder()
                     .applicationModule(new ApplicationModule(this))
                     .build();
         }
 
-        return mApplicationComponent;
+        return applicationComponent;
     }
 
     public static RefWatcher getRefWatcher(Context context) {
         WWApplication application = (WWApplication) context.getApplicationContext();
-        return application.mRefWatcher;
+        return application.refWatcher;
     }
 
     /**
@@ -85,7 +85,7 @@ public class WWApplication extends Application {
     }
 
     private void initLeakCanary() {
-        mRefWatcher = LeakCanary.install(this);
+        refWatcher = LeakCanary.install(this);
     }
 
     private void initStetho() {

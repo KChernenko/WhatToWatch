@@ -22,79 +22,81 @@ import rx.Observable;
 @Singleton
 public class DataManager {
 
-    private final FilmsAPI mFilmsAPI;
-    private final DBHelper mDbHelper;
-    private final PreferencesHelper mPreferencesHelper;
+    private final FilmsAPI filmsAPI;
+    private final DBHelper dbHelper;
+    private final PreferencesHelper preferencesHelper;
 
     @Inject
-    public DataManager(@NonNull FilmsAPI filmsAPI, @NonNull DBHelper dbHelper, @NonNull PreferencesHelper preferencesHelper) {
-        mFilmsAPI = filmsAPI;
-        mDbHelper = dbHelper;
-        mPreferencesHelper = preferencesHelper;
+    public DataManager(@NonNull FilmsAPI filmsAPI,
+                       @NonNull DBHelper dbHelper,
+                       @NonNull PreferencesHelper preferencesHelper) {
+        this.filmsAPI = filmsAPI;
+        this.dbHelper = dbHelper;
+        this.preferencesHelper = preferencesHelper;
     }
 
     @NonNull
     public PreferencesHelper getPreferencesHelper() {
-        return mPreferencesHelper;
+        return preferencesHelper;
     }
 
     @NonNull
     public Observable<MoviePojo> loadTopFilms() {
-        return mFilmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
+        return filmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
-                    return mDbHelper.setTopFilms(result.subList(0,
-                            mPreferencesHelper.getProfferedNuderOfFilms()));
+                    return dbHelper.setTopFilms(result.subList(0,
+                            preferencesHelper.getProfferedNuderOfFilms()));
                 }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getTopFilms() {
-        return mDbHelper.getTopFilms();
+        return dbHelper.getTopFilms();
     }
 
     @NonNull
     public Observable<Film> getFilmById(@NonNull String filmId) {
-        return mDbHelper.getFilmById(filmId).first();
+        return dbHelper.getFilmById(filmId).first();
     }
 
     @NonNull
     public Observable<List<Film>> getFavoriteFilms() {
-        return mDbHelper.getFavoriteFilms().distinct();
+        return dbHelper.getFavoriteFilms().distinct();
     }
 
     public void addToFavorite(@NonNull String filmId) {
-        mDbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
+        dbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
     }
 
     public void removeFromFavorite(@NonNull String filmId) {
-        mDbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
+        dbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
     }
 
     @NonNull
     public Observable<MoviePojo> loadBottomFilms() {
-        return mFilmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
+        return filmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
-                    return mDbHelper.setBottomFilms(result.subList(0,
-                            mPreferencesHelper.getProfferedNuderOfFilms()));
+                    return dbHelper.setBottomFilms(result.subList(0,
+                            preferencesHelper.getProfferedNuderOfFilms()));
                 }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getBottomFilms() {
-        return mDbHelper.getBottomFilms();
+        return dbHelper.getBottomFilms();
     }
 
     @NonNull
     public Observable<MoviePojo> loadInCinemaFilms() {
-        return mFilmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
+        return filmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
                 ConstantsManager.TEST_LAN)
                 .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
@@ -107,18 +109,18 @@ public class DataManager {
                         }
                     }
                     Collections.shuffle(result);
-                    return mDbHelper.setInCinemas(result);
+                    return dbHelper.setInCinemas(result);
                 }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getInCinemasFilms() {
-        return mDbHelper.getInCinemasFilms();
+        return dbHelper.getInCinemasFilms();
     }
 
     @NonNull
     public Observable<MoviePojo> loadComingSoonFilms() {
-        return mFilmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
+        return filmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
                 .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
                     int inTheatreSize = theaterPojo.getData().getComingSoon().size();
@@ -131,17 +133,17 @@ public class DataManager {
                         allMovies.clear();
                     }
                     Collections.shuffle(result);
-                    return mDbHelper.setComingSoon(result);
+                    return dbHelper.setComingSoon(result);
                 }).onBackpressureBuffer();
     }
 
     @NonNull
     public Observable<List<Film>> getComingSoonFilms() {
-        return mDbHelper.getComingSoon().distinct();
+        return dbHelper.getComingSoon().distinct();
     }
 
     @NonNull
     public Observable<List<Film>> getSearchResult(@NonNull String title) {
-        return mDbHelper.searchInFavorite(title).distinct();
+        return dbHelper.searchInFavorite(title).distinct();
     }
 }

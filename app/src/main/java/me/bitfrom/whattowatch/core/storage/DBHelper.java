@@ -26,28 +26,29 @@ import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 @Singleton
 public class DBHelper {
 
-    private final BriteDatabase mDb;
-    private ImageDownloader mImageDownloader;
+    private final BriteDatabase database;
+    private ImageDownloader imageDownloader;
 
     @Inject
-    public DBHelper(@NonNull DBOpenHelper dbOpenHelper, @NonNull ImageDownloader imageDownloader) {
-        mDb = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
-        mImageDownloader = imageDownloader;
+    public DBHelper(@NonNull DBOpenHelper dbOpenHelper,
+                    @NonNull ImageDownloader imageDownloader) {
+        database = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
+        this.imageDownloader = imageDownloader;
     }
 
     @NonNull
     public BriteDatabase getBriteDb() {
-        return mDb;
+        return database;
     }
 
     @NonNull
     public Observable<MoviePojo> setTopFilms(@NonNull final List<MoviePojo> newMovies) {
         return Observable.defer(() -> {
-            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = database.newTransaction();
             MoviePojo movie = null;
 
             try {
-                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                database.delete(DBContract.FilmsTable.TABLE_NAME,
                         DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
@@ -56,7 +57,7 @@ public class DBHelper {
                 for (int i = 0; i < newMovies.size(); i++) {
                     movie = newMovies.get(i);
 
-                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                    long result = database.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.TOP),
                             SQLiteDatabase.CONFLICT_REPLACE);
@@ -75,7 +76,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<List<Film>> getTopFilms() {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
@@ -86,7 +87,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<Film> getFilmById(@NonNull String filmId) {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?", filmId)
                 .map(query -> {
@@ -106,7 +107,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<List<Film>> getFavoriteFilms() {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME + " WHERE "
                         + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?",
                 String.valueOf(ConstantsManager.FAVORITE))
@@ -115,12 +116,12 @@ public class DBHelper {
 
     public void updateFavorite(String filmId, int favorite) {
         ContentValues values = new ContentValues(1);
-        BriteDatabase.Transaction transaction = mDb.newTransaction();
+        BriteDatabase.Transaction transaction = database.newTransaction();
         switch (favorite) {
             case ConstantsManager.FAVORITE:
                 values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.FAVORITE);
                 try {
-                    mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                    database.update(DBContract.FilmsTable.TABLE_NAME,
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
@@ -133,7 +134,7 @@ public class DBHelper {
             case ConstantsManager.NOT_FAVORITE:
                 values.put(DBContract.FilmsTable.COLUMN_FAVORITE, ConstantsManager.NOT_FAVORITE);
                 try {
-                    mDb.update(DBContract.FilmsTable.TABLE_NAME,
+                    database.update(DBContract.FilmsTable.TABLE_NAME,
                             values, SQLiteDatabase.CONFLICT_REPLACE,
                             DBContract.FilmsTable.COLUMN_IMDB_ID + " = ?",
                             filmId);
@@ -152,10 +153,10 @@ public class DBHelper {
     @NonNull
     public Observable<MoviePojo> setBottomFilms(@NonNull final List<MoviePojo> newMovies) {
         return Observable.defer(() -> {
-            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = database.newTransaction();
             MoviePojo movie = null;
             try {
-                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                database.delete(DBContract.FilmsTable.TABLE_NAME,
                         DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
@@ -163,7 +164,7 @@ public class DBHelper {
 
                 for (int i = 0; i < newMovies.size(); i++) {
                     movie = newMovies.get(i);
-                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                    long result = database.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.BOTTOM),
                             SQLiteDatabase.CONFLICT_REPLACE);
@@ -184,7 +185,7 @@ public class DBHelper {
     public Observable<List<Film>>
 
     getBottomFilms() {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
@@ -196,11 +197,11 @@ public class DBHelper {
     @NonNull
     public Observable<MoviePojo> setInCinemas(@NonNull final List<MoviePojo> movies) {
         return Observable.defer(() -> {
-            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = database.newTransaction();
             MoviePojo movie = null;
 
             try {
-                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                database.delete(DBContract.FilmsTable.TABLE_NAME,
                         DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
@@ -209,7 +210,7 @@ public class DBHelper {
                 for (int i = 0; i < movies.size(); i++) {
                     movie = movies.get(i);
 
-                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                    long result = database.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.IN_CINEMAS),
                             SQLiteDatabase.CONFLICT_REPLACE);
@@ -228,7 +229,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<List<Film>> getInCinemasFilms() {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
@@ -239,11 +240,11 @@ public class DBHelper {
 
     public Observable<MoviePojo> setComingSoon(@NonNull final List<MoviePojo> movies) {
         return Observable.defer(() -> {
-            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = database.newTransaction();
             MoviePojo movie = null;
 
             try {
-                mDb.delete(DBContract.FilmsTable.TABLE_NAME,
+                database.delete(DBContract.FilmsTable.TABLE_NAME,
                         DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                                 " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
                         String.valueOf(ConstantsManager.NOT_FAVORITE),
@@ -252,7 +253,7 @@ public class DBHelper {
                 for (int i = 0; i < movies.size(); i++) {
                     movie = movies.get(i);
 
-                    long result = mDb.insert(DBContract.FilmsTable.TABLE_NAME,
+                    long result = database.insert(DBContract.FilmsTable.TABLE_NAME,
                             DBContract.FilmsTable.toContentValues(movie,
                                     ConstantsManager.COMING_SOON),
                             SQLiteDatabase.CONFLICT_REPLACE);
@@ -271,7 +272,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<List<Film>> getComingSoon() {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                         " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                         " AND " + DBContract.FilmsTable.COLUMN_CATEGORY + " = ?",
@@ -282,7 +283,7 @@ public class DBHelper {
 
     @NonNull
     public Observable<List<Film>> searchInFavorite(@NonNull String title) {
-        return mDb.createQuery(DBContract.FilmsTable.TABLE_NAME,
+        return database.createQuery(DBContract.FilmsTable.TABLE_NAME,
                 "SELECT * FROM " + DBContract.FilmsTable.TABLE_NAME +
                 " WHERE " + DBContract.FilmsTable.COLUMN_FAVORITE + " = ?" +
                 " AND " + DBContract.FilmsTable.COLUMN_TITLE + " LIKE ?",
@@ -296,11 +297,11 @@ public class DBHelper {
         return Observable.create(subscriber -> {
             if (subscriber.isUnsubscribed()) return;
 
-            BriteDatabase.Transaction transaction = mDb.newTransaction();
+            BriteDatabase.Transaction transaction = database.newTransaction();
             try {
-                Cursor cursor = mDb.query("SELECT name FROM sqlite_master WHERE type='table'");
+                Cursor cursor = database.query("SELECT name FROM sqlite_master WHERE type='table'");
                 while (cursor.moveToNext()) {
-                    mDb.delete(cursor.getString(cursor.getColumnIndex("name")), null);
+                    database.delete(cursor.getString(cursor.getColumnIndex("name")), null);
                 }
                 cursor.close();
                 transaction.markSuccessful();
@@ -312,6 +313,6 @@ public class DBHelper {
     }
 
     private void cacheImage(String imgUrl) {
-        mImageDownloader.loadImage(Flag.LOAD_ONLY, imgUrl, null);
+        imageDownloader.loadImage(Flag.LOAD_ONLY, imgUrl, null);
     }
 }

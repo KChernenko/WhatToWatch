@@ -23,7 +23,7 @@ import me.bitfrom.whattowatch.injection.module.ActivityModule;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private ActivityComponent mActivityComponent;
+    private ActivityComponent activityComponent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,14 +31,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public ActivityComponent getActivityComponent() {
-        if (mActivityComponent == null) {
-            mActivityComponent = DaggerActivityComponent.builder()
+        if (activityComponent == null) {
+            activityComponent = DaggerActivityComponent.builder()
                     .activityModule(new ActivityModule(this))
                     .applicationComponent(WWApplication.get(this).getComponent())
                     .build();
         }
 
-        return mActivityComponent;
+        return activityComponent;
     }
 
     @Override
@@ -68,9 +68,7 @@ public class BaseActivity extends AppCompatActivity {
             if (map.containsKey(decorView)) {
                 map.remove(decorView);
             }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

@@ -1,7 +1,6 @@
 package me.bitfrom.whattowatch.ui.activities;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -18,8 +17,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -47,7 +44,6 @@ import me.bitfrom.whattowatch.ui.base.BaseActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.OnSwipeTouchListener;
 import me.bitfrom.whattowatch.utils.ScrollManager;
-import timber.log.Timber;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
@@ -55,61 +51,60 @@ import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Inject
-    protected DetailPresenter mDetailPresenter;
+    protected DetailPresenter detailPresenter;
     @Inject
-    protected ImageDownloader mImageLoader;
+    protected ImageDownloader imageDownloader;
     @Inject
-    protected ScrollManager mScrollManager;
+    protected ScrollManager scrollManager;
 
     @BindView(R.id.detail_root_layout)
-    protected CoordinatorLayout mRootLayout;
+    protected CoordinatorLayout rootLayout;
     @BindView(R.id.detail_toolbar)
-    protected Toolbar mToolbar;
+    protected Toolbar toolbar;
     @BindView(R.id.collapsing_toolbar)
-    protected CollapsingToolbarLayout mCollapsingToolbarLayout;
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.detail_scroll_view)
-    protected NestedScrollView mScrollView;
+    protected NestedScrollView nestedScrollView;
     @BindView(R.id.poster)
-    protected ImageView mPosterView;
+    protected ImageView posterView;
     @BindView(R.id.title)
-    protected TextView mTitleView;
+    protected TextView titleView;
     @BindView(R.id.country)
-    protected TextView mCountriesView;
+    protected TextView countriesView;
     @BindView(R.id.release_year)
-    protected TextView mYearView;
+    protected TextView yearView;
     @BindView(R.id.runtime)
-    protected TextView mRuntimeView;
+    protected TextView runtimeView;
     @BindView(R.id.rating)
-    protected TextView mRatingView;
+    protected TextView ratingView;
     @BindView(R.id.genres)
-    protected TextView mGenresView;
+    protected TextView genresView;
     @BindView(R.id.director)
-    protected TextView mDirectorsView;
+    protected TextView directorsView;
     @BindView(R.id.writers)
-    protected TextView mWritersView;
+    protected TextView writesView;
     @BindView(R.id.plot)
-    protected TextView mPlotView;
+    protected TextView plotView;
 
     @BindView(R.id.multiple_actions)
-    protected FloatingActionsMenu mBtnAction;
+    protected FloatingActionsMenu btnAction;
     @BindView(R.id.action_save_fav)
-    protected FloatingActionButton mBtnSaveToFav;
+    protected FloatingActionButton btnSaveToFavorites;
     @BindView(R.id.action_share)
-    protected FloatingActionButton mBtnShare;
+    protected FloatingActionButton btnShare;
     @BindView(R.id.imdb_link)
-    protected FloatingActionButton mIMDBLink;
+    protected FloatingActionButton btnIMDBLink;
 
     @BindString(R.string.successfully_added_to_fav)
-    protected String mSuccessfullyAddedToFav;
+    protected String successfullyAddedToFavMsg;
     @BindString(R.string.deleted_from_fav)
-    protected String mAlreadyInFav;
+    protected String alreadyInFavMsg;
     @BindColor(android.R.color.transparent)
     protected int transparentColor;
 
-    private String mFilmId;
-    private Explode mExplode;
-    private Transition.TransitionListener mTransitionListener;
-    private OnSwipeTouchListener mSwipeTouchListener;
+    private OnSwipeTouchListener swipeTouchListener;
+
+    private String filmId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,16 +114,16 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         setContentView(R.layout.detail_activity);
 
         ButterKnife.bind(this);
-        mDetailPresenter.attachView(this);
+        detailPresenter.attachView(this);
 
-        mFilmId = getIntent().getStringExtra(ConstantsManager.POSITION_ID_KEY);
+        filmId = getIntent().getStringExtra(ConstantsManager.POSITION_ID_KEY);
 
         initActionBar();
         initSwipeListener();
 
-        mScrollManager.hideViewInScrollView(mScrollView, mBtnAction, ScrollManager.Direction.DOWN);
+        scrollManager.hideViewInScrollView(nestedScrollView, btnAction, ScrollManager.Direction.DOWN);
 
-        mDetailPresenter.getFilm(mFilmId);
+        detailPresenter.getFilm(filmId);
     }
 
     @Override
@@ -143,17 +138,17 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
-        mSwipeTouchListener.getGestureDetector().onTouchEvent(ev);
+        swipeTouchListener.getGestureDetector().onTouchEvent(ev);
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public void onDestroy() {
-        mBtnSaveToFav.setOnClickListener(null);
-        mBtnShare.setOnClickListener(null);
-        mIMDBLink.setOnClickListener(null);
-        mRootLayout.setOnTouchListener(null);
-        if (mDetailPresenter != null) mDetailPresenter.detachView();
+        btnSaveToFavorites.setOnClickListener(null);
+        btnShare.setOnClickListener(null);
+        btnIMDBLink.setOnClickListener(null);
+        rootLayout.setOnTouchListener(null);
+        if (detailPresenter != null) detailPresenter.detachView();
         super.onDestroy();
         //removeActivityFromTransitionManager(this);
     }
@@ -166,12 +161,12 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @OnClick(R.id.action_share)
     public void btnShareClicked() {
-        mDetailPresenter.shareWithFriends();
+        detailPresenter.shareWithFriends();
     }
 
     @OnClick(R.id.action_save_fav)
     public void btnFavoriteClicked() {
-        mDetailPresenter.updateFavorites(mFilmId);
+        detailPresenter.updateFavorites(filmId);
     }
 
     @OnClick(R.id.imdb_link)
@@ -184,46 +179,46 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
                 })
                 .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(mDetailPresenter.getImdbLink()));
+                    intent.setData(Uri.parse(detailPresenter.getImdbLink()));
                     this.startActivity(intent);
                 }).show();
     }
 
     @Override
     public void showFilmInfo(@NonNull Film film) {
-        mImageLoader.loadImage(Flag.FULL_SIZE, film.urlPoster(), mPosterView);
-        mTitleView.setText(film.title());
-        mCountriesView.setText(film.countries());
-        mYearView.setText(film.year());
-        mRuntimeView.setText(film.runtime());
-        mRatingView.setText(film.rating());
-        mGenresView.setText(film.genres());
-        mDirectorsView.setText(film.directors());
-        mWritersView.setText(film.writers());
-        mPlotView.setText(film.plot());
+        imageDownloader.loadImage(Flag.FULL_SIZE, film.urlPoster(), posterView);
+        titleView.setText(film.title());
+        countriesView.setText(film.countries());
+        yearView.setText(film.year());
+        runtimeView.setText(film.runtime());
+        ratingView.setText(film.rating());
+        genresView.setText(film.genres());
+        directorsView.setText(film.directors());
+        writesView.setText(film.writers());
+        plotView.setText(film.plot());
 
         setCollapsingToolbarLayout(film.title());
     }
 
     @Override
     public void showUnknownError() {
-        Snackbar.make(mScrollView,
+        Snackbar.make(nestedScrollView,
                 getString(R.string.error_list_empty), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void showAddedToFavorites() {
-        Snackbar.make(mScrollView, mSuccessfullyAddedToFav, Snackbar.LENGTH_LONG)
+        Snackbar.make(nestedScrollView, successfullyAddedToFavMsg, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo_fav, v -> {
-                    mDetailPresenter.updateFavorites(mFilmId);
+                    detailPresenter.updateFavorites(filmId);
                 }).show();
     }
 
     @Override
     public void showRemovedFromFavorites() {
-        Snackbar.make(mScrollView, mAlreadyInFav, Snackbar.LENGTH_LONG)
+        Snackbar.make(nestedScrollView, alreadyInFavMsg, Snackbar.LENGTH_LONG)
                 .setAction(R.string.undo_fav, v -> {
-                    mDetailPresenter.updateFavorites(mFilmId);
+                    detailPresenter.updateFavorites(filmId);
                 }).show();
     }
 
@@ -254,28 +249,28 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     private void initActionBar() {
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            Drawable navIcon = mToolbar.getNavigationIcon();
+            Drawable navIcon = toolbar.getNavigationIcon();
             if (navIcon != null) navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         }
     }
 
     private void setCollapsingToolbarLayout(@NonNull String title) {
-        mCollapsingToolbarLayout.setTitle(title);
-        mCollapsingToolbarLayout.setExpandedTitleColor(transparentColor);
+        collapsingToolbarLayout.setTitle(title);
+        collapsingToolbarLayout.setExpandedTitleColor(transparentColor);
     }
 
 
     private void initSwipeListener() {
-        mSwipeTouchListener = new OnSwipeTouchListener(this) {
+        swipeTouchListener = new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 onBackPressed();
             }
         };
 
-        mRootLayout.setOnTouchListener(mSwipeTouchListener);
+        rootLayout.setOnTouchListener(swipeTouchListener);
     }
 }

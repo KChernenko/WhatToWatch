@@ -17,12 +17,13 @@ import timber.log.Timber;
 
 public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
 
-    private final DataManager mDataManager;
-    private Subscription mSubscription;
+    private final DataManager dataManager;
+
+    private Subscription subscription;
 
     @Inject
     public FavoritesPresenter(@NonNull DataManager dataManager) {
-        mDataManager = dataManager;
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -33,12 +34,12 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
     }
 
     public void getFavoriteFilms() {
         checkViewAttached();
-        mSubscription = mDataManager.getFavoriteFilms()
+        subscription = dataManager.getFavoriteFilms()
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,8 +59,8 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
 
     public void search(String title) {
         checkViewAttached();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getSearchResult(title)
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = dataManager.getSearchResult(title)
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

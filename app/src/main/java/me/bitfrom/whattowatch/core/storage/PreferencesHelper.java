@@ -15,27 +15,27 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 @Singleton
 public class PreferencesHelper {
 
-    private final SharedPreferences mPrivatePref;
-    private static SharedPreferences mPref;
-    private Context mContext;
+    private final SharedPreferences privatePref;
+    private static SharedPreferences pref;
+    private Context context;
 
     @Inject
     public PreferencesHelper(@NonNull @ApplicationContext Context context) {
-        mPrivatePref = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
-        mPref = PreferenceManager.getDefaultSharedPreferences(context);
-        mContext = context;
+        privatePref = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        this.context = context;
     }
 
     public SharedPreferences getSharedPreferences() {
-        return mPref;
+        return pref;
     }
 
     public boolean checkIfFirstLaunched() {
-        return mPrivatePref.getBoolean(ConstantsManager.APPS_FIRST_LAUNCH, true);
+        return privatePref.getBoolean(ConstantsManager.APPS_FIRST_LAUNCH, true);
     }
 
     public void markFirstLaunched() {
-        mPrivatePref.edit().putBoolean(ConstantsManager.APPS_FIRST_LAUNCH, false).apply();
+        privatePref.edit().putBoolean(ConstantsManager.APPS_FIRST_LAUNCH, false).apply();
     }
 
     /**
@@ -43,8 +43,8 @@ public class PreferencesHelper {
      * 7 - by default.
      **/
     public int getProfferedNuderOfFilms() {
-        return Integer.parseInt(mPref.getString(mContext.getString(R.string.pref_number_of_films_key),
-                mContext.getString(R.string.pref_number_of_films_seven)));
+        return Integer.parseInt(pref.getString(context.getString(R.string.pref_number_of_films_key),
+                context.getString(R.string.pref_number_of_films_seven)));
     }
 
     /**
@@ -53,7 +53,7 @@ public class PreferencesHelper {
      **/
     public static int getUpdateInterval(@NonNull Context context) {
         int updateInterval;
-        int updatePeriod = Integer.parseInt(mPref
+        int updatePeriod = Integer.parseInt(pref
                 .getString(context.getString(R.string.pref_frequency_of_updates_key),
                         context.getString(R.string.pref_frequency_of_updates_five)));
 
@@ -75,6 +75,6 @@ public class PreferencesHelper {
     }
 
     public void clear() {
-        mPrivatePref.edit().clear().apply();
+        privatePref.edit().clear().apply();
     }
 }

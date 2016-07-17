@@ -23,21 +23,21 @@ import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
 public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHolder> {
 
-    private List<Film> mFilms;
+    private List<Film> films;
     @Inject
-    protected ImageDownloader mImageLoader;
+    protected ImageDownloader imageLoader;
 
     @Inject
     public FilmsAdapter() {
-        mFilms = new ArrayList<>();
+        films = new ArrayList<>();
     }
 
     public void setFilms(@NonNull List<Film> films) {
-        mFilms = films;
+        this.films = films;
     }
 
     public String getImdbIdByPosition(int position) {
-        Film film = mFilms.get(position);
+        Film film = films.get(position);
         return film.idIMDB();
     }
 
@@ -50,8 +50,8 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull FilmsViewHolder holder, int position) {
-        Film film = mFilms.get(position);
-        mImageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster(), holder.poster);
+        Film film = films.get(position);
+        imageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster(), holder.poster);
         holder.title.setText(film.title());
         holder.director.setText(film.directors());
         holder.genres.setText(film.genres());
@@ -61,7 +61,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     @Override
     public int getItemCount() {
-        return mFilms.size();
+        return films.size();
     }
 
     public class FilmsViewHolder extends RecyclerView.ViewHolder {

@@ -20,9 +20,10 @@ import timber.log.Timber;
 
 public class DetailPresenter extends BasePresenter<DetailMvpView> {
 
-    private final DataManager mDataManager;
-    private Context mContext;
-    private Subscription mSubscription;
+    private Context context;
+    private final DataManager dataManager;
+
+    private Subscription subscription;
 
     private String mTitle;
     private String mRating;
@@ -31,9 +32,10 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     private String mImdbLink;
 
     @Inject
-    public DetailPresenter(@NonNull DataManager dataManager, @NonNull @ActivityContext Context context) {
-        mDataManager = dataManager;
-        mContext = context;
+    public DetailPresenter(@NonNull @ActivityContext Context context,
+                           @NonNull DataManager dataManager) {
+        this.context = context;
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -44,13 +46,13 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
     }
 
     public void getFilm(@NonNull final String filmId) {
         checkViewAttached();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getFilmById(filmId)
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = dataManager.getFilmById(filmId)
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -76,26 +78,26 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         StringBuilder sharedInfo = new StringBuilder();
         sharedInfo.append(" «")
                 .append(mTitle).append("»").append("\n")
-                .append(mContext.getString(R.string.share_action_imdb_rating)).append(" ").append(mRating)
-                .append(".\n").append(mContext.getString(R.string.share_action_directors)).append(" ")
+                .append(context.getString(R.string.share_action_imdb_rating)).append(" ").append(mRating)
+                .append(".\n").append(context.getString(R.string.share_action_directors)).append(" ")
                 .append(mDirectors).append("\n").append(mGenres).append("\n")
-                .append(mContext.getString(R.string.app_hash_tag));
+                .append(context.getString(R.string.app_hash_tag));
 
         getMvpView().shareWithFriends(sharedInfo.toString());
     }
 
     public void updateFavorites(@NonNull final String filmId) {
         checkViewAttached();
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
-        mSubscription = mDataManager.getFilmById(filmId)
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
+        subscription = dataManager.getFilmById(filmId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {
                     if (film.favorite().equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
-                        mDataManager.addToFavorite(filmId);
+                        dataManager.addToFavorite(filmId);
                         getMvpView().showAddedToFavorites();
                     } else {
-                        mDataManager.removeFromFavorite(filmId);
+                        dataManager.removeFromFavorite(filmId);
                         getMvpView().showRemovedFromFavorites();
                     }
                 });

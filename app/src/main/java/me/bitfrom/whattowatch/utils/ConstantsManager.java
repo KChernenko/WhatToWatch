@@ -1,6 +1,6 @@
 package me.bitfrom.whattowatch.utils;
 
-public class ConstantsManager {
+public final class ConstantsManager {
 
     //Constants for api request
     public static final String BASE_URL = "http://www.myapifilms.com/imdb/";

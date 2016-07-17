@@ -1,7 +1,6 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,31 +40,31 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 public class FavoritesFragment extends BaseFragment implements FavoritesMvpView {
 
     @Inject
-    protected FavoritesPresenter mFavoritesPresenter;
+    protected FavoritesPresenter presenter;
     @Inject
-    protected FilmsAdapter mFilmsAdapter;
+    protected FilmsAdapter filmsAdapter;
 
     @BindView(R.id.favorite_root_layout)
-    protected RelativeLayout mRootLayout;
+    protected RelativeLayout rootLayout;
     @BindView(R.id.favorite_list)
-    protected RecyclerView mRecyclerView;
+    protected RecyclerView recyclerView;
     @BindView(R.id.favorite_list_empty)
-    protected TextView mEmptyView;
+    protected TextView emptyView;
     @BindView(R.id.nothing_found)
-    protected TextView mNothingFound;
+    protected TextView nothingFoundView;
 
     @BindString(R.string.error_list_empty)
-    protected String mErrorUnknown;
+    protected String errorUnknownMsg;
     @BindString(R.string.empty_favorite_list)
-    protected String mErrorEmptyList;
+    protected String errorEmptyListMsg;
     @BindString(R.string.error_nothing_has_found)
-    protected String mErrorNothingFound;
+    protected String errorNothingFoundMsg;
     @BindString(R.string.search_title)
-    protected String mSearchHint;
+    protected String searchHintMsg;
 
-    private RecyclerItemClickListener mRecyclerItemClickListener;
-    private SearchView mSearchView;
-    private SearchView.OnQueryTextListener mQueryListener;
+    private RecyclerItemClickListener recyclerItemClickListener;
+    private SearchView searchView;
+    private SearchView.OnQueryTextListener queryListener;
 
     @Nullable
     @Override
@@ -89,30 +88,30 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        mSearchView = (SearchView)menu.findItem(R.id.search_action).getActionView();
-        mSearchView.setQueryHint(mSearchHint);
+        searchView = (SearchView)menu.findItem(R.id.search_action).getActionView();
+        searchView.setQueryHint(searchHintMsg);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         initOnQueryListener();
-        mSearchView.setOnQueryTextListener(mQueryListener);
+        searchView.setOnQueryTextListener(queryListener);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+        recyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
+            intent.putExtra(ConstantsManager.POSITION_ID_KEY, filmsAdapter.getImdbIdByPosition(position));
             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
                     .makeCustomAnimation(getActivity(), R.anim.enter_pull_in, R.anim.exit_fade_out);
             ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
         });
-        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
-        mFavoritesPresenter.attachView(this);
-        mFavoritesPresenter.getFavoriteFilms();
+        recyclerView.addOnItemTouchListener(recyclerItemClickListener);
+        presenter.attachView(this);
+        presenter.getFavoriteFilms();
         initKeyListener();
     }
 
@@ -121,53 +120,53 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         super.onStop();
         //noinspection ConstantConditions
         getView().setOnKeyListener(null);
-        if (mSearchView != null) mSearchView.onActionViewCollapsed();
-        if (mFavoritesPresenter != null) mFavoritesPresenter.detachView();
-        if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
+        if (searchView != null) searchView.onActionViewCollapsed();
+        if (presenter != null) presenter.detachView();
+        if (recyclerView != null) recyclerView.removeOnItemTouchListener(recyclerItemClickListener);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mSearchView != null) mSearchView.setOnQueryTextListener(null);
+        if (searchView != null) searchView.setOnQueryTextListener(null);
     }
 
     @Override
     public void showListOfFavorites(@NonNull List<Film> favoriteFilms) {
-        mNothingFound.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mFilmsAdapter.setFilms(favoriteFilms);
-        mFilmsAdapter.notifyDataSetChanged();
+        nothingFoundView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        filmsAdapter.setFilms(favoriteFilms);
+        filmsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showListIsEmpty() {
-        mNothingFound.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
+        nothingFoundView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showUnknownError() {
-        Snackbar.make(mRootLayout,
-                mErrorUnknown, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(rootLayout,
+                errorUnknownMsg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void showNothingHasFound() {
-        mRecyclerView.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.GONE);
-        mNothingFound.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        nothingFoundView.setVisibility(View.VISIBLE);
     }
 
     private void initRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mFilmsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(filmsAdapter);
     }
 
     private void initOnQueryListener() {
-        mQueryListener = new SearchView.OnQueryTextListener() {
+        queryListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -175,7 +174,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mFavoritesPresenter.search(newText);
+                presenter.search(newText);
                 return false;
             }
         };
@@ -188,9 +187,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
         getView().setOnKeyListener((v, keyCode, event) -> {
             if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                 // handle back button's click listener
-                if (!mSearchView.isIconified()) {
-                    mSearchView.setIconified(true);
-                    mSearchView.onActionViewCollapsed();
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                    searchView.onActionViewCollapsed();
                 } else {
                     getActivity().onBackPressed();
                 }

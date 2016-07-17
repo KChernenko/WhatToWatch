@@ -1,7 +1,6 @@
 package me.bitfrom.whattowatch.ui.fragments;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,22 +39,23 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
         SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
-    protected BottomFilmsPresenter mBottomFilmsPresenter;
+    protected BottomFilmsPresenter presenter;
     @Inject
-    protected FilmsAdapter mFilmsAdapter;
+    protected FilmsAdapter filmsAdapter;
 
     @BindView(R.id.films_root_layout)
-    protected RelativeLayout mRootLayout;
+    protected RelativeLayout rootLayout;
     @BindView(R.id.list_of_films)
-    protected RecyclerView mRecyclerView;
+    protected RecyclerView recyclerView;
     @BindView(R.id.films_list_empty)
-    protected TextView mEmptyView;
+    protected TextView emptyView;
     @BindView(R.id.swipeRefreshLayout)
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindString(R.string.error_list_empty)
-    protected String mErrorUnknown;
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerItemClickListener mRecyclerItemClickListener;
+    @BindString(R.string.error_list_empty)
+    protected String errorUnknownMsg;
+
+    private RecyclerItemClickListener recyclerItemClickListener;
 
     @Nullable
     @Override
@@ -73,25 +73,25 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
     @Override
     public void onStart() {
         super.onStart();
-        mRecyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
+        recyclerItemClickListener = new RecyclerItemClickListener(getActivity(), (view, position) -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(ConstantsManager.POSITION_ID_KEY, mFilmsAdapter.getImdbIdByPosition(position));
+            intent.putExtra(ConstantsManager.POSITION_ID_KEY, filmsAdapter.getImdbIdByPosition(position));
             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
                     .makeCustomAnimation(getActivity(), R.anim.enter_pull_in, R.anim.exit_fade_out);
             ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
         });
-        mRecyclerView.addOnItemTouchListener(mRecyclerItemClickListener);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mBottomFilmsPresenter.attachView(this);
-        mBottomFilmsPresenter.getFilms();
+        recyclerView.addOnItemTouchListener(recyclerItemClickListener);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        presenter.attachView(this);
+        presenter.getFilms();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mBottomFilmsPresenter != null) mBottomFilmsPresenter.detachView();
-        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setOnRefreshListener(null);
-        if (mRecyclerView != null) mRecyclerView.removeOnItemTouchListener(mRecyclerItemClickListener);
+        if (presenter != null) presenter.detachView();
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setOnRefreshListener(null);
+        if (recyclerView != null) recyclerView.removeOnItemTouchListener(recyclerItemClickListener);
     }
 
     @Override
@@ -101,24 +101,24 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
 
     @Override
     public void showFilmsList(@NonNull List<Film> films) {
-        mEmptyView.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mFilmsAdapter.setFilms(films);
-        mFilmsAdapter.notifyDataSetChanged();
-        mSwipeRefreshLayout.setRefreshing(false);
+        emptyView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        filmsAdapter.setFilms(films);
+        filmsAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showListIsEmpty() {
-        mRecyclerView.setVisibility(View.GONE);
-        mEmptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showServerError() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
-                .setMessage(mErrorUnknown)
+                .setMessage(errorUnknownMsg)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     dialog.dismiss();
                 }).show();
@@ -126,23 +126,23 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
 
     @Override
     public void showInternetUnavailableError() {
-        Snackbar.make(mRootLayout,
+        Snackbar.make(rootLayout,
                 getString(R.string.error_connection_unavailable),
                 Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void loadNewFilms(boolean pullToRefresh) {
-        mBottomFilmsPresenter.loadFilms(pullToRefresh);
+        presenter.loadFilms(pullToRefresh);
     }
 
     @Override
     public void showLoading(boolean pullToRefresh) {
-        mSwipeRefreshLayout.setRefreshing(pullToRefresh);
+        swipeRefreshLayout.setRefreshing(pullToRefresh);
     }
 
     private void initRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mFilmsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(filmsAdapter);
     }
 }

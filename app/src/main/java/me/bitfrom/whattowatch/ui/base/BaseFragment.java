@@ -14,7 +14,7 @@ import me.bitfrom.whattowatch.ui.activities.MainActivity;
 
 public class BaseFragment extends Fragment {
 
-    private FragmentComponent mFragmentComponent;
+    private FragmentComponent fragmentComponent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,15 +22,15 @@ public class BaseFragment extends Fragment {
     }
 
     public FragmentComponent getFragmentComponent(MainActivity mainActivity) {
-        if (mFragmentComponent == null) {
-            mFragmentComponent = DaggerFragmentComponent.builder()
+        if (fragmentComponent == null) {
+            fragmentComponent = DaggerFragmentComponent.builder()
                     .activityModule(new ActivityModule(mainActivity))
                     .fragmentModule(new FragmentModule(this))
                     .applicationComponent(WWApplication.get(mainActivity).getComponent())
                     .build();
         }
 
-        return mFragmentComponent;
+        return fragmentComponent;
     }
 
     @Override

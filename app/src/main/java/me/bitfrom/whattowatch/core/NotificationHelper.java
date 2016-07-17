@@ -20,37 +20,38 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class NotificationHelper {
 
-    private DataManager mDataManager;
-    private Context mContext;
+    private DataManager dataManager;
+    private Context context;
 
     @Inject
-    public NotificationHelper(@NonNull DataManager dataManager, @NonNull @ApplicationContext Context context) {
-        mDataManager = dataManager;
-        mContext = context;
+    public NotificationHelper(@NonNull DataManager dataManager,
+                              @NonNull @ApplicationContext Context context) {
+        this.dataManager = dataManager;
+        this.context = context;
     }
 
     public void showNotification() {
         //checking the last update and notify if it' the first of the day
-        String displayNotificationsKey = mContext.getString(R.string.pref_enable_notifications_key);
-        String vibNotificationsKey = mContext.getString(R.string.pref_enable_vibration_key);
-        String ledNotificationsKey = mContext.getString(R.string.pref_enable_led_key);
-        String soundNotificationsKey = mContext.getString(R.string.pref_enable_sound_key);
+        String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+        String vibNotificationsKey = context.getString(R.string.pref_enable_vibration_key);
+        String ledNotificationsKey = context.getString(R.string.pref_enable_led_key);
+        String soundNotificationsKey = context.getString(R.string.pref_enable_sound_key);
 
-        boolean displayNotifications = mDataManager.getPreferencesHelper().getSharedPreferences()
-                .getBoolean(displayNotificationsKey, Boolean.parseBoolean(mContext.getString(R.string.pref_enable_notifications_default)));
-        boolean ledNotifications = mDataManager.getPreferencesHelper().getSharedPreferences()
-                .getBoolean(ledNotificationsKey, Boolean.parseBoolean(mContext.getString(R.string.pref_enable_notifications_default)));
-        boolean vibNotifications = mDataManager.getPreferencesHelper().getSharedPreferences()
-                .getBoolean(vibNotificationsKey, Boolean.parseBoolean(mContext.getString(R.string.pref_enable_notifications_default)));
-        boolean soundNotifications = mDataManager.getPreferencesHelper().getSharedPreferences()
-                .getBoolean(soundNotificationsKey, Boolean.parseBoolean(mContext.getString(R.string.pref_enable_notifications_default)));
+        boolean displayNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+                .getBoolean(displayNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
+        boolean ledNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+                .getBoolean(ledNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
+        boolean vibNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+                .getBoolean(vibNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
+        boolean soundNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+                .getBoolean(soundNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
 
         if (displayNotifications) {
-            android.support.v7.app.NotificationCompat.Builder builder = new android.support.v7.app.NotificationCompat.Builder(mContext);
+            android.support.v7.app.NotificationCompat.Builder builder = new android.support.v7.app.NotificationCompat.Builder(context);
             //Create Intent to launch this Activity again if the notification is clicked.
-            Intent i = new Intent(mContext, MainActivity.class);
+            Intent i = new Intent(context, MainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent intent = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent intent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(intent);
 
             builder.setSmallIcon(R.mipmap.ic_launcher);
@@ -68,15 +69,15 @@ public class NotificationHelper {
             // Cancel the notification when clicked
             builder.setAutoCancel(true);
 
-            String title = mContext.getString(R.string.app_name);
-            String contentText = mContext.getResources().getString(R.string.notification_message);
-            Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
+            String title = context.getString(R.string.app_name);
+            String contentText = context.getResources().getString(R.string.notification_message);
+            Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
             builder.setLargeIcon(largeIcon);
             builder.setContentTitle(title);
             builder.setContentText(contentText);
 
             Notification notification = builder.build();
-            NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(ConstantsManager.NOTIFICATION_ID, notification);
         }
     }

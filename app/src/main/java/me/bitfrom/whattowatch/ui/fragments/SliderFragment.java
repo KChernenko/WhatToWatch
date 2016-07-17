@@ -11,7 +11,7 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 
 public class SliderFragment extends Fragment {
 
-    private int mLayoutResId;
+    private int layoutResId;
 
     public SliderFragment() {}
 
@@ -30,13 +30,13 @@ public class SliderFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(getArguments() != null && getArguments().containsKey(ConstantsManager.ARG_LAYOUT_RES_ID))
-            mLayoutResId = getArguments().getInt(ConstantsManager.ARG_LAYOUT_RES_ID);
+            layoutResId = getArguments().getInt(ConstantsManager.ARG_LAYOUT_RES_ID);
     }
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(mLayoutResId, container, false);
+        return inflater.inflate(layoutResId, container, false);
     }
 }

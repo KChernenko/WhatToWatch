@@ -169,12 +169,12 @@
     <orderEntry type="library" exported="" name="leakcanary-android-1.4-beta2" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.5" level="project" />
     <orderEntry type="library" exported="" name="runtime-0.4.3" level="project" />
-    <orderEntry type="library" exported="" name="rxjava-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-analyzer-1.4-beta2" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.8" level="project" />
-    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
-    <orderEntry type="library" exported="" name="retrofit-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.7" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-24.0.0" level="project" />

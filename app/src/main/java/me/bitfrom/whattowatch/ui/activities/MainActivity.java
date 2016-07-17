@@ -1,11 +1,9 @@
 package me.bitfrom.whattowatch.ui.activities;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -13,8 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.transition.Transition;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -32,14 +28,13 @@ import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.SettingsFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
-import timber.log.Timber;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         MainMvpView {
 
     @Inject
-    protected MainPresenter mMainPresenter;
+    protected MainPresenter mainPresenter;
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
@@ -52,9 +47,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     protected ActionBarDrawerToggle toggle;
 
-    private Bundle mArgs;
-    private Explode mExplode;
-    private Transition.TransitionListener mTransitionListener;
+    private Bundle bundleArgs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,15 +60,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setSupportActionBar(toolbar);
         setupDrawerLayout();
 
-        mMainPresenter.attachView(this);
+        mainPresenter.attachView(this);
         if (savedInstanceState == null) {
-            mArgs = new Bundle();
+            bundleArgs = new Bundle();
             replaceFragment(new TopFilmsFragment());
         } else {
-            mArgs = savedInstanceState;
+            bundleArgs = savedInstanceState;
         }
 
-        mMainPresenter.initFirstSync();
+        mainPresenter.initFirstSync();
 
         getFragmentManager().addOnBackStackChangedListener(() -> {
             Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
@@ -88,7 +81,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onDestroy() {
         drawerLayout.removeDrawerListener(toggle);
-        mMainPresenter.detachView();
+        mainPresenter.detachView();
         super.onDestroy();
     }
 
@@ -111,22 +104,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (item.getItemId()) {
             case R.id.nav_favorites:
                 FavoritesFragment af = new FavoritesFragment();
-                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                bundleArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(af);
                 break;
             case R.id.nav_bottom_films:
                 BottomFilmsFragment bff = new BottomFilmsFragment();
-                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                bundleArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(bff);
                 break;
             case R.id.nav_in_cinemas:
                 InCinemasFragment icf = new InCinemasFragment();
-                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                bundleArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(icf);
                 break;
             case R.id.nav_coming_soon:
                 ComingSoonFragment csf = new ComingSoonFragment();
-                mArgs.remove(ConstantsManager.POSITION_ID_KEY);
+                bundleArgs.remove(ConstantsManager.POSITION_ID_KEY);
                 replaceFragment(csf);
                 break;
             case R.id.nav_settings:

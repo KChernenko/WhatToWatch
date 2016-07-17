@@ -6,24 +6,24 @@ import me.bitfrom.whattowatch.utils.MvpViewNotAttachedException;
 
 public class BasePresenter <T extends MvpView> implements Presenter<T> {
 
-    private T mMvpView;
+    private T mvpView;
 
     @Override
     public void attachView(@NonNull T mvpView) {
-        mMvpView = mvpView;
+        this.mvpView = mvpView;
     }
 
     @Override
     public void detachView() {
-        mMvpView = null;
+        mvpView = null;
     }
 
     public boolean isViewAttached() {
-        return mMvpView != null;
+        return mvpView != null;
     }
 
     public T getMvpView() {
-        return mMvpView;
+        return mvpView;
     }
 
     public void checkViewAttached() {
