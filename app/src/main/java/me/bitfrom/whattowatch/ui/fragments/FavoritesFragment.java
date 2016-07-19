@@ -27,7 +27,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.ui.activities.DetailActivity;
 import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
@@ -132,7 +132,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     }
 
     @Override
-    public void showListOfFavorites(@NonNull List<Film> favoriteFilms) {
+    public void showListOfFavorites(@NonNull List<FilmEntity> favoriteFilms) {
         nothingFoundView.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);

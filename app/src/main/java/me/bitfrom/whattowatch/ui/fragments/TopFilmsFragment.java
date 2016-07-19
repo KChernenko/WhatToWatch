@@ -24,7 +24,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.ui.activities.DetailActivity;
 import me.bitfrom.whattowatch.ui.activities.MainActivity;
 import me.bitfrom.whattowatch.ui.base.BaseFragment;
@@ -97,7 +97,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
-    public void showFilmsList(@NonNull List<Film> films) {
+    public void showFilmsList(@NonNull List<FilmEntity> films) {
         emptyView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         filmsAdapter.setFilms(films);

@@ -1,0 +1,28 @@
+CREATE TABLE films(
+    imdbId TEXT NOT NULL PRIMARY KEY,
+    imbdUrl TEXT NOT NULL,
+    countries TEXT NOT NULL,
+    directors TEXT NOT NULL,
+    writers TEXT NOT NULL,
+    genres TEXT NOT NULL,
+    plot TEXT NOT NULL,
+    rating TEXT NOT NULL,
+    runtime TEXT NOT NULL,
+    title TEXT NOT NULL,
+    posterUrl TEXT NOT NULL,
+    year TEXT NOT NULL,
+    inFavorite INTEGER NOT NULL,
+    categoryId INTEGER NOT NULL
+);
+
+select_by_category_id:
+SELECT * FROM films WHERE inFavorite = 0 AND categoryId = ?;
+
+select_by_id:
+SELECT * FROM films WHERE imdbId = ?;
+
+select_favorites:
+SELECT * FROM films WHERE inFavorite = 1;
+
+select_like:
+SELECT * FROM films WHERE inFavorite = 1 AND title LIKE ?;

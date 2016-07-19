@@ -181,6 +181,7 @@ dependencies {
     compile libraries.getBaseFAB
 
     compile libraries.eventBus
+    compile libraries.streams
 
     compile libraries.stetho
     compile libraries.stethoOkHttp

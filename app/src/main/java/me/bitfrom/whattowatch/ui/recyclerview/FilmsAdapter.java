@@ -17,13 +17,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
 public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHolder> {
 
-    private List<Film> films;
+    private List<FilmEntity> films;
     @Inject
     protected ImageDownloader imageLoader;
 
@@ -32,13 +32,13 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
         films = new ArrayList<>();
     }
 
-    public void setFilms(@NonNull List<Film> films) {
+    public void setFilms(@NonNull List<FilmEntity> films) {
         this.films = films;
     }
 
     public String getImdbIdByPosition(int position) {
-        Film film = films.get(position);
-        return film.idIMDB();
+        FilmEntity film = films.get(position);
+        return film.imdbId();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull FilmsViewHolder holder, int position) {
-        Film film = films.get(position);
-        imageLoader.loadImage(Flag.RECYCLER_ITEM, film.urlPoster(), holder.poster);
+        FilmEntity film = films.get(position);
+        imageLoader.loadImage(Flag.RECYCLER_ITEM, film.posterUrl(), holder.poster);
         holder.title.setText(film.title());
         holder.director.setText(film.directors());
         holder.genres.setText(film.genres());

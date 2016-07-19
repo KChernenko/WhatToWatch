@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.DataManager;
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.injection.ActivityContext;
 import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
@@ -93,7 +93,7 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {
-                    if (film.favorite().equals(String.valueOf(ConstantsManager.NOT_FAVORITE))) {
+                    if (film.inFavorite() == ConstantsManager.NOT_FAVORITE) {
                         dataManager.addToFavorite(filmId);
                         getMvpView().showAddedToFavorites();
                     } else {
@@ -107,11 +107,11 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         return mImdbLink;
     }
 
-    private void initSharedInformation(@NonNull Film film) {
+    private void initSharedInformation(@NonNull FilmEntity film) {
         mTitle = film.title();
         mRating = film.rating();
         mDirectors = film.directors();
         mGenres = film.genres();
-        mImdbLink = film.urlIMDB();
+        mImdbLink = film.imbdUrl();
     }
 }

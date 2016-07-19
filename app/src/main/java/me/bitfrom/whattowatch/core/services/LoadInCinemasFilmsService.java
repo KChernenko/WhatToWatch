@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.core.DataManager;
 import rx.Subscription;

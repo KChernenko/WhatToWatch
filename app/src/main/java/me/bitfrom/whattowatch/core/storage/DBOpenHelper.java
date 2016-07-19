@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
@@ -21,7 +22,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         db.beginTransaction();
         try {
-            db.execSQL(DBContract.FilmsTable.CREATE);
+            db.execSQL(FilmEntity.CREATE_TABLE);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -30,7 +31,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXIST " + DBContract.FilmsTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + FilmEntity.TABLE_NAME);
         onCreate(db);
     }
 }

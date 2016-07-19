@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 
 public interface ListMvpView extends MvpViewWithInternet {
 
-    void showFilmsList(@NonNull List<Film> films);
+    void showFilmsList(@NonNull List<FilmEntity> films);
 
     void showInternetUnavailableError();
 

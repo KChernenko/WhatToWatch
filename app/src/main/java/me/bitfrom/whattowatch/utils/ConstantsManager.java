@@ -22,14 +22,14 @@ public final class ConstantsManager {
 
     //Constants for data storage
     public static final String DATABASE_NAME = "whattowatch.db";
-    public static final int DATABASE_VERSION = 1;
-    public static final String DB_LOG_TAG = "WhatToWatch";
+    public static final int DATABASE_VERSION = 2;
     public static final int NOT_FAVORITE = 0;
     public static final int FAVORITE = 1;
-    public static final int TOP = 1;
-    public static final int BOTTOM = -1;
-    public static final int IN_CINEMAS = 0;
-    public static final int COMING_SOON = 2;
+    public static final int CATEGORY_TOP = 1;
+    public static final int CATEGORY_BOTTOM = -1;
+    public static final int CATEGORY_IN_CINEMAS = 0;
+    public static final int CATEGORY_COMING_SOON = 2;
+    public static final String ARRAY_DIVIDER = ", ";
 
     //For the PreferencesHelper
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";
@@ -52,8 +52,6 @@ public final class ConstantsManager {
     public static final String SYNC_ALL_SERVICE_NAME = "ServiceThatSyncAll";
 
     public static final int SHARE_COMMENT_SIZE = 50;
-
-    public static final int TRANSITION_DURATION = 350;
 
     public static final String ARG_LAYOUT_RES_ID = "layoutResId";
 }

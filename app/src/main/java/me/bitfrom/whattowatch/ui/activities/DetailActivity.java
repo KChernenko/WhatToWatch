@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
-import me.bitfrom.whattowatch.core.model.Film;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.ui.activities.presenters.DetailPresenter;
 import me.bitfrom.whattowatch.ui.activities.views.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BaseActivity;
@@ -185,8 +185,8 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     @Override
-    public void showFilmInfo(@NonNull Film film) {
-        imageDownloader.loadImage(Flag.FULL_SIZE, film.urlPoster(), posterView);
+    public void showFilmInfo(@NonNull FilmEntity film) {
+        imageDownloader.loadImage(Flag.FULL_SIZE, film.posterUrl(), posterView);
         titleView.setText(film.title());
         countriesView.setText(film.countries());
         yearView.setText(film.year());

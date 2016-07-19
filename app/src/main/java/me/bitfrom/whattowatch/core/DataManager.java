@@ -2,6 +2,9 @@ package me.bitfrom.whattowatch.core;
 
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,12 +13,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.core.model.Film;
 import me.bitfrom.whattowatch.core.model.InTheaterPojo;
 import me.bitfrom.whattowatch.core.model.MoviePojo;
 import me.bitfrom.whattowatch.core.rest.FilmsAPI;
 import me.bitfrom.whattowatch.core.storage.DBHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
 
@@ -48,32 +51,10 @@ public class DataManager {
                 .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
-                    return dbHelper.setTopFilms(result.subList(0,
-                            preferencesHelper.getProfferedNuderOfFilms()));
+                    return  dbHelper.insertFilms(result.subList(0,
+                            preferencesHelper.getProfferedNuderOfFilms()),
+                            ConstantsManager.CATEGORY_TOP);
                 }).onBackpressureBuffer();
-    }
-
-    @NonNull
-    public Observable<List<Film>> getTopFilms() {
-        return dbHelper.getTopFilms();
-    }
-
-    @NonNull
-    public Observable<Film> getFilmById(@NonNull String filmId) {
-        return dbHelper.getFilmById(filmId).first();
-    }
-
-    @NonNull
-    public Observable<List<Film>> getFavoriteFilms() {
-        return dbHelper.getFavoriteFilms().distinct();
-    }
-
-    public void addToFavorite(@NonNull String filmId) {
-        dbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
-    }
-
-    public void removeFromFavorite(@NonNull String filmId) {
-        dbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
     }
 
     @NonNull
@@ -84,14 +65,10 @@ public class DataManager {
                 .concatMap(film -> {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
-                    return dbHelper.setBottomFilms(result.subList(0,
-                            preferencesHelper.getProfferedNuderOfFilms()));
+                    return  dbHelper.insertFilms(result.subList(0,
+                            preferencesHelper.getProfferedNuderOfFilms()),
+                            ConstantsManager.CATEGORY_BOTTOM);
                 }).onBackpressureBuffer();
-    }
-
-    @NonNull
-    public Observable<List<Film>> getBottomFilms() {
-        return dbHelper.getBottomFilms();
     }
 
     @NonNull
@@ -104,18 +81,11 @@ public class DataManager {
                     InTheaterPojo inTheaterPojo;
                     for (int i = 0; i < inTheatreSize; i++) {
                         inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
-                        for (MoviePojo moviePojo : inTheaterPojo.getMovies()) {
-                            result.add(moviePojo);
-                        }
+                        result.addAll(Stream.of(inTheaterPojo.getMovies()).collect(Collectors.toList()));
                     }
                     Collections.shuffle(result);
-                    return dbHelper.setInCinemas(result);
+                    return dbHelper.insertFilms(result, ConstantsManager.CATEGORY_IN_CINEMAS);
                 }).onBackpressureBuffer();
-    }
-
-    @NonNull
-    public Observable<List<Film>> getInCinemasFilms() {
-        return dbHelper.getInCinemasFilms();
     }
 
     @NonNull
@@ -127,23 +97,54 @@ public class DataManager {
                     List<MoviePojo> allMovies;
                     for (int i = 0; i < inTheatreSize; i++) {
                         allMovies = theaterPojo.getData().getComingSoon().get(i).getMovies();
-                        for (MoviePojo moviePojo : allMovies) {
-                            result.add(moviePojo);
-                        }
+                        result.addAll(Stream.of(allMovies).collect(Collectors.toList()));
                         allMovies.clear();
                     }
                     Collections.shuffle(result);
-                    return dbHelper.setComingSoon(result);
+                    return dbHelper.insertFilms(result, ConstantsManager.CATEGORY_COMING_SOON);
                 }).onBackpressureBuffer();
     }
 
     @NonNull
-    public Observable<List<Film>> getComingSoonFilms() {
-        return dbHelper.getComingSoon().distinct();
+    public Observable<List<FilmEntity>> getTopFilms() {
+        return dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_TOP);
     }
 
     @NonNull
-    public Observable<List<Film>> getSearchResult(@NonNull String title) {
-        return dbHelper.searchInFavorite(title).distinct();
+    public Observable<FilmEntity> getFilmById(@NonNull String filmId) {
+        return dbHelper.selectFilmById(filmId).first();
+    }
+
+    @NonNull
+    public Observable<List<FilmEntity>> getFavoriteFilms() {
+        return dbHelper.selectFavoritesFilms().distinct();
+    }
+
+    public void addToFavorite(@NonNull String filmId) {
+        dbHelper.updateFavorite(filmId, ConstantsManager.FAVORITE);
+    }
+
+    public void removeFromFavorite(@NonNull String filmId) {
+        dbHelper.updateFavorite(filmId, ConstantsManager.NOT_FAVORITE);
+    }
+
+    @NonNull
+    public Observable<List<FilmEntity>> getBottomFilms() {
+        return dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_BOTTOM);
+    }
+
+    @NonNull
+    public Observable<List<FilmEntity>> getInCinemasFilms() {
+        return dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_IN_CINEMAS);
+    }
+
+    @NonNull
+    public Observable<List<FilmEntity>> getComingSoonFilms() {
+        return dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_COMING_SOON);
+    }
+
+    @NonNull
+    public Observable<List<FilmEntity>> getSearchResult(@NonNull String title) {
+        return dbHelper.searchInFavorites(title).distinct();
     }
 }
