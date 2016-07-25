@@ -13,6 +13,7 @@ https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
 * Dagger 2
 * RxJava & RxAndroid & Gradle Retrolambda Plugin
 * [SQLBrite](https://github.com/square/sqlbrite)
+* [SQLDelight](https://github.com/square/sqldelight)
 * OkHttp 3 & Retrofit 2 & Gson
 * Android Universal Image Loader (Picasso cached images using OkHttp cache, Glide has awful cache
     implementation; AUIL has beautiful disk-ram cache mechanism, that helps to use less memory in
