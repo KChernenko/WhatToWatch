@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     protected NavigationView navigationView;
-    @BindView(R.id.coordinator)
+    @BindView(R.id.main_activity_coordinator_layout)
     protected CoordinatorLayout coordinatorLayout;
 
     protected ActionBarDrawerToggle toggle;
