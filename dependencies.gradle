@@ -30,7 +30,8 @@ ext.versions = [
         //Rest
         okHttp                       : '3.4.1',
         retrofit                     : '2.1.0',
-        gson                         : '2.6.2',
+        loganSquare                  : '1.3.7',
+        loganSquareConverter         : '1.4.1',
         autoValueParcel              : '0.2.3-rc2',
 
         //Database
@@ -97,9 +98,10 @@ ext.libraries = [
         okHttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
         retrofit                : "com.squareup.retrofit2:retrofit:$versions.retrofit",
         retrofitRxJavaAdapter   : "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit",
-        retrofitGsonConverter   : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        loganSquareApt          : "com.bluelinelabs:logansquare-compiler:$versions.loganSquare",
+        loganSquare             : "com.bluelinelabs:logansquare:$versions.loganSquare",
+        loganSquareConverter    : "com.github.aurae.retrofit2:converter-logansquare:$versions.loganSquareConverter",
 
-        gson                    : "com.google.code.gson:gson:$versions.gson",
         autoValueParcel         : "com.ryanharter.auto.value:auto-value-parcel:$versions.autoValueParcel",
         autoValueParcelTA       : "com.ryanharter.auto.value:auto-value-parcel-adapter:$versions.autoValueParcel",
 

@@ -1,82 +1,51 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonObject
 public class InTheaterPojo {
 
-    @SerializedName("openingThisWeek")
+    @JsonField
     private Object openingThisWeek;
-    @SerializedName("inTheatersNow")
+    @JsonField
     private Object inTheatersNow;
-    @SerializedName("date")
+    @JsonField
     private String date;
-    @SerializedName("movies")
+    @JsonField
     private List<MoviePojo> movies = new ArrayList<>();
 
-
-    /**
-     * @return
-     * The openingThisWeek
-     **/
     public Object getOpeningThisWeek() {
         return openingThisWeek;
     }
 
-    /**
-     * @param openingThisWeek
-     * The openingThisWeek
-     **/
     public void setOpeningThisWeek(Object openingThisWeek) {
         this.openingThisWeek = openingThisWeek;
     }
 
-    /**
-     * @return
-     * The inTheatersNow
-     **/
     public Object getInTheatersNow() {
         return inTheatersNow;
     }
 
-    /**
-     * @param inTheatersNow
-     * The inTheatersNow
-     **/
     public void setInTheatersNow(Object inTheatersNow) {
         this.inTheatersNow = inTheatersNow;
     }
 
-    /**
-     * @return
-     * The date
-     **/
     public String getDate() {
         return date;
     }
 
-    /**
-     * @param date
-     * The date
-     **/
     public void setDate(String date) {
         this.date = date;
     }
 
-    /**
-     * @return
-     * The movies
-     **/
     public List<MoviePojo> getMovies() {
         return movies;
     }
 
-    /**
-     * @param movies
-     * The movies
-     **/
     public void setMovies(List<MoviePojo> movies) {
         this.movies = movies;
     }

@@ -163,8 +163,10 @@ dependencies {
     compile libraries.okHttpLoggingInterceptor
     compile libraries.retrofit
     compile libraries.retrofitRxJavaAdapter
-    compile libraries.retrofitGsonConverter
-    compile libraries.gson
+    apt libraries.loganSquareApt
+    compile libraries.loganSquare
+    compile libraries.loganSquareConverter
+
     // Do not compile AutoValue dependencies to the app.
     apt libraries.autoValueParcel
     //compile libraries.autoValueParcelTA

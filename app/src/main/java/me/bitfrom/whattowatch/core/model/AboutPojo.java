@@ -1,24 +1,18 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+@JsonObject
 public class AboutPojo {
 
-    @SerializedName("version")
+    @JsonField
     private String version;
 
-    /**
-     * @return
-     * The version
-     **/
     public String getVersion() {
         return version;
     }
 
-    /**
-     * @param version
-     * The version
-     **/
     public void setVersion(String version) {
         this.version = version;
     }

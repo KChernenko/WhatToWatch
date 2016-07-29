@@ -1,29 +1,21 @@
 package me.bitfrom.whattowatch.core.model.comingsoon;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonObject
 public class Data {
 
-    @SerializedName("comingSoon")
+    @JsonField
     private List<ComingSoon> comingSoon = new ArrayList<>();
 
-    /**
-     *
-     * @return
-     * The comingSoon
-     */
     public List<ComingSoon> getComingSoon() {
         return comingSoon;
     }
 
-    /**
-     *
-     * @param comingSoon
-     * The comingSoon
-     */
     public void setComingSoon(List<ComingSoon> comingSoon) {
         this.comingSoon = comingSoon;
     }

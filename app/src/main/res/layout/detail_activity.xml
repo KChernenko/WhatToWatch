@@ -74,7 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_rating"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
                         android:textColor="@color/desc_text_color"
@@ -93,7 +94,8 @@
                         android:id="@+id/tv_runtime"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:textColor="@color/desc_text_color"
                         android:text="@string/runtime" />
 
@@ -109,7 +111,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_release_year"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:textColor="@color/desc_text_color"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
@@ -127,7 +130,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_country"
                         android:textSize="@dimen/detail_label_text_size"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:textColor="@color/desc_text_color"
                         android:textStyle="bold"
                         android:text="@string/country" />
@@ -143,7 +147,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:id="@+id/tv_director"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
@@ -160,7 +165,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:id="@+id/tv_writer"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
@@ -177,7 +183,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/detail_margin_5"
+                        android:layout_marginTop="@dimen/detail_margin_5"
+                        android:layout_marginStart="8dp"
                         android:id="@+id/tv_genre"
                         android:textSize="@dimen/detail_label_text_size"
                         android:textStyle="bold"
@@ -220,7 +227,6 @@
         android:layout_gravity="end|center"
         android:layout_marginTop="@dimen/detail_margin_top"
         android:layout_marginBottom="@dimen/detail_margin_bottom"
-        android:layout_marginRight="@dimen/detail_margin_right"
         android:layout_marginEnd="@dimen/detail_margin_end"
         fab:fab_addButtonColorNormal="@color/fab_color_normal"
         fab:fab_addButtonColorPressed="@color/fab_color_pressed">

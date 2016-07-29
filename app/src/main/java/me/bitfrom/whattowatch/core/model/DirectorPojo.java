@@ -1,42 +1,28 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+@JsonObject
 public class DirectorPojo {
 
-    @SerializedName("name")
+    @JsonField
     private String name;
-    @SerializedName("nameId")
+    @JsonField
     private String nameId;
 
-    /**
-     * @return
-     * The name
-     **/
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name
-     * The name
-     **/
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return
-     * The nameId
-     **/
     public String getNameId() {
         return nameId;
     }
 
-    /**
-     * @param nameId
-     * The nameId
-     **/
     public void setNameId(String nameId) {
         this.nameId = nameId;
     }

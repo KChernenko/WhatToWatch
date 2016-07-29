@@ -1,42 +1,28 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+@JsonObject
 public class FilmPojo {
 
-    @SerializedName("data")
+    @JsonField
     private DataPojo data;
-    @SerializedName("about")
+    @JsonField
     private AboutPojo about;
 
-    /**
-     * @return
-     * The data
-     **/
     public DataPojo getData() {
         return data;
     }
 
-    /**
-     * @param data
-     * The data
-     **/
     public void setData(DataPojo data) {
         this.data = data;
     }
 
-    /**
-     * @return
-     * The about
-     **/
     public AboutPojo getAbout() {
         return about;
     }
 
-    /**
-     * @param about
-     * The about
-     **/
     public void setAbout(AboutPojo about) {
         this.about = about;
     }

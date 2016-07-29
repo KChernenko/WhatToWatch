@@ -1,27 +1,21 @@
 package me.bitfrom.whattowatch.core.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonObject
 public class DataTheaterPojo {
 
-    @SerializedName("inTheaters")
+    @JsonField
     private List<InTheaterPojo> inTheaters = new ArrayList<>();
 
-    /**
-     * @return
-     * The inTheaters
-     **/
     public List<InTheaterPojo> getInTheaters() {
         return inTheaters;
     }
 
-    /**
-     * @param inTheaters
-     * The inTheaters
-     **/
     public void setInTheaters(List<InTheaterPojo> inTheaters) {
         this.inTheaters = inTheaters;
     }
