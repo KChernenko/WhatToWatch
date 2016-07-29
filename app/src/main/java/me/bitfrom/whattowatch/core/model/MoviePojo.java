@@ -42,7 +42,7 @@ public class MoviePojo {
     @JsonField
     private String rating;
     @JsonField
-    private String metascore;
+    private String metaScore;
     @JsonField
     private List<String> filmingLocations = new ArrayList<>();
     @JsonField
@@ -182,12 +182,12 @@ public class MoviePojo {
         this.rating = rating;
     }
 
-    public String getMetascore() {
-        return metascore;
+    public String getMetaScore() {
+        return metaScore;
     }
 
-    public void setMetascore(String metascore) {
-        this.metascore = metascore;
+    public void setMetaScore(String metaScore) {
+        this.metaScore = metaScore;
     }
 
     public List<String> getFilmingLocations() {
