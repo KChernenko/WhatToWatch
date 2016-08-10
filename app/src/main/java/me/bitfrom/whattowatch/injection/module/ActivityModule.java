@@ -11,20 +11,20 @@ import me.bitfrom.whattowatch.injection.ActivityContext;
 @Module
 public class ActivityModule {
 
-    private Activity mActivity;
+    private final Activity activity;
 
-    public ActivityModule(Activity activity) {
-        mActivity = activity;
+    public ActivityModule(@NonNull Activity activity) {
+        this.activity = activity;
     }
 
     @Provides @NonNull
     Activity providesActivity() {
-        return mActivity;
+        return activity;
     }
 
     @Provides
     @ActivityContext @NonNull
     Context providesContext() {
-        return mActivity;
+        return activity;
     }
 }

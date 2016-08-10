@@ -16,21 +16,21 @@ import me.bitfrom.whattowatch.injection.ApplicationContext;
 @Module
 public class ApplicationModule {
 
-    protected final Application mApplication;
+    protected final Application application;
 
     public ApplicationModule(@NonNull Application application) {
-        mApplication = application;
+        this.application = application;
     }
 
     @Provides @NonNull
     Application providesApplication() {
-        return mApplication;
+        return application;
     }
 
     @Provides
     @ApplicationContext @NonNull
     Context providesContext() {
-        return mApplication;
+        return application;
     }
 
     @Provides

@@ -22,6 +22,9 @@
 
     <!-- Strings for TopFilmsFragment -->
     <string name="random_films_fragment_title">Top films</string>
+
+    <!-- Strings for recyclerview -->
+    <string name="films_poster_content_description">Film\'s poster</string>
     <string name="imdb_label">IMDB:</string>
 
     <!-- Strings for DetailFragment -->

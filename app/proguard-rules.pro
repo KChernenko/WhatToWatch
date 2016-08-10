@@ -89,9 +89,6 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 
-# Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { *; }
-
 # EventBus
 -keepattributes *Annotation*
 -keepclassmembers class ** {
@@ -103,6 +100,10 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+# Streams
+-keepattributes EnclosingMethod
+-dontwarn com.annimon.stream.**
 
 # LoganSquare
 -keep class com.bluelinelabs.logansquare.** { *; }
