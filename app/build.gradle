@@ -1,6 +1,7 @@
 import junit.framework.Test
 import org.moallemi.gradle.internal.VersionCodeType
 apply plugin: 'com.android.application'
+apply from: '../config/quality/quality.gradle'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.squareup.sqldelight'
 apply plugin: 'org.moallemi.advanced-build-version'

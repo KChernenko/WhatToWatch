@@ -14,7 +14,8 @@ https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
 * RxJava & RxAndroid & Gradle Retrolambda Plugin
 * [SQLBrite](https://github.com/square/sqlbrite)
 * [SQLDelight](https://github.com/square/sqldelight)
-* OkHttp 3 & Retrofit 2 & Gson
+* OkHttp 3 & Retrofit 2 
+* [LoganSquare](https://github.com/bluelinelabs/LoganSquare) + [Retrofit-LoganSquare](https://github.com/aurae/retrofit-logansquare)
 * Android Universal Image Loader (Picasso cached images using OkHttp cache, Glide has awful cache
     implementation; AUIL has beautiful disk-ram cache mechanism, that helps to use less memory in
     a ReclyclerView and instantly cache images on disk during the synchronization)
@@ -29,6 +30,11 @@ Developer libraries:
 * [LeakCanary](https://github.com/square/leakcanary)
 * [Stetho](http://facebook.github.io/stetho/)
 * [Fabric](https://fabric.io)
+
+Code Analysis tools:
+* [PMD](https://pmd.github.io/): It finds common programming flaws like unused variables, empty catch blocks, unnecessary object creation, and so forth. See [this project's PMD ruleset](config/quality/pmd/pmd-ruleset.xml).
+* [Findbugs](http://findbugs.sourceforge.net/): This tool uses static analysis to find bugs in Java code. Unlike PMD, it uses compiled Java bytecode instead of source code.
+* [Checkstyle](http://checkstyle.sourceforge.net/): It ensures that the code style follows [our Android code guidelines](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md#2-code-guidelines). See our [checkstyle config file](config/quality/checkstyle/checkstyle-config.xml).
 
 ### What it will have:
 * Unit tests (Robolectric and/or JUnit).

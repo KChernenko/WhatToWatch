@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -71,9 +72,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainPresenter.initFirstSync();
 
         getFragmentManager().addOnBackStackChangedListener(() -> {
-            Fragment f = getFragmentManager().findFragmentById(R.id.main_container);
-            if (f != null) {
-                updateToolbarTitle(f);
+            Fragment fragment = getFragmentManager().findFragmentById(R.id.main_container);
+            if (fragment != null) {
+                updateToolbarTitle(fragment);
             }
         });
     }
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_favorites:
@@ -159,7 +160,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         FragmentManager manager = getFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-        if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null){
+        if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null) {
 
             FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.main_container, fragment, backStateName);
@@ -172,7 +173,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * Updates toolbar title
      **/
-    private void updateToolbarTitle(Fragment fragment){
+    private void updateToolbarTitle(Fragment fragment) {
         String fragmentClassName = fragment.getClass().getName();
 
         if (fragmentClassName.equals(TopFilmsFragment.class.getName())) {

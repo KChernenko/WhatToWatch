@@ -6,7 +6,7 @@ import com.google.auto.value.AutoValue;
 import com.squareup.sqldelight.RowMapper;
 
 @AutoValue
-public abstract class FilmEntity implements FilmTableModel, Parcelable{
+public abstract class FilmEntity implements FilmTableModel, Parcelable {
 
     public static final Factory<FilmEntity> FACTORY = new Factory<>((FilmTableModel.Creator<FilmEntity>)
             AutoValue_FilmEntity::new);

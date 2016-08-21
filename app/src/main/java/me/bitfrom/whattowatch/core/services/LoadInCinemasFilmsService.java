@@ -17,9 +17,9 @@ import timber.log.Timber;
 public class LoadInCinemasFilmsService extends Service {
 
     @Inject
-    protected DataManager mDataManager;
+    protected DataManager dataManager;
 
-    private Subscription mSubscription;
+    private Subscription subscription;
 
     @Override
     public void onCreate() {
@@ -29,10 +29,10 @@ public class LoadInCinemasFilmsService extends Service {
 
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, final int startId) {
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         Timber.d("Start loading in cinemas films...");
 
-        mSubscription = mDataManager.loadInCinemaFilms()
+        subscription = dataManager.loadInCinemaFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
                     Timber.d("Loading in cinemas films has finished!");
@@ -50,7 +50,7 @@ public class LoadInCinemasFilmsService extends Service {
 
     @Override
     public void onDestroy() {
-        if (mSubscription != null) mSubscription.unsubscribe();
+        if (subscription != null) subscription.unsubscribe();
         super.onDestroy();
     }
 

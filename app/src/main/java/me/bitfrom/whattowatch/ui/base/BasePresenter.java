@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import me.bitfrom.whattowatch.utils.MvpViewNotAttachedException;
 
-public class BasePresenter <T extends MvpView> implements Presenter<T> {
+public class BasePresenter<T extends MvpView> implements Presenter<T> {
 
     private T mvpView;
 

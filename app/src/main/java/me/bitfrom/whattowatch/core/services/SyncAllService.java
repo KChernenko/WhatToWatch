@@ -14,10 +14,11 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 public class SyncAllService extends IntentService {
 
     @Inject
-    protected NotificationHelper mNotificationHelper;
+    protected NotificationHelper notificationHelper;
+    
     @Inject
     @ApplicationContext
-    protected Context mContext;
+    protected Context context;
 
     public SyncAllService() {
         super(ConstantsManager.SYNC_ALL_SERVICE_NAME);
@@ -32,11 +33,11 @@ public class SyncAllService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        mContext.startService(new Intent(mContext, LoadTopFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadBottomFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadInCinemasFilmsService.class));
-        mContext.startService(new Intent(mContext, LoadComingSoonService.class));
+        context.startService(new Intent(context, LoadTopFilmsService.class));
+        context.startService(new Intent(context, LoadBottomFilmsService.class));
+        context.startService(new Intent(context, LoadInCinemasFilmsService.class));
+        context.startService(new Intent(context, LoadComingSoonService.class));
 
-        mNotificationHelper.showNotification();
+        notificationHelper.showNotification();
     }
 }

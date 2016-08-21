@@ -12,11 +12,11 @@ import me.bitfrom.whattowatch.R;
 
 public class ImageDownloader implements ImageLoaderInteractor {
 
-    private ImageLoader mImageLoader;
+    private ImageLoader imageLoader;
 
     @Inject
     public ImageDownloader() {
-        mImageLoader = ImageLoader.getInstance();
+        imageLoader = ImageLoader.getInstance();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
                 .build();
 
 
-        mImageLoader.loadImage(posterUrl, options, null);
+        imageLoader.loadImage(posterUrl, options, null);
     }
 
 
@@ -55,7 +55,7 @@ public class ImageDownloader implements ImageLoaderInteractor {
                 .build();
 
 
-        mImageLoader.displayImage(posterUrl, target, options);
+        imageLoader.displayImage(posterUrl, target, options);
     }
 
 
@@ -67,6 +67,6 @@ public class ImageDownloader implements ImageLoaderInteractor {
                 .build();
 
 
-        mImageLoader.displayImage(posterUrl, target, options);
+        imageLoader.displayImage(posterUrl, target, options);
     }
 }

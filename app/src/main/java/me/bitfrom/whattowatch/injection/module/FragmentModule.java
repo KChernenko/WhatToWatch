@@ -13,15 +13,15 @@ import me.bitfrom.whattowatch.injection.ActivityContext;
 @Module
 public class FragmentModule {
 
-    private Fragment mFragment;
+    private Fragment fragment;
 
     public FragmentModule(@NonNull Fragment fragment) {
-        mFragment = fragment;
+        this.fragment = fragment;
     }
 
     @Provides @NonNull
     Fragment providesFragment() {
-        return mFragment;
+        return fragment;
     }
 
     @Provides

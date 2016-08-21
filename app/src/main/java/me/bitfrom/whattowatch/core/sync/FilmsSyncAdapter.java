@@ -107,7 +107,7 @@ public class FilmsSyncAdapter extends AbstractThreadedSyncAdapter {
     private static void onAccountCreated(@NonNull Account newAccount, @NonNull Context context) {
 
         final int SYNC_INTERVAL = PreferencesHelper.getUpdateInterval(context);
-        final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+        final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
         /*
          * Since we've created an account
          */

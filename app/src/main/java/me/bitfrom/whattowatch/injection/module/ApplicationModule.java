@@ -41,5 +41,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    EventBus providesEventBus() {return EventBus.getDefault();}
+    EventBus providesEventBus() {
+        return EventBus.getDefault();
+    }
 }

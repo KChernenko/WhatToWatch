@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
@@ -25,11 +24,11 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
 
     private Subscription subscription;
 
-    private String mTitle;
-    private String mRating;
-    private String mDirectors;
-    private String mGenres;
-    private String mImdbLink;
+    private String title;
+    private String rating;
+    private String directors;
+    private String genres;
+    private String imdbLink;
 
     @Inject
     public DetailPresenter(@NonNull @ActivityContext Context context,
@@ -66,24 +65,20 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                     }
                 }, throwable -> {
                     getMvpView().showUnknownError();
-                    Timber.d("Error occurred!", throwable);
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
+                    Timber.e(throwable, "Error occurred while retrieving film's info!");
                 });
     }
 
     public void shareWithFriends() {
         checkViewAttached();
-        StringBuilder sharedInfo = new StringBuilder();
-        sharedInfo.append(" «")
-                .append(mTitle).append("»").append("\n")
-                .append(context.getString(R.string.share_action_imdb_rating)).append(" ").append(mRating)
-                .append(".\n").append(context.getString(R.string.share_action_directors)).append(" ")
-                .append(mDirectors).append("\n").append(mGenres).append("\n")
-                .append(context.getString(R.string.app_hash_tag));
+        String sharedInfo = " «" +
+                title + "»" + "\n" +
+                context.getString(R.string.share_action_imdb_rating) + " " + rating +
+                ".\n" + context.getString(R.string.share_action_directors) + " " +
+                directors + "\n" + genres + "\n" +
+                context.getString(R.string.app_hash_tag);
 
-        getMvpView().shareWithFriends(sharedInfo.toString());
+        getMvpView().shareWithFriends(sharedInfo);
     }
 
     public void updateFavorites(@NonNull final String filmId) {
@@ -104,14 +99,14 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
     }
 
     public String getImdbLink() {
-        return mImdbLink;
+        return imdbLink;
     }
 
     private void initSharedInformation(@NonNull FilmEntity film) {
-        mTitle = film.title();
-        mRating = film.rating();
-        mDirectors = film.directors();
-        mGenres = film.genres();
-        mImdbLink = film.imbdUrl();
+        title = film.title();
+        rating = film.rating();
+        directors = film.directors();
+        genres = film.genres();
+        imdbLink = film.imbdUrl();
     }
 }

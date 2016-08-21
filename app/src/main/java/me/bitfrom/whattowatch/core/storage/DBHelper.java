@@ -64,9 +64,9 @@ public class DBHelper {
                                 .writers(TextUtils.join(ConstantsManager.ARRAY_DIVIDER,
                                         Stream.of(movie.getWriters()).map(WriterPojo::getName).collect(Collectors.toList())))
                                 .genres(TextUtils.join(ConstantsManager.ARRAY_DIVIDER, movie.getGenres()))
-                                .plot(! TextUtils.isEmpty(movie.getPlot()) ? movie.getPlot() : "N/A")
-                                .rating(! TextUtils.isEmpty(movie.getRating()) ? movie.getRating() : "N/A")
-                                .runtime(! TextUtils.isEmpty(movie.getRuntime()) ? movie.getRuntime() : "N/A")
+                                .plot(!TextUtils.isEmpty(movie.getPlot()) ? movie.getPlot() : "N/A")
+                                .rating(!TextUtils.isEmpty(movie.getRating()) ? movie.getRating() : "N/A")
+                                .runtime(!TextUtils.isEmpty(movie.getRuntime()) ? movie.getRuntime() : "N/A")
                                 .title(movie.getTitle())
                                 .posterUrl(movie.getUrlPoster())
                                 .year(movie.getYear())
@@ -114,7 +114,7 @@ public class DBHelper {
                             FilmEntity.FACTORY.marshal()
                             .inFavorite(ConstantsManager.FAVORITE)
                             .asContentValues(), FilmEntity.IMDBID + " = ?", filmId);
-                    if (result <= 0) Timber.d("Film wasn't added to favorites: " + filmId);
+                    if (result <= 0) Timber.d("Film wasn't added to favorites: %s", String.valueOf(filmId));
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();
@@ -126,7 +126,7 @@ public class DBHelper {
                             FilmEntity.FACTORY.marshal()
                             .inFavorite(ConstantsManager.NOT_FAVORITE)
                             .asContentValues(), FilmEntity.IMDBID + " = ?", filmId);
-                    if (result <= 0) Timber.d("Film wasn't removed from favorites: " + filmId);
+                    if (result <= 0) Timber.d("Film wasn't removed from favorites: %s", String.valueOf(filmId));
                     transaction.markSuccessful();
                 } finally {
                     transaction.end();

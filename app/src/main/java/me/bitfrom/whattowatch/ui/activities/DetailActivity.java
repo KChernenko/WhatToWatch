@@ -137,7 +137,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         swipeTouchListener.getGestureDetector().onTouchEvent(ev);
         return super.dispatchTouchEvent(ev);
     }
@@ -150,7 +150,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         rootLayout.setOnTouchListener(null);
         if (detailPresenter != null) detailPresenter.detachView();
         super.onDestroy();
-        //removeActivityFromTransitionManager(this);
     }
 
     @Override
@@ -226,7 +225,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     public void shareWithFriends(String shareInfo) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.share_dialog, null);
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.share_dialog, null);
         dialogBuilder.setView(dialogView);
 
         final TextInputLayout til = (TextInputLayout) dialogView.findViewById(R.id.input_layout_comment);
@@ -236,9 +235,9 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
             if (edt.getText().toString().length() >= ConstantsManager.SHARE_COMMENT_SIZE) {
                 til.setError(getString(R.string.share_action_error_long_comment));
             } else {
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, edt.getText().toString() + shareInfo);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, edt.getText().toString() + shareInfo);
 
                 this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
             }

@@ -28,9 +28,9 @@ public class SliderFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(getArguments() != null && getArguments().containsKey(ConstantsManager.ARG_LAYOUT_RES_ID))
+        if (getArguments() != null && getArguments().containsKey(ConstantsManager.ARG_LAYOUT_RES_ID)) {
             layoutResId = getArguments().getInt(ConstantsManager.ARG_LAYOUT_RES_ID);
+        }
     }
 
 

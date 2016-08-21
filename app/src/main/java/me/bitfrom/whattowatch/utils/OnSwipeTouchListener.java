@@ -6,11 +6,13 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import timber.log.Timber;
+
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
-    public OnSwipeTouchListener (@NonNull Context ctx){
+    public OnSwipeTouchListener (@NonNull Context ctx) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
@@ -19,7 +21,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         return gestureDetector.onTouchEvent(event);
     }
 
-    public GestureDetector getGestureDetector(){
+    public GestureDetector getGestureDetector() {
         return  gestureDetector;
     }
 
@@ -41,6 +43,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 float diffX = e2.getX() - e1.getX();
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        //noinspection StatementWithEmptyBody
                         if (diffX > 0) {
                             onSwipeRight();
                         } else {
@@ -48,8 +51,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                         }
                     }
                     result = true;
-                }
-                else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    //noinspection StatementWithEmptyBody
                     if (diffY > 0) {
                         //onSwipeBottom();
                     } else {
@@ -59,7 +62,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 result = true;
 
             } catch (Exception exception) {
-                exception.printStackTrace();
+                Timber.e(exception, "Error on touch event occurred!");
             }
             return result;
         }

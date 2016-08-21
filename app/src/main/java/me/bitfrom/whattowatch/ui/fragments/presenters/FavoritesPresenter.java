@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.ui.fragments.views.FavoritesMvpView;
@@ -15,7 +14,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
+public class FavoritesPresenter extends BasePresenter<FavoritesMvpView> {
 
     private final DataManager dataManager;
 
@@ -51,9 +50,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesMvpView>{
                     }
                 }, throwable -> {
                     getMvpView().showUnknownError();
-                    if (BuildConfig.DEBUG) {
-                        throwable.printStackTrace();
-                    }
+                    Timber.e(throwable, "Error occurred while retrieving list of favorites");
                 });
     }
 

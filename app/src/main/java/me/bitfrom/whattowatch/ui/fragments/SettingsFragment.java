@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import me.bitfrom.whattowatch.R;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private SwitchPreference mainSwitch;
     private SwitchPreference vibSwitch;

@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.core.DataManager;
-import me.bitfrom.whattowatch.core.NotificationHelper;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -18,11 +17,9 @@ import timber.log.Timber;
 public class LoadBottomFilmsService extends Service {
 
     @Inject
-    protected DataManager mDataManager;
-    @Inject
-    protected NotificationHelper mNotification;
+    protected DataManager dataManager;
 
-    private Subscription mSubscription;
+    private Subscription subscription;
 
     @Override
     public void onCreate() {
@@ -32,9 +29,9 @@ public class LoadBottomFilmsService extends Service {
 
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, final int startId) {
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) mSubscription.unsubscribe();
+        if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         Timber.d("Start loading bottom films ...");
-        mSubscription = mDataManager.loadBottomFilms()
+        subscription = dataManager.loadBottomFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
                     Timber.d("Loading bottom films has finished!");
@@ -52,7 +49,7 @@ public class LoadBottomFilmsService extends Service {
 
     @Override
     public void onDestroy() {
-        if (mSubscription != null) mSubscription.unsubscribe();
+        if (subscription != null) subscription.unsubscribe();
         super.onDestroy();
     }
 

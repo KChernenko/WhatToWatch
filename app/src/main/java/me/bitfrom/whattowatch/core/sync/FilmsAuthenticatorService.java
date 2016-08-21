@@ -7,12 +7,13 @@ import android.os.IBinder;
 public class FilmsAuthenticatorService extends Service {
 
     // Instance field that stores the authenticator object
-    private FilmsAuthenticator mAuthenticator;
+    private FilmsAuthenticator authenticator;
 
     @Override
     public void onCreate() {
+        super.onCreate();
         //Create a new authenticator object
-        mAuthenticator = new FilmsAuthenticator(this);
+        authenticator = new FilmsAuthenticator(this);
     }
 
     /*
@@ -21,6 +22,6 @@ public class FilmsAuthenticatorService extends Service {
     */
     @Override
     public IBinder onBind(Intent intent) {
-        return mAuthenticator.getIBinder();
+        return authenticator.getIBinder();
     }
 }

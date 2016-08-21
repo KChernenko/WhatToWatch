@@ -88,7 +88,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvpView 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-        searchView = (SearchView)menu.findItem(R.id.search_action).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search_action).getActionView();
         searchView.setQueryHint(searchHintMsg);
     }
 

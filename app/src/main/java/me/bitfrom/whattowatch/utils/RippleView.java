@@ -56,8 +56,8 @@ import me.bitfrom.whattowatch.R;
  */
 public class RippleView extends RelativeLayout {
 
-    private int WIDTH;
-    private int HEIGHT;
+    private int width;
+    private int height;
     private int frameRate = 10;
     private int rippleDuration = 400;
     private int rippleAlpha = 90;
@@ -67,25 +67,20 @@ public class RippleView extends RelativeLayout {
     private int timer = 0;
     private int timerEmpty = 0;
     private int durationEmpty = -1;
-    private float x = -1;
-    private float y = -1;
+    private float positionX = -1;
+    private float positionY = -1;
     private int zoomDuration;
     private float zoomScale;
     private ScaleAnimation scaleAnimation;
     private Boolean hasToZoom;
-    private Boolean isCentered;
+    private Boolean isInCenter;
     private Integer rippleType;
     private Paint paint;
     private Bitmap originBitmap;
     private int rippleColor;
     private int ripplePadding;
     private GestureDetector gestureDetector;
-    private final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            invalidate();
-        }
-    };
+    private final Runnable runnable = this::invalidate;
 
     private OnRippleCompleteListener onCompletionListener;
 
@@ -109,6 +104,7 @@ public class RippleView extends RelativeLayout {
      * @param context Context used to create this view
      * @param attrs Attribute used to initialize fields
      */
+    @SuppressWarnings("deprecation")
     private void init(final Context context, final AttributeSet attrs) {
         if (isInEditMode())
             return;
@@ -117,7 +113,7 @@ public class RippleView extends RelativeLayout {
         rippleColor = typedArray.getColor(R.styleable.RippleView_rv_color, getResources().getColor(R.color.accent_bright));
         rippleType = typedArray.getInt(R.styleable.RippleView_rv_type, 0);
         hasToZoom = typedArray.getBoolean(R.styleable.RippleView_rv_zoom, false);
-        isCentered = typedArray.getBoolean(R.styleable.RippleView_rv_centered, false);
+        isInCenter = typedArray.getBoolean(R.styleable.RippleView_rv_centered, false);
         rippleDuration = typedArray.getInteger(R.styleable.RippleView_rv_rippleDuration, rippleDuration);
         frameRate = typedArray.getInteger(R.styleable.RippleView_rv_framerate, frameRate);
         rippleAlpha = typedArray.getInteger(R.styleable.RippleView_rv_alpha, rippleAlpha);
@@ -168,20 +164,21 @@ public class RippleView extends RelativeLayout {
                 timerEmpty = 0;
                 // There is problem on Android M where canvas.restore() seems to be called automatically
                 // For now, don't call canvas.restore() manually on Android M (API 23)
-                if(Build.VERSION.SDK_INT != 23) {
+                if (Build.VERSION.SDK_INT != 23) {
                     canvas.restore();
                 }
                 invalidate();
                 if (onCompletionListener != null) onCompletionListener.onComplete(this);
                 return;
-            } else
+            } else {
                 canvasHandler.postDelayed(runnable, frameRate);
+            }
 
             if (timer == 0)
                 canvas.save();
 
 
-            canvas.drawCircle(x, y, (radiusMax * (((float) timer * frameRate) / rippleDuration)), paint);
+            canvas.drawCircle(positionX, positionY, (radiusMax * (((float) timer * frameRate) / rippleDuration)), paint);
 
             paint.setColor(Color.parseColor("#ffff4444"));
 
@@ -198,13 +195,14 @@ public class RippleView extends RelativeLayout {
             paint.setColor(rippleColor);
 
             if (rippleType == 1) {
-                if ((((float) timer * frameRate) / rippleDuration) > 0.6f)
+                if ((((float) timer * frameRate) / rippleDuration) > 0.6f) {
                     paint.setAlpha((int) (rippleAlpha - ((rippleAlpha) * (((float) timerEmpty * frameRate) / (durationEmpty)))));
-                else
+                } else {
                     paint.setAlpha(rippleAlpha);
-            }
-            else
+                }
+            } else {
                 paint.setAlpha((int) (rippleAlpha - ((rippleAlpha) * (((float) timer * frameRate) / rippleDuration))));
+            }
 
             timer++;
         }
@@ -213,8 +211,8 @@ public class RippleView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        WIDTH = w;
-        HEIGHT = h;
+        width = w;
+        height = h;
 
         scaleAnimation = new ScaleAnimation(1.0f, zoomScale, 1.0f, zoomScale, w / 2, h / 2);
         scaleAnimation.setDuration(zoomDuration);
@@ -232,7 +230,7 @@ public class RippleView extends RelativeLayout {
     }
 
     /**
-     * Launch Ripple animation for the current view centered at x and y position
+     * Launch Ripple animation for the current view centered at positionX and positionY position
      *
      * @param x Horizontal position of the ripple center
      * @param y Vertical position of the ripple center
@@ -242,7 +240,7 @@ public class RippleView extends RelativeLayout {
     }
 
     /**
-     * Create Ripple animation centered at x, y
+     * Create Ripple animation centered at positionX, positionY
      *
      * @param x Horizontal position of the ripple center
      * @param y Vertical position of the ripple center
@@ -252,19 +250,19 @@ public class RippleView extends RelativeLayout {
             if (hasToZoom)
                 this.startAnimation(scaleAnimation);
 
-            radiusMax = Math.max(WIDTH, HEIGHT);
+            radiusMax = Math.max(width, height);
 
             if (rippleType != 2)
                 radiusMax /= 2;
 
             radiusMax -= ripplePadding;
 
-            if (isCentered || rippleType == 1) {
-                this.x = getMeasuredWidth() / 2;
-                this.y = getMeasuredHeight() / 2;
+            if (isInCenter || rippleType == 1) {
+                this.positionX = getMeasuredWidth() / 2;
+                this.positionY = getMeasuredHeight() / 2;
             } else {
-                this.x = x;
-                this.y = y;
+                this.positionX = x;
+                this.positionY = y;
             }
 
             animationRunning = true;
@@ -315,11 +313,11 @@ public class RippleView extends RelativeLayout {
         final Bitmap output = Bitmap.createBitmap(originBitmap.getWidth(), originBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
         final Paint paint = new Paint();
-        final Rect rect = new Rect((int)(x - radius), (int)(y - radius), (int)(x + radius), (int)(y + radius));
+        final Rect rect = new Rect((int) (positionX - radius), (int) (positionY - radius), (int) (positionX + radius), (int) (positionY + radius));
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(x, y, radius, paint);
+        canvas.drawCircle(positionX, positionY, radius, paint);
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(originBitmap, rect, rect, paint);
@@ -332,6 +330,7 @@ public class RippleView extends RelativeLayout {
      *
      * @param rippleColor New color resource
      */
+    @SuppressWarnings("deprecation")
     @ColorRes
     public void setRippleColor(int rippleColor) {
         this.rippleColor = getResources().getColor(rippleColor);
@@ -341,8 +340,7 @@ public class RippleView extends RelativeLayout {
         return rippleColor;
     }
 
-    public RippleType getRippleType()
-    {
+    public RippleType getRippleType() {
         return RippleType.values()[rippleType];
     }
 
@@ -351,28 +349,24 @@ public class RippleView extends RelativeLayout {
      *
      * @param rippleType New Ripple type for next animation
      */
-    public void setRippleType(final RippleType rippleType)
-    {
+    public void setRippleType(final RippleType rippleType) {
         this.rippleType = rippleType.ordinal();
     }
 
-    public Boolean isCentered()
-    {
-        return isCentered;
+    public Boolean isCentered() {
+        return isInCenter;
     }
 
     /**
      * Set if ripple animation has to be centered in its parent view or not, default is False
      *
-     * @param isCentered
+     * @param isCentered - play from center flag
      */
-    public void setCentered(final Boolean isCentered)
-    {
-        this.isCentered = isCentered;
+    public void setCentered(final Boolean isCentered) {
+        this.isInCenter = isCentered;
     }
 
-    public int getRipplePadding()
-    {
+    public int getRipplePadding() {
         return ripplePadding;
     }
 
@@ -381,13 +375,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param ripplePadding New Ripple padding in pixel, default is 0px
      */
-    public void setRipplePadding(int ripplePadding)
-    {
+    public void setRipplePadding(int ripplePadding) {
         this.ripplePadding = ripplePadding;
     }
 
-    public Boolean isZooming()
-    {
+    public Boolean isZooming() {
         return hasToZoom;
     }
 
@@ -396,13 +388,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param hasToZoom Do the child views have to zoom ? default is False
      */
-    public void setZooming(Boolean hasToZoom)
-    {
+    public void setZooming(Boolean hasToZoom) {
         this.hasToZoom = hasToZoom;
     }
 
-    public float getZoomScale()
-    {
+    public float getZoomScale() {
         return zoomScale;
     }
 
@@ -411,13 +401,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param zoomScale Value of scale animation, default is 1.03f
      */
-    public void setZoomScale(float zoomScale)
-    {
+    public void setZoomScale(float zoomScale) {
         this.zoomScale = zoomScale;
     }
 
-    public int getZoomDuration()
-    {
+    public int getZoomDuration() {
         return zoomDuration;
     }
 
@@ -426,13 +414,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param zoomDuration Duration, default is 200ms
      */
-    public void setZoomDuration(int zoomDuration)
-    {
+    public void setZoomDuration(int zoomDuration) {
         this.zoomDuration = zoomDuration;
     }
 
-    public int getRippleDuration()
-    {
+    public int getRippleDuration() {
         return rippleDuration;
     }
 
@@ -441,13 +427,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param rippleDuration Duration, default is 400ms
      */
-    public void setRippleDuration(int rippleDuration)
-    {
+    public void setRippleDuration(int rippleDuration) {
         this.rippleDuration = rippleDuration;
     }
 
-    public int getFrameRate()
-    {
+    public int getFrameRate() {
         return frameRate;
     }
 
@@ -456,13 +440,11 @@ public class RippleView extends RelativeLayout {
      *
      * @param frameRate New framerate value, default is 10
      */
-    public void setFrameRate(int frameRate)
-    {
+    public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
     }
 
-    public int getRippleAlpha()
-    {
+    public int getRippleAlpha() {
         return rippleAlpha;
     }
 
@@ -471,8 +453,7 @@ public class RippleView extends RelativeLayout {
      *
      * @param rippleAlpha Alpha value between 0 and 255, default is 90
      */
-    public void setRippleAlpha(int rippleAlpha)
-    {
+    public void setRippleAlpha(int rippleAlpha) {
         this.rippleAlpha = rippleAlpha;
     }
 
@@ -494,8 +475,7 @@ public class RippleView extends RelativeLayout {
 
         int type;
 
-        RippleType(int type)
-        {
+        RippleType(int type) {
             this.type = type;
         }
     }

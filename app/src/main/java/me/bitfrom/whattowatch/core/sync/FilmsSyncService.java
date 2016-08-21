@@ -13,6 +13,7 @@ public class FilmsSyncService extends Service {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         Timber.d("onCreate - WhatToWatchSyncService");
         synchronized (sSyncAdapterLock) {
             if (sMoviesSyncAdapter == null) {
