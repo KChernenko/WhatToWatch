@@ -34,7 +34,7 @@ Developer libraries:
 Code Analysis tools:
 * [PMD](https://pmd.github.io/): It finds common programming flaws like unused variables, empty catch blocks, unnecessary object creation, and so forth. See [this project's PMD ruleset](config/quality/pmd/pmd-ruleset.xml).
 * [Findbugs](http://findbugs.sourceforge.net/): This tool uses static analysis to find bugs in Java code. Unlike PMD, it uses compiled Java bytecode instead of source code.
-* [Checkstyle](http://checkstyle.sourceforge.net/): It ensures that the code style follows [our Android code guidelines](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md#2-code-guidelines). See our [checkstyle config file](config/quality/checkstyle/checkstyle-config.xml).
+* [Checkstyle](http://checkstyle.sourceforge.net/): It ensures that the code style follows [Ribots Android code guidelines](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md#2-code-guidelines) (with some modifications). See [checkstyle config file](config/quality/checkstyle/checkstyle-config.xml).
 
 ### What it will have:
 * Unit tests (Robolectric and/or JUnit).
