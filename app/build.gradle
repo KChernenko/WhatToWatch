@@ -50,6 +50,8 @@ android {
             throw new GradleException("api_key.properties not found. Please, provide your own " +
                     "api key from the www.myapifilms.com")
         }
+
+        testInstrumentationRunner "${applicationId}.runner.RxAndroidJUnitRunner"
     }
 
     compileOptions {
@@ -137,6 +139,17 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy.force libraries.supportAnnotations
+    }
 }
 
 dependencies {
@@ -199,11 +212,23 @@ dependencies {
     }
 
     testCompile libraries.junit
-}
-
-// Log out test results to console
-tasks.matching {it instanceof Test}.all {
-    testLogging.events = ["failed", "passed", "skipped"]
+    testCompile libraries.mockito
+    testCompile libraries.hamcrest
+    testCompile libraries.powerMockJUnit
+    testCompile libraries.powerMockMockito
+    androidTestCompile libraries.testRunner
+    androidTestCompile libraries.testRules
+    androidTestCompile libraries.espressoCore
+    androidTestCompile (libraries.espressoContrib) {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile libraries.espressoIntents
+    androidTestCompile libraries.espressoIdling
 }
 
 retrolambda {
