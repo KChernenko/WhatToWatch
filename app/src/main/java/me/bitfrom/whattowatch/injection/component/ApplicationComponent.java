@@ -14,7 +14,7 @@ import me.bitfrom.whattowatch.core.services.LoadComingSoonService;
 import me.bitfrom.whattowatch.core.services.LoadInCinemasFilmsService;
 import me.bitfrom.whattowatch.core.services.LoadTopFilmsService;
 import me.bitfrom.whattowatch.core.services.SyncAllService;
-import me.bitfrom.whattowatch.core.storage.DBHelper;
+import me.bitfrom.whattowatch.core.storage.DHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
@@ -44,7 +44,7 @@ public interface ApplicationComponent {
 
     PreferencesHelper providesPreferencesHelper();
 
-    DBHelper providesDBHelper();
+    DHelper providesDBHelper();
 
     DataManager providesDataManager();
 

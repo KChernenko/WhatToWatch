@@ -27,15 +27,15 @@ import timber.log.Timber;
 import static me.bitfrom.whattowatch.core.image.ImageLoaderInteractor.Flag;
 
 @Singleton
-public class DBHelper {
+public class DHelper {
 
     private final BriteDatabase database;
     private ImageDownloader imageDownloader;
 
     @Inject
-    public DBHelper(@NonNull DBOpenHelper dbOpenHelper,
-                    @NonNull ImageDownloader imageDownloader) {
-        database = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
+    public DHelper(@NonNull DOpenHelper dOpenHelper,
+                   @NonNull ImageDownloader imageDownloader) {
+        database = SqlBrite.create().wrapDatabaseHelper(dOpenHelper, Schedulers.io());
         this.imageDownloader = imageDownloader;
     }
 
