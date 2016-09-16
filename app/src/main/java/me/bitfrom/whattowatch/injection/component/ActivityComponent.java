@@ -1,14 +1,17 @@
 package me.bitfrom.whattowatch.injection.component;
 
-import dagger.Component;
+import dagger.Subcomponent;
 import me.bitfrom.whattowatch.injection.PerActivity;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
+import me.bitfrom.whattowatch.injection.module.FragmentModule;
 import me.bitfrom.whattowatch.ui.activities.DetailActivity;
 import me.bitfrom.whattowatch.ui.activities.MainActivity;
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+@Subcomponent(modules = ActivityModule.class)
 public interface ActivityComponent {
+
+    FragmentComponent addFragmentComponent(FragmentModule fragmentModule);
 
     void inject(MainActivity mainActivity);
 

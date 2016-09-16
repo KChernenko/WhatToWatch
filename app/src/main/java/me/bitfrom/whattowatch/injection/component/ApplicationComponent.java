@@ -17,12 +17,15 @@ import me.bitfrom.whattowatch.core.services.SyncAllService;
 import me.bitfrom.whattowatch.core.storage.DBHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
+import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
 import me.bitfrom.whattowatch.core.rest.RestModule;
 
 @Singleton
 @Component(modules = {ApplicationModule.class, RestModule.class})
 public interface ApplicationComponent {
+
+    ActivityComponent addActivityComponent(ActivityModule activityModule);
 
     void inject(LoadTopFilmsService loadTopFilmsService);
 

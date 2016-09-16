@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,8 +42,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     protected NavigationView navigationView;
-    @BindView(R.id.main_activity_coordinator_layout)
-    protected CoordinatorLayout coordinatorLayout;
 
     protected ActionBarDrawerToggle toggle;
 

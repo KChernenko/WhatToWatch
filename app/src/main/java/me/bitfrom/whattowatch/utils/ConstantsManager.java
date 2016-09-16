@@ -22,7 +22,7 @@ public final class ConstantsManager {
 
     //Constants for data storage
     public static final String DATABASE_NAME = "whattowatch.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final int NOT_FAVORITE = 0;
     public static final int FAVORITE = 1;
     public static final int CATEGORY_TOP = 1;

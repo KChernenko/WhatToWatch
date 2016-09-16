@@ -124,6 +124,16 @@ android {
         }
     }
 
+    sourceSets {
+        def commonTestDir = 'src/commonTest/java'
+        test {
+            java.srcDir commonTestDir
+        }
+        androidTest {
+            java.srcDir commonTestDir
+        }
+    }
+
     lintOptions {
         warningsAsErrors true
         abortOnError false
@@ -147,9 +157,19 @@ android {
         }
     }
 
+    task copyApks(type: Copy, dependsOn: assembleDebug) {
+        from("$buildDir/outputs/apk") {
+            exclude '**/*unsigned.apk', '**/*unaligned.apk'
+        }
+        into '../apks'
+    }
+
     configurations.all {
         resolutionStrategy.force libraries.supportAnnotations
     }
+
+    assembleRelease.finalizedBy(copyApks)
+    assembleDebug.finalizedBy(copyApks)
 }
 
 dependencies {
@@ -212,6 +232,7 @@ dependencies {
     }
 
     testCompile libraries.junit
+    testCompile libraries.roboelectric
     testCompile libraries.mockito
     testCompile libraries.hamcrest
     testCompile libraries.powerMockJUnit

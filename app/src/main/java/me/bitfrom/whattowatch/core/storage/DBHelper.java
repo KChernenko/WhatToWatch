@@ -75,7 +75,7 @@ public class DBHelper {
                             .asContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
 
                     cacheImage(movie.getUrlPoster());
-                    if (result < 0) Timber.e("Failed to insert data: " + result);
+                    if (result < 0) Timber.e("Failed to insert data: %s", String.valueOf(result));
                 }
                 transaction.markSuccessful();
             } finally {

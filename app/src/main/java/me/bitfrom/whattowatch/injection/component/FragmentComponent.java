@@ -3,6 +3,7 @@ package me.bitfrom.whattowatch.injection.component;
 import android.app.Fragment;
 
 import dagger.Component;
+import dagger.Subcomponent;
 import me.bitfrom.whattowatch.injection.PerFragment;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
@@ -13,8 +14,7 @@ import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
 import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
 
 @PerFragment
-@Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, FragmentModule.class})
+@Subcomponent(modules = FragmentModule.class)
 public interface FragmentComponent {
 
     void inject(Fragment fragment);

@@ -7,7 +7,6 @@ import com.squareup.leakcanary.RefWatcher;
 
 import me.bitfrom.whattowatch.WWApplication;
 import me.bitfrom.whattowatch.injection.component.ActivityComponent;
-import me.bitfrom.whattowatch.injection.component.DaggerActivityComponent;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 
 public class BaseActivity extends AppCompatActivity {
@@ -21,10 +20,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public ActivityComponent getActivityComponent() {
         if (activityComponent == null) {
-            activityComponent = DaggerActivityComponent.builder()
-                    .activityModule(new ActivityModule(this))
-                    .applicationComponent(WWApplication.get(this).getComponent())
-                    .build();
+            activityComponent = WWApplication.get(this)
+                    .getComponent()
+                    .addActivityComponent(new ActivityModule(this));
         }
 
         return activityComponent;

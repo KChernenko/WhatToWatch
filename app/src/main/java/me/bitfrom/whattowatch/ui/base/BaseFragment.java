@@ -6,11 +6,8 @@ import android.os.Bundle;
 import com.squareup.leakcanary.RefWatcher;
 
 import me.bitfrom.whattowatch.WWApplication;
-import me.bitfrom.whattowatch.injection.component.DaggerFragmentComponent;
 import me.bitfrom.whattowatch.injection.component.FragmentComponent;
-import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
-import me.bitfrom.whattowatch.ui.activities.MainActivity;
 
 public class BaseFragment extends Fragment {
 
@@ -21,13 +18,11 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public FragmentComponent getFragmentComponent(MainActivity mainActivity) {
+    @SuppressWarnings("deprecation")
+    public FragmentComponent getFragmentComponent(BaseActivity activity) {
         if (fragmentComponent == null) {
-            fragmentComponent = DaggerFragmentComponent.builder()
-                    .activityModule(new ActivityModule(mainActivity))
-                    .fragmentModule(new FragmentModule(this))
-                    .applicationComponent(WWApplication.get(mainActivity).getComponent())
-                    .build();
+            fragmentComponent = activity.getActivityComponent()
+                    .addFragmentComponent(new FragmentModule(this));
         }
 
         return fragmentComponent;

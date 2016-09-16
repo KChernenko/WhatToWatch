@@ -9,7 +9,7 @@ CREATE TABLE films(
     rating TEXT NOT NULL,
     runtime TEXT NOT NULL,
     title TEXT NOT NULL,
-    posterUrl TEXT NOT NULL,
+    posterUrl TEXT,
     year TEXT NOT NULL,
     inFavorite INTEGER NOT NULL,
     categoryId INTEGER NOT NULL
