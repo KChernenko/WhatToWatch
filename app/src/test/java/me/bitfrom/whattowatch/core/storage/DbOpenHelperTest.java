@@ -34,4 +34,14 @@ public class DbOpenHelperTest {
         assertTrue(db.isOpen());
         db.close();
     }
+
+    @Test
+    public void upgradeDatabase() {
+        DbOpenHelper dbOpenHelper = new DbOpenHelper(context);
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        int oldVersion = db.getVersion();
+        db.setVersion(oldVersion + 1);
+        assertNotEquals(oldVersion, db.getVersion());
+        db.close();
+    }
 }
