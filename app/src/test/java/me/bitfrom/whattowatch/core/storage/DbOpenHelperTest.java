@@ -3,7 +3,6 @@ package me.bitfrom.whattowatch.core.storage;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,5 +42,13 @@ public class DbOpenHelperTest {
         db.setVersion(oldVersion + 1);
         assertNotEquals(oldVersion, db.getVersion());
         db.close();
+    }
+
+    @Test
+    public void dropDatabase() {
+        DbOpenHelper dbOpenHelper = new DbOpenHelper(context);
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        db.close();
+        assertTrue(context.deleteDatabase(db.getPath()));
     }
 }
