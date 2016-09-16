@@ -11,10 +11,10 @@ import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
-public class DOpenHelper extends SQLiteOpenHelper {
+public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Inject
-    public DOpenHelper(@NonNull @ApplicationContext Context context) {
+    public DbOpenHelper(@NonNull @ApplicationContext Context context) {
         super(context, ConstantsManager.DATABASE_NAME, null, ConstantsManager.DATABASE_VERSION);
     }
 
