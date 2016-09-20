@@ -40,7 +40,7 @@ public class DbHelper {
     }
 
     @NonNull @SuppressWarnings("unchecked")
-    public Observable<MoviePojo> insertFilms(@NonNull final List<MoviePojo> newMovies, int categoryId) {
+    public Observable<List<MoviePojo>> insertFilms(@NonNull final List<MoviePojo> newMovies, int categoryId) {
         return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = database.newTransaction();
             MoviePojo movie = null;
@@ -82,7 +82,7 @@ public class DbHelper {
                 transaction.end();
             }
 
-            return Observable.just(movie);
+            return Observable.just(newMovies);
         });
     }
 

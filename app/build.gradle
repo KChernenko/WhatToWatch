@@ -236,7 +236,3 @@ dependencies {
     androidTestCompile libraries.espressoIntents
     androidTestCompile libraries.espressoIdling
 }
-
-retrolambda {
-    jvmArgs '-noverify'
-}

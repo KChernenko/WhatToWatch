@@ -44,7 +44,7 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<MoviePojo> loadTopFilms() {
+    public Observable<List<MoviePojo>> loadTopFilms() {
         return filmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
@@ -54,11 +54,11 @@ public class DataManager {
                     return  dbHelper.insertFilms(result.subList(0,
                             preferencesHelper.getProfferedNuderOfFilms()),
                             ConstantsManager.CATEGORY_TOP);
-                }).onBackpressureBuffer();
+                });
     }
 
     @NonNull
-    public Observable<MoviePojo> loadBottomFilms() {
+    public Observable<List<MoviePojo>> loadBottomFilms() {
         return filmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
@@ -68,11 +68,11 @@ public class DataManager {
                     return  dbHelper.insertFilms(result.subList(0,
                             preferencesHelper.getProfferedNuderOfFilms()),
                             ConstantsManager.CATEGORY_BOTTOM);
-                }).onBackpressureBuffer();
+                });
     }
 
     @NonNull
-    public Observable<MoviePojo> loadInCinemaFilms() {
+    public Observable<List<MoviePojo>> loadInCinemaFilms() {
         return filmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
                 ConstantsManager.TEST_LAN)
                 .concatMap(theaterPojo -> {
@@ -85,11 +85,11 @@ public class DataManager {
                     }
                     Collections.shuffle(result);
                     return dbHelper.insertFilms(result, ConstantsManager.CATEGORY_IN_CINEMAS);
-                }).onBackpressureBuffer();
+                });
     }
 
     @NonNull
-    public Observable<MoviePojo> loadComingSoonFilms() {
+    public Observable<List<MoviePojo>> loadComingSoonFilms() {
         return filmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
                 .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
@@ -102,7 +102,7 @@ public class DataManager {
                     }
                     Collections.shuffle(result);
                     return dbHelper.insertFilms(result, ConstantsManager.CATEGORY_COMING_SOON);
-                }).onBackpressureBuffer();
+                });
     }
 
     @NonNull
