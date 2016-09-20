@@ -1,10 +1,7 @@
-import junit.framework.Test
-import org.moallemi.gradle.internal.VersionCodeType
 apply plugin: 'com.android.application'
 apply from: '../config/quality/quality.gradle'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.squareup.sqldelight'
-apply plugin: 'org.moallemi.advanced-build-version'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'io.fabric'
 
@@ -12,28 +9,23 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    advancedVersioning {
-        nameOptions {
-            versionMajor 0
-            versionMinor 8
-            versionPatch 5
-            versionBuild versionCode
-        }
-        codeOptions {
-            versionCodeType VersionCodeType.AUTO_INCREMENT_ONE_STEP
-            dependsOnTasks 'debug', 'release', 'assemble'
-        }
-    }
+    def versionPropsFile = file('version.properties')
+    def versionBuild
 
-    def appVersionName = advancedVersioning.versionName
-    def appVersionCode = advancedVersioning.versionCode
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionBuild = versionProps['AI_VERSION_CODE'].toInteger()
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
 
     defaultConfig {
         applicationId "me.bitfrom.whattowatch"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionName appVersionName
-        versionCode appVersionCode
+        versionCode versionBuild
+        versionName "1.0."  + versionCode
         multiDexEnabled true
 
         def apiKeyPropsFile = file('api_key.properties')
@@ -60,7 +52,6 @@ android {
     }
 
     dexOptions {
-        incremental true
         maxProcessCount 4
         javaMaxHeapSize "4g"
     }
@@ -72,7 +63,7 @@ android {
             if (rpFile.canRead()){
                 rProps.load(new FileInputStream(rpFile))
 
-                if (rProps!=null && rProps.containsKey('STORE_FILE') && rProps.containsKey('STORE_PASSWORD') &&
+                if (rProps != null && rProps.containsKey('STORE_FILE') && rProps.containsKey('STORE_PASSWORD') &&
                         rProps.containsKey('KEY_ALIAS') && rProps.containsKey('KEY_PASSWORD')) {
                     storeFile = file(rProps['STORE_FILE'])
                     storePassword = rProps['STORE_PASSWORD']
@@ -81,7 +72,7 @@ android {
                 } else {
                     throw new GradleException("release_signing.properties found but some entries are missing")
                 }
-            }else {
+            } else {
                 throw new GradleException("release_signing.properties not found")
             }
         }
@@ -92,7 +83,7 @@ android {
             if (dpFile.canRead()){
                 dProps.load(new FileInputStream(dpFile))
 
-                if (dProps!=null && dProps.containsKey('STORE_FILE') && dProps.containsKey('STORE_PASSWORD') &&
+                if (dProps != null && dProps.containsKey('STORE_FILE') && dProps.containsKey('STORE_PASSWORD') &&
                         dProps.containsKey('KEY_ALIAS') && dProps.containsKey('KEY_PASSWORD')) {
                     storeFile = file(dProps['STORE_FILE'])
                     storePassword = dProps['STORE_PASSWORD']
@@ -101,7 +92,7 @@ android {
                 } else {
                     throw new GradleException("debug_signing.properties found but some entries are missing")
                 }
-            }else {
+            } else {
                 throw new GradleException("debug_signing.properties not found")
             }
         }
@@ -134,6 +125,7 @@ android {
         }
     }
 
+    //noinspection GroovyMissingReturnStatement
     lintOptions {
         warningsAsErrors true
         abortOnError false
@@ -142,6 +134,7 @@ android {
         disable 'InvalidPackage' // Okio references java.nio that does not presented in Android SDK.
     }
 
+    //noinspection GroovyMissingReturnStatement
     packagingOptions {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/NOTICE.txt'
@@ -157,19 +150,11 @@ android {
         }
     }
 
-    task copyApks(type: Copy, dependsOn: assembleDebug) {
-        from("$buildDir/outputs/apk") {
-            exclude '**/*unsigned.apk', '**/*unaligned.apk'
-        }
-        into '../apks'
-    }
-
     configurations.all {
         resolutionStrategy.force libraries.supportAnnotations
     }
 
-    assembleRelease.finalizedBy(copyApks)
-    assembleDebug.finalizedBy(copyApks)
+
 }
 
 dependencies {

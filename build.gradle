@@ -15,9 +15,6 @@ buildscript {
         // See dependencies.gradle for declaration of plugins.
         classpath gradlePlugins.android
 
-        //A plugin to generate the Android version code and version name automatically
-        classpath gradlePlugins.gradleABVersions
-
         // Compile-time annotation processing.
         classpath gradlePlugins.apt
 

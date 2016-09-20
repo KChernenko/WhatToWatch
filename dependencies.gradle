@@ -7,7 +7,7 @@ ext.versions = [
         multidex                     : '1.0.1',
 
         //Gradle plugins
-        androidGradlePlugin          : '2.1.3',
+        androidGradlePlugin          : '2.2.0',
         aptGradlePlugin              : '1.8',
         retrolambdaGradlePlugin      : '3.3.0-beta3',
         lombokGradlePlugin           : '0.2.3.a2',
@@ -47,7 +47,6 @@ ext.versions = [
         getBaseFAB                   : '1.10.1',
 
         //Other
-        gradleAdvancedBuildVersion   : '1.5.3',
         eventBus                     : '3.0.0',
         streams                      : '1.1.0',
 
@@ -80,8 +79,7 @@ ext.gradlePlugins = [
         sqlDelight       : "com.squareup.sqldelight:gradle-plugin:$versions.sqlDelight",
         retrolambda      : "me.tatarka:gradle-retrolambda:$versions.retrolambdaGradlePlugin",
         lombok           : "me.tatarka.retrolambda.projectlombok:lombok.ast:$versions.lombokGradlePlugin",
-        fabricPlugin     : "io.fabric.tools:gradle:$versions.fabricPlugin",
-        gradleABVersions : "org.moallemi.gradle.advanced-build-version:gradle-plugin:$versions.gradleAdvancedBuildVersion"
+        fabricPlugin     : "io.fabric.tools:gradle:$versions.fabricPlugin"
 ]
 
 ext.libraries = [
