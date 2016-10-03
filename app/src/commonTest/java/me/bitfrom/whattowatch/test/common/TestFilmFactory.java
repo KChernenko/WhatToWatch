@@ -19,7 +19,7 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
  */
 public class TestFilmFactory {
 
-    public static MoviePojo generateFilm(String uniqueSuffix) {
+    public static MoviePojo generateMovie(String uniqueSuffix) {
         MoviePojo film = new MoviePojo();
         film.setIdIMDB(randomUuid());
         film.setUrlIMDB("http://www.imdb.com/title/tt" + uniqueSuffix);
@@ -50,10 +50,10 @@ public class TestFilmFactory {
         return film;
     }
 
-    public static List<MoviePojo> generateFilms(int number) {
+    public static List<MoviePojo> generateMovies(int number) {
         List<MoviePojo> films = new ArrayList<>();
         for (int i = 0; i < number; i++) {
-            films.add(generateFilm(String.valueOf(i * 42)));
+            films.add(generateMovie(String.valueOf(i * 42)));
         }
 
         return films;

@@ -9,7 +9,7 @@ ext.versions = [
         //Gradle plugins
         androidGradlePlugin          : '2.2.0',
         aptGradlePlugin              : '1.8',
-        retrolambdaGradlePlugin      : '3.3.0-beta3',
+        retrolambdaGradlePlugin      : '3.3.0',
         lombokGradlePlugin           : '0.2.3.a2',
         fabricPlugin                 : '1.21.7',
 
@@ -23,7 +23,7 @@ ext.versions = [
         javaPoet                     : '1.7.0',
 
         //Rx
-        rxJava                       : '1.1.10',
+        rxJava                       : '1.2.0',
         rxAndroid                    : '1.2.1',
         rxProguardRules              : '1.1.1.0',
 
@@ -43,18 +43,18 @@ ext.versions = [
 
         //UI
         butterKnife                  : '8.4.0',
-        appIntro                     : '4.0.0',
+        appIntro                     : '4.1.0',
         getBaseFAB                   : '1.10.1',
 
         //Other
         eventBus                     : '3.0.0',
-        streams                      : '1.1.0',
+        streams                      : '1.1.2',
 
         // Developer tools
         stetho                       : '1.4.1',
-        leakCanary                   : '1.4-beta2',
+        leakCanary                   : '1.5',
         tinyDancer                   : '0.0.9',
-        timber                       : '4.3.0',
+        timber                       : '4.3.1',
 
         //Trackers
         crashlystics                 : '2.5.5@aar',

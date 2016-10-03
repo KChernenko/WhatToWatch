@@ -129,10 +129,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 replaceFragment(tff);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

@@ -12,12 +12,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.Collections;
 import java.util.List;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
 import me.bitfrom.whattowatch.core.model.MoviePojo;
+import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.test.common.TestFilmFactory;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.DefaultConfig;
@@ -47,7 +47,7 @@ public class DbHelperTest {
 
     @Test
     public void insertFilms() {
-        List<MoviePojo> movies = TestFilmFactory.generateFilms(2);
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
         TestSubscriber<List<MoviePojo>> result = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe(result);
