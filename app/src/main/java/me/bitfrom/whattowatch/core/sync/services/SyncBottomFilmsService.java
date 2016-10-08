@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.core.services;
+package me.bitfrom.whattowatch.core.sync.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class LoadBottomFilmsService extends Service {
+public class SyncBottomFilmsService extends Service {
 
     @Inject
     protected DataManager dataManager;

@@ -1,4 +1,4 @@
-package me.bitfrom.whattowatch.core.services;
+package me.bitfrom.whattowatch.core.sync.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class LoadComingSoonService extends Service {
+public class SyncTopFilmsService extends Service {
 
     @Inject
     protected DataManager dataManager;
@@ -30,18 +30,20 @@ public class LoadComingSoonService extends Service {
     @Override
     public int onStartCommand(@NonNull Intent intent, int flags, final int startId) {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        Timber.d("Start loading coming soon films...");
-        subscription = dataManager.loadComingSoonFilms()
+        Timber.d("Start loading top films...");
+        subscription = dataManager.loadTopFilms()
                 .subscribeOn(Schedulers.io())
                 .doAfterTerminate(() -> {
-                    Timber.d("Loading coming soon films has finished!");
+                    Timber.d("Loading top films has finished!");
                     stopSelf(startId);
                 })
                 .subscribe(movie -> {
+
                 }, throwable -> {
                     stopSelf(startId);
-                    Timber.e(throwable, "Error occurred while loading coming soon films!");
+                    Timber.e(throwable, "Error occurred while loading top films!");
                 });
+
         return START_STICKY;
     }
 

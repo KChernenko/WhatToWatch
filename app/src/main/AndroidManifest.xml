@@ -68,11 +68,14 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".core.services.LoadTopFilmsService"/>
-        <service android:name=".core.services.LoadBottomFilmsService"/>
-        <service android:name=".core.services.LoadInCinemasFilmsService"/>
-        <service android:name=".core.services.LoadComingSoonService"/>
-        <service android:name=".core.services.SyncAllService"/>
+        <service android:name=".core.sync.services.SyncTopFilmsService"
+            android:exported="false"/>
+        <service android:name=".core.sync.services.SyncBottomFilmsService"
+            android:exported="false"/>
+        <service android:name=".core.sync.services.SyncInCinemasFilmsService"
+            android:exported="false"/>
+        <service android:name=".core.sync.services.SyncComingSoonService"
+            android:exported="false"/>
 
     </application>
 

@@ -9,11 +9,10 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import me.bitfrom.whattowatch.core.DataManager;
-import me.bitfrom.whattowatch.core.services.LoadBottomFilmsService;
-import me.bitfrom.whattowatch.core.services.LoadComingSoonService;
-import me.bitfrom.whattowatch.core.services.LoadInCinemasFilmsService;
-import me.bitfrom.whattowatch.core.services.LoadTopFilmsService;
-import me.bitfrom.whattowatch.core.services.SyncAllService;
+import me.bitfrom.whattowatch.core.sync.services.SyncBottomFilmsService;
+import me.bitfrom.whattowatch.core.sync.services.SyncComingSoonService;
+import me.bitfrom.whattowatch.core.sync.services.SyncInCinemasFilmsService;
+import me.bitfrom.whattowatch.core.sync.services.SyncTopFilmsService;
 import me.bitfrom.whattowatch.core.storage.DbHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
@@ -27,15 +26,13 @@ public interface ApplicationComponent {
 
     ActivityComponent addActivityComponent(ActivityModule activityModule);
 
-    void inject(LoadTopFilmsService loadTopFilmsService);
+    void inject(SyncTopFilmsService syncTopFilmsService);
 
-    void inject(LoadBottomFilmsService loadBottomFilmsService);
+    void inject(SyncBottomFilmsService syncBottomFilmsService);
 
-    void inject(LoadInCinemasFilmsService loadInCinemasFilmsService);
+    void inject(SyncInCinemasFilmsService syncInCinemasFilmsService);
 
-    void inject(LoadComingSoonService loadComingSoonService);
-
-    void inject(SyncAllService syncAllService);
+    void inject(SyncComingSoonService syncComingSoonService);
 
     @ApplicationContext
     Context context();
