@@ -32,6 +32,7 @@ import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import me.bitfrom.whattowatch.utils.NetworkStateChecker;
 
 public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpView,
         SwipeRefreshLayout.OnRefreshListener {
@@ -50,6 +51,8 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     @BindView(R.id.swipeRefreshLayout)
     protected SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindString(R.string.error_connection_unavailable)
+    protected String networkUnavailableError;
     @BindString(R.string.error_list_empty)
     protected String errorUnknownMsg;
 
@@ -122,15 +125,13 @@ public class ComingSoonFragment extends BaseFragment implements ComingSoonMvpVie
     }
 
     @Override
-    public void showInternetUnavailableError() {
-        Snackbar.make(rootLayout,
-                getString(R.string.error_connection_unavailable),
-                Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
     public void loadNewFilms() {
-        presenter.loadFilms();
+        if (NetworkStateChecker.isNetworkAvailable(getActivity())) {
+            presenter.loadFilms();
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(rootLayout, networkUnavailableError, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override

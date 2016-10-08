@@ -10,8 +10,6 @@ public interface ListMvpView extends MvpViewWithInternet {
 
     void showFilmsList(@NonNull List<FilmEntity> films);
 
-    void showInternetUnavailableError();
-
     void loadNewFilms();
 
     void showLoading(boolean pullToRefresh);
