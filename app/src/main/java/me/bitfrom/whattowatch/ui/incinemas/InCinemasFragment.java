@@ -66,7 +66,8 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        initRecyclerView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(filmsAdapter);
 
         return rootView;
     }
@@ -139,8 +140,4 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
         swipeRefreshLayout.setRefreshing(pullToRefresh);
     }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(filmsAdapter);
-    }
 }

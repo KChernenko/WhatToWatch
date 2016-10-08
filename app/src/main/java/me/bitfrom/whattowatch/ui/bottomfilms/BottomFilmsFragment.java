@@ -66,7 +66,8 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        initRecyclerView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(filmsAdapter);
 
         return rootView;
     }
@@ -138,8 +139,4 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
         swipeRefreshLayout.setRefreshing(pullToRefresh);
     }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(filmsAdapter);
-    }
 }

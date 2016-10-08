@@ -63,7 +63,8 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         getFragmentComponent((MainActivity) getActivity()).inject(this);
         ButterKnife.bind(this, rootView);
 
-        initRecyclerView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(filmsAdapter);
 
         return rootView;
     }
@@ -135,8 +136,4 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
         swipeRefreshLayout.setRefreshing(pullToRefresh);
     }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(filmsAdapter);
-    }
 }
