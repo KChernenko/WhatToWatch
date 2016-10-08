@@ -94,7 +94,7 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
 
     @Override
     public void onRefresh() {
-        loadNewFilms(true);
+        loadNewFilms();
     }
 
     @Override
@@ -129,8 +129,8 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
     }
 
     @Override
-    public void loadNewFilms(boolean pullToRefresh) {
-        presenter.loadFilms(pullToRefresh);
+    public void loadNewFilms() {
+        presenter.loadFilms();
     }
 
     @Override

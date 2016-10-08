@@ -12,7 +12,7 @@ public interface ListMvpView extends MvpViewWithInternet {
 
     void showInternetUnavailableError();
 
-    void loadNewFilms(boolean pullToRefresh);
+    void loadNewFilms();
 
     void showLoading(boolean pullToRefresh);
 

@@ -94,7 +94,7 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
 
     @Override
     public void onRefresh() {
-        loadNewFilms(true);
+        loadNewFilms();
     }
 
     @Override
@@ -128,8 +128,8 @@ public class BottomFilmsFragment extends BaseFragment implements BottomFilmsMvpV
     }
 
     @Override
-    public void loadNewFilms(boolean pullToRefresh) {
-        presenter.loadFilms(pullToRefresh);
+    public void loadNewFilms() {
+        presenter.loadFilms();
     }
 
     @Override

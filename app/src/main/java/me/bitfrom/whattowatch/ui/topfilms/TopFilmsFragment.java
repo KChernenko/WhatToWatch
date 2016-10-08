@@ -91,7 +91,7 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
 
     @Override
     public void onRefresh() {
-        loadNewFilms(true);
+        loadNewFilms();
     }
 
     @Override
@@ -125,8 +125,9 @@ public class TopFilmsFragment extends BaseFragment implements TopFilmsMvpView, S
     }
 
     @Override
-    public void loadNewFilms(boolean pullToRefresh) {
-        presenter.loadFilms(pullToRefresh);
+    public void loadNewFilms() {
+        swipeRefreshLayout.setRefreshing(true);
+        presenter.loadFilms();
     }
 
     @Override

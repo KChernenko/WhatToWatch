@@ -52,7 +52,6 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         checkViewAttached();
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         subscription = dataManager.getFilmById(filmId)
-                .subscribeOn(Schedulers.io())
                 .cache()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {
