@@ -88,7 +88,7 @@ public class RestModule {
     @Provides @Singleton
     public OkHttpClient providesHttpClient(@NonNull HttpLoggingInterceptor httpLoggingInterceptor,
                                            @NonNull StethoInterceptor stethoInterceptor,
-                                           @NonNull Interceptor responseCodeInterceptor,
+                                           @NonNull Interceptor responseCodeAndCacheInterceptor,
                                            @NonNull Cache cache) {
 
         OkHttpClient.Builder okHttp = new OkHttpClient.Builder();
@@ -96,7 +96,7 @@ public class RestModule {
             okHttp.addInterceptor(httpLoggingInterceptor);
             okHttp.addNetworkInterceptor(stethoInterceptor);
         }
-        okHttp.addInterceptor(responseCodeInterceptor);
+        okHttp.addInterceptor(responseCodeAndCacheInterceptor);
         okHttp.cache(cache);
         okHttp.connectTimeout(ConstantsManager.CONNECTION_TIMEOUT, TimeUnit.SECONDS);
         okHttp.readTimeout(ConstantsManager.READ_TIMEOUT, TimeUnit.SECONDS);
