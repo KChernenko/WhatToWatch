@@ -12,6 +12,10 @@ public final class ConstantsManager {
     public static final String TEST_LAN = "en";
     public static final int CONNECTION_TIMEOUT = 60;
     public static final int READ_TIMEOUT = 60;
+    public static final String CACHE_DIR_NAME = "wtw_http_cache";
+    public static final int CACHE_SIZE = 10 * 1024 * 1024; //10 Mb
+    public static final String CACHE_CONTROL_HEADER = "Cache-Control";
+
     //Server errors
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int NOT_IMPLEMENTED = 501;
