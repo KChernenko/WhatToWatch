@@ -56,4 +56,6 @@ public final class ConstantsManager {
     public static final int SHARE_COMMENT_SIZE = 50;
 
     public static final String ARG_LAYOUT_RES_ID = "layoutResId";
+
+    public static final String FRAGMENT_TITLE_KEY = "fragment_title_key";
 }

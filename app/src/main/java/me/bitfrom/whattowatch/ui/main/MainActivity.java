@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected ActionBarDrawerToggle toggle;
 
     private Bundle bundleArgs;
+    private String savedFragmentTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        savedFragmentTitle = getTitle().toString();
+        outState.putString(ConstantsManager.FRAGMENT_TITLE_KEY, savedFragmentTitle);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        savedFragmentTitle = savedInstanceState.getString(ConstantsManager.FRAGMENT_TITLE_KEY);
+        if (savedFragmentTitle != null) setTitle(savedFragmentTitle);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
