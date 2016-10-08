@@ -50,7 +50,7 @@
 
     <PreferenceCategory
         android:title="@string/about_category">
-        <me.bitfrom.whattowatch.ui.AboutDialog
+        <me.bitfrom.whattowatch.ui.settings.AboutDialog
             android:title="@string/about_dialog_title"/>
     </PreferenceCategory>
 </PreferenceScreen>

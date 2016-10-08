@@ -25,7 +25,7 @@
             android:name="io.fabric.ApiKey"
             android:value="4917f5e6c66cb574bd374377cf2cdccfd133aa97" />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -34,12 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.DetailActivity"
-            android:parentActivityName=".ui.activities.MainActivity"
+        <activity android:name=".ui.details.DetailActivity"
+            android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".ui.activities.WWIntro"
+        <activity android:name=".ui.intro.WWIntro"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <provider
@@ -48,7 +48,8 @@
             android:exported="false"
             android:syncable="true"/>
         <service
-            android:name=".core.sync.FilmsAuthenticatorService">
+            android:name=".core.sync.FilmsAuthenticatorService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -59,7 +60,7 @@
         <!-- The SyncAdapter service -->
         <service
             android:name=".core.sync.FilmsSyncService"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>

@@ -2,16 +2,14 @@ package me.bitfrom.whattowatch.injection.component;
 
 import android.app.Fragment;
 
-import dagger.Component;
 import dagger.Subcomponent;
 import me.bitfrom.whattowatch.injection.PerFragment;
-import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
-import me.bitfrom.whattowatch.ui.fragments.BottomFilmsFragment;
-import me.bitfrom.whattowatch.ui.fragments.ComingSoonFragment;
-import me.bitfrom.whattowatch.ui.fragments.FavoritesFragment;
-import me.bitfrom.whattowatch.ui.fragments.InCinemasFragment;
-import me.bitfrom.whattowatch.ui.fragments.TopFilmsFragment;
+import me.bitfrom.whattowatch.ui.bottomfilms.BottomFilmsFragment;
+import me.bitfrom.whattowatch.ui.comingsoon.ComingSoonFragment;
+import me.bitfrom.whattowatch.ui.favorites.FavoritesFragment;
+import me.bitfrom.whattowatch.ui.incinemas.InCinemasFragment;
+import me.bitfrom.whattowatch.ui.topfilms.TopFilmsFragment;
 
 @PerFragment
 @Subcomponent(modules = FragmentModule.class)

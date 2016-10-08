@@ -4,8 +4,8 @@ import dagger.Subcomponent;
 import me.bitfrom.whattowatch.injection.PerActivity;
 import me.bitfrom.whattowatch.injection.module.ActivityModule;
 import me.bitfrom.whattowatch.injection.module.FragmentModule;
-import me.bitfrom.whattowatch.ui.activities.DetailActivity;
-import me.bitfrom.whattowatch.ui.activities.MainActivity;
+import me.bitfrom.whattowatch.ui.details.DetailActivity;
+import me.bitfrom.whattowatch.ui.main.MainActivity;
 
 @PerActivity
 @Subcomponent(modules = ActivityModule.class)
