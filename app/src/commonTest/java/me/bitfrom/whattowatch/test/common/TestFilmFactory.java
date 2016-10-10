@@ -2,6 +2,9 @@ package me.bitfrom.whattowatch.test.common;
 
 import android.text.TextUtils;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,8 +69,10 @@ public class TestFilmFactory {
                     .create(moviePojos.get(i).getIdIMDB(),
                             moviePojos.get(i).getUrlIMDB(),
                             TextUtils.join(", ", moviePojos.get(i).getCountries()),
-                            TextUtils.join(", ", moviePojos.get(i).getDirectors()),
-                            TextUtils.join(", ", moviePojos.get(i).getWriters()),
+                            TextUtils.join(", ", Stream.of(moviePojos.get(i).getDirectors())
+                                    .map(DirectorPojo::getName).collect(Collectors.toList())),
+                            TextUtils.join(", ", Stream.of(moviePojos.get(i).getWriters())
+                                    .map(WriterPojo::getName).collect(Collectors.toList())),
                             TextUtils.join(", ", moviePojos.get(i).getGenres()),
                             moviePojos.get(i).getPlot(),
                             moviePojos.get(i).getRating(),

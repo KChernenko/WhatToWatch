@@ -154,7 +154,6 @@ android {
         resolutionStrategy.force libraries.supportAnnotations
     }
 
-
 }
 
 dependencies {
@@ -222,6 +221,7 @@ dependencies {
     testCompile libraries.hamcrest
     testCompile libraries.powerMockJUnit
     testCompile libraries.powerMockMockito
+    testCompile libraries.assertJ
     androidTestCompile libraries.testRunner
     androidTestCompile libraries.testRules
     androidTestCompile libraries.espressoCore

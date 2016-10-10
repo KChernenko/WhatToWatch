@@ -65,6 +65,7 @@ ext.versions = [
         mockito                      : '1.10.19',
         hamcrest                     : '1.3',
         powerMock                    : '1.6.2',
+        assertJ                      : '2.5.0',
         // Android JUnit Runner
         testRunner                   : '0.5',
         // JUnit4 Rules
@@ -141,6 +142,7 @@ ext.libraries = [
         hamcrest                : "org.hamcrest:hamcrest-all:$versions.hamcrest",
         powerMockJUnit          : "org.powermock:powermock-module-junit4:$versions.powerMock",
         powerMockMockito        : "org.powermock:powermock-api-mockito:$versions.powerMock",
+        assertJ                 : "org.assertj:assertj-core:$versions.assertJ",
         testRunner              : "com.android.support.test:runner:$versions.testRunner",
         testRules               : "com.android.support.test:rules:$versions.testRules",
         espressoCore            : "com.android.support.test.espresso:espresso-core:$versions.espresso",

@@ -2,6 +2,7 @@ package me.bitfrom.whattowatch.core.storage;
 
 import android.content.Context;
 
+import org.apache.tools.ant.types.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,6 +24,8 @@ import me.bitfrom.whattowatch.utils.ConstantsManager;
 import me.bitfrom.whattowatch.utils.DefaultConfig;
 import me.bitfrom.whattowatch.utils.RxSchedulersOverrideRule;
 import rx.observers.TestSubscriber;
+
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = DefaultConfig.EMULATED_SDK)
@@ -46,13 +49,33 @@ public class DbHelperTest {
     }
 
     @Test
-    public void insertFilms() {
+    public void insertFilmsEmitsPassedValues() {
         List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
         TestSubscriber<List<MoviePojo>> result = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe(result);
 
+        //Insertion completes without errors
         result.assertNoErrors();
+        //Contains passed values
         result.assertValue(movies);
+    }
+
+    @Test
+    public void selectFilmsByCategoryIdReturnsInsertedFilmsWithCorrectCategoryId() {
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
+        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies);
+
+        TestSubscriber<List<MoviePojo>> insertResult = new TestSubscriber<>();
+        TestSubscriber<List<FilmEntity>> selectResult = new TestSubscriber<>();
+
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe(insertResult);
+        dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_TOP).subscribe(selectResult);
+
+        insertResult.assertNoErrors();
+        selectResult.assertNoErrors();
+        // We need to be sure that selection result contains
+        // exactly the same elements with same values which were inserted
+        selectResult.assertValue(films);
     }
 }
