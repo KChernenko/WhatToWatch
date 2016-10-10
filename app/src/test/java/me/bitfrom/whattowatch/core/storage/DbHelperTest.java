@@ -77,7 +77,7 @@ public class DbHelperTest {
     }
 
     @Test
-    public void selectFilmById() {
+    public void selectFilmByIdReturnsCorrectFilm() {
         List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
         TestSubscriber<FilmEntity> result = new TestSubscriber<>();
 
