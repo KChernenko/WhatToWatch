@@ -90,7 +90,7 @@ public class DbHelperTest {
     }
 
     @Test
-    public void selectFavoritesFilmsReturnsFilmsThatAreInFavorite() {
+    public void selectFavoriteFilmsReturnsFilmsThatAreInFavorite() {
         List<MoviePojo> movies = TestFilmFactory.generateMovies(3);
         List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies, ConstantsManager.FAVORITE);
         TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
@@ -99,7 +99,7 @@ public class DbHelperTest {
         for (int i = 0; i < movies.size(); i++) {
             dbHelper.updateFavorite(movies.get(i).getIdIMDB(), ConstantsManager.FAVORITE);
         }
-        dbHelper.selectFavoritesFilms().subscribe(result);
+        dbHelper.selectFavoriteFilms().subscribe(result);
 
         result.assertNoErrors();
         result.assertValue(films);

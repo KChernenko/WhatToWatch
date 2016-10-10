@@ -100,7 +100,7 @@ public class DbHelper {
     }
 
     @NonNull
-    public Observable<List<FilmEntity>> selectFavoritesFilms() {
+    public Observable<List<FilmEntity>> selectFavoriteFilms() {
         return database.createQuery(FilmEntity.TABLE_NAME, FilmEntity.SELECT_FAVORITES)
                 .mapToList(FilmEntity.MAPPER_SELECT_FAVORITES::map);
     }

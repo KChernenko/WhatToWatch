@@ -117,7 +117,7 @@ public class DataManager {
 
     @NonNull
     public Observable<List<FilmEntity>> getFavoriteFilms() {
-        return dbHelper.selectFavoritesFilms().distinct();
+        return dbHelper.selectFavoriteFilms().distinct();
     }
 
     public void addToFavorite(@NonNull String filmId) {
