@@ -2,7 +2,6 @@ package me.bitfrom.whattowatch.core.storage;
 
 import android.content.Context;
 
-import org.apache.tools.ant.types.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +24,7 @@ import me.bitfrom.whattowatch.utils.DefaultConfig;
 import me.bitfrom.whattowatch.utils.RxSchedulersOverrideRule;
 import rx.observers.TestSubscriber;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = DefaultConfig.EMULATED_SDK)
@@ -66,16 +65,27 @@ public class DbHelperTest {
         List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
         List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies);
 
-        TestSubscriber<List<MoviePojo>> insertResult = new TestSubscriber<>();
-        TestSubscriber<List<FilmEntity>> selectResult = new TestSubscriber<>();
+        TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
 
-        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe(insertResult);
-        dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_TOP).subscribe(selectResult);
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
+        dbHelper.selectFilmsByCategoryId(ConstantsManager.CATEGORY_TOP).subscribe(result);
 
-        insertResult.assertNoErrors();
-        selectResult.assertNoErrors();
+        result.assertNoErrors();
         // We need to be sure that selection result contains
         // exactly the same elements with same values which were inserted
-        selectResult.assertValue(films);
+        result.assertValue(films);
+    }
+
+    @Test
+    public void selectFilmById() {
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
+        TestSubscriber<FilmEntity> result = new TestSubscriber<>();
+
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
+        dbHelper.selectFilmById(movies.get(0).getIdIMDB()).subscribe(result);
+
+        result.assertNoErrors();
+        //Returned film has requested id
+        assertThat(result.getOnNextEvents().get(0).imdbId()).isEqualTo(movies.get(0).getIdIMDB());
     }
 }
