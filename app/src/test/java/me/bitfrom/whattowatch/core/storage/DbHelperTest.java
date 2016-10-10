@@ -63,7 +63,7 @@ public class DbHelperTest {
     @Test
     public void selectFilmsByCategoryIdReturnsInsertedFilmsWithCorrectCategoryId() {
         List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
-        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies);
+        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies, ConstantsManager.NOT_FAVORITE);
 
         TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
 
@@ -87,5 +87,21 @@ public class DbHelperTest {
         result.assertNoErrors();
         //Returned film has requested id
         assertThat(result.getOnNextEvents().get(0).imdbId()).isEqualTo(movies.get(0).getIdIMDB());
+    }
+
+    @Test
+    public void selectFavoritesFilmsReturnsFilmsThatAreInFavorite() {
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(3);
+        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies, ConstantsManager.FAVORITE);
+        TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
+
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
+        for (int i = 0; i < movies.size(); i++) {
+            dbHelper.updateFavorite(movies.get(i).getIdIMDB(), ConstantsManager.FAVORITE);
+        }
+        dbHelper.selectFavoritesFilms().subscribe(result);
+
+        result.assertNoErrors();
+        result.assertValue(films);
     }
 }

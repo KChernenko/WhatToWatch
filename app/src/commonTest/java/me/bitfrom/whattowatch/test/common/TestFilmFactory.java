@@ -62,7 +62,7 @@ public class TestFilmFactory {
         return films;
     }
 
-    public static List<FilmEntity> convertToFilmEntity(List<MoviePojo> moviePojos) {
+    public static List<FilmEntity> convertToFilmEntity(List<MoviePojo> moviePojos, int favoriteFlag) {
         List<FilmEntity> filmEntityList = new ArrayList<>();
         for (int i = 0; i < moviePojos.size(); i++) {
             FilmEntity filmEntity = FilmEntity.FACTORY.creator
@@ -80,7 +80,7 @@ public class TestFilmFactory {
                             moviePojos.get(i).getTitle(),
                             moviePojos.get(i).getUrlPoster(),
                             moviePojos.get(i).getYear(),
-                            ConstantsManager.NOT_FAVORITE,
+                            favoriteFlag,
                             ConstantsManager.CATEGORY_TOP);
             filmEntityList.add(filmEntity);
         }
