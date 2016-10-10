@@ -104,4 +104,42 @@ public class DbHelperTest {
         result.assertNoErrors();
         result.assertValue(films);
     }
+
+    @Test
+    public void updateFavoriteShouldUpdateDatabaseEntries() {
+        int amountOfFilms = 5;
+        int amountOfFavoriteFilms = 2;
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(amountOfFilms);
+        TestSubscriber<List<FilmEntity>> favoriteSelectionResult = new TestSubscriber<>();
+
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
+        //Making 2 films favorite
+        for (int i = 0; i < amountOfFavoriteFilms; i++) {
+            dbHelper.updateFavorite(movies.get(i).getIdIMDB(), ConstantsManager.FAVORITE);
+        }
+        //Selecting favorite films
+        dbHelper.selectFavoriteFilms().subscribe(favoriteSelectionResult);
+
+        favoriteSelectionResult.assertNoErrors();
+        //Checking that amount of favorite films equals to expected value
+        assertThat(favoriteSelectionResult.getOnNextEvents().get(0).size())
+                .isEqualTo(amountOfFavoriteFilms);
+        //Checking that each item in the selection result has property inFavorite = 1
+        for (int i = 0; i < amountOfFavoriteFilms; i++) {
+            assertThat(favoriteSelectionResult.getOnNextEvents().get(0).get(i).inFavorite())
+                    .isEqualTo(ConstantsManager.FAVORITE);
+        }
+        //Making those favorite films not favorite
+        for (int i = 0; i < amountOfFavoriteFilms; i++) {
+            dbHelper.updateFavorite(movies.get(i).getIdIMDB(), ConstantsManager.NOT_FAVORITE);
+        }
+
+        TestSubscriber<List<FilmEntity>> favoriteSelectionResultIsEmpty = new TestSubscriber<>();
+        //Selecting all favorite films again
+        dbHelper.selectFavoriteFilms().subscribe(favoriteSelectionResultIsEmpty);
+
+        favoriteSelectionResultIsEmpty.assertNoErrors();
+        //Checking that there are no favorite films entries in the result
+        assertThat(favoriteSelectionResultIsEmpty.getOnNextEvents().get(0).size()).isEqualTo(0);
+    }
 }
