@@ -142,4 +142,34 @@ public class DbHelperTest {
         //Checking that there are no favorite films entries in the result
         assertThat(favoriteSelectionResultIsEmpty.getOnNextEvents().get(0).size()).isEqualTo(0);
     }
+
+    @Test
+    public void searchInFavoriteShouldReturnCorrectResult() {
+        List<MoviePojo> movies = TestFilmFactory.generateMovies(7);
+        //Checking if method will return concrete item
+        TestSubscriber<List<FilmEntity>> oneMatchResult = new TestSubscriber<>();
+
+        dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_BOTTOM).subscribe();
+        //Making all films favorite
+        for (int i = 0; i < movies.size(); i++) {
+            dbHelper.updateFavorite(movies.get(i).getIdIMDB(), ConstantsManager.FAVORITE);
+        }
+        //Searching for one concrete film
+        dbHelper.searchInFavorites(movies.get(0).getTitle()).subscribe(oneMatchResult);
+
+        oneMatchResult.assertNoErrors();
+        //Checking if result contains item with expected title
+        assertThat(oneMatchResult.getOnNextEvents().get(0).get(0).title())
+                .isEqualTo(movies.get(0).getTitle());
+        //Checking if method will return similar items
+        TestSubscriber<List<FilmEntity>> allMatchResult = new TestSubscriber<>();
+        //Searching for all items that starts with "Matrix"
+        dbHelper.searchInFavorites(movies.get(0).getTitle().substring(0, 5))
+                .subscribe(allMatchResult);
+
+        allMatchResult.assertNoErrors();
+        //Checking if results contains expected amount of items
+        assertThat(allMatchResult.getOnNextEvents().get(0).size())
+                .isEqualTo(7);
+    }
 }
