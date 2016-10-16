@@ -15,5 +15,4 @@ public interface DetailMvpView extends MvpView {
 
     void showRemovedFromFavorites();
 
-    void shareWithFriends(String shareInfo);
 }

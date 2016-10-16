@@ -1,15 +1,10 @@
 package me.bitfrom.whattowatch.ui.details;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.DataManager;
-import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
-import me.bitfrom.whattowatch.injection.ActivityContext;
-import me.bitfrom.whattowatch.ui.details.DetailMvpView;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Subscription;
@@ -19,21 +14,12 @@ import timber.log.Timber;
 
 public class DetailPresenter extends BasePresenter<DetailMvpView> {
 
-    private Context context;
     private final DataManager dataManager;
 
     private Subscription subscription;
 
-    private String title;
-    private String rating;
-    private String directors;
-    private String genres;
-    private String imdbLink;
-
     @Inject
-    public DetailPresenter(@NonNull @ActivityContext Context context,
-                           @NonNull DataManager dataManager) {
-        this.context = context;
+    public DetailPresenter(@NonNull DataManager dataManager) {
         this.dataManager = dataManager;
     }
 
@@ -52,32 +38,18 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
         checkViewAttached();
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
         subscription = dataManager.getFilmById(filmId)
-                .cache()
+                .replay().autoConnect()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(film -> {
                     if (film == null) {
                         getMvpView().showUnknownError();
                     } else {
                         getMvpView().showFilmInfo(film);
-                        //Init strings for sharing
-                        initSharedInformation(film);
                     }
                 }, throwable -> {
                     getMvpView().showUnknownError();
                     Timber.e(throwable, "Error occurred while retrieving film's info!");
                 });
-    }
-
-    public void shareWithFriends() {
-        checkViewAttached();
-        String sharedInfo = " «" +
-                title + "»" + "\n" +
-                context.getString(R.string.share_action_imdb_rating) + " " + rating +
-                ".\n" + context.getString(R.string.share_action_directors) + " " +
-                directors + "\n" + genres + "\n" +
-                context.getString(R.string.app_hash_tag);
-
-        getMvpView().shareWithFriends(sharedInfo);
     }
 
     public void updateFavorites(@NonNull final String filmId) {
@@ -95,17 +67,5 @@ public class DetailPresenter extends BasePresenter<DetailMvpView> {
                         getMvpView().showRemovedFromFavorites();
                     }
                 });
-    }
-
-    public String getImdbLink() {
-        return imdbLink;
-    }
-
-    private void initSharedInformation(@NonNull FilmEntity film) {
-        title = film.title();
-        rating = film.rating();
-        directors = film.directors();
-        genres = film.genres();
-        imdbLink = film.imbdUrl();
     }
 }

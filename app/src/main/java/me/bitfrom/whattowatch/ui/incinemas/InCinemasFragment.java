@@ -26,9 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
+import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.details.DetailActivity;
 import me.bitfrom.whattowatch.ui.main.MainActivity;
-import me.bitfrom.whattowatch.ui.base.BaseFragment;
 import me.bitfrom.whattowatch.ui.recyclerview.FilmsAdapter;
 import me.bitfrom.whattowatch.ui.recyclerview.RecyclerItemClickListener;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -53,7 +53,7 @@ public class InCinemasFragment extends BaseFragment implements InCinemasMvpView,
 
     @BindString(R.string.error_connection_unavailable)
     protected String networkUnavailableError;
-    @BindString(R.string.error_list_empty)
+    @BindString(R.string.unknown_error_msg)
     protected String errorUnknownMsg;
 
     private RecyclerItemClickListener recyclerItemClickListener;

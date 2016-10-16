@@ -13,7 +13,8 @@ import org.robolectric.annotation.Config;
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.utils.DefaultConfig;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = DefaultConfig.EMULATED_SDK)

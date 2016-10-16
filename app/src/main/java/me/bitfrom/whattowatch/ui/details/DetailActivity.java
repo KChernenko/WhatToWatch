@@ -97,12 +97,21 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     protected String successfullyAddedToFavMsg;
     @BindString(R.string.deleted_from_fav)
     protected String alreadyInFavMsg;
+    @BindString(R.string.unknown_error_msg)
+    protected String unknownErrorMsg;
     @BindColor(android.R.color.transparent)
     protected int transparentColor;
 
     private OnSwipeTouchListener swipeTouchListener;
 
     private String filmId;
+
+    //For sharing purposes
+    private String title;
+    private String rating;
+    private String directors;
+    private String genres;
+    private String imdbLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -158,7 +167,34 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @OnClick(R.id.action_share)
     public void btnShareClicked() {
-        detailPresenter.shareWithFriends();
+        String sharedInfo = " «" +
+                title + "»" + "\n" +
+                getString(R.string.share_action_imdb_rating) + " " + rating +
+                ".\n" + getString(R.string.share_action_directors) + " " +
+                directors + "\n" + genres + "\n" +
+                getString(R.string.app_hash_tag);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.share_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final TextInputLayout til = (TextInputLayout) dialogView.findViewById(R.id.input_layout_comment);
+        final EditText edt = (EditText) dialogView.findViewById(R.id.user_comment);
+
+        dialogBuilder.setPositiveButton(R.string.share_action_next, (dialog, whichButton) -> {
+            if (edt.getText().toString().length() >= ConstantsManager.SHARE_COMMENT_SIZE) {
+                til.setError(getString(R.string.share_action_error_long_comment));
+            } else {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, edt.getText().toString() + sharedInfo);
+
+                this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
+            }
+        });
+        dialogBuilder.setNegativeButton(R.string.share_action_cancel,
+                (dialog, whichButton) -> dialog.cancel()).create().show();
     }
 
     @OnClick(R.id.action_save_fav)
@@ -175,7 +211,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
                     dialog.cancel())
                 .setPositiveButton(R.string.dialog_positive, (dialog, which) -> {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(detailPresenter.getImdbLink()));
+                    intent.setData(Uri.parse(imdbLink));
                     this.startActivity(intent);
                 }).show();
     }
@@ -184,62 +220,40 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
     public void showFilmInfo(@NonNull FilmEntity film) {
         //noinspection ConstantConditions
         imageDownloader.loadImage(Flag.FULL_SIZE, film.posterUrl(), posterView);
-        titleView.setText(film.title());
+        title = film.title();
+        titleView.setText(title);
         countriesView.setText(film.countries());
         yearView.setText(film.year());
         runtimeView.setText(film.runtime());
-        ratingView.setText(film.rating());
-        genresView.setText(film.genres());
-        directorsView.setText(film.directors());
+        rating = film.rating();
+        ratingView.setText(rating);
+        genres = film.genres();
+        genresView.setText(genres);
+        directors = film.directors();
+        directorsView.setText(directors);
         writesView.setText(film.writers());
         plotView.setText(film.plot());
+
+        imdbLink = film.imbdUrl();
 
         setCollapsingToolbarLayout(film.title());
     }
 
     @Override
     public void showUnknownError() {
-        Snackbar.make(nestedScrollView,
-                getString(R.string.error_list_empty), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(nestedScrollView, unknownErrorMsg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void showAddedToFavorites() {
         Snackbar.make(nestedScrollView, successfullyAddedToFavMsg, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo_fav, v ->
-                        detailPresenter.updateFavorites(filmId)).show();
+                .setAction(R.string.undo_fav, v -> detailPresenter.updateFavorites(filmId)).show();
     }
 
     @Override
     public void showRemovedFromFavorites() {
         Snackbar.make(nestedScrollView, alreadyInFavMsg, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo_fav, v ->
-                        detailPresenter.updateFavorites(filmId)).show();
-    }
-
-    @Override
-    public void shareWithFriends(String shareInfo) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.share_dialog, null);
-        dialogBuilder.setView(dialogView);
-
-        final TextInputLayout til = (TextInputLayout) dialogView.findViewById(R.id.input_layout_comment);
-        final EditText edt = (EditText) dialogView.findViewById(R.id.user_comment);
-
-        dialogBuilder.setPositiveButton(R.string.share_action_next, (dialog, whichButton) -> {
-            if (edt.getText().toString().length() >= ConstantsManager.SHARE_COMMENT_SIZE) {
-                til.setError(getString(R.string.share_action_error_long_comment));
-            } else {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, edt.getText().toString() + shareInfo);
-
-                this.startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_to)));
-            }
-        });
-        dialogBuilder.setNegativeButton(R.string.share_action_cancel, (dialog, whichButton) ->
-                dialog.cancel()).create().show();
+                .setAction(R.string.undo_fav, v -> detailPresenter.updateFavorites(filmId)).show();
     }
 
     private void initActionBar() {
