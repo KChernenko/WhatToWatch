@@ -4,4 +4,6 @@ import me.bitfrom.whattowatch.ui.base.MvpView;
 
 public interface MainMvpView extends MvpView {
 
+    void navigateToIntroActivity();
+
 }

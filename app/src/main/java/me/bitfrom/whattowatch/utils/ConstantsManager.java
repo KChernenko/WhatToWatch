@@ -24,6 +24,9 @@ public final class ConstantsManager {
     public static final int GATEWAY_TIME_OUT = 504;
     public static final int NETWORK_CONNECT_TIMEOUT_ERROR = 599;
 
+    //AndroidJob
+    public static final String SYNC_FILMS_JOB_TAG = "sync_films_job_tag";
+
     //Constants for data storage
     public static final String DATABASE_NAME = "whattowatch.db";
     public static final int DATABASE_VERSION = 3;
@@ -39,11 +42,11 @@ public final class ConstantsManager {
     public static final String PREF_FILE_NAME = "what_to_watch_pref_file";
     public static final String APPS_FIRST_LAUNCH = "apps_first_launch";
     //Three days in seconds
-    public static final int THREE_DAYS = 259200;
+    public static final long THREE_DAYS = 259200000L;
     //Five days in seconds
-    public static final int FIVE_DAYS = 432000;
+    public static final long FIVE_DAYS = 432000000L;
     //Seven days in seconds
-    public static final int SEVEN_DAYS = 604800;
+    public static final long SEVEN_DAYS = 604800000L;
 
     public static final int NOTIFICATION_ID = 50001;
 

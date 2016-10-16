@@ -1,27 +1,23 @@
 package me.bitfrom.whattowatch.ui.main;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.core.DataManager;
-import me.bitfrom.whattowatch.core.sync.FilmsSyncAdapter;
-import me.bitfrom.whattowatch.injection.ApplicationContext;
-import me.bitfrom.whattowatch.ui.intro.WWIntro;
+import me.bitfrom.whattowatch.core.sync.SyncFilmsJob;
 import me.bitfrom.whattowatch.ui.base.BasePresenter;
 
 public class MainPresenter extends BasePresenter<MainMvpView> {
 
-    private Context context;
     private DataManager dataManager;
+    private SyncFilmsJob syncFilmsJob;
 
     @Inject
-    public MainPresenter(@NonNull @ApplicationContext Context context,
-                         @NonNull DataManager dataManager) {
-        this.context = context;
+    public MainPresenter(@NonNull DataManager dataManager,
+                         @NonNull SyncFilmsJob syncFilmsJob) {
         this.dataManager = dataManager;
+        this.syncFilmsJob = syncFilmsJob;
     }
 
     @Override
@@ -35,14 +31,13 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
     }
 
     public void initFirstSync() {
-        checkViewAttached();
         if (dataManager.getPreferencesHelper().checkIfFirstLaunched()) {
-            Intent intent = new Intent(context, WWIntro.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-            dataManager.getPreferencesHelper().markFirstLaunched();
+            if (isViewAttached()) {
+                getMvpView().navigateToIntroActivity();
+                dataManager.getPreferencesHelper().markFirstLaunched();
+            }
         } else {
-            FilmsSyncAdapter.initSyncAdapter(context);
+            syncFilmsJob.scheduleSync();
         }
     }
 }

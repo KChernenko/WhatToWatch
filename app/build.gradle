@@ -175,7 +175,6 @@ dependencies {
 
     compile libraries.rxJava
     compile libraries.rxAndroid
-    compile libraries.rxProguardRules
 
     compile libraries.okHttp
     compile libraries.okHttpLoggingInterceptor
@@ -184,6 +183,7 @@ dependencies {
     apt libraries.loganSquareApt
     compile libraries.loganSquare
     compile libraries.loganSquareConverter
+    compile libraries.androidJob
 
     // Do not compile AutoValue dependencies to the app.
     apt libraries.autoValueParcel

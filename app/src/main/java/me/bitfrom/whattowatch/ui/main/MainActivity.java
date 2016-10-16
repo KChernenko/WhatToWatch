@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,7 @@ import me.bitfrom.whattowatch.ui.bottomfilms.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.comingsoon.ComingSoonFragment;
 import me.bitfrom.whattowatch.ui.favorites.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.incinemas.InCinemasFragment;
+import me.bitfrom.whattowatch.ui.intro.WWIntro;
 import me.bitfrom.whattowatch.ui.settings.SettingsFragment;
 import me.bitfrom.whattowatch.ui.topfilms.TopFilmsFragment;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -144,6 +146,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void navigateToIntroActivity() {
+        Intent intent = new Intent(this, WWIntro.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     /**

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.evernote.android.job.JobManager;
 import com.facebook.stetho.Stetho;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -15,6 +16,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import io.fabric.sdk.android.Fabric;
+import me.bitfrom.whattowatch.core.sync.SyncFilmsJobCreator;
 import me.bitfrom.whattowatch.injection.component.ApplicationComponent;
 import me.bitfrom.whattowatch.injection.component.DaggerApplicationComponent;
 import me.bitfrom.whattowatch.injection.module.ApplicationModule;
@@ -34,6 +36,7 @@ public class WWApplication extends Application {
         initLeakCanary();
         initImageLibrary();
         initStetho();
+        initAndroidJob();
     }
 
     public static WWApplication get(Context context) {
@@ -90,5 +93,9 @@ public class WWApplication extends Application {
 
     private void initStetho() {
         Stetho.initializeWithDefaults(this);
+    }
+
+    private void initAndroidJob() {
+        JobManager.create(this).addJobCreator(new SyncFilmsJobCreator());
     }
 }
