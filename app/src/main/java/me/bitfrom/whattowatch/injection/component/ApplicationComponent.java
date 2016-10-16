@@ -12,7 +12,6 @@ import me.bitfrom.whattowatch.core.DataManager;
 import me.bitfrom.whattowatch.core.rest.RestModule;
 import me.bitfrom.whattowatch.core.storage.DbHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
-import me.bitfrom.whattowatch.core.sync.FilmsSyncAdapter;
 import me.bitfrom.whattowatch.core.sync.SyncFilmsJob;
 import me.bitfrom.whattowatch.core.sync.services.SyncBottomFilmsService;
 import me.bitfrom.whattowatch.core.sync.services.SyncComingSoonService;
@@ -35,8 +34,6 @@ public interface ApplicationComponent {
     void inject(SyncInCinemasFilmsService syncInCinemasFilmsService);
 
     void inject(SyncComingSoonService syncComingSoonService);
-
-    void inject(FilmsSyncAdapter filmsSyncAdapter);
 
     void inject(SyncFilmsJob syncFilmsJob);
 

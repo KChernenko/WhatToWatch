@@ -44,32 +44,6 @@
         <activity android:name=".ui.intro.WWIntro"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
-        <provider
-            android:authorities="@string/content_authority"
-            android:name=".core.sync.StubProvider"
-            android:exported="false"
-            android:syncable="true"/>
-        <service
-            android:name=".core.sync.FilmsAuthenticatorService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-        <!-- The SyncAdapter service -->
-        <service
-            android:name=".core.sync.FilmsSyncService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
-        </service>
         <service android:name=".core.sync.services.SyncTopFilmsService"
             android:exported="false"/>
         <service android:name=".core.sync.services.SyncBottomFilmsService"
