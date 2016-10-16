@@ -19,8 +19,8 @@ public class PreferencesHelper {
 
     @Inject
     public PreferencesHelper(@NonNull @ApplicationContext Context context) {
-        preferences = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
         this.context = context;
+        preferences = context.getSharedPreferences(ConstantsManager.PREF_FILE_NAME, Context.MODE_PRIVATE);
     }
 
     public SharedPreferences getSharedPreferences() {
@@ -39,7 +39,7 @@ public class PreferencesHelper {
      * Returns number of films, that user selected in the application's settings;
      * 7 - by default.
      **/
-    public int getProfferedNuderOfFilms() {
+    public int getPreferredNumberOfFilms() {
         return Integer.parseInt(preferences.getString(context.getString(R.string.pref_number_of_films_key),
                 context.getString(R.string.pref_number_of_films_seven)));
     }

@@ -52,7 +52,7 @@ public class DataManager {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return  dbHelper.insertFilms(result.subList(0,
-                            preferencesHelper.getProfferedNuderOfFilms()),
+                            preferencesHelper.getPreferredNumberOfFilms()),
                             ConstantsManager.CATEGORY_TOP);
                 });
     }
@@ -66,7 +66,7 @@ public class DataManager {
                     List<MoviePojo> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return  dbHelper.insertFilms(result.subList(0,
-                            preferencesHelper.getProfferedNuderOfFilms()),
+                            preferencesHelper.getPreferredNumberOfFilms()),
                             ConstantsManager.CATEGORY_BOTTOM);
                 });
     }
