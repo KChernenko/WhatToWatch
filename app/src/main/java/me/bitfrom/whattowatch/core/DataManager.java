@@ -74,7 +74,7 @@ public class DataManager {
     @NonNull
     public Observable<List<MoviePojo>> loadInCinemaFilms() {
         return filmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
-                ConstantsManager.TEST_LAN)
+                ConstantsManager.LANG_ENGLISH)
                 .concatMap(theaterPojo -> {
                     List<MoviePojo> result = new ArrayList<>();
                     int inTheatreSize = theaterPojo.getData().getInTheaters().size();

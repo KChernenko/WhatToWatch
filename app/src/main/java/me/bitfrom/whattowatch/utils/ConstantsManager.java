@@ -9,7 +9,7 @@ public final class ConstantsManager {
     public static final String API_BOTTOM_LIST_END = "100";
     public static final String API_FORMAT = "json";
     public static final String API_DATA = "1";
-    public static final String TEST_LAN = "en";
+    public static final String LANG_ENGLISH = "en";
     public static final int CONNECTION_TIMEOUT = 60;
     public static final int READ_TIMEOUT = 60;
     public static final String CACHE_DIR_NAME = "wtw_http_cache";
