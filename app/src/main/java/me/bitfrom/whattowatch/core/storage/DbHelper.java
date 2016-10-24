@@ -35,7 +35,7 @@ public class DbHelper {
     @Inject
     public DbHelper(@NonNull DbOpenHelper dbOpenHelper,
                     @NonNull ImageDownloader imageDownloader) {
-        database = SqlBrite.create().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
+        database = new SqlBrite.Builder().build().wrapDatabaseHelper(dbOpenHelper, Schedulers.io());
         this.imageDownloader = imageDownloader;
     }
 
