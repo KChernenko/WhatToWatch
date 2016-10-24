@@ -67,7 +67,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ext.betaDistributionReleaseNotesFilePath =
                     file('../crashlytics_release_notes.txt').absolutePath
-            buildConfigField "String", "API_TOKEN", loadApiKey('api_key.properties')
+            //buildConfigField "String", "API_TOKEN", loadApiKey('api_key.properties')
             signingConfig signingConfigs.release
         }
 
