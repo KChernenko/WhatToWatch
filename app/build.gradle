@@ -53,11 +53,11 @@ android {
         }
 
         debug {
-            def Properties dProps = loadSigningProperties('debug_signing.properties')
-            storeFile = file(dProps['STORE_FILE'])
-            storePassword = dProps['STORE_PASSWORD']
-            keyAlias = dProps['KEY_ALIAS']
-            keyPassword = dProps['KEY_PASSWORD']
+//            def Properties dProps = loadSigningProperties('debug_signing.properties')
+//            storeFile = file(dProps['STORE_FILE'])
+//            storePassword = dProps['STORE_PASSWORD']
+//            keyAlias = dProps['KEY_ALIAS']
+//            keyPassword = dProps['KEY_PASSWORD']
         }
     }
 
