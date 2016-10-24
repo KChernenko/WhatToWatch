@@ -44,19 +44,20 @@ android {
     signingConfigs {
         //noinspection GroovyMissingReturnStatement
         release {
-//            def Properties rProps = loadSigningProperties('release_signing.properties')
-//            storeFile = file(rProps['STORE_FILE'])
-//            storePassword = rProps['STORE_PASSWORD']
-//            keyAlias = rProps['KEY_ALIAS']
-//            keyPassword = rProps['KEY_PASSWORD']
+            //Force to use debug signing properties for the CircleCI
+            def Properties rProps = loadSigningProperties('debug_signing.properties')
+            storeFile = file(rProps['STORE_FILE'])
+            storePassword = rProps['STORE_PASSWORD']
+            keyAlias = rProps['KEY_ALIAS']
+            keyPassword = rProps['KEY_PASSWORD']
         }
 
         debug {
-//            def Properties dProps = loadSigningProperties('debug_signing.properties')
-//            storeFile = file(dProps['STORE_FILE'])
-//            storePassword = dProps['STORE_PASSWORD']
-//            keyAlias = dProps['KEY_ALIAS']
-//            keyPassword = dProps['KEY_PASSWORD']
+            def Properties dProps = loadSigningProperties('debug_signing.properties')
+            storeFile = file(dProps['STORE_FILE'])
+            storePassword = dProps['STORE_PASSWORD']
+            keyAlias = dProps['KEY_ALIAS']
+            keyPassword = dProps['KEY_PASSWORD']
         }
     }
 
@@ -67,7 +68,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ext.betaDistributionReleaseNotesFilePath =
                     file('../crashlytics_release_notes.txt').absolutePath
-            //buildConfigField "String", "API_TOKEN", loadApiKey('api_key.properties')
+            //Force to use debug api token for the CircleCI
+            buildConfigField "String", "API_TOKEN", loadApiKey('debug_api_key.properties')
             signingConfig signingConfigs.release
         }
 
