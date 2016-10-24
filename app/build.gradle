@@ -44,14 +44,15 @@ android {
     signingConfigs {
         //noinspection GroovyMissingReturnStatement
         release {
-//            //Force to use debug signing properties for the CircleCI
-//            def Properties rProps = loadSigningProperties('debug_signing.properties')
-//            storeFile = file(rProps['STORE_FILE'])
-//            storePassword = rProps['STORE_PASSWORD']
-//            keyAlias = rProps['KEY_ALIAS']
-//            keyPassword = rProps['KEY_PASSWORD']
+            //Force to use debug signing properties for the CircleCI
+            def Properties rProps = loadSigningProperties('release_signing.properties')
+            storeFile = file(rProps['STORE_FILE'])
+            storePassword = rProps['STORE_PASSWORD']
+            keyAlias = rProps['KEY_ALIAS']
+            keyPassword = rProps['KEY_PASSWORD']
         }
 
+        //noinspection GroovyMissingReturnStatement
         debug {
 //            def Properties dProps = loadSigningProperties('debug_signing.properties')
 //            storeFile = file(dProps['STORE_FILE'])
@@ -141,6 +142,7 @@ dependencies {
 
     compile libraries.rxJava
     compile libraries.rxAndroid
+    compile libraries.rxJavaProGuardRules
 
     compile libraries.okHttp
     compile libraries.okHttpLoggingInterceptor

@@ -25,6 +25,7 @@ ext.versions = [
         //Rx
         rxJava                       : '1.2.1',
         rxAndroid                    : '1.2.1',
+        rxJavaProGuardRules          : '1.2.1.0',
 
         //Rest
         okHttp                       : '3.4.1',
@@ -100,6 +101,7 @@ ext.libraries = [
 
         rxJava                  : "io.reactivex:rxjava:$versions.rxJava",
         rxAndroid               : "io.reactivex:rxandroid:$versions.rxAndroid",
+        rxJavaProGuardRules     : "com.artemzin.rxjava:proguard-rules:$versions.rxJavaProGuardRules",
         javaPoet                : "com.squareup:javapoet:$versions.javaPoet",
 
         okHttp                  : "com.squareup.okhttp3:okhttp:$versions.okHttp",
