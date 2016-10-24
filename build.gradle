@@ -39,6 +39,10 @@ allprojects {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = versions.androidGradlePlugin
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
