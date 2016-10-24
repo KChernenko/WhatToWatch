@@ -20,7 +20,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public ActivityComponent getActivityComponent() {
         if (activityComponent == null) {
-            activityComponent = WWApplication.get(this)
+            activityComponent = WWApplication.getApplication()
                     .getComponent()
                     .addActivityComponent(new ActivityModule(this));
         }

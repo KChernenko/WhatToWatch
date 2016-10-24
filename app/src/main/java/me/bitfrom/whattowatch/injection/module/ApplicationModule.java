@@ -6,11 +6,12 @@ import android.support.annotation.NonNull;
 
 import org.greenrobot.eventbus.EventBus;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import me.bitfrom.whattowatch.core.NotificationHelper;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
+import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
+import me.bitfrom.whattowatch.core.sync.SyncFilmsJob;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 
 @Module
@@ -33,9 +34,7 @@ public class ApplicationModule {
         return application;
     }
 
-    @Provides
-    @ApplicationContext
-    @Singleton @NonNull
+    @Provides @NonNull
     ImageDownloader providesImageDownloader() {
         return new ImageDownloader();
     }
@@ -43,5 +42,20 @@ public class ApplicationModule {
     @Provides
     EventBus providesEventBus() {
         return EventBus.getDefault();
+    }
+
+    @Provides @NonNull
+    PreferencesHelper providesPreferencesHelper() {
+        return new PreferencesHelper(application);
+    }
+
+    @Provides @NonNull
+    NotificationHelper providesNotificationHelper() {
+        return new NotificationHelper(application, providesPreferencesHelper());
+    }
+
+    @Provides @NonNull
+    SyncFilmsJob providesSyncFilmJob() {
+        return new SyncFilmsJob();
     }
 }

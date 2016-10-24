@@ -3,29 +3,35 @@ package me.bitfrom.whattowatch.ui.settings;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import javax.inject.Inject;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.ui.base.BasePreferenceFragment;
+import me.bitfrom.whattowatch.ui.main.MainActivity;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends BasePreferenceFragment implements SettingsView, Preference.OnPreferenceChangeListener {
+
+    @Inject
+    protected SettingsPresenter presenter;
 
     private SwitchPreference mainSwitch;
     private SwitchPreference vibSwitch;
     private SwitchPreference ledSwitch;
     private SwitchPreference soundSwitch;
 
+    private String newValue;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.pref_general);
+
+        getFragmentComponent((MainActivity) getActivity()).inject(this);
+
         mainSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_notifications_key));
         vibSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_vibration_key));
         ledSwitch = (SwitchPreference) findPreference(getString(R.string.pref_enable_led_key));
@@ -44,11 +50,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_number_of_films_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_frequency_of_updates_key)));
+    }
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (presenter != null) presenter.detachView();
     }
 
     @Override
@@ -62,6 +75,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
+
+            if (preference.getKey().equals(getString(R.string.pref_frequency_of_updates_key))) {
+                presenter.rescheduleSync(stringValue);
+            }
         } else {
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
@@ -69,11 +86,17 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         return true;
     }
 
+    @Override
+    public void loadNewValue(@NonNull String newValue) {
+        this.newValue = newValue;
+    }
 
     private void bindPreferenceSummaryToValue(@NonNull Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(this);
+
+        presenter.getNewValue(preference.getKey());
         // Trigger the listener immediately with the preference's current value.
-        onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+        onPreferenceChange(preference, newValue);
     }
 }

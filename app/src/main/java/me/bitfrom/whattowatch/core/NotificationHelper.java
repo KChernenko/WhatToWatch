@@ -13,22 +13,25 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.R;
+import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.ui.main.MainActivity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 
+@Singleton
 public class NotificationHelper {
 
-    private DataManager dataManager;
     private Context context;
+    private PreferencesHelper preferencesHelper;
 
     @Inject
-    public NotificationHelper(@NonNull DataManager dataManager,
-                              @NonNull @ApplicationContext Context context) {
-        this.dataManager = dataManager;
+    public NotificationHelper(@NonNull @ApplicationContext Context context,
+                              @NonNull PreferencesHelper preferencesHelper) {
         this.context = context;
+        this.preferencesHelper = preferencesHelper;
     }
 
     public void showNotification() {
@@ -38,13 +41,13 @@ public class NotificationHelper {
         String ledNotificationsKey = context.getString(R.string.pref_enable_led_key);
         String soundNotificationsKey = context.getString(R.string.pref_enable_sound_key);
 
-        boolean displayNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+        boolean displayNotifications = preferencesHelper.getSharedPreferences()
                 .getBoolean(displayNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
-        boolean ledNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+        boolean ledNotifications = preferencesHelper.getSharedPreferences()
                 .getBoolean(ledNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
-        boolean vibNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+        boolean vibNotifications = preferencesHelper.getSharedPreferences()
                 .getBoolean(vibNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
-        boolean soundNotifications = dataManager.getPreferencesHelper().getSharedPreferences()
+        boolean soundNotifications = preferencesHelper.getSharedPreferences()
                 .getBoolean(soundNotificationsKey, Boolean.parseBoolean(context.getString(R.string.pref_enable_notifications_default)));
 
         if (displayNotifications) {

@@ -26,10 +26,13 @@ public class WWApplication extends Application {
 
     private ApplicationComponent applicationComponent;
     private RefWatcher refWatcher;
+    private static WWApplication application;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        application = this;
 
         initTimber();
         initFabric();
@@ -39,8 +42,8 @@ public class WWApplication extends Application {
         initAndroidJob();
     }
 
-    public static WWApplication get(Context context) {
-        return (WWApplication) context.getApplicationContext();
+    public static WWApplication getApplication() {
+        return application;
     }
 
     public ApplicationComponent getComponent() {

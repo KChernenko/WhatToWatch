@@ -1,5 +1,6 @@
 package me.bitfrom.whattowatch.core.storage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import javax.inject.Singleton;
 import me.bitfrom.whattowatch.R;
 import me.bitfrom.whattowatch.injection.ApplicationContext;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
+import timber.log.Timber;
 
 @Singleton
 public class PreferencesHelper {
@@ -50,20 +52,37 @@ public class PreferencesHelper {
      **/
     public long getUpdateInterval() {
         long updateInterval;
-        long updatePeriod = Long.parseLong(preferences
-                .getString(context.getString(R.string.pref_frequency_of_updates_key),
-                        context.getString(R.string.pref_frequency_of_updates_five)));
+        String defaultValue = context.getString(R.string.pref_frequency_of_updates_five);
+        int updatePeriod = Integer.parseInt(defaultValue);
 
-        if (updatePeriod == ConstantsManager.THREE_DAYS) {
+        if (! preferences.getString(context.getString(R.string.pref_frequency_of_updates_key), "").isEmpty()) {
+            updatePeriod = Integer.parseInt(preferences
+                    .getString(context.getString(R.string.pref_frequency_of_updates_key), defaultValue));
+        }
+
+        Timber.e("Update period: %s", updatePeriod);
+
+        if (updatePeriod == 3) {
             updateInterval = ConstantsManager.THREE_DAYS;
-        } else if (updatePeriod == ConstantsManager.FIVE_DAYS) {
+        } else if (updatePeriod == 5) {
             updateInterval = ConstantsManager.FIVE_DAYS;
-        } else if (updatePeriod == ConstantsManager.SEVEN_DAYS) {
+        } else if (updatePeriod == 7) {
             updateInterval = ConstantsManager.SEVEN_DAYS;
         } else {
             updateInterval = ConstantsManager.FIVE_DAYS;
         }
 
         return updateInterval;
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void setUpdateInterval(String interval) {
+        preferences.edit().putString(context.getString(R.string.pref_frequency_of_updates_key),
+                String.valueOf(interval)).commit();
+    }
+
+    @NonNull
+    public String getPreferenceByKey(@NonNull String prefKey) {
+        return preferences.getString(prefKey, "");
     }
 }

@@ -9,6 +9,7 @@ import me.bitfrom.whattowatch.ui.bottomfilms.BottomFilmsFragment;
 import me.bitfrom.whattowatch.ui.comingsoon.ComingSoonFragment;
 import me.bitfrom.whattowatch.ui.favorites.FavoritesFragment;
 import me.bitfrom.whattowatch.ui.incinemas.InCinemasFragment;
+import me.bitfrom.whattowatch.ui.settings.SettingsFragment;
 import me.bitfrom.whattowatch.ui.topfilms.TopFilmsFragment;
 
 @PerFragment
@@ -26,5 +27,7 @@ public interface FragmentComponent {
     void inject(InCinemasFragment inCinemasFragment);
 
     void inject(ComingSoonFragment comingSoonFragment);
+
+    void inject(SettingsFragment settingsFragment);
 
 }

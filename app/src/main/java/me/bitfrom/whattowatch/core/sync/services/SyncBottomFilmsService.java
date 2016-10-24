@@ -24,7 +24,7 @@ public class SyncBottomFilmsService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        WWApplication.get(this).getComponent().inject(this);
+        WWApplication.getApplication().getComponent().inject(this);
     }
 
     @Override

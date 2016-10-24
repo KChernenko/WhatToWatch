@@ -7,9 +7,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.R;
 
+@Singleton
 public class ImageDownloader implements ImageLoaderInteractor {
 
     private ImageLoader imageLoader;

@@ -13,6 +13,7 @@ import me.bitfrom.whattowatch.core.rest.RestModule;
 import me.bitfrom.whattowatch.core.storage.DbHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
 import me.bitfrom.whattowatch.core.sync.SyncFilmsJob;
+import me.bitfrom.whattowatch.core.sync.SyncFilmsJobCreator;
 import me.bitfrom.whattowatch.core.sync.services.SyncBottomFilmsService;
 import me.bitfrom.whattowatch.core.sync.services.SyncComingSoonService;
 import me.bitfrom.whattowatch.core.sync.services.SyncInCinemasFilmsService;
@@ -36,6 +37,8 @@ public interface ApplicationComponent {
     void inject(SyncComingSoonService syncComingSoonService);
 
     void inject(SyncFilmsJob syncFilmsJob);
+
+    void inject(SyncFilmsJobCreator syncFilmsJobCreator);
 
     @ApplicationContext
     Context context();
