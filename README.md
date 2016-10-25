@@ -3,6 +3,8 @@ Interesting movies in yours device.
 
 ### What does it look like:
 
+![](http://i.imgur.com/xpQAyHr.png) ![](http://i.imgur.com/9V5oRhE.png) ![](http://i.imgur.com/PZTIMFN.png) ![](http://i.imgur.com/SNPCZ0z.png) 
+
 You could install the app and check:
 https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
 
@@ -20,6 +22,7 @@ https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
     implementation; AUIL has beautiful disk-ram cache mechanism, that helps to use less memory in
     a ReclyclerView and instantly cache images on disk during the synchronization)
 * [AutoValue: Parcel Extension](https://github.com/rharter/auto-value-parcel)
+* [android-job](https://github.com/evernote/android-job)
 * ButterKnife
 * [AppIntro](https://github.com/PaoloRotolo/AppIntro)
 * [FloatingActionButton](https://github.com/futuresimple/android-floating-action-button)
@@ -36,8 +39,11 @@ Code Analysis tools:
 * [Findbugs](http://findbugs.sourceforge.net/): This tool uses static analysis to find bugs in Java code. Unlike PMD, it uses compiled Java bytecode instead of source code.
 * [Checkstyle](http://checkstyle.sourceforge.net/): It ensures that the code style follows [Ribots Android code guidelines](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md#2-code-guidelines) (with some modifications). See [checkstyle config file](config/quality/checkstyle/checkstyle-config.xml).
 
+Continuous Integration:
+* [CircleCI](https://circleci.com) [![CircleCI](https://circleci.com/gh/KChernenko/WhatToWatch.svg?style=svg&circle-token=adfc8e02a0a2ea4897ecee98ca95a7e725ed6015)](https://circleci.com/gh/KChernenko/WhatToWatch)
+
 ### What it will have:
-* Unit tests (Robolectric and/or JUnit).
+* Unit tests (~~Robolectric~~ and JUnit).
 * Functional (UI) tests (Espresso).
 
 ### What next features will appear:
