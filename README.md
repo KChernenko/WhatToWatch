@@ -40,7 +40,7 @@ Code Analysis tools:
 * [Checkstyle](http://checkstyle.sourceforge.net/): It ensures that the code style follows [Ribots Android code guidelines](https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md#2-code-guidelines) (with some modifications). See [checkstyle config file](config/quality/checkstyle/checkstyle-config.xml).
 
 Continuous Integration:
-* [CircleCI](https://circleci.com) [![CircleCI](https://circleci.com/gh/KChernenko/WhatToWatch.svg?style=svg&circle-token=adfc8e02a0a2ea4897ecee98ca95a7e725ed6015)](https://circleci.com/gh/KChernenko/WhatToWatch)
+* [CircleCI](https://circleci.com) [![CircleCI](https://circleci.com/gh/KChernenko/WhatToWatch/tree/develop.svg?style=svg&circle-token=adfc8e02a0a2ea4897ecee98ca95a7e725ed6015)](https://circleci.com/gh/KChernenko/WhatToWatch/tree/develop)
 
 ### What it will have:
 * Unit tests (~~Robolectric~~ and JUnit).
