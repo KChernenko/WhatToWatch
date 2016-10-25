@@ -3,7 +3,7 @@ Interesting movies in yours device.
 
 ### What does it look like:
 
-![](http://i.imgur.com/xpQAyHr.png) ![](http://i.imgur.com/9V5oRhE.png) ![](http://i.imgur.com/PZTIMFN.png) ![](http://i.imgur.com/SNPCZ0z.png) 
+![](http://i.imgur.com/xpQAyHr.png) ![](http://i.imgur.com/9V5oRhE.png) ![](http://i.imgur.com/PZTIMFN.png) 
 
 You could install the app and check:
 https://play.google.com/store/apps/details?id=me.bitfrom.whattowatch
