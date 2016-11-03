@@ -9,24 +9,17 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    def versionPropsFile = file('version.properties')
-    def versionBuild
-
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionPropsFile))
-        versionBuild = versionProps['AI_VERSION_CODE'].toInteger()
-    } else {
-        throw new GradleException("Could not read version.properties!")
-    }
+    def versionMajor = 1
+    def versionMinor = 0
+    def versionPatch = 0
+    def versionBuild = loadBuildNumber();
 
     defaultConfig {
         applicationId "me.bitfrom.whattowatch"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode versionBuild
-        versionName "1.0."  + versionCode
-        multiDexEnabled true
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner "${applicationId}.runner.RxAndroidJUnitRunner"
     }
@@ -131,7 +124,7 @@ dependencies {
     compile libraries.supportRecyclerView
     compile libraries.supportCardView
     compile libraries.supportGridLayout
-    compile libraries.multidex
+   // compile libraries.multidex
 
     apt libraries.javaPoet
     compile libraries.dagger
@@ -235,5 +228,16 @@ def Properties loadSigningProperties(String propertyFileName) {
         }
     } else {
         throw new GradleException(propertyFileName + " not found")
+    }
+}
+
+def int loadBuildNumber() {
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        return versionProps['AI_VERSION_CODE'].toInteger()
+    } else {
+        throw new GradleException("Could not read version.properties!")
     }
 }
