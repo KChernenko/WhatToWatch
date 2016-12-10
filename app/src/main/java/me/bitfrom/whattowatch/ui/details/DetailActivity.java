@@ -156,6 +156,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         btnIMDBLink.setOnClickListener(null);
         rootLayout.setOnTouchListener(null);
         if (detailPresenter != null) detailPresenter.detachView();
+        releaseActivityComponent();
         super.onDestroy();
     }
 

@@ -18,6 +18,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = WWApplication.getRefWatcher(this);
+        refWatcher.watch(this);
+    }
+
     public ActivityComponent getActivityComponent() {
         if (activityComponent == null) {
             activityComponent = WWApplication.getApplication()
@@ -28,10 +35,7 @@ public class BaseActivity extends AppCompatActivity {
         return activityComponent;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = WWApplication.getRefWatcher(this);
-        refWatcher.watch(this);
+    public void releaseActivityComponent() {
+        activityComponent = null;
     }
 }

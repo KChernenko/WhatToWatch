@@ -7,51 +7,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonObject
-public class MoviePojo {
+public class MovieModel {
 
-    @JsonField
+    @JsonField(name = "title")
     private String title;
-    @JsonField
+    @JsonField(name = "originalTitle")
     private String originalTitle;
-    @JsonField
+    @JsonField(name = "year")
     private String year;
-    @JsonField
+    @JsonField(name = "releaseDate")
     private String releaseDate;
-    @JsonField
-    private List<DirectorPojo> directors = new ArrayList<>();
-    @JsonField
-    private List<WriterPojo> writers = new ArrayList<>();
-    @JsonField
+    @JsonField(name = "directors")
+    private List<DirectorModel> directors = new ArrayList<>();
+    @JsonField(name = "writers")
+    private List<WriterModel> writers = new ArrayList<>();
+    @JsonField(name = "runtime")
     private String runtime;
-    @JsonField
+    @JsonField(name = "urlPoster")
     private String urlPoster;
-    @JsonField
+    @JsonField(name = "countries")
     private List<String> countries = new ArrayList<>();
-    @JsonField
+    @JsonField(name = "languages")
     private List<String> languages = new ArrayList<>();
-    @JsonField
+    @JsonField(name = "genres")
     private List<String> genres = new ArrayList<>();
-    @JsonField
+    @JsonField(name = "plot")
     private String plot;
-    @JsonField
+    @JsonField(name = "simplePlot")
     private String simplePlot;
-    @JsonField
+    @JsonField(name = "idIMDB")
     private String idIMDB;
-    @JsonField
+    @JsonField(name = "urlIMDB")
     private String urlIMDB;
-    @JsonField
+    @JsonField(name = "rating")
     private String rating;
-    @JsonField
+    @JsonField(name = "metaScore")
     private String metaScore;
-    @JsonField
+    @JsonField(name = "filmingLocations")
     private List<String> filmingLocations = new ArrayList<>();
-    @JsonField
+    @JsonField(name = "rated")
     private String rated;
-    @JsonField
+    @JsonField(name = "votes")
     private String votes;
-    @JsonField
+    @JsonField(name = "type")
     private String type;
-    @JsonField
+    @JsonField(name = "ranking")
     private Integer ranking;
 
     public String getTitle() {
@@ -86,19 +86,19 @@ public class MoviePojo {
         this.releaseDate = releaseDate;
     }
 
-    public List<DirectorPojo> getDirectors() {
+    public List<DirectorModel> getDirectors() {
         return directors;
     }
 
-    public void setDirectors(List<DirectorPojo> directors) {
+    public void setDirectors(List<DirectorModel> directors) {
         this.directors = directors;
     }
 
-    public List<WriterPojo> getWriters() {
+    public List<WriterModel> getWriters() {
         return writers;
     }
 
-    public void setWriters(List<WriterPojo> writers) {
+    public void setWriters(List<WriterModel> writers) {
         this.writers = writers;
     }
 

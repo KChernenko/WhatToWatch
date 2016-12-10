@@ -16,7 +16,7 @@ import java.util.List;
 
 import me.bitfrom.whattowatch.BuildConfig;
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
-import me.bitfrom.whattowatch.core.model.MoviePojo;
+import me.bitfrom.whattowatch.core.model.MovieModel;
 import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.test.common.TestFilmFactory;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
@@ -49,8 +49,8 @@ public class DbHelperTest {
 
     @Test
     public void insertFilmsEmitsPassedValues() {
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
-        TestSubscriber<List<MoviePojo>> result = new TestSubscriber<>();
+        List<MovieModel> movies = TestFilmFactory.generateMovies(2);
+        TestSubscriber<List<MovieModel>> result = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe(result);
 
@@ -62,8 +62,9 @@ public class DbHelperTest {
 
     @Test
     public void selectFilmsByCategoryIdReturnsInsertedFilmsWithCorrectCategoryId() {
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
-        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies, ConstantsManager.NOT_FAVORITE);
+        List<MovieModel> movies = TestFilmFactory.generateMovies(2);
+        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies,
+                ConstantsManager.NOT_FAVORITE, ConstantsManager.CATEGORY_TOP);
 
         TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
 
@@ -78,7 +79,7 @@ public class DbHelperTest {
 
     @Test
     public void selectFilmByIdReturnsCorrectFilm() {
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(2);
+        List<MovieModel> movies = TestFilmFactory.generateMovies(2);
         TestSubscriber<FilmEntity> result = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
@@ -91,8 +92,9 @@ public class DbHelperTest {
 
     @Test
     public void selectFavoriteFilmsReturnsFilmsThatAreInFavorite() {
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(3);
-        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies, ConstantsManager.FAVORITE);
+        List<MovieModel> movies = TestFilmFactory.generateMovies(3);
+        List<FilmEntity> films = TestFilmFactory.convertToFilmEntity(movies,
+                ConstantsManager.FAVORITE, ConstantsManager.CATEGORY_TOP);
         TestSubscriber<List<FilmEntity>> result = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
@@ -109,7 +111,7 @@ public class DbHelperTest {
     public void updateFavoriteShouldUpdateDatabaseEntries() {
         int amountOfFilms = 5;
         int amountOfFavoriteFilms = 2;
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(amountOfFilms);
+        List<MovieModel> movies = TestFilmFactory.generateMovies(amountOfFilms);
         TestSubscriber<List<FilmEntity>> favoriteSelectionResult = new TestSubscriber<>();
 
         dbHelper.insertFilms(movies, ConstantsManager.CATEGORY_TOP).subscribe();
@@ -145,7 +147,7 @@ public class DbHelperTest {
 
     @Test
     public void searchInFavoriteShouldReturnCorrectResult() {
-        List<MoviePojo> movies = TestFilmFactory.generateMovies(7);
+        List<MovieModel> movies = TestFilmFactory.generateMovies(7);
         //Checking if method will return concrete item
         TestSubscriber<List<FilmEntity>> oneMatchResult = new TestSubscriber<>();
 

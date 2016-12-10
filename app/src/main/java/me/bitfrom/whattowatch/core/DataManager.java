@@ -13,8 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.BuildConfig;
-import me.bitfrom.whattowatch.core.model.InTheaterPojo;
-import me.bitfrom.whattowatch.core.model.MoviePojo;
+import me.bitfrom.whattowatch.core.model.InTheaterModel;
+import me.bitfrom.whattowatch.core.model.MovieModel;
 import me.bitfrom.whattowatch.core.rest.FilmsAPI;
 import me.bitfrom.whattowatch.core.storage.DbHelper;
 import me.bitfrom.whattowatch.core.storage.PreferencesHelper;
@@ -44,12 +44,12 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<List<MoviePojo>> loadTopFilms() {
+    public Observable<List<MovieModel>> loadTopFilms() {
         return filmsAPI.getTopFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_TOP_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
-                    List<MoviePojo> result = film.getData().getMovies();
+                    List<MovieModel> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return  dbHelper.insertFilms(result.subList(0,
                             preferencesHelper.getPreferredNumberOfFilms()),
@@ -58,12 +58,12 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<List<MoviePojo>> loadBottomFilms() {
+    public Observable<List<MovieModel>> loadBottomFilms() {
         return filmsAPI.getBottomFilms(ConstantsManager.API_LIST_START,
                 ConstantsManager.API_BOTTOM_LIST_END, BuildConfig.API_TOKEN,
                 ConstantsManager.API_FORMAT, ConstantsManager.API_DATA)
                 .concatMap(film -> {
-                    List<MoviePojo> result = film.getData().getMovies();
+                    List<MovieModel> result = film.getData().getMovies();
                     Collections.shuffle(result);
                     return  dbHelper.insertFilms(result.subList(0,
                             preferencesHelper.getPreferredNumberOfFilms()),
@@ -72,16 +72,16 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<List<MoviePojo>> loadInCinemaFilms() {
+    public Observable<List<MovieModel>> loadInCinemaFilms() {
         return filmsAPI.getInCinemas(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT,
                 ConstantsManager.LANG_ENGLISH)
                 .concatMap(theaterPojo -> {
-                    List<MoviePojo> result = new ArrayList<>();
+                    List<MovieModel> result = new ArrayList<>();
                     int inTheatreSize = theaterPojo.getData().getInTheaters().size();
-                    InTheaterPojo inTheaterPojo;
+                    InTheaterModel inTheaterModel;
                     for (int i = 0; i < inTheatreSize; i++) {
-                        inTheaterPojo = theaterPojo.getData().getInTheaters().get(i);
-                        result.addAll(Stream.of(inTheaterPojo.getMovies()).collect(Collectors.toList()));
+                        inTheaterModel = theaterPojo.getData().getInTheaters().get(i);
+                        result.addAll(Stream.of(inTheaterModel.getMovies()).collect(Collectors.toList()));
                     }
                     Collections.shuffle(result);
                     return dbHelper.insertFilms(result, ConstantsManager.CATEGORY_IN_CINEMAS);
@@ -89,14 +89,14 @@ public class DataManager {
     }
 
     @NonNull
-    public Observable<List<MoviePojo>> loadComingSoonFilms() {
+    public Observable<List<MovieModel>> loadComingSoonFilms() {
         return filmsAPI.getComingSoon(BuildConfig.API_TOKEN, ConstantsManager.API_FORMAT)
                 .concatMap(theaterPojo -> {
-                    List<MoviePojo> result = new ArrayList<>();
-                    int inTheatreSize = theaterPojo.getData().getComingSoon().size();
-                    List<MoviePojo> allMovies;
+                    List<MovieModel> result = new ArrayList<>();
+                    int inTheatreSize = theaterPojo.getComingSoonDataModel().getComingSoon().size();
+                    List<MovieModel> allMovies;
                     for (int i = 0; i < inTheatreSize; i++) {
-                        allMovies = theaterPojo.getData().getComingSoon().get(i).getMovies();
+                        allMovies = theaterPojo.getComingSoonDataModel().getComingSoon().get(i).getMovies();
                         result.addAll(Stream.of(allMovies).collect(Collectors.toList()));
                         allMovies.clear();
                     }

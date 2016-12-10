@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonObject
-public class DataTheaterPojo {
+public class DataTheaterModel {
 
-    @JsonField
-    private List<InTheaterPojo> inTheaters = new ArrayList<>();
+    @JsonField(name = "inTheaters")
+    private List<InTheaterModel> inTheaters = new ArrayList<>();
 
-    public List<InTheaterPojo> getInTheaters() {
+    public List<InTheaterModel> getInTheaters() {
         return inTheaters;
     }
 
-    public void setInTheaters(List<InTheaterPojo> inTheaters) {
+    public void setInTheaters(List<InTheaterModel> inTheaters) {
         this.inTheaters = inTheaters;
     }
 }

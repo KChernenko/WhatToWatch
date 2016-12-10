@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonObject
-public class DataPojo {
+public class DataModel {
 
-    @JsonField
-    private List<MoviePojo> movies = new ArrayList<>();
+    @JsonField(name = "movies")
+    private List<MovieModel> movies = new ArrayList<>();
 
-    public List<MoviePojo> getMovies() {
+    public List<MovieModel> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<MoviePojo> movies) {
+    public void setMovies(List<MovieModel> movies) {
         this.movies = movies;
     }
 }

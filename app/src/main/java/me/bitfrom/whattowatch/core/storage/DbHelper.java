@@ -15,9 +15,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.bitfrom.whattowatch.core.image.ImageDownloader;
-import me.bitfrom.whattowatch.core.model.DirectorPojo;
-import me.bitfrom.whattowatch.core.model.MoviePojo;
-import me.bitfrom.whattowatch.core.model.WriterPojo;
+import me.bitfrom.whattowatch.core.model.DirectorModel;
+import me.bitfrom.whattowatch.core.model.MovieModel;
+import me.bitfrom.whattowatch.core.model.WriterModel;
 import me.bitfrom.whattowatch.core.storage.entities.FilmEntity;
 import me.bitfrom.whattowatch.utils.ConstantsManager;
 import rx.Observable;
@@ -40,10 +40,10 @@ public class DbHelper {
     }
 
     @NonNull @SuppressWarnings("unchecked")
-    public Observable<List<MoviePojo>> insertFilms(@NonNull final List<MoviePojo> newMovies, int categoryId) {
+    public Observable<List<MovieModel>> insertFilms(@NonNull final List<MovieModel> newMovies, int categoryId) {
         return Observable.defer(() -> {
             BriteDatabase.Transaction transaction = database.newTransaction();
-            MoviePojo movie = null;
+            MovieModel movie = null;
 
             try {
                 database.delete(FilmEntity.TABLE_NAME,
@@ -60,9 +60,9 @@ public class DbHelper {
                                 .imbdUrl(movie.getUrlIMDB())
                                 .countries(TextUtils.join(ConstantsManager.ARRAY_DIVIDER, movie.getCountries()))
                                 .directors(TextUtils.join(ConstantsManager.ARRAY_DIVIDER,
-                                        Stream.of(movie.getDirectors()).map(DirectorPojo::getName).collect(Collectors.toList())))
+                                        Stream.of(movie.getDirectors()).map(DirectorModel::getName).collect(Collectors.toList())))
                                 .writers(TextUtils.join(ConstantsManager.ARRAY_DIVIDER,
-                                        Stream.of(movie.getWriters()).map(WriterPojo::getName).collect(Collectors.toList())))
+                                        Stream.of(movie.getWriters()).map(WriterModel::getName).collect(Collectors.toList())))
                                 .genres(TextUtils.join(ConstantsManager.ARRAY_DIVIDER, movie.getGenres()))
                                 .plot(!TextUtils.isEmpty(movie.getPlot()) ? movie.getPlot() : "N/A")
                                 .rating(!TextUtils.isEmpty(movie.getRating()) ? movie.getRating() : "N/A")

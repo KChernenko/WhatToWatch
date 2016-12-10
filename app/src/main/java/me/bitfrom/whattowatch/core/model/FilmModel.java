@@ -4,26 +4,26 @@ import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 @JsonObject
-public class FilmPojo {
+public class FilmModel {
 
-    @JsonField
-    private DataPojo data;
-    @JsonField
-    private AboutPojo about;
+    @JsonField(name = "data")
+    private DataModel data;
+    @JsonField(name = "about")
+    private AboutModel about;
 
-    public DataPojo getData() {
+    public DataModel getData() {
         return data;
     }
 
-    public void setData(DataPojo data) {
+    public void setData(DataModel data) {
         this.data = data;
     }
 
-    public AboutPojo getAbout() {
+    public AboutModel getAbout() {
         return about;
     }
 
-    public void setAbout(AboutPojo about) {
+    public void setAbout(AboutModel about) {
         this.about = about;
     }
 

@@ -18,6 +18,13 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = WWApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
+
     @SuppressWarnings("deprecation")
     public FragmentComponent getFragmentComponent(BaseActivity activity) {
         if (fragmentComponent == null) {
@@ -28,10 +35,7 @@ public class BaseFragment extends Fragment {
         return fragmentComponent;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = WWApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+    public void releaseFragmentComponent() {
+        fragmentComponent = null;
     }
 }

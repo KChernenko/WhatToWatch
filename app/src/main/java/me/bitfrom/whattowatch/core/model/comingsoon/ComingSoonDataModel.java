@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonObject
-public class Data {
+public class ComingSoonDataModel {
 
-    @JsonField
+    @JsonField(name = "comingSoon")
     private List<ComingSoon> comingSoon = new ArrayList<>();
 
     public List<ComingSoon> getComingSoon() {

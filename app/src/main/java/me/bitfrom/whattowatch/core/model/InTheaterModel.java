@@ -7,30 +7,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonObject
-public class InTheaterPojo {
+public class InTheaterModel {
 
-    @JsonField
-    private Object openingThisWeek;
-    @JsonField
-    private Object inTheatersNow;
-    @JsonField
+    @JsonField(name = "openingThisWeek")
+    private String openingThisWeek;
+    @JsonField(name = "inTheatersNow")
+    private String inTheatersNow;
+    @JsonField(name = "date")
     private String date;
-    @JsonField
-    private List<MoviePojo> movies = new ArrayList<>();
+    @JsonField(name = "movies")
+    private List<MovieModel> movies = new ArrayList<>();
 
-    public Object getOpeningThisWeek() {
+    public String getOpeningThisWeek() {
         return openingThisWeek;
     }
 
-    public void setOpeningThisWeek(Object openingThisWeek) {
+    public void setOpeningThisWeek(String openingThisWeek) {
         this.openingThisWeek = openingThisWeek;
     }
 
-    public Object getInTheatersNow() {
+    public String getInTheatersNow() {
         return inTheatersNow;
     }
 
-    public void setInTheatersNow(Object inTheatersNow) {
+    public void setInTheatersNow(String inTheatersNow) {
         this.inTheatersNow = inTheatersNow;
     }
 
@@ -42,11 +42,11 @@ public class InTheaterPojo {
         this.date = date;
     }
 
-    public List<MoviePojo> getMovies() {
+    public List<MovieModel> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<MoviePojo> movies) {
+    public void setMovies(List<MovieModel> movies) {
         this.movies = movies;
     }
 }

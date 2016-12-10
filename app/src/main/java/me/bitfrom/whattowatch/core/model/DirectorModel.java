@@ -4,11 +4,11 @@ import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 @JsonObject
-public class DirectorPojo {
+public class DirectorModel {
 
-    @JsonField
+    @JsonField(name = "name")
     private String name;
-    @JsonField
+    @JsonField(name = "nameId")
     private String nameId;
 
     public String getName() {

@@ -6,15 +6,15 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.bitfrom.whattowatch.core.model.MoviePojo;
+import me.bitfrom.whattowatch.core.model.MovieModel;
 
 @JsonObject
 public class ComingSoon {
 
-    @JsonField
+    @JsonField(name = "date")
     private String date;
-    @JsonField
-    private List<MoviePojo> movies = new ArrayList<>();
+    @JsonField(name = "movies")
+    private List<MovieModel> movies = new ArrayList<>();
 
     public String getDate() {
         return date;
@@ -24,11 +24,11 @@ public class ComingSoon {
         this.date = date;
     }
 
-    public List<MoviePojo> getMovies() {
+    public List<MovieModel> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<MoviePojo> movies) {
+    public void setMovies(List<MovieModel> movies) {
         this.movies = movies;
     }
 

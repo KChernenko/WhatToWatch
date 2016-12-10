@@ -4,11 +4,11 @@ import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 @JsonObject
-public class WriterPojo {
+public class WriterModel {
 
-    @JsonField
+    @JsonField(name = "name")
     private String name;
-    @JsonField
+    @JsonField(name = "nameId")
     private String nameId;
 
     public String getName() {
