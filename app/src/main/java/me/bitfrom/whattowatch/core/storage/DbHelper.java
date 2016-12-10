@@ -76,6 +76,8 @@ public class DbHelper {
 
                     cacheImage(movie.getUrlPoster());
                     if (result < 0) Timber.e("Failed to insert data: %s", String.valueOf(result));
+                    //If user decided to refresh items while syncing in progress
+                    transaction.yieldIfContendedSafely();
                 }
                 transaction.markSuccessful();
             } finally {
